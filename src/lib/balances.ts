@@ -124,11 +124,12 @@ export function computeShopTableTotals(transactions: ChipTransaction[]): {
 }
 
 // 客ごとの収支グラフ専用の符号（保有チップ数の符号 categorySign とは別の意味）。
-// 購入・バイイン・トーナメント使用は客が投じた分としてマイナス、
+// 購入は手元のチップが増えるだけで収支には関係しない（ノーカウント）。
+// バイイン（テーブルへ持ち出し）・トーナメント使用は客が投じた分としてマイナス、
 // アウト・プライズ獲得は客が得た分としてプラスで扱う。残高調整は収支に含めない。
 function resultSign(category: TransactionCategory): number {
   if (category === "table_in" || category === "prize") return 1;
-  if (category === "adjustment") return 0;
+  if (category === "purchase" || category === "adjustment") return 0;
   return -1;
 }
 

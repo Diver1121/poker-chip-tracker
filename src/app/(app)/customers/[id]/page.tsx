@@ -102,7 +102,7 @@ export default async function CustomerDetailPage({
       <section>
         <h2 className="mb-4 text-lg font-bold text-gray-900">収支の推移</h2>
         <p className="mb-3 text-xs text-gray-500">
-          購入・バイイン・トーナメント使用はマイナス、アウト（テーブルからカウント）はプラスとして累計しています。
+          バイイン・トーナメント使用はマイナス、アウト（テーブルからカウント）・プライズ獲得はプラスとして累計しています（購入はカウントしません）。
         </p>
         <div className="rounded-lg border border-gray-200 bg-white p-4">
           {resultChartData.length === 0 ? (
