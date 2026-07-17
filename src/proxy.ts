@@ -7,7 +7,8 @@ import { SESSION_COOKIE_NAME, isValidSessionCookie } from "@/lib/auth";
 export default async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
-  if (pathname.startsWith("/login")) {
+  // /login と、Cronから叩かれるバックアップAPI（自前のBearerトークンで保護）は対象外
+  if (pathname.startsWith("/login") || pathname.startsWith("/api/backup")) {
     return NextResponse.next();
   }
 
