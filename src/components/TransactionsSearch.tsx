@@ -5,6 +5,7 @@ import { useState } from "react";
 import { CATEGORY_INFO, quantityUnitLabel } from "@/lib/transactionCategory";
 import { toJstDatetimeLocal } from "@/lib/businessDay";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
+import { normalizeForMatch } from "@/lib/textMatch";
 import type { ChipTransaction } from "@/lib/types";
 
 type Row = {
@@ -23,13 +24,14 @@ export function TransactionsSearch({
   deleteTransaction: (formData: FormData) => void;
 }) {
   const [query, setQuery] = useState("");
+  const normalizedQuery = normalizeForMatch(query);
 
   // 該当する客の取引を上部にまとめる（並べ替えは安定ソートなので、
   // マッチする/しない各グループ内の元の並び順＝日時順は保たれる）
-  const sortedRows = query
+  const sortedRows = normalizedQuery
     ? [...rows].sort((a, b) => {
-        const aMatch = a.customerName.includes(query);
-        const bMatch = b.customerName.includes(query);
+        const aMatch = normalizeForMatch(a.customerName).includes(normalizedQuery);
+        const bMatch = normalizeForMatch(b.customerName).includes(normalizedQuery);
         return aMatch === bMatch ? 0 : aMatch ? -1 : 1;
       })
     : rows;
@@ -57,7 +59,9 @@ export function TransactionsSearch({
           </thead>
           <tbody className="divide-y divide-gray-100">
             {sortedRows.map(({ tx, customerName, denominationLabel }) => {
-              const isMatch = query !== "" && customerName.includes(query);
+              const isMatch =
+                normalizedQuery !== "" &&
+                normalizeForMatch(customerName).includes(normalizedQuery);
               return (
                 <tr key={tx.id} className={isMatch ? "bg-indigo-50" : undefined}>
                   <td className="px-4 py-2 text-gray-500">

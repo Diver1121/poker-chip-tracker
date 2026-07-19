@@ -5,6 +5,7 @@ import {
   denominationsForCategory,
 } from "@/lib/transactionCategory";
 import type { Customer, Denomination, TransactionCategory } from "@/lib/types";
+import { normalizeForMatch } from "@/lib/textMatch";
 
 // 「ダイバー　購入300」「ダイバー　トーナメントターボ」のような一行コマンドから
 // 客・種別・額面・枚数を読み取る。曖昧な場合や候補が複数/0件の場合は自動選択せずエラーにする。
@@ -34,13 +35,6 @@ export type ParsedChatCommand =
       quantity: number;
     }
   | { ok: false; error: string };
-
-function normalize(text: string): string {
-  return text
-    .replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0))
-    .replace(/　/g, " ")
-    .trim();
-}
 
 function labelDigits(label: string): string {
   return label.match(/\d+/)?.[0] ?? label;
@@ -91,7 +85,7 @@ export function parseChatCommand(
   customers: Customer[],
   denominations: Denomination[],
 ): ParsedChatCommand {
-  const text = normalize(rawText);
+  const text = normalizeForMatch(rawText);
   if (!text) {
     return { ok: false, error: "入力してください。" };
   }
@@ -180,13 +174,18 @@ export function parseChatCommand(
   }
   const customerQuery = customerQueryRaw.replace(/(さん|様)$/, "").trim();
 
-  const exact = customers.find((c) => c.name === customerQueryRaw || c.name === customerQuery);
+  const exact = customers.find(
+    (c) =>
+      normalizeForMatch(c.name) === customerQueryRaw ||
+      normalizeForMatch(c.name) === customerQuery,
+  );
   let matchedCustomer: Customer | undefined = exact;
   let customerMatchType: "exact" | "partial" = "exact";
   if (!matchedCustomer) {
-    const partial = customers.filter(
-      (c) => c.name.includes(customerQuery) || customerQuery.includes(c.name),
-    );
+    const partial = customers.filter((c) => {
+      const normalizedName = normalizeForMatch(c.name);
+      return normalizedName.includes(customerQuery) || customerQuery.includes(normalizedName);
+    });
     if (partial.length === 1) {
       matchedCustomer = partial[0];
       customerMatchType = "partial";

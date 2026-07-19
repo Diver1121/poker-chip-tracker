@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { normalizeForMatch } from "@/lib/textMatch";
 
 export function CustomerCombobox({
   name,
@@ -15,7 +16,7 @@ export function CustomerCombobox({
 }) {
   const listId = useId();
   const [text, setText] = useState("");
-  const match = customers.find((c) => c.name === text);
+  const match = customers.find((c) => normalizeForMatch(c.name) === normalizeForMatch(text));
 
   return (
     <div>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { normalizeForMatch } from "@/lib/textMatch";
 
 export function CustomerListSearch({
   customers,
@@ -9,8 +10,9 @@ export function CustomerListSearch({
   customers: { id: string; name: string; note: string | null }[];
 }) {
   const [query, setQuery] = useState("");
-  const filtered = query
-    ? customers.filter((c) => c.name.includes(query))
+  const normalizedQuery = normalizeForMatch(query);
+  const filtered = normalizedQuery
+    ? customers.filter((c) => normalizeForMatch(c.name).includes(normalizedQuery))
     : customers;
 
   return (

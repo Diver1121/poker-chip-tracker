@@ -48,14 +48,21 @@ export default async function BoardPage({
     );
   });
 
+  const todayKey = businessDateKey(new Date());
+
   // 来店ボードの保有表示（額面バッジ・保有合計）は客詳細ページと同じく、
   // 全期間の取引から計算した「今持っている本当のチップ数」を表示する。
-  const balances = computeBalances(transactions);
+  // ただしトーナメント使用は購入と違って「使ったら手元から無くなって終わり」なので、
+  // 額面バッジには当日分だけを反映する（そうしないとK.O.BOUNTYのような
+  // バッジが何日経っても消えず残り続けてしまう）。
+  const balanceTransactions = transactions.filter(
+    (tx) => tx.category !== "tournament" || businessDateKey(tx.created_at) === todayKey,
+  );
+  const balances = computeBalances(balanceTransactions);
   const pointTotals = computePointTotals(transactions, denominations);
 
   // バイイン/アウト/レーキ、および客ごとのバイイン/アウト表示は前営業日以前を含めず、
   // 当営業日（朝5時区切り）分だけを集計する（営業終了ボタンで区切られる想定）
-  const todayKey = businessDateKey(new Date());
   const todaysTransactions = transactions.filter(
     (tx) => businessDateKey(tx.created_at) === todayKey,
   );
@@ -177,7 +184,12 @@ export default async function BoardPage({
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="font-bold text-gray-900">{customer.name}</p>
+                    <Link
+                      href={`/customers/${customer.id}`}
+                      className="font-bold text-gray-900 hover:text-indigo-600 hover:underline"
+                    >
+                      {customer.name}
+                    </Link>
                     <p className="text-sm text-gray-500">
                       保有合計 {totalPoints.toLocaleString()} 点
                     </p>

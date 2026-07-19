@@ -10,6 +10,7 @@ import {
   computeDailyVisitCounts,
   computeVisitCountsByCustomer,
 } from "@/lib/balances";
+import { businessDateKey } from "@/lib/businessDay";
 import { LineChart } from "@/components/LineChart";
 import { MultiLineChart, type MultiLineSeries } from "@/components/MultiLineChart";
 
@@ -49,6 +50,13 @@ export default async function StatsPage() {
   const dailyTotals = computeDailyTotals(transactions, denominations);
   const shopCurrentTotal =
     dailyTotals.length > 0 ? dailyTotals[dailyTotals.length - 1].total : 0;
+
+  // 「営業開始時点」の基準線：当営業日（朝5時区切り）が始まった時点の保有点数。
+  // 当日分の増減（delta）を現在値から差し引くことで求める。
+  const todayKey = businessDateKey(new Date());
+  const lastDaily = dailyTotals[dailyTotals.length - 1];
+  const businessStartTotal =
+    lastDaily && lastDaily.date === todayKey ? lastDaily.total - lastDaily.delta : shopCurrentTotal;
   const dailyVisitCounts = computeDailyVisitCounts(visits);
   const visitCountsByCustomer = computeVisitCountsByCustomer(visits);
 
@@ -102,7 +110,13 @@ export default async function StatsPage() {
           {dailyTotals.length === 0 ? (
             <p className="text-sm text-gray-500">まだ取引がありません。</p>
           ) : (
-            <LineChart data={dailyTotals} color="#4f46e5" gradientId="shopTotalFill" />
+            <LineChart
+              data={dailyTotals}
+              color="#4f46e5"
+              gradientId="shopTotalFill"
+              zoomToData
+              referenceLine={{ label: "営業開始", value: businessStartTotal }}
+            />
           )}
         </div>
       </section>
