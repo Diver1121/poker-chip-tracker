@@ -26,6 +26,7 @@ export default async function ChatPage() {
           transactionId: m.transaction_id ?? undefined,
           cancelled: m.cancelled,
           senderName: m.sender_name ?? undefined,
+          category: m.category ?? undefined,
         }))}
       />
     </div>

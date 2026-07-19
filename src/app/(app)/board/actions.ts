@@ -126,6 +126,7 @@ export async function recordBoardTransaction(formData: FormData) {
       ok: true,
       transactionId,
       senderName,
+      category,
     });
   }
 

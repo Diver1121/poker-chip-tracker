@@ -55,5 +55,7 @@ export type ChatMessage = {
   cancelled: boolean;
   // 送信したスタッフの名前（ログイン時に入力）。システム生成の返信はnull
   sender_name: string | null;
+  // 登録した取引の種別。取引を伴うreply行だけ入る（吹き出しの色分けに使う）
+  category: TransactionCategory | null;
   created_at: string;
 };

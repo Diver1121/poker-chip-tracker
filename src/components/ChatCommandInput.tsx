@@ -7,6 +7,7 @@ import {
   recordChatTransaction,
   type ChatCommandState,
 } from "@/app/(app)/chat/actions";
+import type { TransactionCategory } from "@/lib/types";
 
 type ChatEntry = {
   id: string;
@@ -18,6 +19,7 @@ type ChatEntry = {
   transactionId?: string;
   cancelled?: boolean;
   senderName?: string;
+  category?: TransactionCategory;
 };
 
 export function ChatCommandInput({
@@ -51,6 +53,7 @@ export function ChatCommandInput({
         ok: state.ok,
         warning: state.warning,
         commandId: state.commandId,
+        category: state.category,
       },
     ]);
     if (state.ok) {
@@ -131,7 +134,9 @@ export function ChatCommandInput({
                         ? "bg-red-50 text-red-700"
                         : entry.warning
                           ? "bg-amber-50 font-medium text-amber-800"
-                          : "bg-white text-gray-800"
+                          : entry.category === "purchase"
+                            ? "bg-violet-100 text-violet-900"
+                            : "bg-white text-gray-800"
                   }`}
                 >
                   {entry.text}

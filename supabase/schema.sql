@@ -83,6 +83,9 @@ create table if not exists chat_messages (
   cancelled boolean not null default false,
   -- 送信したスタッフの名前（ログイン時に入力）。システム生成の返信はnull
   sender_name text,
+  -- 登録した取引の種別（購入・バイイン等）。取引を伴うreply行だけ入る。
+  -- チャット上で種別ごとに吹き出しの色を変えるために使う。
+  category text,
   created_at timestamptz not null default now()
 );
 
@@ -94,6 +97,7 @@ alter table chat_messages add column if not exists command_id uuid not null defa
 alter table chat_messages add column if not exists transaction_id uuid references chip_transactions(id) on delete set null;
 alter table chat_messages add column if not exists cancelled boolean not null default false;
 alter table chat_messages add column if not exists sender_name text;
+alter table chat_messages add column if not exists category text;
 create index if not exists chat_messages_command_id_idx on chat_messages(command_id);
 
 -- 店舗全体の設定を1行だけ持つテーブル。

@@ -16,6 +16,7 @@ export async function appendChatMessage(
     warning?: boolean;
     transactionId?: string;
     senderName?: string;
+    category?: TransactionCategory;
   },
 ) {
   const { error } = await getSupabaseClient().from("chat_messages").insert({
@@ -26,6 +27,7 @@ export async function appendChatMessage(
     warning: extra?.warning ?? null,
     transaction_id: extra?.transactionId ?? null,
     sender_name: extra?.senderName ?? null,
+    category: extra?.category ?? null,
   });
   if (error) throw error;
 }

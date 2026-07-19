@@ -7,9 +7,16 @@ import { getCustomers, getDenominations } from "@/lib/data";
 import { parseChatCommand } from "@/lib/chatCommand";
 import { getSupabaseClient } from "@/lib/supabase";
 import { appendChatMessage, formatTransactionSummary } from "@/lib/chatLog";
+import type { TransactionCategory } from "@/lib/types";
 
 export type ChatCommandState =
-  | { ok: boolean; message: string; warning?: boolean; commandId?: string }
+  | {
+      ok: boolean;
+      message: string;
+      warning?: boolean;
+      commandId?: string;
+      category?: TransactionCategory;
+    }
   | null;
 
 // チャット風の一行入力（例:「ダイバー　購入300」）から取引を登録する。
@@ -73,10 +80,15 @@ export async function recordChatTransaction(
     ? `⚠️ 「${parsed.customerQuery}」を「${parsed.customerName}」として登録しました。名前を確認してください。${detail}`
     : detail;
 
-  await appendChatMessage(commandId, "reply", message, { ok: true, warning, transactionId });
+  await appendChatMessage(commandId, "reply", message, {
+    ok: true,
+    warning,
+    transactionId,
+    category: parsed.category,
+  });
   revalidatePath("/chat");
 
-  return { ok: true, warning, message, commandId };
+  return { ok: true, warning, message, commandId, category: parsed.category };
 }
 
 // チャットの入力を取消する。紐づく取引があれば削除して残高を戻し、
