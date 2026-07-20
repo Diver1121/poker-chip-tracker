@@ -50,16 +50,20 @@ export default async function BoardPage({
 
   const todayKey = businessDateKey(new Date());
 
-  // 来店ボードの保有表示（額面バッジ・保有合計）は客詳細ページと同じく、
-  // 全期間の取引から計算した「今持っている本当のチップ数」を表示する。
-  // ただしトーナメント使用は購入と違って「使ったら手元から無くなって終わり」なので、
-  // 額面バッジには当日分だけを反映する（そうしないとK.O.BOUNTYのような
-  // バッジが何日経っても消えず残り続けてしまう）。
-  const balanceTransactions = transactions.filter(
-    (tx) => tx.category !== "tournament" || businessDateKey(tx.created_at) === todayKey,
-  );
-  const balances = computeBalances(balanceTransactions);
+  // 保有合計（点数）は客詳細ページと同じく、全期間の取引から計算した
+  // 「今持っている本当の点数」を表示する。
   const pointTotals = computePointTotals(transactions, denominations);
+
+  // 額面バッジ（購入・トーナメント使用の枚数）は「今回の来店」中の分だけを表示する。
+  // purchase/tournamentはバイイン/アウトと違って額面バッジが自然に0へ戻る仕組みがなく、
+  // 積み上がる一方なので、来店ごとにリセットしないと前回来店分がずっと残り続けてしまう
+  // （購入もトーナメント使用も同じ構造の問題だったため、客の来店時刻を基準に揃えて修正）。
+  function customerDenominationBalances(customerId: string, checkedInAt: string | null) {
+    const relevant = transactions.filter(
+      (tx) => tx.customer_id === customerId && (!checkedInAt || tx.created_at >= checkedInAt),
+    );
+    return computeBalances(relevant).get(customerId) ?? new Map<string, number>();
+  }
 
   // バイイン/アウト/レーキ、および客ごとのバイイン/アウト表示は前営業日以前を含めず、
   // 当営業日（朝5時区切り）分だけを集計する（営業終了ボタンで区切られる想定）
@@ -170,7 +174,10 @@ export default async function BoardPage({
         ) : (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {sortedCheckedInCustomers.map((customer) => {
-            const customerBalances = balances.get(customer.id) ?? new Map();
+            const customerBalances = customerDenominationBalances(
+              customer.id,
+              customer.checked_in_at,
+            );
             const totalPoints = pointTotals.get(customer.id) ?? 0;
             const customerCategoryTotals = categoryTotals.get(customer.id) ?? new Map();
             const buyInTotal = customerCategoryTotals.get("table_out") ?? 0;
