@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { APP_NAME } from "@/lib/appName";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "チップ管理アプリ",
+  title: APP_NAME,
   description: "客へのチップ貸出・回収を記録するアプリ",
 };
 

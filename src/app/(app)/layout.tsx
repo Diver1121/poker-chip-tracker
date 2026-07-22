@@ -1,5 +1,6 @@
 import { logout } from "@/app/login/actions";
 import { AppNav } from "@/components/AppNav";
+import { APP_NAME } from "@/lib/appName";
 
 // DBの最新状態を毎リクエスト反映するため、ビルド時の静的化を無効にする
 export const dynamic = "force-dynamic";
@@ -25,7 +26,7 @@ export default function AppLayout({
         <div className="mx-auto max-w-5xl px-4 py-3">
           <div className="flex items-center justify-between">
             <span className="font-bold text-gray-900">
-              チップ管理アプリ
+              {APP_NAME}
             </span>
             <form action={logout}>
               <button

@@ -1,4 +1,5 @@
 import { login } from "./actions";
+import { APP_NAME } from "@/lib/appName";
 
 export default async function LoginPage({
   searchParams,
@@ -10,7 +11,7 @@ export default async function LoginPage({
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm rounded-lg border border-gray-200 bg-white p-8 shadow-sm">
-        <h1 className="mb-6 text-xl font-bold text-gray-900">チップ管理アプリ</h1>
+        <h1 className="mb-6 text-xl font-bold text-gray-900">{APP_NAME}</h1>
         {error && (
           <p className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
             パスワードが違うか、名前が入力されていません。
