@@ -37,10 +37,28 @@ export default async function BoardPage({
       getAllTransactions(),
     ]);
 
-  const sortMode = sort === "name" ? "name" : "visit";
+  const sortMode = sort === "name" ? "name" : sort === "recent" ? "recent" : "visit";
+
+  // 「最終入力順」用: 客ごとに今回の来店中で一番新しい取引時刻を求める（未入力ならチェックイン時刻）。
+  // transactionsはcreated_at降順なので、客ごとに最初に見つかった行がその客の最新取引になる。
+  const checkedInAtById = new Map(checkedInCustomers.map((c) => [c.id, c.checked_in_at]));
+  const latestActivityByCustomer = new Map<string, string>();
+  for (const tx of transactions) {
+    if (latestActivityByCustomer.has(tx.customer_id)) continue;
+    const checkedInAt = checkedInAtById.get(tx.customer_id);
+    if (checkedInAt === undefined) continue;
+    if (checkedInAt && tx.created_at < checkedInAt) continue;
+    latestActivityByCustomer.set(tx.customer_id, tx.created_at);
+  }
+
   const sortedCheckedInCustomers = [...checkedInCustomers].sort((a, b) => {
     if (sortMode === "name") {
       return a.name.localeCompare(b.name, "ja");
+    }
+    if (sortMode === "recent") {
+      const aTime = latestActivityByCustomer.get(a.id) ?? a.checked_in_at ?? "";
+      const bTime = latestActivityByCustomer.get(b.id) ?? b.checked_in_at ?? "";
+      return bTime.localeCompare(aTime);
     }
     return (
       new Date(a.checked_in_at ?? 0).getTime() -
@@ -104,6 +122,16 @@ export default async function BoardPage({
               }
             >
               五十音順
+            </Link>
+            <Link
+              href="/board?sort=recent"
+              className={
+                sortMode === "recent"
+                  ? "rounded-md bg-indigo-100 px-2 py-1 font-bold text-indigo-700"
+                  : "rounded-md px-2 py-1 text-gray-500 hover:bg-gray-100"
+              }
+            >
+              最終入力順
             </Link>
           </div>
         </div>
