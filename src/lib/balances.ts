@@ -135,32 +135,61 @@ export function computeShopTableTotals(transactions: ChipTransaction[]): {
   return { buyInTotal, outTotal, rake: buyInTotal - outTotal };
 }
 
-// 日付（JST）ごとのバイイン/アウト/レーキ。レーキグラフに使う。
+// 日付（JST）ごとのバイイン/アウト/トーナメント使用/レーキ。レーキグラフに使う。
+// rake: テーブルのみ（バイイン-アウト）。rakeWithTournament: それにトーナメント使用分を加えたもの。
+// トーナメント使用は額面の枚数で記録されているため、denominationsで点数に換算して合算する
+// （訂正用のマイナス入力もそのまま加算されるので相殺される）。
 // 取引が無い日はキーごと出現しない（呼び出し側で0埋めする）。
 export function computeDailyRakeTotals(
   transactions: ChipTransaction[],
-): { date: string; buyInTotal: number; outTotal: number; rake: number }[] {
-  const totalsByDate = new Map<string, { buyInTotal: number; outTotal: number }>();
+  denominations: Denomination[],
+): {
+  date: string;
+  buyInTotal: number;
+  outTotal: number;
+  tournamentTotal: number;
+  rake: number;
+  rakeWithTournament: number;
+}[] {
+  const valueByDenomination = new Map(denominations.map((d) => [d.id, d.value]));
+  const totalsByDate = new Map<
+    string,
+    { buyInTotal: number; outTotal: number; tournamentTotal: number }
+  >();
   for (const tx of transactions) {
-    if (tx.category !== "table_out" && tx.category !== "table_in") continue;
+    if (
+      tx.category !== "table_out" &&
+      tx.category !== "table_in" &&
+      tx.category !== "tournament"
+    ) {
+      continue;
+    }
     const date = businessDateKey(tx.created_at);
-    const current = totalsByDate.get(date) ?? { buyInTotal: 0, outTotal: 0 };
+    const current =
+      totalsByDate.get(date) ?? { buyInTotal: 0, outTotal: 0, tournamentTotal: 0 };
     if (tx.category === "table_out") {
       current.buyInTotal += tx.quantity;
-    } else {
+    } else if (tx.category === "table_in") {
       current.outTotal += tx.quantity;
+    } else {
+      current.tournamentTotal += tx.quantity * (valueByDenomination.get(tx.denomination_id ?? "") ?? 0);
     }
     totalsByDate.set(date, current);
   }
 
   return [...totalsByDate.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([date, { buyInTotal, outTotal }]) => ({
-      date,
-      buyInTotal,
-      outTotal,
-      rake: buyInTotal - outTotal,
-    }));
+    .map(([date, { buyInTotal, outTotal, tournamentTotal }]) => {
+      const rake = buyInTotal - outTotal;
+      return {
+        date,
+        buyInTotal,
+        outTotal,
+        tournamentTotal,
+        rake,
+        rakeWithTournament: rake + tournamentTotal,
+      };
+    });
 }
 
 // 客ごとの収支グラフ専用の符号（保有チップ数の符号 categorySign とは別の意味）。

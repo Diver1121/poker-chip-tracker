@@ -1,9 +1,12 @@
 "use client";
 
 // 日別の値を棒グラフで表示する軽量SVGコンポーネント。外部ライブラリなし。
-// 横軸には日付ごとに「日にち」と「曜日」の2段ラベルを出す。
-// 棒をタップ/クリックすると、その日の日付と値をピルで表示する
-// （MultiLineChartのタップ強調と揃えた挙動）。
+// 0を縦の中央に固定し、プラスは上向き・マイナスは下向きに伸びる（マイナスの日も
+// ひと目で分かるようにするため）。valueは太い棒、compareValueがあれば細い棒を
+// 同じ位置に重ねて描き、色分けで両方の系列を見比べられるようにする
+// （例: トーナメント込みレーキ vs トーナメント抜きレーキ）。
+// 横軸には日付ごとに「日にち」と「曜日」の2段ラベルを出す。棒をタップ/クリックすると
+// その日の日付と両方の値をピルで表示する（MultiLineChartのタップ強調と揃えた挙動）。
 
 import { useState } from "react";
 
@@ -11,6 +14,8 @@ const WIDTH = 600;
 const BAR_AREA_HEIGHT = 150;
 const LABEL_AREA_HEIGHT = 34;
 const HEIGHT = BAR_AREA_HEIGHT + LABEL_AREA_HEIGHT;
+const ZERO_Y = BAR_AREA_HEIGHT / 2;
+const HALF_HEIGHT = BAR_AREA_HEIGHT / 2;
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -27,10 +32,16 @@ function formatDateLabel(date: string): string {
 export function DailyBarChart({
   data,
   color = "#d97706",
+  compareColor = "#0d9488",
+  label,
+  compareLabel,
   unit = "点",
 }: {
-  data: { date: string; value: number }[];
+  data: { date: string; value: number; compareValue?: number }[];
   color?: string;
+  compareColor?: string;
+  label?: string;
+  compareLabel?: string;
   unit?: string;
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -39,24 +50,37 @@ export function DailyBarChart({
     return <p className="text-sm text-gray-500">データがありません。</p>;
   }
 
-  const max = Math.max(0, ...data.map((d) => d.value), 1);
+  // 両系列を同じ縮尺で中央（0）から振り分けるため、絶対値の最大で揃える。
+  const maxAbs = Math.max(
+    1,
+    ...data.flatMap((d) => [Math.abs(d.value), Math.abs(d.compareValue ?? 0)]),
+  );
   const slotWidth = WIDTH / data.length;
   const barWidth = Math.max(2, slotWidth * 0.6);
+  const compareBarWidth = barWidth * 0.45;
+
+  function barHeightOf(value: number): number {
+    return value !== 0 ? Math.max((Math.abs(value) / maxAbs) * HALF_HEIGHT, 2) : 0;
+  }
 
   const active = activeIndex !== null ? data[activeIndex] : null;
   const activeX = activeIndex !== null ? (activeIndex + 0.5) * slotWidth : 0;
-  const activeBarHeight =
-    active && active.value > 0 ? Math.max((active.value / max) * BAR_AREA_HEIGHT, 2) : 0;
+  const activeIsNegative = active ? active.value < 0 : false;
+  const activeBarHeight = active ? barHeightOf(active.value) : 0;
+  const activeEdgeY = activeIsNegative ? ZERO_Y + activeBarHeight : ZERO_Y - activeBarHeight;
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-2">
       <div className="flex gap-2">
         <div
           className="relative w-10 shrink-0 text-right text-xs text-gray-400"
           style={{ height: BAR_AREA_HEIGHT }}
         >
-          <span className="absolute top-0 right-0">{max.toLocaleString()}</span>
-          <span className="absolute right-0 bottom-0">0</span>
+          <span className="absolute top-0 right-0">+{maxAbs.toLocaleString()}</span>
+          <span className="absolute right-0 -translate-y-1/2" style={{ top: "50%" }}>
+            0
+          </span>
+          <span className="absolute right-0 bottom-0">-{maxAbs.toLocaleString()}</span>
         </div>
         <div className="relative flex-1">
           <svg
@@ -65,18 +89,17 @@ export function DailyBarChart({
             preserveAspectRatio="none"
             onClick={() => setActiveIndex(null)}
           >
-            <line
-              x1={0}
-              x2={WIDTH}
-              y1={BAR_AREA_HEIGHT}
-              y2={BAR_AREA_HEIGHT}
-              stroke="#e5e7eb"
-              strokeWidth={1}
-            />
+            <line x1={0} x2={WIDTH} y1={ZERO_Y} y2={ZERO_Y} stroke="#e5e7eb" strokeWidth={1} />
             {data.map((d, i) => {
               const x = i * slotWidth + (slotWidth - barWidth) / 2;
-              const barHeight = d.value > 0 ? Math.max((d.value / max) * BAR_AREA_HEIGHT, 2) : 0;
-              const y = BAR_AREA_HEIGHT - barHeight;
+              const barHeight = barHeightOf(d.value);
+              const y = d.value < 0 ? ZERO_Y : ZERO_Y - barHeight;
+
+              const hasCompare = d.compareValue !== undefined;
+              const compareHeight = hasCompare ? barHeightOf(d.compareValue!) : 0;
+              const compareY = (d.compareValue ?? 0) < 0 ? ZERO_Y : ZERO_Y - compareHeight;
+              const compareX = i * slotWidth + (slotWidth - compareBarWidth) / 2;
+
               const isActive = activeIndex === i;
               const isDimmed = activeIndex !== null && !isActive;
               const wd = weekdayOf(d.date);
@@ -103,6 +126,18 @@ export function DailyBarChart({
                     opacity={isDimmed ? 0.25 : 1}
                     style={{ pointerEvents: "none" }}
                   />
+                  {hasCompare && (
+                    <rect
+                      x={compareX}
+                      y={compareY}
+                      width={compareBarWidth}
+                      height={compareHeight}
+                      rx={1}
+                      fill={compareColor}
+                      opacity={isDimmed ? 0.25 : 1}
+                      style={{ pointerEvents: "none" }}
+                    />
+                  )}
                   <text
                     x={i * slotWidth + slotWidth / 2}
                     y={BAR_AREA_HEIGHT + 14}
@@ -127,20 +162,46 @@ export function DailyBarChart({
           </svg>
           {active && (
             <div
-              className="pointer-events-none absolute rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap text-white shadow-sm"
+              className="pointer-events-none absolute rounded-md bg-gray-900/90 px-2 py-1 text-xs font-medium whitespace-nowrap text-white shadow-sm"
               style={{
                 left: `${(activeX / WIDTH) * 100}%`,
-                top: `${((BAR_AREA_HEIGHT - activeBarHeight) / HEIGHT) * 100}%`,
-                backgroundColor: color,
-                transform: `translate(${activeX > WIDTH * 0.7 ? "-100%" : "-50%"}, -110%)`,
+                top: `${(activeEdgeY / HEIGHT) * 100}%`,
+                transform: `translate(${activeX > WIDTH * 0.7 ? "-100%" : "-50%"}, ${activeIsNegative ? "10%" : "-110%"})`,
               }}
             >
-              {formatDateLabel(active.date)}：{active.value.toLocaleString()}
-              {unit}
+              <div>
+                {formatDateLabel(active.date)}
+              </div>
+              <div>
+                {label ?? "値"} {active.value.toLocaleString()}
+                {unit}
+              </div>
+              {active.compareValue !== undefined && (
+                <div>
+                  {compareLabel ?? "比較"} {active.compareValue.toLocaleString()}
+                  {unit}
+                </div>
+              )}
             </div>
           )}
         </div>
       </div>
+      {(label || compareLabel) && (
+        <div className="flex flex-wrap gap-4 pl-12 text-xs text-gray-600">
+          {label && (
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
+              {label}
+            </span>
+          )}
+          {compareLabel && (
+            <span className="flex items-center gap-1.5">
+              <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: compareColor }} />
+              {compareLabel}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 }

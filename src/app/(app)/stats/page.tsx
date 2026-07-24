@@ -84,14 +84,21 @@ export default async function StatsPage({
   const todayClosed = Boolean(
     shopSettings.lastClosedAt && businessDateKey(shopSettings.lastClosedAt) === todayKey,
   );
-  const rakeByDate = new Map(
-    computeDailyRakeTotals(transactions).map((d) => [d.date, d.rake]),
+  const dailyRakeByDate = new Map(
+    computeDailyRakeTotals(transactions, denominations).map((d) => [d.date, d]),
   );
-  const rakeChartData = daysInMonth(monthKey).map((date) => ({
-    date,
-    value: date === todayKey && !todayClosed ? 0 : (rakeByDate.get(date) ?? 0),
-  }));
-  const monthlyRakeTotal = rakeChartData.reduce((sum, d) => sum + d.value, 0);
+  const rakeChartData = daysInMonth(monthKey).map((date) => {
+    const finalized = date !== todayKey || todayClosed;
+    const daily = dailyRakeByDate.get(date);
+    return {
+      date,
+      // value: トーナメント込みレーキ（太い棒） / compareValue: テーブルのみのレーキ（細い棒）
+      value: finalized ? (daily?.rakeWithTournament ?? 0) : 0,
+      compareValue: finalized ? (daily?.rake ?? 0) : 0,
+    };
+  });
+  const monthlyRakeWithTournamentTotal = rakeChartData.reduce((sum, d) => sum + d.value, 0);
+  const monthlyRakeTotal = rakeChartData.reduce((sum, d) => sum + (d.compareValue ?? 0), 0);
 
   const dailyVisitCounts = computeDailyVisitCounts(visits);
   const visitCountsByCustomer = computeVisitCountsByCustomer(visits);
@@ -183,10 +190,17 @@ export default async function StatsPage({
           </div>
         </div>
         <p className="mb-3 text-xs text-gray-500">
-          {monthLabel}の合計レーキ {monthlyRakeTotal.toLocaleString()}点。本日分は「営業終了・まとめて退店」を押すまで反映されません。
+          {monthLabel}の合計レーキ トーナメント込み {monthlyRakeWithTournamentTotal.toLocaleString()}点／トーナメント抜き {monthlyRakeTotal.toLocaleString()}点。
+          本日分は「営業終了・まとめて退店」を押すまで反映されません。
         </p>
         <div className="rounded-lg border border-gray-200 bg-white p-4">
-          <DailyBarChart data={rakeChartData} color="#d97706" />
+          <DailyBarChart
+            data={rakeChartData}
+            color="#d97706"
+            compareColor="#0d9488"
+            label="トーナメント込み"
+            compareLabel="トーナメント抜き"
+          />
         </div>
       </section>
 
