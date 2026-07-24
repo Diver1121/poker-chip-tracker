@@ -31,15 +31,21 @@ function formatDateLabel(date: string): string {
 
 export function DailyBarChart({
   data,
-  color = "#d97706",
-  compareColor = "#0d9488",
+  color = "#f59e0b",
+  colorOpacity = 1,
+  comparePositiveColor = "#16a34a",
+  compareNegativeColor = "#dc2626",
   label,
   compareLabel,
   unit = "点",
 }: {
   data: { date: string; value: number; compareValue?: number }[];
   color?: string;
-  compareColor?: string;
+  // 主系列（太い棒）の不透明度。細い棒（compare系）を目立たせたい場合に下げる。
+  colorOpacity?: number;
+  // 細い棒（比較系列）はプラス/マイナスで色を変える。
+  comparePositiveColor?: string;
+  compareNegativeColor?: string;
   label?: string;
   compareLabel?: string;
   unit?: string;
@@ -96,9 +102,11 @@ export function DailyBarChart({
               const y = d.value < 0 ? ZERO_Y : ZERO_Y - barHeight;
 
               const hasCompare = d.compareValue !== undefined;
+              const compareIsNegative = (d.compareValue ?? 0) < 0;
               const compareHeight = hasCompare ? barHeightOf(d.compareValue!) : 0;
-              const compareY = (d.compareValue ?? 0) < 0 ? ZERO_Y : ZERO_Y - compareHeight;
+              const compareY = compareIsNegative ? ZERO_Y : ZERO_Y - compareHeight;
               const compareX = i * slotWidth + (slotWidth - compareBarWidth) / 2;
+              const compareFill = compareIsNegative ? compareNegativeColor : comparePositiveColor;
 
               const isActive = activeIndex === i;
               const isDimmed = activeIndex !== null && !isActive;
@@ -123,7 +131,7 @@ export function DailyBarChart({
                     height={barHeight}
                     rx={1.5}
                     fill={color}
-                    opacity={isDimmed ? 0.25 : 1}
+                    opacity={isDimmed ? colorOpacity * 0.4 : colorOpacity}
                     style={{ pointerEvents: "none" }}
                   />
                   {hasCompare && (
@@ -133,7 +141,7 @@ export function DailyBarChart({
                       width={compareBarWidth}
                       height={compareHeight}
                       rx={1}
-                      fill={compareColor}
+                      fill={compareFill}
                       opacity={isDimmed ? 0.25 : 1}
                       style={{ pointerEvents: "none" }}
                     />
@@ -190,14 +198,26 @@ export function DailyBarChart({
         <div className="flex flex-wrap gap-4 pl-12 text-xs text-gray-600">
           {label && (
             <span className="flex items-center gap-1.5">
-              <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: color }} />
+              <span
+                className="inline-block h-2.5 w-2.5 rounded-full"
+                style={{ backgroundColor: color, opacity: colorOpacity }}
+              />
               {label}
             </span>
           )}
           {compareLabel && (
             <span className="flex items-center gap-1.5">
-              <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: compareColor }} />
-              {compareLabel}
+              <span className="flex items-center gap-0.5">
+                <span
+                  className="inline-block h-2.5 w-2.5 rounded-full"
+                  style={{ backgroundColor: comparePositiveColor }}
+                />
+                <span
+                  className="inline-block h-2.5 w-2.5 rounded-full"
+                  style={{ backgroundColor: compareNegativeColor }}
+                />
+              </span>
+              {compareLabel}(プラス/マイナス)
             </span>
           )}
         </div>

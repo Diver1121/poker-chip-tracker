@@ -196,8 +196,8 @@ export default async function StatsPage({
         <div className="rounded-lg border border-gray-200 bg-white p-4">
           <DailyBarChart
             data={rakeChartData}
-            color="#d97706"
-            compareColor="#0d9488"
+            color="#f59e0b"
+            colorOpacity={0.5}
             label="トーナメント込み"
             compareLabel="トーナメント抜き"
           />
