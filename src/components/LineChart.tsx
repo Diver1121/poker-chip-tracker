@@ -1,8 +1,28 @@
+"use client";
+
 // 外部ライブラリなしで折れ線グラフを描く軽量SVGコンポーネント。
 // data は時系列順で渡すこと。totalの推移を1本の線＋グラデーション塗りで表示する。
+// 横軸には日付ラベルを数点だけ間引いて表示し、タップ/ドラッグすると
+// 一番近いデータ点に🔴の目印と縦のガイド線を出して、今どこを見ているか分かるようにする。
+
+import { useRef, useState } from "react";
+import { formatJstMonthDay } from "@/lib/businessDay";
 
 const WIDTH = 600;
-const HEIGHT = 160;
+const CHART_HEIGHT = 160;
+const AXIS_HEIGHT = 26;
+const HEIGHT = CHART_HEIGHT + AXIS_HEIGHT;
+const TICK_COUNT = 5;
+
+// data.lengthに応じて、間引いた横軸ラベルのインデックスを均等に選ぶ（両端は必ず含む）。
+function pickTickIndices(length: number, count: number): number[] {
+  if (length <= count) return Array.from({ length }, (_, i) => i);
+  const indices = new Set<number>();
+  for (let i = 0; i < count; i++) {
+    indices.add(Math.round((i * (length - 1)) / (count - 1)));
+  }
+  return [...indices].sort((a, b) => a - b);
+}
 
 export function LineChart({
   data,
@@ -20,6 +40,9 @@ export function LineChart({
   // 基準線（例：営業開始時点の値）を破線で表示する。
   referenceLine?: { label: string; value: number };
 }) {
+  const svgRef = useRef<SVGSVGElement>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
   if (data.length === 0) {
     return <p className="text-sm text-gray-500">データがありません。</p>;
   }
@@ -33,19 +56,33 @@ export function LineChart({
 
   const points = data.map((d, i) => {
     const x = data.length === 1 ? WIDTH / 2 : (i / (data.length - 1)) * WIDTH;
-    const y = HEIGHT - ((d.total - min) / range) * HEIGHT;
+    const y = CHART_HEIGHT - ((d.total - min) / range) * CHART_HEIGHT;
     return { x, y };
   });
 
   const linePath = points
     .map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(2)},${p.y.toFixed(2)}`)
     .join(" ");
-  const areaPath = `${linePath} L${points[points.length - 1].x.toFixed(2)},${HEIGHT} L0,${HEIGHT} Z`;
-  const zeroY = HEIGHT - ((0 - min) / range) * HEIGHT;
+  const areaPath = `${linePath} L${points[points.length - 1].x.toFixed(2)},${CHART_HEIGHT} L0,${CHART_HEIGHT} Z`;
+  const zeroY = CHART_HEIGHT - ((0 - min) / range) * CHART_HEIGHT;
   const showZeroLine = min < 0 && max > 0;
   const referenceY =
-    referenceLine != null ? HEIGHT - ((referenceLine.value - min) / range) * HEIGHT : null;
+    referenceLine != null
+      ? CHART_HEIGHT - ((referenceLine.value - min) / range) * CHART_HEIGHT
+      : null;
   const lastPoint = points[points.length - 1];
+  const tickIndices = pickTickIndices(data.length, Math.min(TICK_COUNT, data.length));
+
+  function updateActiveFromClientX(clientX: number) {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const rect = svg.getBoundingClientRect();
+    const ratio = data.length === 1 ? 0 : (clientX - rect.left) / rect.width;
+    const index = Math.round(ratio * (data.length - 1));
+    setActiveIndex(Math.min(data.length - 1, Math.max(0, index)));
+  }
+
+  const active = activeIndex !== null ? { row: data[activeIndex], point: points[activeIndex] } : null;
 
   return (
     <div className="space-y-2">
@@ -59,12 +96,15 @@ export function LineChart({
         </p>
       </div>
       <div className="flex gap-2">
-        <div className="relative w-14 shrink-0 text-right text-xs text-gray-400" style={{ height: HEIGHT }}>
+        <div
+          className="relative w-14 shrink-0 text-right text-xs text-gray-400"
+          style={{ height: CHART_HEIGHT }}
+        >
           <span className="absolute top-0 right-0">{max.toLocaleString()}</span>
           {showZeroLine && (
             <span
               className="absolute right-0 -translate-y-1/2"
-              style={{ top: `${(zeroY / HEIGHT) * 100}%` }}
+              style={{ top: `${(zeroY / CHART_HEIGHT) * 100}%` }}
             >
               0
             </span>
@@ -73,9 +113,15 @@ export function LineChart({
         </div>
         <div className="relative flex-1">
           <svg
+            ref={svgRef}
             viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-            className="h-40 w-full"
+            className="w-full"
+            style={{ height: HEIGHT, touchAction: "pan-y", cursor: "pointer" }}
             preserveAspectRatio="none"
+            onPointerDown={(e) => updateActiveFromClientX(e.clientX)}
+            onPointerMove={(e) => {
+              if (e.buttons === 1) updateActiveFromClientX(e.clientX);
+            }}
           >
             <defs>
               <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
@@ -108,6 +154,50 @@ export function LineChart({
             <path d={areaPath} fill={`url(#${gradientId})`} />
             <path d={linePath} fill="none" stroke={color} strokeWidth={2} />
             <circle cx={lastPoint.x} cy={lastPoint.y} r={4} fill={color} />
+
+            {tickIndices.map((i) => (
+              <g key={i}>
+                <line
+                  x1={points[i].x}
+                  x2={points[i].x}
+                  y1={CHART_HEIGHT}
+                  y2={CHART_HEIGHT + 4}
+                  stroke="#d1d5db"
+                  strokeWidth={1}
+                />
+                <text
+                  x={points[i].x}
+                  y={CHART_HEIGHT + 18}
+                  textAnchor="middle"
+                  fontSize={10}
+                  fill="#9ca3af"
+                >
+                  {formatJstMonthDay(data[i].date)}
+                </text>
+              </g>
+            ))}
+
+            {active && (
+              <g style={{ pointerEvents: "none" }}>
+                <line
+                  x1={active.point.x}
+                  x2={active.point.x}
+                  y1={0}
+                  y2={CHART_HEIGHT}
+                  stroke="#ef4444"
+                  strokeWidth={1}
+                  strokeDasharray="3 3"
+                />
+                <circle
+                  cx={active.point.x}
+                  cy={active.point.y}
+                  r={5}
+                  fill="#ef4444"
+                  stroke="white"
+                  strokeWidth={1.5}
+                />
+              </g>
+            )}
           </svg>
           {referenceY !== null && referenceLine && (
             <span
@@ -116,6 +206,18 @@ export function LineChart({
             >
               {referenceLine.label} {referenceLine.value.toLocaleString()}
             </span>
+          )}
+          {active && (
+            <div
+              className="pointer-events-none absolute rounded-md bg-red-500 px-2 py-1 text-xs font-medium whitespace-nowrap text-white shadow-sm"
+              style={{
+                left: `${(active.point.x / WIDTH) * 100}%`,
+                top: `${(active.point.y / HEIGHT) * 100}%`,
+                transform: `translate(${active.point.x > WIDTH * 0.7 ? "-100%" : "-50%"}, -130%)`,
+              }}
+            >
+              {formatJstMonthDay(active.row.date)}：{active.row.total.toLocaleString()}
+            </div>
           )}
         </div>
       </div>

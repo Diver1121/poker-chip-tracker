@@ -1,18 +1,22 @@
+import Link from "next/link";
 import {
   getAllTransactions,
   getAllVisits,
   getCustomers,
   getDenominations,
+  getShopSettings,
 } from "@/lib/data";
 import {
   computeCustomerResultTimelinesByDate,
+  computeDailyRakeTotals,
   computeDailyTotals,
   computeDailyVisitCounts,
   computeVisitCountsByCustomer,
 } from "@/lib/balances";
-import { businessDateKey } from "@/lib/businessDay";
+import { businessDateKey, businessMonthKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
 import { LineChart } from "@/components/LineChart";
 import { MultiLineChart, type MultiLineSeries } from "@/components/MultiLineChart";
+import { DailyBarChart } from "@/components/DailyBarChart";
 
 const COMPARISON_COLORS = [
   "#4f46e5",
@@ -39,13 +43,20 @@ const COMPARISON_COLORS = [
 
 const COMPARISON_CUSTOMER_LIMIT = 20;
 
-export default async function StatsPage() {
-  const [transactions, denominations, visits, customers] = await Promise.all([
-    getAllTransactions(),
-    getDenominations(),
-    getAllVisits(),
-    getCustomers(),
-  ]);
+export default async function StatsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ month?: string }>;
+}) {
+  const [{ month }, transactions, denominations, visits, customers, shopSettings] =
+    await Promise.all([
+      searchParams,
+      getAllTransactions(),
+      getDenominations(),
+      getAllVisits(),
+      getCustomers(),
+      getShopSettings(),
+    ]);
 
   const dailyTotals = computeDailyTotals(transactions, denominations);
   const shopCurrentTotal =
@@ -57,6 +68,31 @@ export default async function StatsPage() {
   const lastDaily = dailyTotals[dailyTotals.length - 1];
   const businessStartTotal =
     lastDaily && lastDaily.date === todayKey ? lastDaily.total - lastDaily.delta : shopCurrentTotal;
+  // レーキグラフ: 月切り替え（未来月には行けない）＋ 月内の全日を0埋めして棒を揃える。
+  const currentMonthKey = businessMonthKey(new Date());
+  const requestedMonthKey =
+    month && /^\d{4}-\d{2}$/.test(month) ? month : currentMonthKey;
+  const monthKey = requestedMonthKey > currentMonthKey ? currentMonthKey : requestedMonthKey;
+  const prevMonthKey = shiftMonthKey(monthKey, -1);
+  const nextMonthKey = shiftMonthKey(monthKey, 1);
+  const canGoNext = nextMonthKey <= currentMonthKey;
+  const [monthYearPart, monthNumPart] = monthKey.split("-");
+  const monthLabel = `${monthYearPart}年${Number(monthNumPart)}月`;
+
+  // 退店処理（営業終了・まとめて退店）が押されるまで、当日分はまだプレイ中で
+  // 未回収のチップを含んでしまうため「未確定」として0のまま表示する。
+  const todayClosed = Boolean(
+    shopSettings.lastClosedAt && businessDateKey(shopSettings.lastClosedAt) === todayKey,
+  );
+  const rakeByDate = new Map(
+    computeDailyRakeTotals(transactions).map((d) => [d.date, d.rake]),
+  );
+  const rakeChartData = daysInMonth(monthKey).map((date) => ({
+    date,
+    value: date === todayKey && !todayClosed ? 0 : (rakeByDate.get(date) ?? 0),
+  }));
+  const monthlyRakeTotal = rakeChartData.reduce((sum, d) => sum + d.value, 0);
+
   const dailyVisitCounts = computeDailyVisitCounts(visits);
   const visitCountsByCustomer = computeVisitCountsByCustomer(visits);
 
@@ -118,6 +154,39 @@ export default async function StatsPage() {
               referenceLine={{ label: "営業開始", value: businessStartTotal }}
             />
           )}
+        </div>
+      </section>
+
+      <section>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-lg font-bold text-gray-900">レーキグラフ</h2>
+          <div className="flex items-center gap-2 text-sm">
+            <Link
+              href={`/stats?month=${prevMonthKey}`}
+              className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+            >
+              ← 前月
+            </Link>
+            <span className="font-medium text-gray-900">{monthLabel}</span>
+            {canGoNext ? (
+              <Link
+                href={`/stats?month=${nextMonthKey}`}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+              >
+                翌月 →
+              </Link>
+            ) : (
+              <span className="cursor-not-allowed rounded-md border border-gray-200 px-2 py-1 text-gray-300">
+                翌月 →
+              </span>
+            )}
+          </div>
+        </div>
+        <p className="mb-3 text-xs text-gray-500">
+          {monthLabel}の合計レーキ {monthlyRakeTotal.toLocaleString()}点。本日分は「営業終了・まとめて退店」を押すまで反映されません。
+        </p>
+        <div className="rounded-lg border border-gray-200 bg-white p-4">
+          <DailyBarChart data={rakeChartData} color="#d97706" />
         </div>
       </section>
 

@@ -13,6 +13,17 @@ function sortByName<T extends { name: string }>(items: T[]): T[] {
   return [...items].sort((a, b) => nameCollator.compare(a.name, b.name));
 }
 
+// レーキグラフで「当日分は営業終了・まとめて退店を押すまで表示しない」判定に使う。
+export async function getShopSettings(): Promise<{ lastClosedAt: string | null }> {
+  const { data, error } = await getSupabaseClient()
+    .from("shop_settings")
+    .select("last_closed_at")
+    .eq("id", true)
+    .maybeSingle();
+  if (error) throw error;
+  return { lastClosedAt: data?.last_closed_at ?? null };
+}
+
 export async function getDenominations(): Promise<Denomination[]> {
   const { data, error } = await getSupabaseClient()
     .from("denominations")

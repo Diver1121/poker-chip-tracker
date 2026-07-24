@@ -19,6 +19,35 @@ export function businessDateKey(input: string | Date): string {
   return `${year}-${month}-${day}`;
 }
 
+// businessDateKeyの月部分（"YYYY-MM"）。レーキグラフの月切り替えに使う。
+export function businessMonthKey(input: string | Date): string {
+  return businessDateKey(input).slice(0, 7);
+}
+
+// "YYYY-MM"をdelta月ぶんずらす（delta=-1で前月、+1で翌月）。
+export function shiftMonthKey(monthKey: string, delta: number): string {
+  const [year, month] = monthKey.split("-").map(Number);
+  const d = new Date(Date.UTC(year, month - 1 + delta, 1));
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+}
+
+// "YYYY-MM"の月に含まれる日付（"YYYY-MM-DD"）を1日から月末まで列挙する。
+// レーキグラフで、取引が無い日も0本の棒として表示するために使う。
+export function daysInMonth(monthKey: string): string[] {
+  const [year, month] = monthKey.split("-").map(Number);
+  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  return Array.from(
+    { length: lastDay },
+    (_, i) => `${monthKey}-${String(i + 1).padStart(2, "0")}`,
+  );
+}
+
+// グラフの横軸ラベル用: 日時文字列（ISO日時 or "YYYY-MM-DD"）-> JSTの "M/D" 表記
+export function formatJstMonthDay(input: string): string {
+  const jst = toJstDate(new Date(input));
+  return `${jst.getUTCMonth() + 1}/${jst.getUTCDate()}`;
+}
+
 // ISO文字列(UTC) -> <input type="datetime-local"> 用のJST文字列 "YYYY-MM-DDTHH:mm"
 export function toJstDatetimeLocal(isoString: string): string {
   const jst = toJstDate(new Date(isoString));

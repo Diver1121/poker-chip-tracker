@@ -106,6 +106,18 @@ export function computeVisitCountsByCustomer(visits: Visit[]): Map<string, numbe
   return counts;
 }
 
+// customerId -> 最終来店日時（ISO文字列）。チップ保有期間（来店から1年）の判定に使う。
+export function computeLastVisitByCustomer(visits: Visit[]): Map<string, string> {
+  const lastVisit = new Map<string, string>();
+  for (const visit of visits) {
+    const current = lastVisit.get(visit.customer_id);
+    if (!current || visit.checked_in_at > current) {
+      lastVisit.set(visit.customer_id, visit.checked_in_at);
+    }
+  }
+  return lastVisit;
+}
+
 // 店全体の累計バイイン/アウト、およびその差分（レーキ）。
 // バイイン(table_out)の合計からアウト(table_in)の合計を引いた分は、
 // テーブルに残ったまま回収されていない＝店が徴収したレーキとみなす。
@@ -121,6 +133,34 @@ export function computeShopTableTotals(transactions: ChipTransaction[]): {
     if (tx.category === "table_in") outTotal += tx.quantity;
   }
   return { buyInTotal, outTotal, rake: buyInTotal - outTotal };
+}
+
+// 日付（JST）ごとのバイイン/アウト/レーキ。レーキグラフに使う。
+// 取引が無い日はキーごと出現しない（呼び出し側で0埋めする）。
+export function computeDailyRakeTotals(
+  transactions: ChipTransaction[],
+): { date: string; buyInTotal: number; outTotal: number; rake: number }[] {
+  const totalsByDate = new Map<string, { buyInTotal: number; outTotal: number }>();
+  for (const tx of transactions) {
+    if (tx.category !== "table_out" && tx.category !== "table_in") continue;
+    const date = businessDateKey(tx.created_at);
+    const current = totalsByDate.get(date) ?? { buyInTotal: 0, outTotal: 0 };
+    if (tx.category === "table_out") {
+      current.buyInTotal += tx.quantity;
+    } else {
+      current.outTotal += tx.quantity;
+    }
+    totalsByDate.set(date, current);
+  }
+
+  return [...totalsByDate.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, { buyInTotal, outTotal }]) => ({
+      date,
+      buyInTotal,
+      outTotal,
+      rake: buyInTotal - outTotal,
+    }));
 }
 
 // 客ごとの収支グラフ専用の符号（保有チップ数の符号 categorySign とは別の意味）。

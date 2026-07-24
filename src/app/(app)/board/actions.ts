@@ -87,8 +87,17 @@ export async function checkOutAllCustomers() {
     .not("id", "is", null);
   if (chatError) throw chatError;
 
+  // レーキグラフは、まだプレイ中で未回収のチップを「レーキ」と誤表示しないよう
+  // この時刻より前の当日分だけを確定表示する（/statsのgetShopSettingsで参照）
+  const { error: settingsError } = await supabase
+    .from("shop_settings")
+    .update({ last_closed_at: new Date().toISOString() })
+    .eq("id", true);
+  if (settingsError) throw settingsError;
+
   revalidatePath("/board");
   revalidatePath("/chat");
+  revalidatePath("/stats");
 }
 
 export async function recordBoardTransaction(formData: FormData) {
