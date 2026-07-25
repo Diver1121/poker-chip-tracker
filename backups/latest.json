@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-24T20:35:14.500Z",
+  "generatedAt": "2026-07-25T20:38:46.502Z",
   "customers": [
     {
       "id": "20ed9aa3-c994-47ba-b4e6-6deb2b14ccfc",
@@ -20,6 +20,13 @@
       "name": "ケイ",
       "note": "ケイさん 兄貴",
       "created_at": "2026-07-12T21:53:40.400969+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "name": "ゴックン",
+      "note": "トワダンナ",
+      "created_at": "2026-07-12T21:53:41.977222+00:00",
       "checked_in_at": null
     },
     {
@@ -177,6 +184,13 @@
       "checked_in_at": null
     },
     {
+      "id": "a083852c-a919-47cb-967e-c8b41da1da2b",
+      "name": "エー",
+      "note": "エー ビー シー 3人組",
+      "created_at": "2026-07-12T21:53:34.570813+00:00",
+      "checked_in_at": null
+    },
+    {
       "id": "c42c2bcd-315f-4421-89c8-b9934953440c",
       "name": "アナンモブ",
       "note": "モブマスターK",
@@ -314,13 +328,6 @@
       "name": "ウメシャン",
       "note": "カケル彼女",
       "created_at": "2026-07-12T21:53:34.410759+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "a083852c-a919-47cb-967e-c8b41da1da2b",
-      "name": "エー",
-      "note": "エー ビー シー 3人組",
-      "created_at": "2026-07-12T21:53:34.570813+00:00",
       "checked_in_at": null
     },
     {
@@ -625,13 +632,6 @@
       "checked_in_at": null
     },
     {
-      "id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
-      "name": "ゴックン",
-      "note": "トワダンナ",
-      "created_at": "2026-07-12T21:53:41.977222+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "1401300d-561d-4707-ba19-b534a82576c4",
       "name": "シーバ",
       "note": "初心者講習7名",
@@ -891,17 +891,17 @@
       "checked_in_at": null
     },
     {
-      "id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
-      "name": "ジャンタマ",
-      "note": "しんやまお連れ様",
-      "created_at": "2026-07-12T21:53:46.440947+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
       "name": "ハルチン",
       "note": "佐伯組",
       "created_at": "2026-07-12T21:54:06.752808+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
+      "name": "ジャンタマ",
+      "note": "しんやまお連れ様",
+      "created_at": "2026-07-12T21:53:46.440947+00:00",
       "checked_in_at": null
     },
     {
@@ -944,13 +944,6 @@
       "name": "サカモト",
       "note": "にっしー相方 千葉から大分に越してきた",
       "created_at": "2026-07-12T21:53:43.671141+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
-      "name": "シュウト",
-      "note": null,
-      "created_at": "2026-07-12T21:53:46.629135+00:00",
       "checked_in_at": null
     },
     {
@@ -1213,13 +1206,6 @@
       "checked_in_at": null
     },
     {
-      "id": "9e23b23f-f80d-44b3-a2c0-afbccfd2be78",
-      "name": "カワシマ",
-      "note": "ガリ友人",
-      "created_at": "2026-07-12T21:53:37.938037+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "9f1ca6a3-498f-4df3-b5af-ce214a4b51f2",
       "name": "エハラ",
       "note": "がりさんカワシマさん",
@@ -1241,20 +1227,6 @@
       "checked_in_at": null
     },
     {
-      "id": "c5266471-3c43-4e95-8c4d-be1962795e4d",
-      "name": "ヒロピン",
-      "note": "佐伯組",
-      "created_at": "2026-07-12T21:54:08.717693+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "77906b5d-074c-4400-843b-5466b5a497e4",
-      "name": "セナ",
-      "note": "イケメン 光ユウダイくん友達",
-      "created_at": "2026-07-12T21:53:52.017339+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "b61232d9-872c-45b5-9a42-7f143db5047c",
       "name": "ケンタ",
       "note": "別府からマリアさん夫婦",
@@ -1273,6 +1245,41 @@
       "name": "ナオキ",
       "note": null,
       "created_at": "2026-07-12T21:54:02.805632+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "c5266471-3c43-4e95-8c4d-be1962795e4d",
+      "name": "ヒロピン",
+      "note": "佐伯組",
+      "created_at": "2026-07-12T21:54:08.717693+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "9e23b23f-f80d-44b3-a2c0-afbccfd2be78",
+      "name": "カワシマ",
+      "note": "ガリ友人",
+      "created_at": "2026-07-12T21:53:37.938037+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "77906b5d-074c-4400-843b-5466b5a497e4",
+      "name": "セナ",
+      "note": "イケメン 光ユウダイくん友達",
+      "created_at": "2026-07-12T21:53:52.017339+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
+      "name": "ポニー",
+      "note": "シュトウ②連れ",
+      "created_at": "2026-07-25T12:24:09.279412+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
+      "name": "シュウト",
+      "note": null,
+      "created_at": "2026-07-12T21:53:46.629135+00:00",
       "checked_in_at": null
     },
     {
@@ -1374,13 +1381,6 @@
       "checked_in_at": null
     },
     {
-      "id": "3a4b850f-cc17-436d-ac15-39807dcb1e8f",
-      "name": "ビー",
-      "note": "エー ビー シー 3人組",
-      "created_at": "2026-07-12T21:54:07.075862+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "b960a1ed-cc9c-4ad1-be8c-e51f0bb35cd7",
       "name": "ヒナ",
       "note": "Julietに定期でいる獣医候補",
@@ -1413,13 +1413,6 @@
       "name": "マサ",
       "note": "医者 やけ癖有り",
       "created_at": "2026-07-12T21:54:11.795963+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "4f1655f1-1fc5-45f2-a176-51f0f1f937de",
-      "name": "マサミツ",
-      "note": "宇佐からのバンク系",
-      "created_at": "2026-07-12T21:54:12.36172+00:00",
       "checked_in_at": null
     },
     {
@@ -1507,13 +1500,6 @@
       "checked_in_at": null
     },
     {
-      "id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
-      "name": "セブ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:52.207798+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "5bed2ef6-d25c-4101-8b38-32e6da9b3945",
       "name": "リョウ",
       "note": "ゆめ 弟 けいさん従業員",
@@ -1528,13 +1514,6 @@
       "checked_in_at": null
     },
     {
-      "id": "86cbc743-227f-45c7-9cda-b51c19faa792",
-      "name": "ユウダイ",
-      "note": "光タイプ",
-      "created_at": "2026-07-12T21:54:18.075344+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "a26450b6-5acc-4060-a191-a1df25d11811",
       "name": "ネズミ",
       "note": null,
@@ -1546,6 +1525,41 @@
       "name": "ユウ",
       "note": "兵庫出身大分在住 女性2/14に初来店初LIVE",
       "created_at": "2026-07-12T21:54:16.95462+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "86cbc743-227f-45c7-9cda-b51c19faa792",
+      "name": "ユウダイ",
+      "note": "光タイプ",
+      "created_at": "2026-07-12T21:54:18.075344+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "name": "セブ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:52.207798+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "4f1655f1-1fc5-45f2-a176-51f0f1f937de",
+      "name": "マサミツ",
+      "note": "宇佐からのバンク系",
+      "created_at": "2026-07-12T21:54:12.36172+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "3a4b850f-cc17-436d-ac15-39807dcb1e8f",
+      "name": "ビー",
+      "note": "エー ビー シー 3人組",
+      "created_at": "2026-07-12T21:54:07.075862+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "782618f6-6a98-48e5-bba6-55b36c254a60",
+      "name": "ハタエ",
+      "note": null,
+      "created_at": "2026-07-12T21:54:27.187171+00:00",
       "checked_in_at": null
     },
     {
@@ -1588,13 +1602,6 @@
       "name": "サッキー",
       "note": "APU",
       "created_at": "2026-07-12T21:53:43.984997+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "7d022dbd-7160-4d69-9018-f153270bf2f7",
-      "name": "シー",
-      "note": "エー ビー シー 3人組",
-      "created_at": "2026-07-12T21:53:44.556491+00:00",
       "checked_in_at": null
     },
     {
@@ -1878,6 +1885,13 @@
       "checked_in_at": null
     },
     {
+      "id": "7d022dbd-7160-4d69-9018-f153270bf2f7",
+      "name": "シー",
+      "note": "エー ビー シー 3人組",
+      "created_at": "2026-07-12T21:53:44.556491+00:00",
+      "checked_in_at": null
+    },
+    {
       "id": "f6fb8ee8-5b60-4f41-b2a9-79901e6f7eb8",
       "name": "ハジメ",
       "note": "トリック 寿司職人",
@@ -2130,6 +2144,13 @@
       "checked_in_at": null
     },
     {
+      "id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "name": "リョウスケ",
+      "note": "キッズ",
+      "created_at": "2026-07-12T21:54:20.748051+00:00",
+      "checked_in_at": null
+    },
+    {
       "id": "37e74276-7892-4318-8c3c-8064236fa5a6",
       "name": "ショウゴ",
       "note": "カケル後輩",
@@ -2155,13 +2176,6 @@
       "name": "タカユキ",
       "note": null,
       "created_at": "2026-07-19T11:17:40.433158+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
-      "name": "リョウスケ",
-      "note": "キッズ",
-      "created_at": "2026-07-12T21:54:20.748051+00:00",
       "checked_in_at": null
     },
     {
@@ -2424,17 +2438,17 @@
       "checked_in_at": null
     },
     {
-      "id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
-      "name": "ヒゲ",
-      "note": "大分最古参ポーカープレイヤー",
-      "created_at": "2026-07-12T21:54:07.572436+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
       "name": "ヨシダリュウ",
       "note": "タカヒトお連れ様",
       "created_at": "2026-07-12T21:54:19.157048+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "name": "ヒゲ",
+      "note": "大分最古参ポーカープレイヤー",
+      "created_at": "2026-07-12T21:54:07.572436+00:00",
       "checked_in_at": null
     },
     {
@@ -2582,13 +2596,6 @@
       "name": "ナツ",
       "note": "初心者講習 5人組4月9日来店",
       "created_at": "2026-07-12T21:54:03.625865+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "6ea14202-634b-4181-a0bf-c44b197d3ccd",
-      "name": "ニッシー",
-      "note": "トリック古参",
-      "created_at": "2026-07-12T21:54:04.326316+00:00",
       "checked_in_at": null
     },
     {
@@ -2743,13 +2750,6 @@
       "name": "アールR",
       "note": null,
       "created_at": "2026-07-12T21:54:27.106796+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "782618f6-6a98-48e5-bba6-55b36c254a60",
-      "name": "ハタエ",
-      "note": null,
-      "created_at": "2026-07-12T21:54:27.187171+00:00",
       "checked_in_at": null
     },
     {
@@ -3173,10 +3173,10 @@
       "checked_in_at": null
     },
     {
-      "id": "c18cb7a8-1b6d-4c65-a653-6b10efa70abf",
-      "name": "シュトウ②",
-      "note": "ブルーノ、シュトウ 2人組",
-      "created_at": "2026-07-12T21:54:35.197356+00:00",
+      "id": "6ea14202-634b-4181-a0bf-c44b197d3ccd",
+      "name": "ニッシー",
+      "note": "トリック古参",
+      "created_at": "2026-07-12T21:54:04.326316+00:00",
       "checked_in_at": null
     },
     {
@@ -3191,6 +3191,13 @@
       "name": "ユキ",
       "note": "リサ連れ　カジノよく行く",
       "created_at": "2026-07-19T11:55:34.113951+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "c18cb7a8-1b6d-4c65-a653-6b10efa70abf",
+      "name": "シュトウ②",
+      "note": "ブルーノ、シュトウ 2人組",
+      "created_at": "2026-07-12T21:54:35.197356+00:00",
       "checked_in_at": null
     },
     {
@@ -3369,13 +3376,6 @@
       "checked_in_at": null
     },
     {
-      "id": "3054a344-a041-4de7-afa9-3743d176d4de",
-      "name": "クローバー",
-      "note": "タクミ連れ",
-      "created_at": "2026-07-12T21:53:40.155434+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "f287b0d3-3aca-40ad-a28b-8098b7b6b702",
       "name": "モチモチ",
       "note": null,
@@ -3411,10 +3411,10 @@
       "checked_in_at": null
     },
     {
-      "id": "34d1ddf6-b8ed-4f76-92d5-67c337066562",
-      "name": "タマサブ",
-      "note": null,
-      "created_at": "2026-07-17T13:26:31.287685+00:00",
+      "id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "name": "クローバー",
+      "note": "タクミ連れ",
+      "created_at": "2026-07-12T21:53:40.155434+00:00",
       "checked_in_at": null
     },
     {
@@ -3422,6 +3422,13 @@
       "name": "アンドレイ",
       "note": "オーストラリア出身 自称MTT最強",
       "created_at": "2026-07-12T21:53:32.517834+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "34d1ddf6-b8ed-4f76-92d5-67c337066562",
+      "name": "タマサブ",
+      "note": null,
+      "created_at": "2026-07-17T13:26:31.287685+00:00",
       "checked_in_at": null
     },
     {
@@ -4239,6 +4246,118 @@
       "category": "adjustment",
       "quantity": 818,
       "created_at": "2026-07-12T21:53:31.907345+00:00"
+    },
+    {
+      "id": "f6eec568-4ba0-4129-8222-6ee687bc4311",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-25T10:58:36.060869+00:00"
+    },
+    {
+      "id": "83b059fc-9119-452f-a77a-21559d6fb37f",
+      "customer_id": "86cbc743-227f-45c7-9cda-b51c19faa792",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T11:37:00+00:00"
+    },
+    {
+      "id": "ef604267-1dec-4ff6-bbae-566214d6804a",
+      "customer_id": "c18cb7a8-1b6d-4c65-a653-6b10efa70abf",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T12:21:00+00:00"
+    },
+    {
+      "id": "f4499a54-5a0d-494c-b45c-b5534b2db8c7",
+      "customer_id": "77906b5d-074c-4400-843b-5466b5a497e4",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-07-25T12:56:00+00:00"
+    },
+    {
+      "id": "c5e1e681-d247-4399-b120-d56b72c74d55",
+      "customer_id": "782618f6-6a98-48e5-bba6-55b36c254a60",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 200,
+      "created_at": "2026-07-25T13:51:00+00:00"
+    },
+    {
+      "id": "1ac808de-d6d0-43e3-b3c7-bc69663b8de6",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T13:57:00+00:00"
+    },
+    {
+      "id": "ed1f2b5c-80b5-454f-8acb-e94be6bd53b0",
+      "customer_id": "782618f6-6a98-48e5-bba6-55b36c254a60",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 880,
+      "created_at": "2026-07-25T13:53:00+00:00"
+    },
+    {
+      "id": "19477e0c-b212-4b32-b3bc-f92c140d558c",
+      "customer_id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-25T14:04:00+00:00"
+    },
+    {
+      "id": "90eec648-4cd3-4088-aa0b-cf71ee723343",
+      "customer_id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T14:07:00+00:00"
+    },
+    {
+      "id": "d9b686cf-ae73-4e01-8af2-52ee66fbd866",
+      "customer_id": "a083852c-a919-47cb-967e-c8b41da1da2b",
+      "denomination_id": "595490cf-6212-4a1e-9e30-c0bc69367c36",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T14:49:00+00:00"
+    },
+    {
+      "id": "0a59dc71-7fcf-4c83-8c4c-25bc8c42d581",
+      "customer_id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 2,
+      "created_at": "2026-07-25T14:49:00+00:00"
+    },
+    {
+      "id": "aee8ba58-baa5-4377-a32a-c1efb57377c0",
+      "customer_id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "denomination_id": "595490cf-6212-4a1e-9e30-c0bc69367c36",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T14:50:00+00:00"
+    },
+    {
+      "id": "acd125a6-2a47-4a68-8de2-6157f66b5e7e",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "denomination_id": "595490cf-6212-4a1e-9e30-c0bc69367c36",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T14:50:00+00:00"
+    },
+    {
+      "id": "d12a76c7-cebf-4b3b-a6f1-86b14eb2738a",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2048,
+      "created_at": "2026-07-25T14:51:00+00:00"
     },
     {
       "id": "1116b9c9-cf0f-43d7-ab88-83d71f3bcab6",
@@ -7185,6 +7304,14 @@
       "created_at": "2026-07-24T16:04:00+00:00"
     },
     {
+      "id": "74fb92dc-74a0-46b4-8c4a-8edde535204c",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-25T11:02:07.646495+00:00"
+    },
+    {
       "id": "14b37091-7ee1-4ef4-bf61-218f7ed24ae5",
       "customer_id": "60967982-6981-474a-8604-2b6e87a9f1e4",
       "denomination_id": null,
@@ -7913,6 +8040,22 @@
       "created_at": "2026-07-24T15:43:00+00:00"
     },
     {
+      "id": "7f81432b-af38-4daf-b390-4494b91df8e4",
+      "customer_id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T11:02:00+00:00"
+    },
+    {
+      "id": "8f52fc3d-e177-4a6c-ac08-073cddab1f6e",
+      "customer_id": "77906b5d-074c-4400-843b-5466b5a497e4",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-07-25T11:37:00+00:00"
+    },
+    {
       "id": "08fd106c-428e-480d-9c80-dfd4ec22335b",
       "customer_id": "37e74276-7892-4318-8c3c-8064236fa5a6",
       "denomination_id": null,
@@ -8601,6 +8744,62 @@
       "created_at": "2026-07-24T16:06:00+00:00"
     },
     {
+      "id": "9484cad9-1e4a-4340-bc05-609cbd00a9df",
+      "customer_id": "c5266471-3c43-4e95-8c4d-be1962795e4d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-07-25T11:04:00+00:00"
+    },
+    {
+      "id": "ea74bdd0-a2f9-495d-ad82-0d00690160fc",
+      "customer_id": "4f1655f1-1fc5-45f2-a176-51f0f1f937de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 819,
+      "created_at": "2026-07-25T11:42:00+00:00"
+    },
+    {
+      "id": "eb56f469-6739-4ac1-a5da-5c91d9848873",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-25T11:43:00+00:00"
+    },
+    {
+      "id": "a9419cc0-4cae-4f8a-af55-c2e9c2016b8b",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-25T12:22:00+00:00"
+    },
+    {
+      "id": "a1cf4d81-20eb-48ae-b1ac-3f7372575107",
+      "customer_id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-07-25T12:27:00+00:00"
+    },
+    {
+      "id": "47540048-a88e-4889-b159-763c622d98d1",
+      "customer_id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T12:27:00+00:00"
+    },
+    {
+      "id": "ff0d073f-76df-41cb-9c7b-00a362a3e426",
+      "customer_id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T13:51:00+00:00"
+    },
+    {
       "id": "02f6079c-667e-4159-8337-c6b50155334d",
       "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
       "denomination_id": null,
@@ -9113,6 +9312,54 @@
       "created_at": "2026-07-24T16:06:00+00:00"
     },
     {
+      "id": "baca31f9-ed44-4473-a320-e608cf35aad5",
+      "customer_id": "c5266471-3c43-4e95-8c4d-be1962795e4d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-07-25T11:04:00+00:00"
+    },
+    {
+      "id": "728a89fe-1189-4895-9db4-7930f2780c02",
+      "customer_id": "6ea14202-634b-4181-a0bf-c44b197d3ccd",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T11:50:00+00:00"
+    },
+    {
+      "id": "fb7dbea8-4ddc-41fc-94b7-0d68e331ba2c",
+      "customer_id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
+      "denomination_id": "df47490c-71ef-40fd-8f5c-375f05b6edc5",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-07-25T12:24:00+00:00"
+    },
+    {
+      "id": "3c886d22-277d-4ebe-867c-f7c006e124f2",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T12:56:00+00:00"
+    },
+    {
+      "id": "78c8d9a4-b3f8-4471-ae78-7d33727606fd",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T13:12:00+00:00"
+    },
+    {
+      "id": "d9f6601c-3e30-493e-ab8c-eef8b138c359",
+      "customer_id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T13:56:00+00:00"
+    },
+    {
       "id": "c117f4b1-69f6-4163-9223-473f64b2a610",
       "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
       "denomination_id": null,
@@ -9247,6 +9494,54 @@
       "category": "adjustment",
       "quantity": 750,
       "created_at": "2026-07-12T21:53:32.868646+00:00"
+    },
+    {
+      "id": "32d528a4-7eae-4a36-a0d0-a48aae4a56fe",
+      "customer_id": "a083852c-a919-47cb-967e-c8b41da1da2b",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T13:57:00+00:00"
+    },
+    {
+      "id": "ff7e6157-5827-43db-b1f6-1e8ea65b0d68",
+      "customer_id": "3a4b850f-cc17-436d-ac15-39807dcb1e8f",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T13:58:00+00:00"
+    },
+    {
+      "id": "17088642-67a5-486e-8e6d-05ba9fff991e",
+      "customer_id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T14:07:00+00:00"
+    },
+    {
+      "id": "4181a551-9b8f-4f95-a690-7e3781f79d2f",
+      "customer_id": "782618f6-6a98-48e5-bba6-55b36c254a60",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T14:07:00+00:00"
+    },
+    {
+      "id": "fb5589ce-1ac1-4ebe-9e80-39db40c25655",
+      "customer_id": "9e23b23f-f80d-44b3-a2c0-afbccfd2be78",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T12:57:00+00:00"
+    },
+    {
+      "id": "de771d80-56d2-4dbc-b308-69d0c325aeba",
+      "customer_id": "a083852c-a919-47cb-967e-c8b41da1da2b",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-07-25T14:48:00+00:00"
     },
     {
       "id": "d562811a-7a29-49c0-b05a-ab95a4bb5990",
@@ -10783,6 +11078,142 @@
       "category": "table_out",
       "quantity": 580,
       "created_at": "2026-07-21T14:52:00+00:00"
+    },
+    {
+      "id": "cebd1325-19c1-4734-a670-2f2380102e11",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T14:53:00+00:00"
+    },
+    {
+      "id": "8fc042c2-31db-4587-807a-863dbd1bbcca",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-25T15:12:00+00:00"
+    },
+    {
+      "id": "4fdb1d2d-ea64-4cea-bb5c-a9f77690be83",
+      "customer_id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
+      "denomination_id": "6bdbdc0b-f103-47dd-bf9a-29b7386052ae",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-07-25T15:18:00+00:00"
+    },
+    {
+      "id": "c4bb0d4d-48d1-4b4b-95cf-7c053e44fb52",
+      "customer_id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T15:23:00+00:00"
+    },
+    {
+      "id": "77b90553-6154-4913-8008-fd8b8856870d",
+      "customer_id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
+      "denomination_id": "6bdbdc0b-f103-47dd-bf9a-29b7386052ae",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-07-25T15:23:00+00:00"
+    },
+    {
+      "id": "99a35151-3b0e-4610-9291-b8d1d851769c",
+      "customer_id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-25T15:23:00+00:00"
+    },
+    {
+      "id": "c1cd4d1a-b2dd-4da7-922c-e29145fa7314",
+      "customer_id": "c5266471-3c43-4e95-8c4d-be1962795e4d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 911,
+      "created_at": "2026-07-25T14:09:00+00:00"
+    },
+    {
+      "id": "9fd28c07-b47d-4dd9-bc1b-e2ce19497ac9",
+      "customer_id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 808,
+      "created_at": "2026-07-25T15:51:00+00:00"
+    },
+    {
+      "id": "d0bf81d9-60c5-49c9-a735-25eb83ac75c4",
+      "customer_id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 954,
+      "created_at": "2026-07-25T15:52:00+00:00"
+    },
+    {
+      "id": "5ed6044e-3925-4b70-b2ad-7ad2a8313d45",
+      "customer_id": "9e23b23f-f80d-44b3-a2c0-afbccfd2be78",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1250,
+      "created_at": "2026-07-25T15:52:00+00:00"
+    },
+    {
+      "id": "a35b4151-0baa-47f8-8900-a02b27eae42f",
+      "customer_id": "4f1655f1-1fc5-45f2-a176-51f0f1f937de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1033,
+      "created_at": "2026-07-25T15:53:00+00:00"
+    },
+    {
+      "id": "3f5b7907-818d-4e16-bb0c-cd97ef009e53",
+      "customer_id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1194,
+      "created_at": "2026-07-25T15:56:36.500093+00:00"
+    },
+    {
+      "id": "4e721a78-a1f8-4ee5-a489-07fc66f7c128",
+      "customer_id": "c18cb7a8-1b6d-4c65-a653-6b10efa70abf",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 320,
+      "created_at": "2026-07-25T15:57:09.256992+00:00"
+    },
+    {
+      "id": "bd4d7ded-81c3-4d61-a07b-dad4afc61b61",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 0,
+      "created_at": "2026-07-25T15:57:00+00:00"
+    },
+    {
+      "id": "1bdb2650-cef8-4151-90fd-e2e10fceddf3",
+      "customer_id": "86cbc743-227f-45c7-9cda-b51c19faa792",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1566,
+      "created_at": "2026-07-25T15:57:00+00:00"
+    },
+    {
+      "id": "e04326a6-fa37-490f-b33c-6309c86074ec",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 340,
+      "created_at": "2026-07-25T15:57:00+00:00"
+    },
+    {
+      "id": "d07d092f-7eb2-4cd0-9105-9eaaca1db1ed",
+      "customer_id": "77906b5d-074c-4400-843b-5466b5a497e4",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2776,
+      "created_at": "2026-07-25T15:57:00+00:00"
     }
   ],
   "visits": [
@@ -11820,13 +12251,123 @@
       "id": "1247512f-a89d-42fa-8512-fc92a4c357cf",
       "customer_id": "77906b5d-074c-4400-843b-5466b5a497e4",
       "checked_in_at": "2026-07-24T14:10:50.361+00:00"
+    },
+    {
+      "id": "b60c40d3-7664-4ea1-a17e-59b64f190c7e",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "checked_in_at": "2026-07-25T10:35:56.339+00:00"
+    },
+    {
+      "id": "154dfb04-dd8f-4082-a79d-996e670d6d42",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "checked_in_at": "2026-07-25T10:35:58.992+00:00"
+    },
+    {
+      "id": "0de0ca73-7434-4ca9-97e0-c9e2400504ef",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "checked_in_at": "2026-07-25T10:58:02.091+00:00"
+    },
+    {
+      "id": "fc312bf8-ffcb-4b5b-a818-332ba6c46650",
+      "customer_id": "c5266471-3c43-4e95-8c4d-be1962795e4d",
+      "checked_in_at": "2026-07-25T11:01:04.391+00:00"
+    },
+    {
+      "id": "7f1d1ece-03cd-40d8-a783-cad2dabb4116",
+      "customer_id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
+      "checked_in_at": "2026-07-25T11:01:11.644+00:00"
+    },
+    {
+      "id": "7c431339-1c32-4b31-a864-e4024e79f834",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "checked_in_at": "2026-07-25T11:01:19.019+00:00"
+    },
+    {
+      "id": "012bcadd-86b4-4fac-a9a0-5bfefca125ec",
+      "customer_id": "9e23b23f-f80d-44b3-a2c0-afbccfd2be78",
+      "checked_in_at": "2026-07-25T11:22:52.202+00:00"
+    },
+    {
+      "id": "738d2639-c720-4a34-817a-d25549f64b76",
+      "customer_id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "checked_in_at": "2026-07-25T11:23:18.58+00:00"
+    },
+    {
+      "id": "f7c759c1-6ece-4ec2-b9b3-56b6beaadd51",
+      "customer_id": "86cbc743-227f-45c7-9cda-b51c19faa792",
+      "checked_in_at": "2026-07-25T11:30:38.097+00:00"
+    },
+    {
+      "id": "483dea3b-2e2c-4118-b0e5-9702f23d7e88",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "checked_in_at": "2026-07-25T11:30:54.29+00:00"
+    },
+    {
+      "id": "2eca0789-7212-40d2-829f-956841aead08",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "checked_in_at": "2026-07-25T11:30:55.743+00:00"
+    },
+    {
+      "id": "05220ae0-70b4-4513-8c67-9e7138795698",
+      "customer_id": "77906b5d-074c-4400-843b-5466b5a497e4",
+      "checked_in_at": "2026-07-25T11:36:50.176+00:00"
+    },
+    {
+      "id": "e963873b-5fab-4fb0-8fae-9fd673aa8cce",
+      "customer_id": "4f1655f1-1fc5-45f2-a176-51f0f1f937de",
+      "checked_in_at": "2026-07-25T11:39:10.854+00:00"
+    },
+    {
+      "id": "bd6726b6-bdf4-43f6-9101-fe20cb986f6f",
+      "customer_id": "6ea14202-634b-4181-a0bf-c44b197d3ccd",
+      "checked_in_at": "2026-07-25T11:50:54.346+00:00"
+    },
+    {
+      "id": "93e33c6c-5d2d-4112-ae27-64acfc7af447",
+      "customer_id": "c18cb7a8-1b6d-4c65-a653-6b10efa70abf",
+      "checked_in_at": "2026-07-25T12:13:44.674+00:00"
+    },
+    {
+      "id": "723b66e3-e4d1-4384-90f7-b9a24e073247",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "checked_in_at": "2026-07-25T12:20:54.322+00:00"
+    },
+    {
+      "id": "0514fc37-17b7-476e-9a6b-1f14081adfce",
+      "customer_id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
+      "checked_in_at": "2026-07-25T12:24:34.578+00:00"
+    },
+    {
+      "id": "9609d431-ad25-4a4b-98ff-3347409c004d",
+      "customer_id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
+      "checked_in_at": "2026-07-25T12:27:12.178+00:00"
+    },
+    {
+      "id": "b3091c90-4fed-4b8c-8bf8-d5b7a2078743",
+      "customer_id": "782618f6-6a98-48e5-bba6-55b36c254a60",
+      "checked_in_at": "2026-07-25T13:01:20.951+00:00"
+    },
+    {
+      "id": "9f8b3faf-3e9c-47c6-b4ad-23f588818869",
+      "customer_id": "a083852c-a919-47cb-967e-c8b41da1da2b",
+      "checked_in_at": "2026-07-25T13:49:20.417+00:00"
+    },
+    {
+      "id": "ecd22e36-ce37-4711-b25f-04dc673c7829",
+      "customer_id": "3a4b850f-cc17-436d-ac15-39807dcb1e8f",
+      "checked_in_at": "2026-07-25T13:50:06.689+00:00"
+    },
+    {
+      "id": "a378ee7e-4e2e-45c0-932e-d72e0869ae78",
+      "customer_id": "7d022dbd-7160-4d69-9018-f153270bf2f7",
+      "checked_in_at": "2026-07-25T13:50:17.634+00:00"
     }
   ],
   "chat_messages": [],
   "shop_settings": [
     {
       "id": true,
-      "last_closed_at": "2026-07-24T16:21:35.124+00:00"
+      "last_closed_at": "2026-07-25T16:54:30.353+00:00"
     }
   ]
 }
