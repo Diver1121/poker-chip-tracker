@@ -1,5 +1,6 @@
 import { login } from "./actions";
 import { APP_NAME } from "@/lib/appName";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export default async function LoginPage({
   searchParams,
@@ -53,12 +54,12 @@ export default async function LoginPage({
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:border-indigo-500 focus:outline-none"
             />
           </div>
-          <button
-            type="submit"
-            className="w-full rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700"
+          <SubmitButton
+            pendingText="ログイン中…"
+            className="w-full rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
           >
             ログイン
-          </button>
+          </SubmitButton>
         </form>
       </div>
     </div>

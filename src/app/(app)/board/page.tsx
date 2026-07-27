@@ -15,6 +15,7 @@ import {
 } from "@/lib/transactionCategory";
 import { businessDateKey, toJstDatetimeLocal } from "@/lib/businessDay";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
+import { SubmitButton } from "@/components/SubmitButton";
 import { CustomerCombobox } from "@/components/CustomerCombobox";
 import {
   checkInCustomer,
@@ -186,12 +187,9 @@ export default async function BoardPage({
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 focus:border-indigo-500 focus:outline-none"
               />
             </div>
-            <button
-              type="submit"
-              className="rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700"
-            >
+            <SubmitButton className="rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
               来店
-            </button>
+            </SubmitButton>
           </form>
         )}
       </section>
@@ -350,12 +348,9 @@ export default async function BoardPage({
                               title="日時（入力し忘れの後追い記録の場合はここで日時を変更）"
                               className="rounded-md border border-gray-300 px-2 py-1.5 text-xs text-gray-900 focus:border-indigo-500 focus:outline-none"
                             />
-                            <button
-                              type="submit"
-                              className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700"
-                            >
+                            <SubmitButton className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
                               確定
-                            </button>
+                            </SubmitButton>
                           </form>
                         )}
                       </details>

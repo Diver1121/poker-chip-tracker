@@ -5,6 +5,7 @@ import { useState } from "react";
 import { CATEGORY_INFO, quantityUnitLabel } from "@/lib/transactionCategory";
 import { toJstDatetimeLocal } from "@/lib/businessDay";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
+import { SubmitButton } from "@/components/SubmitButton";
 import { normalizeForMatch } from "@/lib/textMatch";
 import type { ChipTransaction } from "@/lib/types";
 
@@ -82,12 +83,9 @@ export function TransactionsSearch({
                           required
                           className="rounded-md border border-gray-300 px-2 py-1 text-xs text-gray-900 focus:border-indigo-500 focus:outline-none"
                         />
-                        <button
-                          type="submit"
-                          className="rounded-md bg-indigo-600 px-2 py-1 text-xs font-medium text-white hover:bg-indigo-700"
-                        >
+                        <SubmitButton className="rounded-md bg-indigo-600 px-2 py-1 text-xs font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
                           更新
-                        </button>
+                        </SubmitButton>
                       </form>
                     </details>
                   </td>

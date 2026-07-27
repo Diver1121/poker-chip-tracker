@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { updateCustomerName } from "@/app/(app)/customers/actions";
+import { SubmitButton } from "@/components/SubmitButton";
 
 export function EditCustomerNameButton({
   customerId,
@@ -35,12 +36,9 @@ export function EditCustomerNameButton({
         autoComplete="off"
         className="rounded-md border border-gray-300 px-2 py-1 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none"
       />
-      <button
-        type="submit"
-        className="rounded-md bg-indigo-600 px-3 py-1 text-xs font-medium text-white hover:bg-indigo-700"
-      >
+      <SubmitButton className="rounded-md bg-indigo-600 px-3 py-1 text-xs font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
         保存
-      </button>
+      </SubmitButton>
       <button
         type="button"
         onClick={() => setEditing(false)}

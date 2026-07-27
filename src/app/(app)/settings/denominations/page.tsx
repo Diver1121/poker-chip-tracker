@@ -1,5 +1,6 @@
 import { getDenominations } from "@/lib/data";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
+import { SubmitButton } from "@/components/SubmitButton";
 import { formatAliasesInput } from "@/lib/denominationAliases";
 import {
   createDenomination,
@@ -77,12 +78,9 @@ export default async function DenominationsSettingsPage() {
               トーナメントで使う
             </label>
           </div>
-          <button
-            type="submit"
-            className="rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700"
-          >
+          <SubmitButton className="rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
             追加
-          </button>
+          </SubmitButton>
         </form>
       </section>
 
@@ -100,23 +98,21 @@ export default async function DenominationsSettingsPage() {
                 <div className="flex gap-1 sm:flex-col">
                   <form action={moveDenominationUp}>
                     <input type="hidden" name="id" value={d.id} />
-                    <button
-                      type="submit"
+                    <SubmitButton
                       disabled={index === 0}
                       className="rounded-md border border-gray-300 px-2 py-1 text-xs text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30"
                     >
                       ↑
-                    </button>
+                    </SubmitButton>
                   </form>
                   <form action={moveDenominationDown}>
                     <input type="hidden" name="id" value={d.id} />
-                    <button
-                      type="submit"
+                    <SubmitButton
                       disabled={index === denominations.length - 1}
                       className="rounded-md border border-gray-300 px-2 py-1 text-xs text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30"
                     >
                       ↓
-                    </button>
+                    </SubmitButton>
                   </form>
                 </div>
                 <form
@@ -181,12 +177,9 @@ export default async function DenominationsSettingsPage() {
                       トーナメント
                     </label>
                   </div>
-                  <button
-                    type="submit"
-                    className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-                  >
+                  <SubmitButton className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50">
                     保存
-                  </button>
+                  </SubmitButton>
                 </form>
                 <form action={deleteDenomination}>
                   <input type="hidden" name="id" value={d.id} />

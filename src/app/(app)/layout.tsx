@@ -1,6 +1,7 @@
 import { logout } from "@/app/login/actions";
 import { AppNav } from "@/components/AppNav";
 import { APP_NAME } from "@/lib/appName";
+import { SubmitButton } from "@/components/SubmitButton";
 
 // DBの最新状態を毎リクエスト反映するため、ビルド時の静的化を無効にする
 export const dynamic = "force-dynamic";
@@ -29,12 +30,9 @@ export default function AppLayout({
               {APP_NAME}
             </span>
             <form action={logout}>
-              <button
-                type="submit"
-                className="text-sm text-gray-500 hover:text-gray-800"
-              >
+              <SubmitButton className="text-sm text-gray-500 hover:text-gray-800 disabled:opacity-50">
                 ログアウト
-              </button>
+              </SubmitButton>
             </form>
           </div>
           <AppNav items={NAV_ITEMS} />
