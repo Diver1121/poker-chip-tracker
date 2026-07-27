@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabase";
 import { requireAuth } from "@/lib/require-auth";
 import { insertChipTransaction } from "@/lib/transactions";
+import { computeLastVisitByCustomer } from "@/lib/balances";
+import { isPastRetention } from "@/lib/retention";
 
 export async function createCustomer(formData: FormData) {
   await requireAuth();
@@ -81,20 +83,83 @@ export async function updateCustomerName(formData: FormData) {
   revalidatePath(`/customers/${customerId}`);
 }
 
+// 客本体を削除する前に、その客の取引に紐づくチャットログも一緒に消す
+// （/transactionsの個別取引削除と同じ考え方。取引はcustomers削除のcascadeで消える）
+async function deleteCustomerAndRelatedData(customerId: string) {
+  const supabase = getSupabaseClient();
+
+  const { data: txRows, error: txError } = await supabase
+    .from("chip_transactions")
+    .select("id")
+    .eq("customer_id", customerId);
+  if (txError) throw txError;
+
+  const transactionIds = (txRows ?? []).map((row) => row.id);
+  if (transactionIds.length > 0) {
+    const { error: chatError } = await supabase
+      .from("chat_messages")
+      .delete()
+      .in("transaction_id", transactionIds);
+    if (chatError) throw chatError;
+  }
+
+  const { error } = await supabase.from("customers").delete().eq("id", customerId);
+  if (error) throw error;
+}
+
 export async function deleteCustomer(formData: FormData) {
   await requireAuth();
 
   const customerId = String(formData.get("customerId") ?? "");
   if (!customerId) return;
 
-  const { error } = await getSupabaseClient()
-    .from("customers")
-    .delete()
-    .eq("id", customerId);
-  if (error) throw error;
+  await deleteCustomerAndRelatedData(customerId);
 
   revalidatePath("/customers");
   revalidatePath("/");
   revalidatePath("/board");
   revalidatePath("/transactions");
+  revalidatePath("/chat");
+}
+
+// チップ保有期間（来店最終日から1年）を過ぎた客をスタッフの確認操作で削除する。
+// フォームの値を信用せず、削除直前にサーバー側で改めて1年経過を確認してから消す
+// （日付計算のミスや古い画面からの誤操作で、対象外の客が消えるのを防ぐため）。
+export async function deleteExpiredCustomer(formData: FormData) {
+  await requireAuth();
+
+  const customerId = String(formData.get("customerId") ?? "");
+  if (!customerId) return;
+
+  const supabase = getSupabaseClient();
+
+  const { data: customer, error: customerError } = await supabase
+    .from("customers")
+    .select("id, created_at")
+    .eq("id", customerId)
+    .maybeSingle();
+  if (customerError) throw customerError;
+  if (!customer) return;
+
+  const { data: visits, error: visitsError } = await supabase
+    .from("visits")
+    .select("id, customer_id, checked_in_at")
+    .eq("customer_id", customerId);
+  if (visitsError) throw visitsError;
+
+  const lastVisitByCustomer = computeLastVisitByCustomer(visits ?? []);
+  const lastVisit = lastVisitByCustomer.get(customerId) ?? customer.created_at;
+
+  if (!isPastRetention(lastVisit)) {
+    // 何らかの理由（画面が古い等）で対象外になっていた場合は何もしない
+    return;
+  }
+
+  await deleteCustomerAndRelatedData(customerId);
+
+  revalidatePath("/customers");
+  revalidatePath("/");
+  revalidatePath("/board");
+  revalidatePath("/transactions");
+  revalidatePath("/chat");
 }
