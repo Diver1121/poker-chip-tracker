@@ -19,7 +19,7 @@ export default async function LoginPage({
           </p>
         )}
         <form action={login} className="space-y-4">
-          <input type="hidden" name="redirect" value={redirect ?? "/"} />
+          <input type="hidden" name="redirect" value={redirect ?? "/board"} />
           <div>
             <label
               htmlFor="name"

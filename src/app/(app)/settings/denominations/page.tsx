@@ -77,6 +77,10 @@ export default async function DenominationsSettingsPage() {
               />
               トーナメントで使う
             </label>
+            <label className="flex items-center gap-2 text-sm text-gray-900">
+              <input type="checkbox" name="usableForAddon" value="1" className="h-4 w-4" />
+              アドオンで使う
+            </label>
           </div>
           <SubmitButton className="rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
             追加
@@ -175,6 +179,16 @@ export default async function DenominationsSettingsPage() {
                         className="h-4 w-4"
                       />
                       トーナメント
+                    </label>
+                    <label className="flex items-center gap-2 text-sm text-gray-900">
+                      <input
+                        type="checkbox"
+                        name="usableForAddon"
+                        value="1"
+                        defaultChecked={d.usable_for_addon}
+                        className="h-4 w-4"
+                      />
+                      アドオン
                     </label>
                   </div>
                   <SubmitButton className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50">

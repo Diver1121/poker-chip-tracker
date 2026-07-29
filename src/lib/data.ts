@@ -4,6 +4,7 @@ import type {
   ChipTransaction,
   Customer,
   Denomination,
+  TournamentEntry,
   Visit,
 } from "@/lib/types";
 
@@ -116,6 +117,16 @@ export async function getAllVisits(): Promise<Visit[]> {
       .from("visits")
       .select("*")
       .order("checked_in_at", { ascending: true })
+      .range(from, to),
+  );
+}
+
+export async function getTournamentEntries(): Promise<TournamentEntry[]> {
+  return fetchAllRows<TournamentEntry>((from, to) =>
+    getSupabaseClient()
+      .from("tournament_entries")
+      .select("*")
+      .order("created_at", { ascending: true })
       .range(from, to),
   );
 }

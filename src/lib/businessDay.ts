@@ -31,6 +31,17 @@ export function shiftMonthKey(monthKey: string, delta: number): string {
   return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
 }
 
+// businessDateKey（"YYYY-MM-DD"）をdelta日ぶんずらす（delta=-1で前日、+1で翌日）。
+// トーナメントページの日切り替えに使う。
+export function shiftDayKey(dayKey: string, delta: number): string {
+  const [year, month, day] = dayKey.split("-").map(Number);
+  const d = new Date(Date.UTC(year, month - 1, day + delta));
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(d.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${dd}`;
+}
+
 // "YYYY-MM"の月に含まれる日付（"YYYY-MM-DD"）を1日から月末まで列挙する。
 // レーキグラフで、取引が無い日も0本の棒として表示するために使う。
 export function daysInMonth(monthKey: string): string[] {

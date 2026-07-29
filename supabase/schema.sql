@@ -111,3 +111,59 @@ create table if not exists shop_settings (
 );
 
 insert into shop_settings (id) values (true) on conflict (id) do nothing;
+
+-- MTT（トーナメント）のエントリーシート。紙のエントリーシートをそのまま置き換える想定。
+-- 客の名前は自由記述（客一覧との連携はしない。同一営業日内の一覧として管理する）。
+create table if not exists tournament_entries (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  entry_fee integer not null default 0,
+  cash_amount integer not null default 0,
+  chip_amount integer not null default 0,
+  ticket_amount integer not null default 0,
+  addon_amount integer not null default 0,
+  -- 順位・獲得は大会終了後に分かるため、順位はnull（未確定）を許可する
+  rank integer,
+  prize_amount integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists tournament_entries_created_at_idx on tournament_entries(created_at);
+
+-- トーナメントの「種類」は額面設定（denominations）の「トーナメントで使う」項目をそのまま流用する。
+-- エントリーシートの一番上でどの項目を使ったかを選ぶと、新しい行のチップ欄の初期値に使われる。
+alter table tournament_entries add column if not exists denomination_id uuid references denominations(id) on delete set null;
+
+-- 過去バージョンで作った専用テーブル・列（未使用のため削除）
+-- tournament_typesへの外部キー制約がある列を先に消してからでないとテーブルをdropできない
+alter table tournament_entries drop column if exists tournament_type_id;
+alter table tournament_entries drop column if exists chip_units;
+drop table if exists tournament_types;
+
+-- 額面設定の項目のうち「アドオン専用」の項目を分けて選べるようにする
+-- （トーナメントの種類選択とは別に、アドオンの種類選択に出す）。
+alter table denominations add column if not exists usable_for_addon boolean not null default false;
+
+-- 既存データの一括反映: ラベルに"Add-on"を含む項目を暫定的にアドオン扱いにする
+-- （実際にどれをアドオンにするかは額面設定画面のチェックボックスで調整可能）。
+update denominations set usable_for_addon = true where label ilike '%add-on%';
+
+-- チップ欄は点数を直接入力するのではなく「チップを使ってエントリーした回数」を入力する。
+-- chip_countが入力値、chip_amountはchip_count×(選ばれた種類のvalue)をサーバー側で計算した点数。
+alter table tournament_entries add column if not exists chip_count integer not null default 0;
+
+-- アドオン欄も同様に、点数ではなく回数を入力する。
+-- addon_countが入力値、addon_amountはaddon_count×(選ばれたアドオン種類のvalue)をサーバー側で計算した点数。
+alter table tournament_entries add column if not exists addon_count integer not null default 0;
+alter table tournament_entries add column if not exists addon_denomination_id uuid references denominations(id) on delete set null;
+
+-- 来店中ボードの「トーナメント使用」「プライズ獲得」ボタンの代わりに、このページの
+-- チップ回数・アドオン回数・獲得欄から直接chip_transactionsを作る（来店ボードの保有表示・
+-- 取引履歴に反映される）。customer_idが解決できた行だけ取引を作る（名前が客一覧と一致しない
+-- 行は記録だけ残り、取引は作られない）。
+-- *_transaction_idは、保存し直すたびに二重登録しないための紐付け
+-- （既存の取引を更新し、回数が0に戻ったら取引ごと削除する）。
+alter table tournament_entries add column if not exists customer_id uuid references customers(id) on delete set null;
+alter table tournament_entries add column if not exists chip_transaction_id uuid references chip_transactions(id) on delete set null;
+alter table tournament_entries add column if not exists addon_transaction_id uuid references chip_transactions(id) on delete set null;
+alter table tournament_entries add column if not exists prize_transaction_id uuid references chip_transactions(id) on delete set null;

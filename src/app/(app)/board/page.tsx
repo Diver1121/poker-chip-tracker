@@ -14,6 +14,13 @@ import {
   denominationsForCategory,
 } from "@/lib/transactionCategory";
 import { businessDateKey, toJstDatetimeLocal } from "@/lib/businessDay";
+
+// トーナメント使用・プライズ獲得は「トーナメント」ページの記録保存から
+// 自動でchip_transactionsが作られるようになったため、ボードの手入力ボタンからは外す
+// （チャットコマンドでの入力は引き続き使えるよう、共有のTRANSACTION_CATEGORIES自体は変更しない）。
+const BOARD_MANUAL_CATEGORIES = TRANSACTION_CATEGORIES.filter(
+  (category) => category !== "tournament" && category !== "prize",
+);
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { SubmitButton } from "@/components/SubmitButton";
 import { CustomerCombobox } from "@/components/CustomerCombobox";
@@ -272,7 +279,7 @@ export default async function BoardPage({
                 )}
 
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {TRANSACTION_CATEGORIES.map((category) => {
+                  {BOARD_MANUAL_CATEGORIES.map((category) => {
                     const needsDenomination = categoryUsesDenomination(category);
                     const categoryDenominations = needsDenomination
                       ? denominationsForCategory(category, denominations)
@@ -326,18 +333,10 @@ export default async function BoardPage({
                             <input
                               type="number"
                               name="quantity"
-                              min={
-                                category === "table_in"
-                                  ? 0
-                                  : category === "tournament"
-                                    ? undefined
-                                    : 1
-                              }
+                              min={category === "table_in" ? 0 : 1}
                               step={1}
                               required
-                              placeholder={
-                                category === "tournament" ? "数量（訂正時は-）" : "数量"
-                              }
+                              placeholder="数量"
                               className="w-24 rounded-md border border-gray-300 px-2 py-1.5 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none"
                             />
                             <input

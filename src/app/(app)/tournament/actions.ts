@@ -1,0 +1,282 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { getSupabaseClient } from "@/lib/supabase";
+import { requireAuth } from "@/lib/require-auth";
+import { insertChipTransaction } from "@/lib/transactions";
+
+function toInt(value: FormDataEntryValue | null): number {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.trunc(n) : 0;
+}
+
+function toNullableInt(value: FormDataEntryValue | null): number | null {
+  if (value === null || value === "") return null;
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.trunc(n) : null;
+}
+
+function revalidateAffectedPages() {
+  revalidatePath("/tournament");
+  revalidatePath("/board");
+  revalidatePath("/transactions");
+  revalidatePath("/");
+}
+
+// 行のチップ回数・アドオン回数・獲得点数から、来店ボード・取引履歴と共有の
+// chip_transactionsを作る/更新する/消す。保存し直すたびに二重登録しないよう、
+// 前回作った取引のIDが分かっていれば新規作成ではなく更新にする。
+async function syncLinkedTransaction(
+  currentTransactionId: string | null,
+  desired: {
+    customerId: string;
+    denominationId: string;
+    category: "tournament" | "prize";
+    quantity: number;
+  } | null,
+): Promise<string | null> {
+  const supabase = getSupabaseClient();
+
+  if (!desired) {
+    if (currentTransactionId) {
+      const { error } = await supabase
+        .from("chip_transactions")
+        .delete()
+        .eq("id", currentTransactionId);
+      if (error) throw error;
+    }
+    return null;
+  }
+
+  if (currentTransactionId) {
+    const { error } = await supabase
+      .from("chip_transactions")
+      .update({
+        customer_id: desired.customerId,
+        denomination_id: desired.denominationId || null,
+        quantity: desired.quantity,
+      })
+      .eq("id", currentTransactionId);
+    if (error) throw error;
+    return currentTransactionId;
+  }
+
+  return insertChipTransaction({
+    customerId: desired.customerId,
+    denominationId: desired.denominationId,
+    category: desired.category,
+    quantity: desired.quantity,
+  });
+}
+
+type LinkedTransactionIds = {
+  chip_transaction_id: string | null;
+  addon_transaction_id: string | null;
+  prize_transaction_id: string | null;
+};
+
+type DayValues = {
+  dayDenominationId: string | null;
+  dayAddonDenominationId: string | null;
+  dayChipValue: number;
+  dayAddonValue: number;
+};
+
+// フォーム共通部分（この日のトーナメント種類・アドオン種類）から、
+// 実際の点数計算に使う値を解決する。行ごと保存・まとめて保存の両方から使う。
+async function resolveDayValues(formData: FormData): Promise<DayValues> {
+  const supabase = getSupabaseClient();
+  const dayDenominationId = String(formData.get("dayDenominationId") ?? "") || null;
+  const dayAddonDenominationId = String(formData.get("dayAddonDenominationId") ?? "") || null;
+
+  const denominationIds = [dayDenominationId, dayAddonDenominationId].filter(
+    (id): id is string => Boolean(id),
+  );
+  const valueById = new Map<string, number>();
+  if (denominationIds.length > 0) {
+    const { data: denominationRows, error: denomError } = await supabase
+      .from("denominations")
+      .select("id, value")
+      .in("id", denominationIds);
+    if (denomError) throw denomError;
+    for (const row of denominationRows) valueById.set(row.id, row.value);
+  }
+
+  return {
+    dayDenominationId,
+    dayAddonDenominationId,
+    dayChipValue: dayDenominationId ? (valueById.get(dayDenominationId) ?? 0) : 0,
+    dayAddonValue: dayAddonDenominationId ? (valueById.get(dayAddonDenominationId) ?? 0) : 0,
+  };
+}
+
+// 1行分（rowIndex）だけを保存する。名前が空の行は「未使用の空欄」として何もしない。
+// チップ欄・アドオン欄は点数の直接入力ではなく「回数」。実際の点数は
+// 回数 × その日選んだ種類のvalue、をサーバー側で計算する
+// （信頼できるのはDB側のvalueなので、計算はクライアントに任せない）。
+// NAME欄が客一覧の名前と一致した行は、チップ回数・アドオン回数・獲得点数から
+// 来店ボード・取引履歴と共有のchip_transactionsも作る（旧・来店ボードの
+// 「トーナメント使用」「プライズ獲得」ボタンと同じ扱いになる）。
+async function saveEntryRow(
+  formData: FormData,
+  rowIndex: number,
+  day: DayValues,
+  existing: LinkedTransactionIds | undefined,
+) {
+  const supabase = getSupabaseClient();
+  const id = String(formData.get(`id-${rowIndex}`) ?? "");
+  const name = String(formData.get(`name-${rowIndex}`) ?? "").trim();
+  if (!name) return;
+
+  const customerId = String(formData.get(`customerId-${rowIndex}`) ?? "") || null;
+  const chipCount = toInt(formData.get(`chipCount-${rowIndex}`));
+  const addonCount = toInt(formData.get(`addonCount-${rowIndex}`));
+  const prizeAmount = toInt(formData.get(`prizeAmount-${rowIndex}`));
+
+  const chipTransactionId = await syncLinkedTransaction(
+    existing?.chip_transaction_id ?? null,
+    customerId && day.dayDenominationId && chipCount > 0
+      ? {
+          customerId,
+          denominationId: day.dayDenominationId,
+          category: "tournament",
+          quantity: chipCount,
+        }
+      : null,
+  );
+  const addonTransactionId = await syncLinkedTransaction(
+    existing?.addon_transaction_id ?? null,
+    customerId && day.dayAddonDenominationId && addonCount > 0
+      ? {
+          customerId,
+          denominationId: day.dayAddonDenominationId,
+          category: "tournament",
+          quantity: addonCount,
+        }
+      : null,
+  );
+  const prizeTransactionId = await syncLinkedTransaction(
+    existing?.prize_transaction_id ?? null,
+    customerId && prizeAmount > 0
+      ? { customerId, denominationId: "", category: "prize", quantity: prizeAmount }
+      : null,
+  );
+
+  const fields = {
+    name,
+    customer_id: customerId,
+    entry_fee: toInt(formData.get(`entryFee-${rowIndex}`)),
+    cash_amount: toInt(formData.get(`cashAmount-${rowIndex}`)),
+    denomination_id: day.dayDenominationId,
+    chip_count: chipCount,
+    chip_amount: chipCount * day.dayChipValue,
+    chip_transaction_id: chipTransactionId,
+    ticket_amount: toInt(formData.get(`ticketAmount-${rowIndex}`)),
+    addon_denomination_id: day.dayAddonDenominationId,
+    addon_count: addonCount,
+    addon_amount: addonCount * day.dayAddonValue,
+    addon_transaction_id: addonTransactionId,
+    rank: toNullableInt(formData.get(`rank-${rowIndex}`)),
+    prize_amount: prizeAmount,
+    prize_transaction_id: prizeTransactionId,
+  };
+
+  if (id) {
+    const { error } = await supabase.from("tournament_entries").update(fields).eq("id", id);
+    if (error) throw error;
+  } else {
+    const { error } = await supabase.from("tournament_entries").insert(fields);
+    if (error) throw error;
+  }
+}
+
+// 表全体（最大rowCount行）を1回の送信でまとめて保存する。
+export async function saveAllTournamentEntries(formData: FormData) {
+  await requireAuth();
+
+  const supabase = getSupabaseClient();
+  const day = await resolveDayValues(formData);
+  const rowCount = Number(formData.get("rowCount") ?? 0);
+
+  const existingIds = Array.from({ length: rowCount }, (_, i) =>
+    String(formData.get(`id-${i}`) ?? ""),
+  ).filter(Boolean);
+  const existingById = new Map<string, LinkedTransactionIds>();
+  if (existingIds.length > 0) {
+    const { data: existingRows, error: existingError } = await supabase
+      .from("tournament_entries")
+      .select("id, chip_transaction_id, addon_transaction_id, prize_transaction_id")
+      .in("id", existingIds);
+    if (existingError) throw existingError;
+    for (const row of existingRows) existingById.set(row.id, row);
+  }
+
+  for (let i = 0; i < rowCount; i++) {
+    const id = String(formData.get(`id-${i}`) ?? "");
+    await saveEntryRow(formData, i, day, id ? existingById.get(id) : undefined);
+  }
+
+  revalidateAffectedPages();
+}
+
+// 行ごとの保存ボタン用（formAction + bind(rowIndex)で使う想定）。
+// 「まとめて保存」と同じ共有フォームに同居させ、この行(rowIndex)だけを保存する。
+export async function saveTournamentEntry(rowIndex: number, formData: FormData) {
+  await requireAuth();
+
+  const supabase = getSupabaseClient();
+  const day = await resolveDayValues(formData);
+
+  const id = String(formData.get(`id-${rowIndex}`) ?? "");
+  let existing: LinkedTransactionIds | undefined;
+  if (id) {
+    const { data, error } = await supabase
+      .from("tournament_entries")
+      .select("chip_transaction_id, addon_transaction_id, prize_transaction_id")
+      .eq("id", id)
+      .maybeSingle();
+    if (error) throw error;
+    existing = data ?? undefined;
+  }
+
+  await saveEntryRow(formData, rowIndex, day, existing);
+
+  revalidateAffectedPages();
+}
+
+// 「まとめて保存」フォームの中に同居させるため、formAction + bind(id)で使う想定
+// （行ごとに個別のフォームを持たず、共有フォームの送信中は他のボタンも一緒に無効化される）。
+// 行を削除するときは、その行から作られたchip_transactionsも一緒に削除する
+// （残すと来店ボードの保有表示・取引履歴にゴミが残り続けるため）。
+export async function deleteTournamentEntry(id: string, _formData: FormData) {
+  await requireAuth();
+  if (!id) return;
+
+  const supabase = getSupabaseClient();
+
+  const { data: entry, error: fetchError } = await supabase
+    .from("tournament_entries")
+    .select("chip_transaction_id, addon_transaction_id, prize_transaction_id")
+    .eq("id", id)
+    .maybeSingle();
+  if (fetchError) throw fetchError;
+
+  const linkedTransactionIds = [
+    entry?.chip_transaction_id,
+    entry?.addon_transaction_id,
+    entry?.prize_transaction_id,
+  ].filter((transactionId): transactionId is string => Boolean(transactionId));
+
+  if (linkedTransactionIds.length > 0) {
+    const { error: deleteTransactionsError } = await supabase
+      .from("chip_transactions")
+      .delete()
+      .in("id", linkedTransactionIds);
+    if (deleteTransactionsError) throw deleteTransactionsError;
+  }
+
+  const { error } = await supabase.from("tournament_entries").delete().eq("id", id);
+  if (error) throw error;
+
+  revalidateAffectedPages();
+}

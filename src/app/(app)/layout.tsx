@@ -8,12 +8,12 @@ export const dynamic = "force-dynamic";
 
 const NAV_ITEMS = [
   { href: "/board", label: "来店中ボード" },
-  { href: "/", label: "ダッシュボード" },
-  { href: "/customers", label: "客一覧" },
   { href: "/transactions", label: "取引履歴" },
+  { href: "/tournament", label: "トーナメント" },
   { href: "/chat", label: "チャット" },
-  { href: "/settings/denominations", label: "額面設定" },
+  { href: "/customers", label: "客一覧" },
   { href: "/stats", label: "グラフ" },
+  { href: "/settings/denominations", label: "額面設定" },
 ];
 
 export default function AppLayout({

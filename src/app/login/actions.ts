@@ -11,7 +11,7 @@ import {
 export async function login(formData: FormData) {
   const password = String(formData.get("password") ?? "");
   const name = String(formData.get("name") ?? "").trim().slice(0, 20);
-  const redirectTo = String(formData.get("redirect") ?? "/");
+  const redirectTo = String(formData.get("redirect") ?? "/board");
 
   if (!checkPassword(password) || !name) {
     redirect(`/login?error=1&redirect=${encodeURIComponent(redirectTo)}`);
@@ -26,7 +26,7 @@ export async function login(formData: FormData) {
     maxAge: 60 * 60 * 24 * 30,
   });
 
-  redirect(redirectTo || "/");
+  redirect(redirectTo || "/board");
 }
 
 export async function logout() {

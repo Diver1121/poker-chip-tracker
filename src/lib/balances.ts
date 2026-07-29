@@ -139,6 +139,8 @@ export function computeShopTableTotals(transactions: ChipTransaction[]): {
 // rake: テーブルのみ（バイイン-アウト）。rakeWithTournament: それにトーナメント使用分を加えたもの。
 // トーナメント使用は額面の枚数で記録されているため、denominationsで点数に換算して合算する
 // （訂正用のマイナス入力もそのまま加算されるので相殺される）。
+// プライズ獲得（prize）は店から客への払い出しなので、rakeWithTournamentからは差し引く
+// （差し引かないと、トーナメントで実際に店が得た取り分より多く見えてしまうため）。
 // 取引が無い日はキーごと出現しない（呼び出し側で0埋めする）。
 export function computeDailyRakeTotals(
   transactions: ChipTransaction[],
@@ -148,46 +150,51 @@ export function computeDailyRakeTotals(
   buyInTotal: number;
   outTotal: number;
   tournamentTotal: number;
+  prizeTotal: number;
   rake: number;
   rakeWithTournament: number;
 }[] {
   const valueByDenomination = new Map(denominations.map((d) => [d.id, d.value]));
   const totalsByDate = new Map<
     string,
-    { buyInTotal: number; outTotal: number; tournamentTotal: number }
+    { buyInTotal: number; outTotal: number; tournamentTotal: number; prizeTotal: number }
   >();
   for (const tx of transactions) {
     if (
       tx.category !== "table_out" &&
       tx.category !== "table_in" &&
-      tx.category !== "tournament"
+      tx.category !== "tournament" &&
+      tx.category !== "prize"
     ) {
       continue;
     }
     const date = businessDateKey(tx.created_at);
     const current =
-      totalsByDate.get(date) ?? { buyInTotal: 0, outTotal: 0, tournamentTotal: 0 };
+      totalsByDate.get(date) ?? { buyInTotal: 0, outTotal: 0, tournamentTotal: 0, prizeTotal: 0 };
     if (tx.category === "table_out") {
       current.buyInTotal += tx.quantity;
     } else if (tx.category === "table_in") {
       current.outTotal += tx.quantity;
-    } else {
+    } else if (tx.category === "tournament") {
       current.tournamentTotal += tx.quantity * (valueByDenomination.get(tx.denomination_id ?? "") ?? 0);
+    } else {
+      current.prizeTotal += tx.quantity;
     }
     totalsByDate.set(date, current);
   }
 
   return [...totalsByDate.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([date, { buyInTotal, outTotal, tournamentTotal }]) => {
+    .map(([date, { buyInTotal, outTotal, tournamentTotal, prizeTotal }]) => {
       const rake = buyInTotal - outTotal;
       return {
         date,
         buyInTotal,
         outTotal,
         tournamentTotal,
+        prizeTotal,
         rake,
-        rakeWithTournament: rake + tournamentTotal,
+        rakeWithTournament: rake + tournamentTotal - prizeTotal,
       };
     });
 }

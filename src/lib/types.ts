@@ -5,6 +5,8 @@ export type Denomination = {
   sort_order: number;
   usable_for_purchase: boolean;
   usable_for_tournament: boolean;
+  // トーナメントのアドオン欄の種類選択に出すかどうか
+  usable_for_addon: boolean;
   // チャット入力（例:「ダイバー トーナメントターボ」）でこの額面を選ぶための別名キーワード
   aliases: string[];
 };
@@ -42,6 +44,37 @@ export type Visit = {
   id: string;
   customer_id: string;
   checked_in_at: string;
+};
+
+export type TournamentEntry = {
+  id: string;
+  name: string;
+  // NAME欄が客一覧の名前と一致した場合に解決される客ID。取引の紐付けに使う
+  // （一致しない場合はnullで、この行からは取引を作らない）。
+  customer_id: string | null;
+  entry_fee: number;
+  cash_amount: number;
+  // chip_countに、選ばれた種類（denomination_id）のvalueを掛けて計算した点数
+  chip_amount: number;
+  // チップ欄に入力された「チップを使ってエントリーした回数」そのもの
+  chip_count: number;
+  // 額面設定（denominations）の「トーナメントで使う」項目のうち、この行で使ったもの
+  denomination_id: string | null;
+  // このチップ回数から作られたchip_transactions行。次回保存時の二重登録防止・更新用
+  chip_transaction_id: string | null;
+  ticket_amount: number;
+  // addon_countに、選ばれたアドオン種類のvalueを掛けて計算した点数
+  addon_amount: number;
+  // アドオン欄に入力された回数そのもの
+  addon_count: number;
+  // 額面設定（denominations）の「アドオンで使う」項目のうち、この行で使ったもの
+  addon_denomination_id: string | null;
+  addon_transaction_id: string | null;
+  // 大会終了前はnull（未確定）
+  rank: number | null;
+  prize_amount: number;
+  prize_transaction_id: string | null;
+  created_at: string;
 };
 
 export type ChatMessage = {
