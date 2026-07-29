@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-28T20:01:51.854Z",
+  "generatedAt": "2026-07-29T20:42:25.636Z",
   "customers": [
     {
-      "id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
-      "name": "カケル",
-      "note": "APU",
-      "created_at": "2026-07-12T21:53:36.113916+00:00",
-      "checked_in_at": "2026-07-28T12:53:04.722+00:00"
+      "id": "b2ad092b-cc3a-44b6-9bd4-96f00c26eeb1",
+      "name": "OCEAN",
+      "note": null,
+      "created_at": "2026-07-12T21:53:29.264996+00:00",
+      "checked_in_at": "2026-07-29T10:52:35.734+00:00"
     },
     {
       "id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
@@ -37,11 +37,11 @@
       "checked_in_at": null
     },
     {
-      "id": "b2ad092b-cc3a-44b6-9bd4-96f00c26eeb1",
-      "name": "OCEAN",
-      "note": null,
-      "created_at": "2026-07-12T21:53:29.264996+00:00",
-      "checked_in_at": null
+      "id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
+      "name": "カケル",
+      "note": "APU",
+      "created_at": "2026-07-12T21:53:36.113916+00:00",
+      "checked_in_at": "2026-07-29T10:59:09.785+00:00"
     },
     {
       "id": "9dd2794f-2e76-4336-be61-7d9146122f55",
@@ -49,13 +49,6 @@
       "note": null,
       "created_at": "2026-07-12T21:53:40.586496+00:00",
       "checked_in_at": null
-    },
-    {
-      "id": "d01a2a53-ac69-4e16-802e-249d184f9b1e",
-      "name": "キクラゲ",
-      "note": "みずき",
-      "created_at": "2026-07-12T21:53:38.261347+00:00",
-      "checked_in_at": "2026-07-28T13:31:00.617+00:00"
     },
     {
       "id": "0a57f82e-870c-44be-8aa2-c5b74d7215b9",
@@ -433,6 +426,13 @@
       "name": "カタギリ②",
       "note": "2026/3/14 カタギリ①(男)連れ",
       "created_at": "2026-07-12T21:53:36.52326+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "d01a2a53-ac69-4e16-802e-249d184f9b1e",
+      "name": "キクラゲ",
+      "note": "みずき",
+      "created_at": "2026-07-12T21:53:38.261347+00:00",
       "checked_in_at": null
     },
     {
@@ -867,7 +867,7 @@
       "name": "ミヒョク",
       "note": "APU卒 韓国人",
       "created_at": "2026-07-12T21:54:14.345942+00:00",
-      "checked_in_at": null
+      "checked_in_at": "2026-07-29T12:46:15.047+00:00"
     },
     {
       "id": "33360bb3-7b99-4e5c-9b19-4df80daab08a",
@@ -916,14 +916,14 @@
       "name": "タガメ",
       "note": "ユウお連れ様",
       "created_at": "2026-07-12T21:53:54.536497+00:00",
-      "checked_in_at": "2026-07-28T11:29:18.777+00:00"
+      "checked_in_at": null
     },
     {
       "id": "ce377cad-0bb6-425f-9c36-a5ea67ee81a7",
       "name": "リン",
       "note": "ジュリエットキャスト",
       "created_at": "2026-07-12T21:54:21.276137+00:00",
-      "checked_in_at": "2026-07-28T13:31:07.924+00:00"
+      "checked_in_at": null
     },
     {
       "id": "7a91a1f6-bf9a-4634-a2ec-414be5532694",
@@ -1206,6 +1206,13 @@
       "checked_in_at": null
     },
     {
+      "id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "name": "ガリ",
+      "note": "のっぽ",
+      "created_at": "2026-07-12T21:53:37.777708+00:00",
+      "checked_in_at": "2026-07-29T10:49:10.13+00:00"
+    },
+    {
       "id": "02653bce-616f-4ee0-9144-da553ca3c720",
       "name": "シン",
       "note": "シンヤマさんお連れ",
@@ -1262,13 +1269,6 @@
       "checked_in_at": null
     },
     {
-      "id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
-      "name": "ガリ",
-      "note": "のっぽ",
-      "created_at": "2026-07-12T21:53:37.777708+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "77906b5d-074c-4400-843b-5466b5a497e4",
       "name": "セナ",
       "note": "イケメン 光ユウダイくん友達",
@@ -1280,7 +1280,7 @@
       "name": "アナントシ",
       "note": "トリック勢 エロ税理士",
       "created_at": "2026-07-12T21:53:31.135589+00:00",
-      "checked_in_at": "2026-07-28T11:07:13.998+00:00"
+      "checked_in_at": null
     },
     {
       "id": "beea19a3-2d41-44c5-84cd-2748bcf86182",
@@ -1493,6 +1493,20 @@
       "checked_in_at": null
     },
     {
+      "id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "name": "セブ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:52.207798+00:00",
+      "checked_in_at": "2026-07-29T10:51:48.539+00:00"
+    },
+    {
+      "id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "name": "シュウペイ",
+      "note": "ハヤト友人",
+      "created_at": "2026-07-12T21:53:46.820734+00:00",
+      "checked_in_at": "2026-07-29T13:38:27.309+00:00"
+    },
+    {
       "id": "f0d11522-571d-49c7-a6e0-f039d6fa178c",
       "name": "シン②",
       "note": "ホアキさん友人",
@@ -1570,25 +1584,11 @@
       "checked_in_at": null
     },
     {
-      "id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
-      "name": "セブ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:52.207798+00:00",
-      "checked_in_at": "2026-07-28T11:14:34.4+00:00"
-    },
-    {
       "id": "b4688886-2877-4572-ad95-48aac92cb06b",
       "name": "クラコ",
       "note": null,
       "created_at": "2026-07-12T21:54:23.877836+00:00",
-      "checked_in_at": "2026-07-28T12:04:02.484+00:00"
-    },
-    {
-      "id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
-      "name": "シュウペイ",
-      "note": "ハヤト友人",
-      "created_at": "2026-07-12T21:53:46.820734+00:00",
-      "checked_in_at": "2026-07-28T12:27:14.864+00:00"
+      "checked_in_at": null
     },
     {
       "id": "fd13e441-37c3-4320-82d9-3a1ff7747985",
@@ -1836,11 +1836,25 @@
       "checked_in_at": null
     },
     {
+      "id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "name": "タイノジュウチン",
+      "note": "タクミ連れ",
+      "created_at": "2026-07-12T21:53:53.687661+00:00",
+      "checked_in_at": "2026-07-29T10:49:01.641+00:00"
+    },
+    {
       "id": "205591ec-4c0c-4da9-811a-0b8cd9a19cf1",
       "name": "リュウ",
       "note": null,
       "created_at": "2026-07-12T21:54:19.955999+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "6d7f4619-6448-43ed-9cab-56cc6419a073",
+      "name": "ズミ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:51.078553+00:00",
+      "checked_in_at": "2026-07-29T13:30:01.783+00:00"
     },
     {
       "id": "7c18b1db-a0f9-4289-b382-50d30fd3c8db",
@@ -1878,38 +1892,24 @@
       "checked_in_at": null
     },
     {
-      "id": "6d7f4619-6448-43ed-9cab-56cc6419a073",
-      "name": "ズミ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:51.078553+00:00",
+      "id": "f6fb8ee8-5b60-4f41-b2a9-79901e6f7eb8",
+      "name": "ハジメ",
+      "note": "トリック 寿司職人",
+      "created_at": "2026-07-12T21:54:05.552168+00:00",
       "checked_in_at": null
-    },
-    {
-      "id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
-      "name": "タイノジュウチン",
-      "note": "タクミ連れ",
-      "created_at": "2026-07-12T21:53:53.687661+00:00",
-      "checked_in_at": "2026-07-28T10:00:57.392+00:00"
     },
     {
       "id": "b935e580-866c-4091-bdad-88ea979143da",
       "name": "ハヤト",
       "note": "建築",
       "created_at": "2026-07-12T21:54:06.10924+00:00",
-      "checked_in_at": "2026-07-28T11:12:46.109+00:00"
+      "checked_in_at": null
     },
     {
       "id": "e9a61023-c840-44e3-845f-2f7766be499e",
       "name": "ライスボール",
       "note": "ユウ お連れ様",
       "created_at": "2026-07-12T21:54:19.395242+00:00",
-      "checked_in_at": "2026-07-28T11:29:13.676+00:00"
-    },
-    {
-      "id": "f6fb8ee8-5b60-4f41-b2a9-79901e6f7eb8",
-      "name": "ハジメ",
-      "note": "トリック 寿司職人",
-      "created_at": "2026-07-12T21:54:05.552168+00:00",
       "checked_in_at": null
     },
     {
@@ -1952,13 +1952,6 @@
       "name": "スズキタカヒロ",
       "note": "タナカユウキ コイケユウヤ スズキタカヒロ 3人組",
       "created_at": "2026-07-12T21:53:50.60926+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
-      "name": "スライム",
-      "note": null,
-      "created_at": "2026-07-12T21:53:51.265239+00:00",
       "checked_in_at": null
     },
     {
@@ -2008,13 +2001,6 @@
       "name": "トシキ",
       "note": null,
       "created_at": "2026-07-12T21:54:01.423526+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "d9f8359d-a081-4453-978c-c67d7294314d",
-      "name": "トワ",
-      "note": null,
-      "created_at": "2026-07-12T21:54:02.047034+00:00",
       "checked_in_at": null
     },
     {
@@ -2151,6 +2137,13 @@
       "checked_in_at": null
     },
     {
+      "id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
+      "name": "スライム",
+      "note": null,
+      "created_at": "2026-07-12T21:53:51.265239+00:00",
+      "checked_in_at": "2026-07-29T10:49:23.504+00:00"
+    },
+    {
       "id": "37e74276-7892-4318-8c3c-8064236fa5a6",
       "name": "ショウゴ",
       "note": "カケル後輩",
@@ -2163,6 +2156,13 @@
       "note": "ジツ相方 指切れてる",
       "created_at": "2026-07-12T21:54:07.396224+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "name": "リョウスケ",
+      "note": "キッズ",
+      "created_at": "2026-07-12T21:54:20.748051+00:00",
+      "checked_in_at": "2026-07-29T10:59:18.932+00:00"
     },
     {
       "id": "7b406562-47a1-4650-8e72-ed581ea91276",
@@ -2179,17 +2179,17 @@
       "checked_in_at": null
     },
     {
+      "id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "name": "トワ",
+      "note": null,
+      "created_at": "2026-07-12T21:54:02.047034+00:00",
+      "checked_in_at": "2026-07-29T11:15:31.422+00:00"
+    },
+    {
       "id": "b7b135fd-aab7-4f70-a207-f53d4f643009",
       "name": "ポコ②",
       "note": "チョコ連れ",
       "created_at": "2026-07-27T11:48:07.368486+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
-      "name": "リョウスケ",
-      "note": "キッズ",
-      "created_at": "2026-07-12T21:54:20.748051+00:00",
       "checked_in_at": null
     },
     {
@@ -2484,7 +2484,7 @@
       "name": "ヒゲ",
       "note": "大分最古参ポーカープレイヤー",
       "created_at": "2026-07-12T21:54:07.572436+00:00",
-      "checked_in_at": "2026-07-28T11:29:29.225+00:00"
+      "checked_in_at": null
     },
     {
       "id": "46da92c5-e4fe-4167-b156-56afb0beab12",
@@ -3226,7 +3226,7 @@
       "name": "アダチ②",
       "note": "ウエノ、イシハラ友人",
       "created_at": "2026-07-28T12:25:24.022303+00:00",
-      "checked_in_at": "2026-07-28T12:27:05.619+00:00"
+      "checked_in_at": null
     },
     {
       "id": "42067dea-4909-44dd-b776-121b3d5fc19d",
@@ -3261,14 +3261,14 @@
       "name": "イシハラ",
       "note": "アダチ②ウエノ友人",
       "created_at": "2026-07-28T12:26:20.0787+00:00",
-      "checked_in_at": "2026-07-28T12:27:11.185+00:00"
+      "checked_in_at": null
     },
     {
       "id": "5d06ec11-8a89-44d7-99da-17bca9cf5063",
       "name": "ウエノ②",
       "note": "アダチ②イシハラ友人",
       "created_at": "2026-07-28T12:27:50.760392+00:00",
-      "checked_in_at": "2026-07-28T12:28:08.01+00:00"
+      "checked_in_at": null
     },
     {
       "id": "69e24d7c-4abe-4bab-a0f3-7a1d09a7ceee",
@@ -3310,7 +3310,7 @@
       "name": "コロン",
       "note": null,
       "created_at": "2026-07-28T12:31:24.448372+00:00",
-      "checked_in_at": "2026-07-28T12:31:35.843+00:00"
+      "checked_in_at": null
     },
     {
       "id": "72ac830a-0623-4d8a-af95-05ac5a180b76",
@@ -3345,14 +3345,14 @@
       "name": "タサキ",
       "note": "イヅミ友人",
       "created_at": "2026-07-28T13:46:25.956262+00:00",
-      "checked_in_at": "2026-07-28T13:46:32.812+00:00"
+      "checked_in_at": null
     },
     {
       "id": "5930728a-aa32-45c8-a3f0-a401d83cfb8e",
       "name": "イヅミ",
       "note": "タサキ友人",
       "created_at": "2026-07-28T13:46:17.017804+00:00",
-      "checked_in_at": "2026-07-28T13:47:20.979+00:00"
+      "checked_in_at": null
     },
     {
       "id": "3124710d-9ea5-4249-88dd-f0cda7212cd6",
@@ -3439,6 +3439,20 @@
       "checked_in_at": null
     },
     {
+      "id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "name": "クローバー",
+      "note": "タクミ連れ",
+      "created_at": "2026-07-12T21:53:40.155434+00:00",
+      "checked_in_at": "2026-07-29T10:48:49.271+00:00"
+    },
+    {
+      "id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "name": "アンドレイ",
+      "note": "オーストラリア出身 自称MTT最強",
+      "created_at": "2026-07-12T21:53:32.517834+00:00",
+      "checked_in_at": "2026-07-29T10:51:39.91+00:00"
+    },
+    {
       "id": "f287b0d3-3aca-40ad-a28b-8098b7b6b702",
       "name": "モチモチ",
       "note": null,
@@ -3474,32 +3488,11 @@
       "checked_in_at": null
     },
     {
-      "id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
-      "name": "アンドレイ",
-      "note": "オーストラリア出身 自称MTT最強",
-      "created_at": "2026-07-12T21:53:32.517834+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "34d1ddf6-b8ed-4f76-92d5-67c337066562",
       "name": "タマサブ",
       "note": null,
       "created_at": "2026-07-17T13:26:31.287685+00:00",
       "checked_in_at": null
-    },
-    {
-      "id": "3054a344-a041-4de7-afa9-3743d176d4de",
-      "name": "クローバー",
-      "note": "タクミ連れ",
-      "created_at": "2026-07-12T21:53:40.155434+00:00",
-      "checked_in_at": "2026-07-28T10:01:05.815+00:00"
-    },
-    {
-      "id": "470d6bb2-ea16-49a5-847b-d9faa109263a",
-      "name": "ハジメ②",
-      "note": null,
-      "created_at": "2026-07-12T21:54:32.517077+00:00",
-      "checked_in_at": "2026-07-28T12:14:16.013+00:00"
     },
     {
       "id": "76f55e81-28e7-421d-acfe-f30faecf55e0",
@@ -3537,11 +3530,18 @@
       "checked_in_at": null
     },
     {
+      "id": "470d6bb2-ea16-49a5-847b-d9faa109263a",
+      "name": "ハジメ②",
+      "note": null,
+      "created_at": "2026-07-12T21:54:32.517077+00:00",
+      "checked_in_at": null
+    },
+    {
       "id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
       "name": "カツキ",
       "note": null,
       "created_at": "2026-07-12T21:53:36.676846+00:00",
-      "checked_in_at": "2026-07-28T14:02:30.149+00:00"
+      "checked_in_at": null
     },
     {
       "id": "f4766ea0-cf50-445b-a86d-0845bca950b8",
@@ -3560,7 +3560,8 @@
       "created_at": "2026-07-21T12:54:25.867509+00:00",
       "usable_for_purchase": true,
       "usable_for_tournament": false,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "96a31a62-dfa6-4dda-8a21-44bf330da4d6",
@@ -3570,7 +3571,30 @@
       "created_at": "2026-07-12T20:56:11.545823+00:00",
       "usable_for_purchase": true,
       "usable_for_tournament": false,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
+    },
+    {
+      "id": "22d88b39-cfab-478d-a5cf-81644d189c60",
+      "label": "Add-on",
+      "value": 300,
+      "sort_order": 1502,
+      "created_at": "2026-07-12T20:53:23.9351+00:00",
+      "usable_for_purchase": false,
+      "usable_for_tournament": false,
+      "aliases": [],
+      "usable_for_addon": true
+    },
+    {
+      "id": "595490cf-6212-4a1e-9e30-c0bc69367c36",
+      "label": "Add-on(turbo)",
+      "value": 200,
+      "sort_order": 1503,
+      "created_at": "2026-07-12T20:53:59.58861+00:00",
+      "usable_for_purchase": false,
+      "usable_for_tournament": false,
+      "aliases": [],
+      "usable_for_addon": true
     },
     {
       "id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
@@ -3580,7 +3604,8 @@
       "created_at": "2026-07-12T20:55:06.067077+00:00",
       "usable_for_purchase": true,
       "usable_for_tournament": false,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "d3175619-1e43-4ad0-87bb-3a74dd10ded0",
@@ -3590,27 +3615,8 @@
       "created_at": "2026-07-21T12:53:44.732591+00:00",
       "usable_for_purchase": true,
       "usable_for_tournament": false,
-      "aliases": []
-    },
-    {
-      "id": "595490cf-6212-4a1e-9e30-c0bc69367c36",
-      "label": "Add-on(turbo)",
-      "value": 200,
-      "sort_order": 1503,
-      "created_at": "2026-07-12T20:53:59.58861+00:00",
-      "usable_for_purchase": false,
-      "usable_for_tournament": true,
-      "aliases": []
-    },
-    {
-      "id": "22d88b39-cfab-478d-a5cf-81644d189c60",
-      "label": "Add-on",
-      "value": 300,
-      "sort_order": 1502,
-      "created_at": "2026-07-12T20:53:23.9351+00:00",
-      "usable_for_purchase": false,
-      "usable_for_tournament": true,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "7e37376d-4052-40e1-9747-d45bfd877800",
@@ -3620,7 +3626,8 @@
       "created_at": "2026-07-12T18:28:54.819248+00:00",
       "usable_for_purchase": false,
       "usable_for_tournament": true,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "6bdbdc0b-f103-47dd-bf9a-29b7386052ae",
@@ -3630,7 +3637,8 @@
       "created_at": "2026-07-12T20:55:29.68207+00:00",
       "usable_for_purchase": true,
       "usable_for_tournament": false,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "df47490c-71ef-40fd-8f5c-375f05b6edc5",
@@ -3640,7 +3648,8 @@
       "created_at": "2026-07-12T20:55:51.268764+00:00",
       "usable_for_purchase": true,
       "usable_for_tournament": false,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "866d799b-0c4d-4948-9be6-efbcbff214fe",
@@ -3650,7 +3659,8 @@
       "created_at": "2026-07-21T12:54:03.324846+00:00",
       "usable_for_purchase": true,
       "usable_for_tournament": false,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "aae695bf-0179-4237-b70d-127d356eb41a",
@@ -3660,7 +3670,8 @@
       "created_at": "2026-07-12T20:52:29.331067+00:00",
       "usable_for_purchase": false,
       "usable_for_tournament": true,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
@@ -3670,7 +3681,8 @@
       "created_at": "2026-07-12T17:05:46.903975+00:00",
       "usable_for_purchase": false,
       "usable_for_tournament": true,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "7aa7fcd2-e089-4e1c-bd71-cb6630a3319c",
@@ -3680,7 +3692,8 @@
       "created_at": "2026-07-12T20:51:47.922068+00:00",
       "usable_for_purchase": false,
       "usable_for_tournament": true,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     },
     {
       "id": "58076bb4-f688-40d3-aa3e-f1f2327e7eac",
@@ -3690,7 +3703,8 @@
       "created_at": "2026-07-12T20:50:55.333386+00:00",
       "usable_for_purchase": false,
       "usable_for_tournament": true,
-      "aliases": []
+      "aliases": [],
+      "usable_for_addon": false
     }
   ],
   "chip_transactions": [
@@ -12389,6 +12403,414 @@
       "category": "prize",
       "quantity": 300,
       "created_at": "2026-07-28T16:53:00+00:00"
+    },
+    {
+      "id": "7686e5b3-6cd9-44cc-8e39-99b743f81e8a",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T09:53:00+00:00"
+    },
+    {
+      "id": "692662fd-3c54-4474-9888-cbb9913ddcfa",
+      "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 600,
+      "created_at": "2026-07-29T09:53:00+00:00"
+    },
+    {
+      "id": "bc939f88-2c6e-496c-a98c-477ab9964c90",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-29T10:22:00+00:00"
+    },
+    {
+      "id": "6a360564-366f-4fd5-b56d-562776f919be",
+      "customer_id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 812,
+      "created_at": "2026-07-29T10:23:00+00:00"
+    },
+    {
+      "id": "59716b3b-757b-46be-8464-350565a5d76d",
+      "customer_id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 3130,
+      "created_at": "2026-07-29T12:13:00+00:00"
+    },
+    {
+      "id": "26b8ebb5-a870-4e81-8a3e-124eeda4e5d9",
+      "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-07-29T10:24:00+00:00"
+    },
+    {
+      "id": "14b281bc-f33a-48a2-8f7e-70e65f4a8a3c",
+      "customer_id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-07-29T10:59:00+00:00"
+    },
+    {
+      "id": "afa0b23d-3f4f-47e1-892c-5ed7e5b08a2e",
+      "customer_id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T11:15:00+00:00"
+    },
+    {
+      "id": "fbec13a6-4738-46b3-86b1-232317eae576",
+      "customer_id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1500,
+      "created_at": "2026-07-29T11:19:00+00:00"
+    },
+    {
+      "id": "e897d07d-83b7-4332-bec9-08c5bd1f0698",
+      "customer_id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1500,
+      "created_at": "2026-07-29T11:19:00+00:00"
+    },
+    {
+      "id": "7e59e408-9859-484e-aacd-646c9f3ed8de",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T11:20:00+00:00"
+    },
+    {
+      "id": "fb6ecd77-3aaf-40e9-9972-38503e6b9681",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T11:21:00+00:00"
+    },
+    {
+      "id": "66eea3a4-ae46-48ec-9814-9d04516b00d7",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-29T11:21:00+00:00"
+    },
+    {
+      "id": "3fa89aee-41a0-4e75-8251-de91cc38427f",
+      "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1500,
+      "created_at": "2026-07-29T11:25:00+00:00"
+    },
+    {
+      "id": "a64ad31d-ded0-4e8a-ac8f-e7cbdee70486",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T11:22:00+00:00"
+    },
+    {
+      "id": "2779dde4-e415-4c44-91b5-b1ee68445953",
+      "customer_id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 0,
+      "created_at": "2026-07-29T12:13:00+00:00"
+    },
+    {
+      "id": "7ca8a396-3272-4226-8298-fbf5c18a6484",
+      "customer_id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 0,
+      "created_at": "2026-07-29T12:13:00+00:00"
+    },
+    {
+      "id": "86fd23b2-fab9-49d6-88b3-6b8ddd9de67b",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-29T12:13:00+00:00"
+    },
+    {
+      "id": "afa4beb2-033f-4772-aedf-eeb7507a1787",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1500,
+      "created_at": "2026-07-29T12:46:00+00:00"
+    },
+    {
+      "id": "4b1f4c73-3250-4616-9b90-22de38830827",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1397,
+      "created_at": "2026-07-29T13:04:00+00:00"
+    },
+    {
+      "id": "51fafcd1-68bb-4f39-80f0-b4099ce417be",
+      "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 143,
+      "created_at": "2026-07-29T13:04:00+00:00"
+    },
+    {
+      "id": "e85df708-26f5-40a5-b8bd-711cb47ab6bf",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 800,
+      "created_at": "2026-07-29T11:26:00+00:00"
+    },
+    {
+      "id": "d39fb012-a7f1-4916-bd6b-805ef85ac1ad",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 300,
+      "created_at": "2026-07-29T13:31:00+00:00"
+    },
+    {
+      "id": "7a75a5c3-01b8-40f1-a090-6eead14977d2",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-29T13:30:00+00:00"
+    },
+    {
+      "id": "1564058f-956d-46fd-9826-df035b93f96f",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 996,
+      "created_at": "2026-07-29T13:31:00+00:00"
+    },
+    {
+      "id": "6437523c-96d0-4958-beb4-a8d1c6a3e8ba",
+      "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-07-29T13:31:00+00:00"
+    },
+    {
+      "id": "ea882e95-c6a4-4477-98c9-ec63d33a5bba",
+      "customer_id": "6d7f4619-6448-43ed-9cab-56cc6419a073",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-07-29T13:34:00+00:00"
+    },
+    {
+      "id": "0978d226-a5ef-4f0e-b61a-23f29e80b962",
+      "customer_id": "6d7f4619-6448-43ed-9cab-56cc6419a073",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T13:35:00+00:00"
+    },
+    {
+      "id": "a8b6f731-4801-4e16-9f83-0e28276906df",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T13:34:00+00:00"
+    },
+    {
+      "id": "91572f93-64bb-446b-9c4b-1e232a1f295d",
+      "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 0,
+      "created_at": "2026-07-29T13:38:00+00:00"
+    },
+    {
+      "id": "622da3ea-f0be-4a2f-9e41-a475c41f5eda",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 900,
+      "created_at": "2026-07-29T13:39:00+00:00"
+    },
+    {
+      "id": "3b2d8458-e737-4703-a0c4-1762c30895d6",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-07-29T14:03:00+00:00"
+    },
+    {
+      "id": "285436e1-c979-4064-b01a-80ba56f52f55",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-07-29T14:14:00+00:00"
+    },
+    {
+      "id": "82beaaa9-3e6e-4b96-bf64-1603b8591ce6",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T14:15:00+00:00"
+    },
+    {
+      "id": "1d124196-312e-4024-a9ce-563512137660",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-07-29T14:28:00+00:00"
+    },
+    {
+      "id": "c32cb775-928d-4427-b610-7425de6b5407",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-07-29T14:29:00+00:00"
+    },
+    {
+      "id": "39f734ec-9d5c-4706-98cf-594b30e4f0f1",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1618,
+      "created_at": "2026-07-29T14:03:00+00:00"
+    },
+    {
+      "id": "4f8563ad-b5c6-472f-af22-7d5a308bb998",
+      "customer_id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-07-29T14:50:00+00:00"
+    },
+    {
+      "id": "04aab130-ed37-4631-91ea-c9ae74eee910",
+      "customer_id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-07-29T14:51:00+00:00"
+    },
+    {
+      "id": "97111fc9-13eb-4968-bb48-3b0ba43f213c",
+      "customer_id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-07-29T15:00:00+00:00"
+    },
+    {
+      "id": "e691323c-c24c-4eaa-8890-70a8fbce50ca",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-07-29T15:07:00+00:00"
+    },
+    {
+      "id": "c8bcab65-65bd-43e8-bc28-530672439d6d",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 3,
+      "created_at": "2026-07-29T15:10:00+00:00"
+    },
+    {
+      "id": "b4f63b16-3cdf-441c-9c3b-22adee77e36d",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-07-29T15:30:00+00:00"
+    },
+    {
+      "id": "fe47f7dd-1a83-49fd-953f-6f73b552d87b",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-07-29T15:44:00+00:00"
+    },
+    {
+      "id": "655a250d-a96a-4bfd-993d-dec435284780",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 938,
+      "created_at": "2026-07-29T14:48:00+00:00"
+    },
+    {
+      "id": "db7a67ae-b8b6-4600-9628-1569a8dbee6e",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2500,
+      "created_at": "2026-07-29T15:48:00+00:00"
+    },
+    {
+      "id": "1b1356dc-7f3f-4593-b160-9c0e68042b97",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 809,
+      "created_at": "2026-07-29T15:49:00+00:00"
+    },
+    {
+      "id": "8ef094ec-e00f-4b45-899a-8dfa03f12119",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 823,
+      "created_at": "2026-07-29T15:49:00+00:00"
+    },
+    {
+      "id": "0ee7268f-5ab3-4a4f-a9ef-fdd6f995fe41",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1883,
+      "created_at": "2026-07-29T15:50:00+00:00"
+    },
+    {
+      "id": "433bbdee-d183-4978-b2d5-1e86ba404258",
+      "customer_id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2635,
+      "created_at": "2026-07-29T15:51:00+00:00"
+    },
+    {
+      "id": "f627c453-ee76-43d9-96bb-274396727864",
+      "customer_id": "b2ad092b-cc3a-44b6-9bd4-96f00c26eeb1",
+      "denomination_id": "b325300d-8e14-4156-96a1-39f463ee16f1",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-07-29T16:20:00+00:00"
     }
   ],
   "visits": [
@@ -13786,924 +14208,769 @@
       "id": "b302de45-9446-45f7-b36a-15f4e9912683",
       "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
       "checked_in_at": "2026-07-28T14:02:30.149+00:00"
+    },
+    {
+      "id": "b673434f-b1bf-4845-8f0f-19f7990718d7",
+      "customer_id": "b2ad092b-cc3a-44b6-9bd4-96f00c26eeb1",
+      "checked_in_at": "2026-07-28T23:43:20.476+00:00"
+    },
+    {
+      "id": "5c674006-e22e-4b48-b9fc-814f1bb7a54d",
+      "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "checked_in_at": "2026-07-29T09:53:17.569+00:00"
+    },
+    {
+      "id": "dc0f40d0-7edd-4dea-b188-9c43e70fd2f6",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "checked_in_at": "2026-07-29T09:53:26.532+00:00"
+    },
+    {
+      "id": "e2586459-de00-4e70-a3b0-669c3477f0f4",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "checked_in_at": "2026-07-29T10:20:48.434+00:00"
+    },
+    {
+      "id": "2d9b486e-495a-45ea-8f59-c10eac91e0ab",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "checked_in_at": "2026-07-29T10:22:50.624+00:00"
+    },
+    {
+      "id": "03022e8f-7f3a-4a4f-8941-96014e6e48e8",
+      "customer_id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
+      "checked_in_at": "2026-07-29T10:23:02.681+00:00"
+    },
+    {
+      "id": "b558087d-7652-4049-b27d-5b9dede14cc1",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "checked_in_at": "2026-07-29T10:48:49.271+00:00"
+    },
+    {
+      "id": "0d9a8089-6aad-409a-8b6b-ddfabdb5023e",
+      "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "checked_in_at": "2026-07-29T10:49:01.641+00:00"
+    },
+    {
+      "id": "092e125f-315f-461c-9b9f-ce5e9e5963e3",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "checked_in_at": "2026-07-29T10:49:10.13+00:00"
+    },
+    {
+      "id": "793ee54f-1b5d-4b8a-aea7-917d5b5568c2",
+      "customer_id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
+      "checked_in_at": "2026-07-29T10:49:23.504+00:00"
+    },
+    {
+      "id": "9619ba0e-bfc6-4ee6-803f-eb36f4947615",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "checked_in_at": "2026-07-29T10:51:39.91+00:00"
+    },
+    {
+      "id": "791cb126-8355-4ca7-8ba8-dce1af7cacba",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "checked_in_at": "2026-07-29T10:51:48.539+00:00"
+    },
+    {
+      "id": "0e84aefa-64a0-4e1d-979e-6df57201ad31",
+      "customer_id": "b2ad092b-cc3a-44b6-9bd4-96f00c26eeb1",
+      "checked_in_at": "2026-07-29T10:52:35.734+00:00"
+    },
+    {
+      "id": "fd932daf-ff5e-4ad4-aa58-76cd597294b9",
+      "customer_id": "5921d6d2-62e4-467b-8d82-677ac9f7250d",
+      "checked_in_at": "2026-07-29T10:59:09.785+00:00"
+    },
+    {
+      "id": "a84984d1-cb45-4cf2-ae1f-3060905b2176",
+      "customer_id": "a39659c1-2b3a-4c01-a5eb-4f61a0433e81",
+      "checked_in_at": "2026-07-29T10:59:18.932+00:00"
+    },
+    {
+      "id": "6236e397-1bab-4a6b-9d1d-eb647eba201c",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "checked_in_at": "2026-07-29T11:15:31.422+00:00"
+    },
+    {
+      "id": "1589e864-32a0-4c92-8d1a-8516c2c44a0d",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "checked_in_at": "2026-07-29T12:46:15.047+00:00"
+    },
+    {
+      "id": "c28beb9c-0f9a-474a-891c-1adff5502d61",
+      "customer_id": "6d7f4619-6448-43ed-9cab-56cc6419a073",
+      "checked_in_at": "2026-07-29T13:30:01.783+00:00"
+    },
+    {
+      "id": "55738910-facd-448f-a725-182d6ad13d6c",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "checked_in_at": "2026-07-29T13:38:27.309+00:00"
     }
   ],
   "chat_messages": [
     {
-      "id": "a5cccd05-7411-4481-8c3e-13d0ed50ecdb",
+      "id": "4d138d40-857f-4391-b985-25a1302a99b8",
       "kind": "reply",
-      "text": "アナントシ / アウト / 293点 を登録しました（来店ボードから入力）",
+      "text": "タイノジュウチン / バイイン / 900点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T11:07:50.159324+00:00",
-      "command_id": "a5f2411a-4963-45bb-a987-cd3e0b9c4e3c",
-      "transaction_id": "e47f317e-c0ad-46e0-bb24-92a5914139b8",
+      "created_at": "2026-07-29T10:54:48.247691+00:00",
+      "command_id": "76736a78-d41c-4463-81ad-82b657857830",
+      "transaction_id": "26b8ebb5-a870-4e81-8a3e-124eeda4e5d9",
       "cancelled": false,
-      "sender_name": "さかな",
-      "category": "table_in"
+      "sender_name": "ももにゃ",
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "3a34fff5-f7fd-45be-b91f-385968ea23a8",
+      "id": "196660f4-261b-4669-bc05-ba296706c2d9",
       "kind": "reply",
-      "text": "ハヤト / バイイン / 900点 を登録しました（来店ボードから入力）",
+      "text": "スライム / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T11:15:06.993228+00:00",
-      "command_id": "1e6542cb-fcbb-4139-a018-8a81a4369061",
-      "transaction_id": "5eacb28c-a0a2-4a8c-9c25-1e4cb1fc6b81",
+      "created_at": "2026-07-29T11:15:03.986992+00:00",
+      "command_id": "99bc8009-02a9-4646-8345-e8b550240c41",
+      "transaction_id": "14b281bc-f33a-48a2-8f7e-70e65f4a8a3c",
       "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_out"
+      "sender_name": "ももにゃ",
+      "category": "purchase",
+      "archived_at": null
     },
     {
-      "id": "15fc4876-61ff-45e5-a50e-0b7f4155e65a",
+      "id": "9f10148e-3059-4710-a334-26e8c258afb5",
+      "kind": "reply",
+      "text": "スライム / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T11:15:17.528007+00:00",
+      "command_id": "d6d60b7e-3a6d-404f-8956-220748e32586",
+      "transaction_id": "afa0b23d-3f4f-47e1-892c-5ed7e5b08a2e",
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "34bc7360-71b6-46f2-831f-f5878bb7eae9",
+      "kind": "reply",
+      "text": "カケル / バイイン / 1500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T11:19:43.456078+00:00",
+      "command_id": "db4b1748-25ba-4e48-82b2-f58fc2e0e64e",
+      "transaction_id": "fbec13a6-4738-46b3-86b1-232317eae576",
+      "cancelled": false,
+      "sender_name": "ダイバー",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "38d479d4-4d8b-4c2f-ae69-1b998b09464f",
+      "kind": "reply",
+      "text": "リョウスケ / バイイン / 1500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T11:19:52.19111+00:00",
+      "command_id": "dd6c35cf-fe84-4ca9-af0d-13b90ec1f458",
+      "transaction_id": "e897d07d-83b7-4332-bec9-08c5bd1f0698",
+      "cancelled": false,
+      "sender_name": "ダイバー",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "452c5927-ae8c-4c06-ba4b-cb391a7d2dd5",
       "kind": "reply",
       "text": "セブ / バイイン / 300点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T11:17:44.014817+00:00",
-      "command_id": "2cf04ea1-5442-49ca-93d0-ce81e97903b7",
-      "transaction_id": "aa23256f-4858-46b9-99aa-640935291d5f",
-      "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_out"
-    },
-    {
-      "id": "9e6ca4d2-4c9e-41d1-ad72-30bef1611f48",
-      "kind": "reply",
-      "text": "ライスボール / バイイン / 500点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T11:29:41.674817+00:00",
-      "command_id": "9d267a2b-a19d-4954-b140-e766c314fd09",
-      "transaction_id": "eab07297-ed24-44e6-82b4-6659bd4fdff1",
+      "created_at": "2026-07-29T11:21:20.914218+00:00",
+      "command_id": "ac6081ae-5ad8-4561-a932-a578f0f9c3a0",
+      "transaction_id": "7e59e408-9859-484e-aacd-646c9f3ed8de",
       "cancelled": false,
       "sender_name": "さかな",
-      "category": "table_out"
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "4403e927-18d9-475a-ae52-13261d58b9b3",
+      "id": "72a749ea-7fa4-46b2-ad42-2ba43f1dde69",
       "kind": "reply",
-      "text": "タガメ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "text": "アンドレイ / バイイン / 300点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T11:29:51.202405+00:00",
-      "command_id": "644a2a99-2aca-42ac-bf61-dffc84fe6738",
-      "transaction_id": "38b048af-848f-4827-9775-8b089b9f5b28",
+      "created_at": "2026-07-29T11:21:56.583548+00:00",
+      "command_id": "1806f23f-c2af-48d2-827a-16d168475fc6",
+      "transaction_id": "fb6ecd77-3aaf-40e9-9972-38503e6b9681",
       "cancelled": false,
       "sender_name": "さかな",
-      "category": "table_out"
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "db67b14a-d23a-402c-8a73-6367b6c63bc4",
+      "id": "921698fd-7d00-4b11-acc5-b406ed82279c",
       "kind": "reply",
-      "text": "ヒゲ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "text": "トワ / バイイン / 500点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T11:29:59.026535+00:00",
-      "command_id": "dc984429-1f7f-4da9-a722-6290199b9c2c",
-      "transaction_id": "000c74bf-450a-4623-b866-e62271408427",
+      "created_at": "2026-07-29T11:22:14.865306+00:00",
+      "command_id": "cef2144d-5c50-421d-8b71-127083412736",
+      "transaction_id": "66eea3a4-ae46-48ec-9814-9d04516b00d7",
       "cancelled": false,
       "sender_name": "さかな",
-      "category": "table_out"
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "45db15cd-f76a-448f-94b3-cdcdbac142b9",
+      "id": "761f41a6-d161-4737-9dd0-899220883247",
       "kind": "reply",
-      "text": "タガメ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "text": "タイノジュウチン / バイイン / 1500点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T11:34:28.239179+00:00",
-      "command_id": "3fa7701f-17ee-4b46-9239-221a7b2acf78",
-      "transaction_id": "42118b9c-1f08-4428-9dc2-209f6e3c18f5",
+      "created_at": "2026-07-29T11:25:17.082827+00:00",
+      "command_id": "d9c3d067-4296-40e7-8d46-219aa40e7b90",
+      "transaction_id": "3fa89aee-41a0-4e75-8251-de91cc38427f",
       "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_out"
+      "sender_name": "ももにゃ",
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "3f143faa-7dd1-4b9d-99e0-319a0a100e40",
-      "kind": "reply",
-      "text": "クローバー / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T11:35:18.2659+00:00",
-      "command_id": "edecc3a3-8527-4ad1-ac86-2d04d1dbbd95",
-      "transaction_id": "e16a8ac5-35e2-41ac-8177-12b5bb40c4cd",
-      "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "table_out"
-    },
-    {
-      "id": "9a8438f5-b9e3-45fb-9668-90dcf6ead958",
+      "id": "039899a8-38bd-48a0-84b7-7f611cd4e296",
       "kind": "reply",
       "text": "セブ / バイイン / 300点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T11:54:25.772456+00:00",
-      "command_id": "2ff727a6-c9cc-4d14-957d-22c299647c0d",
-      "transaction_id": "cfd72974-c6cb-4689-9c07-96c58de4b0a1",
-      "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_out"
-    },
-    {
-      "id": "53d1901f-b8ba-46e1-a53e-968d5407a03a",
-      "kind": "reply",
-      "text": "ライスボール / バイイン / 500点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T11:59:22.819058+00:00",
-      "command_id": "fa321863-fcae-47db-a222-a645d917bd47",
-      "transaction_id": "1444b0e7-19de-4bf5-af8e-e11477179c2a",
-      "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_out"
-    },
-    {
-      "id": "0d153293-5295-44ba-96aa-2f1bb45c98d2",
-      "kind": "reply",
-      "text": "タガメ / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T11:59:32.71906+00:00",
-      "command_id": "f5e11d5b-c327-496c-8f7e-78ef43a0de8c",
-      "transaction_id": "dd13ed8e-9800-4500-86dc-112d769d201f",
-      "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_out"
-    },
-    {
-      "id": "5ea8483a-b539-4729-9b34-967dee5528ec",
-      "kind": "reply",
-      "text": "タガメ / アウト / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T12:07:26.695557+00:00",
-      "command_id": "bbef4b24-f4ef-4b2a-a877-a1ef9442b057",
-      "transaction_id": "99702789-c1a8-4f63-9305-c027b4c17d39",
+      "created_at": "2026-07-29T11:26:56.584135+00:00",
+      "command_id": "c42ffa8f-6134-4124-b287-680b5f14949d",
+      "transaction_id": "a64ad31d-ded0-4e8a-ac8f-e7cbdee70486",
       "cancelled": false,
       "sender_name": "さかな",
-      "category": "table_in"
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "1bb0f749-d40a-4bb3-b0ab-7745fbc7f624",
+      "id": "ae105225-286d-4ca4-9595-43f1000c6cd5",
       "kind": "reply",
-      "text": "ヒゲ / アウト / 772点 を登録しました（来店ボードから入力）",
+      "text": "リョウスケ / アウト / 3130点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:10:40.613494+00:00",
-      "command_id": "ae0a4a1b-a366-4827-b672-5988bbadc77e",
-      "transaction_id": "4c9df26c-f380-4b76-9db5-a16102e0bf60",
+      "created_at": "2026-07-29T12:14:10.88352+00:00",
+      "command_id": "5539988d-d3a4-48e0-8fd1-e44736712fa8",
+      "transaction_id": "59716b3b-757b-46be-8464-350565a5d76d",
       "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_in"
+      "sender_name": "ももにゃ",
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "2200fe80-ce27-4465-9ddd-4bc27778729d",
+      "id": "e08b9f37-3f10-4bbb-967b-adc795f9219b",
       "kind": "reply",
-      "text": "ハヤト / アウト / 1731点 を登録しました（来店ボードから入力）",
+      "text": "カケル / アウト / 0点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:11:41.574188+00:00",
-      "command_id": "7d2220ff-cda0-469d-b3b3-079f214a6d28",
-      "transaction_id": "d2183f71-37b1-4519-a2c4-4c0cea3a8d84",
+      "created_at": "2026-07-29T12:18:03.577053+00:00",
+      "command_id": "401baf96-218c-4bfc-9ab8-39b0e6418562",
+      "transaction_id": "2779dde4-e415-4c44-91b5-b1ee68445953",
       "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_in"
+      "sender_name": "ももにゃ",
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "09242468-aac9-4d4b-a05d-5a0f158f8b82",
+      "id": "8fe35e56-a71b-434e-aaab-87cf127de2f2",
       "kind": "reply",
-      "text": "アナントシ / アウト / 563点 を登録しました（来店ボードから入力）",
+      "text": "スライム / アウト / 0点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:13:00.12213+00:00",
-      "command_id": "87ff957c-d010-403c-acfb-5a1e29a27476",
-      "transaction_id": "13693b10-f208-4bdb-917e-547bfdde59ea",
+      "created_at": "2026-07-29T12:18:14.93816+00:00",
+      "command_id": "33e3b324-67bd-4988-90eb-71e9e7bc1c5e",
+      "transaction_id": "7ca8a396-3272-4226-8298-fbf5c18a6484",
       "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_in"
+      "sender_name": "ももにゃ",
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "2ed4ecaa-7517-4259-8bc6-25bd76e8963e",
+      "id": "c0ee3212-0963-4bd2-8537-f7de8fb8d79a",
       "kind": "reply",
-      "text": "イシハラ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
+      "text": "トワ / バイイン / 500点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:28:19.491028+00:00",
-      "command_id": "82e4cc3c-3620-4fbb-9d95-53fff0c36deb",
-      "transaction_id": "a7c5d8fb-91bf-4f67-822c-6e2b07a67934",
+      "created_at": "2026-07-29T12:20:38.395225+00:00",
+      "command_id": "45cddf58-27a3-473b-9892-fefe8f429ba2",
+      "transaction_id": "86fd23b2-fab9-49d6-88b3-6b8ddd9de67b",
       "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "purchase"
+      "sender_name": "ももにゃ",
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "a097bca3-0f85-44b5-aeff-293f5fa42a7b",
+      "id": "9f3a9dc8-6ee5-4405-98c6-106e862bb6ec",
       "kind": "reply",
-      "text": "アダチ② / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
+      "text": "ミヒョク / バイイン / 1500点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:28:32.556956+00:00",
-      "command_id": "1b612518-b040-4248-a9d8-985e1a638d20",
-      "transaction_id": "fa5d5f83-bd12-4f3d-83d1-07bca5169ee6",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "purchase"
-    },
-    {
-      "id": "a898e4e5-2ce1-4cab-a359-2a6b5cd00f3a",
-      "kind": "reply",
-      "text": "ウエノ② / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T12:28:44.299944+00:00",
-      "command_id": "7efdc7e4-fcbd-43ec-a704-861131c900d8",
-      "transaction_id": "2de84fcc-dab1-478d-985a-47f7ebdc202b",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "purchase"
-    },
-    {
-      "id": "20a39122-3ddd-4a8b-aee0-606e1ae6e778",
-      "kind": "reply",
-      "text": "ヒゲ / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T12:29:07.870922+00:00",
-      "command_id": "6b876c60-4563-4356-91a4-697e9cdbf2cc",
-      "transaction_id": "23dc7080-abf5-485d-8f87-7f351b99959a",
+      "created_at": "2026-07-29T12:46:31.978938+00:00",
+      "command_id": "16852ec6-3ace-4907-882b-93b643aa6db2",
+      "transaction_id": "afa4beb2-033f-4772-aedf-eeb7507a1787",
       "cancelled": false,
       "sender_name": "ダイバー",
-      "category": "tournament"
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "b3b48d31-3345-4157-8c91-a2ca0b336388",
+      "id": "aaa25277-3425-483f-9594-b2f6223bd43a",
       "kind": "reply",
-      "text": "カツキ / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
+      "text": "クローバー / アウト / 1397点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:29:57.409314+00:00",
-      "command_id": "8bb5fa88-5cdd-4a10-b331-2b9b3e4c3f72",
-      "transaction_id": "600c3b88-48d8-41be-8789-140c701cb943",
+      "created_at": "2026-07-29T13:06:57.013315+00:00",
+      "command_id": "9c71836d-731f-4a34-8e87-50e1d20b2a63",
+      "transaction_id": "4b1f4c73-3250-4616-9b90-22de38830827",
       "cancelled": false,
       "sender_name": "ダイバー",
-      "category": "tournament"
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "ad499fb4-c01e-4529-8b0c-48658e31a298",
+      "id": "975d6ac4-acad-4d06-a68f-0f68784f1dcc",
       "kind": "reply",
-      "text": "ハジメ② / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
+      "text": "タイノジュウチン / アウト / 143点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:30:12.739616+00:00",
-      "command_id": "65e5fb11-43d4-4f09-b3fe-838a06c651a9",
-      "transaction_id": "5156f730-7b87-4a9f-a387-3bff2d038026",
+      "created_at": "2026-07-29T13:07:38.732355+00:00",
+      "command_id": "5b7c479b-9134-4415-84fa-7b5425465053",
+      "transaction_id": "51fafcd1-68bb-4f39-80f0-b4099ce417be",
       "cancelled": false,
       "sender_name": "ダイバー",
-      "category": "tournament"
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "04726620-c3e9-4a4b-a80f-6df46cd3fec6",
+      "id": "9dfa7c42-b3b1-4071-8a1a-cecd96e7e411",
       "kind": "reply",
-      "text": "ハヤト / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
+      "text": "セブ / アウト / 800点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:30:33.889989+00:00",
-      "command_id": "a4191e84-60c6-4756-8a40-119baf316e39",
-      "transaction_id": "d39d2f57-8640-4703-b08e-11b556c7e2e3",
+      "created_at": "2026-07-29T13:12:28.027935+00:00",
+      "command_id": "447510c2-023f-4388-a448-3ad3387aed64",
+      "transaction_id": "e85df708-26f5-40a5-b8bd-711cb47ab6bf",
       "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "tournament"
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "f182b5b6-4f83-4283-b905-49b17310af62",
+      "id": "4b9f5001-cd4d-4404-a0b0-341bffddc4e2",
       "kind": "reply",
-      "text": "シュウペイ / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
+      "text": "アンドレイ / アウト / 300点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:30:51.507603+00:00",
-      "command_id": "00e81468-4c55-4e1c-a5b5-b667c546fccf",
-      "transaction_id": "38a968b2-e64a-42ed-9219-ab6497cfc6a8",
+      "created_at": "2026-07-29T13:31:35.212167+00:00",
+      "command_id": "259599d9-35f9-45fe-bdc3-151e6c54e705",
+      "transaction_id": "d39fb012-a7f1-4916-bd6b-805ef85ac1ad",
       "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "tournament"
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "aa9f782c-c230-4beb-aa19-5a8c38b7b2cf",
+      "id": "889c4f2c-368e-4e09-95ee-d109ca217122",
       "kind": "reply",
-      "text": "ライスボール / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
+      "text": "セブ / バイイン / 500点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:31:55.440928+00:00",
-      "command_id": "e4de9309-fb81-4afa-8c7d-48dedb284feb",
-      "transaction_id": "9e70609c-8c24-4d69-bafb-015f845dfd75",
+      "created_at": "2026-07-29T13:31:39.93406+00:00",
+      "command_id": "a558bade-e358-48d7-8f07-a766015c865e",
+      "transaction_id": "7a75a5c3-01b8-40f1-a090-6eead14977d2",
       "cancelled": false,
       "sender_name": "ダイバー",
-      "category": "tournament"
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "f49218d7-f9d9-4096-b17e-159d1aa35dfb",
+      "id": "2244dedc-88b4-41a3-ac05-ddd7593631cc",
       "kind": "reply",
-      "text": "タガメ / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
+      "text": "トワ / バイイン / 996点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:32:11.240204+00:00",
-      "command_id": "51629408-78c1-4c13-8358-130adc000ee5",
-      "transaction_id": "2133d490-c791-4a58-94e3-dc22e8b832d5",
+      "created_at": "2026-07-29T13:32:07.533763+00:00",
+      "command_id": "57bb1258-3130-48cf-960e-99a8fe96d6cd",
+      "transaction_id": "1564058f-956d-46fd-9826-df035b93f96f",
       "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "tournament"
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "c644a761-00ca-436a-8820-a8ee62104904",
+      "id": "69b2c9c2-8913-4246-9194-490fbee022b6",
       "kind": "reply",
-      "text": "ハヤト / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
+      "text": "タイノジュウチン / バイイン / 500点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:32:24.031553+00:00",
-      "command_id": "fb7ea954-544e-436e-9495-caf92b05c691",
-      "transaction_id": "fe85cff4-5dd3-4856-8729-35f6a1036e4d",
+      "created_at": "2026-07-29T13:34:40.576164+00:00",
+      "command_id": "827f1c60-4b06-4e7e-a14b-c33a066ea8af",
+      "transaction_id": "6437523c-96d0-4958-beb4-a8d1c6a3e8ba",
       "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "tournament"
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "f3a1aa25-2cc3-4d07-a4ea-c34bb25bb8a8",
+      "id": "eb451f7f-e443-43d2-a4f1-71abbb9aed4d",
+      "kind": "reply",
+      "text": "ズミ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T13:35:05.711059+00:00",
+      "command_id": "7592d083-6e87-4cd5-972d-47aee5404458",
+      "transaction_id": "ea882e95-c6a4-4477-98c9-ec63d33a5bba",
+      "cancelled": false,
+      "sender_name": "ダイバー",
+      "category": "purchase",
+      "archived_at": null
+    },
+    {
+      "id": "3bad978d-d41d-4e26-9884-0662ae582e0f",
+      "kind": "reply",
+      "text": "ズミ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T13:35:22.545097+00:00",
+      "command_id": "9670aef9-648c-40b8-957c-f644e2fd127a",
+      "transaction_id": "0978d226-a5ef-4f0e-b61a-23f29e80b962",
+      "cancelled": false,
+      "sender_name": "ダイバー",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "bbfe2480-967a-4bb1-aa40-72413c8378dd",
       "kind": "reply",
       "text": "クローバー / バイイン / 300点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T12:56:32.319612+00:00",
-      "command_id": "e2c7719b-bb1c-4af1-852e-606a5ac99944",
-      "transaction_id": "e8f01697-9190-4018-b7f3-503fdc01c35a",
-      "cancelled": false,
-      "sender_name": "りん",
-      "category": "table_out"
-    },
-    {
-      "id": "fc0c54f4-2f89-44f9-8bf9-2e38e929b92e",
-      "kind": "reply",
-      "text": "カケル / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T12:57:53.097152+00:00",
-      "command_id": "193d7c58-5b16-427d-acf0-5e6d66775330",
-      "transaction_id": "66ac7d81-c9ba-4f7a-9b9f-9c16a57e7ef0",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "f7ebfe87-83b6-4613-9ee3-58aeec128df7",
-      "kind": "reply",
-      "text": "カケル / トーナメント使用 / Add-on / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T12:58:00.962664+00:00",
-      "command_id": "4aa6657c-2aeb-4957-9a29-3d4187929b7b",
-      "transaction_id": "d2973d31-134b-4b55-b43e-c04f4587e47c",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "e601a12a-3e59-4d87-992a-1d11740dbf44",
-      "kind": "reply",
-      "text": "タイノジュウチン / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:02:30.247107+00:00",
-      "command_id": "389df527-a895-433e-9e60-66a91b4ca88d",
-      "transaction_id": "3645e471-3784-4c22-a586-ec678be2935d",
-      "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "table_out"
-    },
-    {
-      "id": "43b66a26-3a51-41a0-8adc-55b98bb9d94c",
-      "kind": "reply",
-      "text": "ライスボール / アウト / 500点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:08:03.036293+00:00",
-      "command_id": "4c94dae4-641c-4bfe-800e-34c7995aa4d2",
-      "transaction_id": "01f005e5-fe55-4b5d-89e6-31576f9bff1c",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "table_in"
-    },
-    {
-      "id": "676a33e7-8b1f-48dc-a8c0-7cfb19dbbb69",
-      "kind": "reply",
-      "text": "アダチ② / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:10:05.820383+00:00",
-      "command_id": "2a9f8b0b-a978-4554-9b77-8d09f8498648",
-      "transaction_id": "cc3a7633-ca3b-4d62-b2b9-81245438432b",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "table_out"
-    },
-    {
-      "id": "0e553381-90fa-4e37-af58-6d4f77107f3c",
-      "kind": "reply",
-      "text": "イシハラ / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:10:13.965713+00:00",
-      "command_id": "817aa7f2-fb5a-4695-ba67-62bd710c3970",
-      "transaction_id": "0033057b-0d53-4be5-b348-b30c5257e986",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "table_out"
-    },
-    {
-      "id": "2c9ff23e-5072-4aa0-8998-ad507181ac62",
-      "kind": "reply",
-      "text": "ウエノ② / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:10:22.353752+00:00",
-      "command_id": "9cc25745-92ff-41e6-a67b-e362cf590768",
-      "transaction_id": "4b336254-014f-43de-aeaa-b821c9e023c3",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "table_out"
-    },
-    {
-      "id": "31561da2-85ad-46ee-aa7c-8446c51ac74e",
-      "kind": "reply",
-      "text": "ハジメ② / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:10:40.095664+00:00",
-      "command_id": "5ede3de3-c54e-466f-ac1e-a282e5810ec3",
-      "transaction_id": "6843f493-e591-4d9d-8d56-18d06cfbc870",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "103d490d-ec27-41c4-bc19-6a54a919a40f",
-      "kind": "reply",
-      "text": "タガメ / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:10:57.980057+00:00",
-      "command_id": "8a4bc9a2-272a-41ad-aa0e-3cf4a6a1b1b7",
-      "transaction_id": "8e70e92f-38f3-44b2-a51c-96187036e269",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "3ebbe64c-7dec-4f4f-a91a-5421b1b5c580",
-      "kind": "reply",
-      "text": "ライスボール / トーナメント使用 / SEMI LONG / 2枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:11:14.930891+00:00",
-      "command_id": "e14a5645-f384-4be2-94fe-0b149118f54d",
-      "transaction_id": "d95a821c-b3e8-4da3-88b9-0250105f0510",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "45bd1756-71a5-41ae-9292-d7bc523a7c27",
-      "kind": "reply",
-      "text": "カツキ / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:11:35.725785+00:00",
-      "command_id": "e5070720-709f-42bd-b38b-e6430852bb87",
-      "transaction_id": "c450d477-6e98-46e4-8b5b-86931f8ff901",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "5e43a81e-2898-48d5-825f-413805d98313",
-      "kind": "reply",
-      "text": "ハヤト / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:13:34.011616+00:00",
-      "command_id": "792ebc9f-3d5c-45cc-a0a9-e1b0dbd181cf",
-      "transaction_id": "b91a0be5-cb97-4067-a8c8-ca32253fd4c6",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "7a5c0220-7f0d-4385-8894-1d2d7ba5f2f5",
-      "kind": "reply",
-      "text": "ヒゲ / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:13:51.731831+00:00",
-      "command_id": "7218bee1-6257-479d-b63b-5f160f338835",
-      "transaction_id": "2e362e6a-5a5a-4b7b-be6d-d49e22b4b8ca",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "58311625-585c-4f02-8dad-5aca8557ed57",
-      "kind": "reply",
-      "text": "タイノジュウチン / アウト / 767点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:22:14.104785+00:00",
-      "command_id": "750a9ac9-65fa-40b0-82b3-3a7cc28c3dab",
-      "transaction_id": "4491d286-32a6-4728-9e58-4bb24043c6b2",
-      "cancelled": false,
-      "sender_name": "りん",
-      "category": "table_in"
-    },
-    {
-      "id": "e06b6b89-e5ad-4923-84c0-6f6d348f7053",
-      "kind": "reply",
-      "text": "ハヤト / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:37:28.389019+00:00",
-      "command_id": "8f0de2f6-ff81-4aa7-9b8f-e8b89506625b",
-      "transaction_id": "1486a173-60a1-46b1-9297-adb36e64d172",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "315c83cd-5c09-49b1-9206-e3709ea1ec3c",
-      "kind": "reply",
-      "text": "ヒゲ / トーナメント使用 / Add-on / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:41:08.937401+00:00",
-      "command_id": "62c34baf-35e2-4c26-b107-13af6b3bc6b9",
-      "transaction_id": "ac6e5c9f-7ea3-42e3-bbfd-d627b06092cd",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "12fc7bda-6bd9-4622-9adc-9d9e3ff1e6e2",
-      "kind": "reply",
-      "text": "ハヤト / トーナメント使用 / Add-on / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:41:28.941255+00:00",
-      "command_id": "31af3e79-aa7e-41f6-ab23-7f539645833d",
-      "transaction_id": "bc1983cb-659c-47fc-8a7e-c28d166796cd",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "7e3c5d5b-43ef-437f-af6f-8e24084cb9e5",
-      "kind": "reply",
-      "text": "アダチ② / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:41:37.806115+00:00",
-      "command_id": "a617256b-ea31-4a62-8247-4d9cf024e846",
-      "transaction_id": "ec39bdcb-8697-4e24-ba4b-6ab42ff89b04",
-      "cancelled": false,
-      "sender_name": "りん",
-      "category": "purchase"
-    },
-    {
-      "id": "413b1b9a-dbb3-4c82-be3e-24153fd6aaed",
-      "kind": "reply",
-      "text": "タサキ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:46:51.490677+00:00",
-      "command_id": "ec2bbc61-48af-42fa-a471-3126fc9658d5",
-      "transaction_id": "5860f22f-71fc-4b25-a38f-5c25b080fa64",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "purchase"
-    },
-    {
-      "id": "704f4903-f100-4d44-85da-0deabbc30df1",
-      "kind": "reply",
-      "text": "タサキ / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:46:59.911953+00:00",
-      "command_id": "15d6f627-852e-4df0-9002-c1bb03693b3b",
-      "transaction_id": "1b638801-e2c6-4fff-8370-66642b1a79ef",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "table_out"
-    },
-    {
-      "id": "9ea007b8-6891-4efc-8d90-21cffb81fc03",
-      "kind": "reply",
-      "text": "イヅミ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:49:15.987399+00:00",
-      "command_id": "9f35d1e5-fb55-4a18-b429-20be9f16f0af",
-      "transaction_id": "aa0b758f-f9ca-404c-bc70-62094c624b59",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "purchase"
-    },
-    {
-      "id": "01be27d4-2f39-4a9b-957e-93fc94ba1023",
-      "kind": "reply",
-      "text": "イヅミ / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T13:49:23.226385+00:00",
-      "command_id": "e9b13078-5219-4821-a3e0-b2b5d559829e",
-      "transaction_id": "143467d3-4314-420c-8079-69328e009b18",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "table_out"
-    },
-    {
-      "id": "13935da1-6531-4a0a-9fa8-ec6a35f92b65",
-      "kind": "reply",
-      "text": "ハジメ② / トーナメント使用 / Add-on / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:01:54.469132+00:00",
-      "command_id": "013272f1-85e9-4729-8b38-0101cee5231c",
-      "transaction_id": "b421726b-2440-4784-9aa5-e47ff782b978",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "a8ff2ca1-9df3-435d-be1c-da1695466bd9",
-      "kind": "reply",
-      "text": "シュウペイ / トーナメント使用 / SEMI LONG / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:02:42.427989+00:00",
-      "command_id": "941683b7-0641-4629-ac1d-6937ee8a6ff9",
-      "transaction_id": "6dbd4f42-2bed-4b50-b65a-a13f4fff1256",
-      "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "tournament"
-    },
-    {
-      "id": "ac2d86e7-340d-4d41-ac24-c3124f364072",
-      "kind": "reply",
-      "text": "カツキ / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:02:51.449394+00:00",
-      "command_id": "8d06a91a-d527-4137-b3fb-2dc67d9c1650",
-      "transaction_id": "bf350f35-3f1f-48ab-b418-ea7e0d6e1f30",
-      "cancelled": false,
-      "sender_name": "りん",
-      "category": "table_out"
-    },
-    {
-      "id": "a45d0edd-3451-4e7a-9a16-153f304ff46b",
-      "kind": "reply",
-      "text": "カツキ / トーナメント使用 / SEMI LONG / 2枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:03:58.975825+00:00",
-      "command_id": "bade31b4-5840-421e-8648-95c06eec8d68",
-      "transaction_id": "d2f52bdb-c77f-4da6-89b1-7835c0f0d288",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "e9ca72b4-88e1-4d69-816a-b3e8db6c0f3c",
-      "kind": "reply",
-      "text": "カツキ / トーナメント使用 / Add-on / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:04:09.559537+00:00",
-      "command_id": "3261715e-9024-4c22-8b27-cbf8b9414b1d",
-      "transaction_id": "06a7f345-5490-4291-ba15-8092cfd14ae1",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "tournament"
-    },
-    {
-      "id": "6136fb7e-8755-47da-93b2-03f17b5f0e7c",
-      "kind": "reply",
-      "text": "シュウペイ / バイイン / 1200点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:06:23.053445+00:00",
-      "command_id": "e51bd485-a090-447f-8c49-f68f7942a05f",
-      "transaction_id": "a39d6284-4252-46cd-90f9-eab31aa22adf",
-      "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "table_out"
-    },
-    {
-      "id": "b905733e-1e83-4c5d-8c5f-bfd8246ea70f",
-      "kind": "reply",
-      "text": "タガメ / バイイン / 290点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:07:08.44681+00:00",
-      "command_id": "0f890f3a-bdbd-4a6f-bbe3-0ce0472a7458",
-      "transaction_id": "d491f241-3e65-4977-816f-e1a33543aa40",
-      "cancelled": false,
-      "sender_name": "ダイバー",
-      "category": "table_out"
-    },
-    {
-      "id": "ecc80448-68f8-428c-b68a-7d683980f3f7",
-      "kind": "reply",
-      "text": "アダチ② / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:11:00.668151+00:00",
-      "command_id": "47a8863b-5405-4653-8e75-b41e8cec5987",
-      "transaction_id": "bdac0191-519a-4783-ba51-ac6181f43d54",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "table_out"
-    },
-    {
-      "id": "80d16c8a-dbe3-4d31-b16c-32c2a32470cf",
-      "kind": "reply",
-      "text": "イヅミ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:21:46.080562+00:00",
-      "command_id": "ebc1df32-94dc-4dfc-bb38-f0a892ec9228",
-      "transaction_id": "0ce583f2-2eb1-4f4a-8ff6-fc0e8eaa2307",
-      "cancelled": false,
-      "sender_name": "緑テーブル",
-      "category": "purchase"
-    },
-    {
-      "id": "9a968112-c3c6-4b70-bfba-a7e5825f9721",
-      "kind": "reply",
-      "text": "ハヤト / バイイン / 1900点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:25:04.528915+00:00",
-      "command_id": "f7fff656-3b30-4561-83c4-3117af932671",
-      "transaction_id": "26b98138-f61a-4104-a7be-36b39a705365",
-      "cancelled": false,
-      "sender_name": "テル",
-      "category": "table_out"
-    },
-    {
-      "id": "8fa7f064-a669-44d1-8fd2-6d0923ad0b27",
-      "kind": "reply",
-      "text": "アダチ② / アウト / 541点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:35:35.878887+00:00",
-      "command_id": "58906aea-7bfb-491d-a04e-78c9120feeb0",
-      "transaction_id": "2883ddf9-6bc9-4c32-84a4-5328c6e028ad",
-      "cancelled": false,
-      "sender_name": "りん",
-      "category": "table_in"
-    },
-    {
-      "id": "8545e3c6-1fa2-47dc-89aa-71e46804493e",
-      "kind": "reply",
-      "text": "ウエノ② / アウト / 678点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T14:35:51.537739+00:00",
-      "command_id": "5ba1d455-eac2-47cb-b05e-ba809a0d3d7d",
-      "transaction_id": "ebcee752-7e91-4c7a-8651-ff728f8562a7",
-      "cancelled": false,
-      "sender_name": "りん",
-      "category": "table_in"
-    },
-    {
-      "id": "9641dcb6-5d2c-41ca-9a2d-9d10d62235ae",
-      "kind": "reply",
-      "text": "ハヤト / アウト / 12500点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T15:40:28.063494+00:00",
-      "command_id": "d2542028-fde7-4ef5-a5cd-0d3deae5377b",
-      "transaction_id": "7303db76-0e46-46a1-800a-00d0b6bad06a",
-      "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_in"
-    },
-    {
-      "id": "f6915df6-fba9-417f-81f4-42ebf4630b3f",
-      "kind": "reply",
-      "text": "シュウペイ / アウト / 19000点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T15:41:04.204008+00:00",
-      "command_id": "7139a1ed-2cf9-4c0a-9145-679e8c7305e7",
-      "transaction_id": "3a15070b-2804-437f-9e8a-567128e4c021",
-      "cancelled": false,
-      "sender_name": "ショウゴ",
-      "category": "table_in"
-    },
-    {
-      "id": "c448fd9f-b0e3-42fc-b956-f71f695bbd7e",
-      "kind": "reply",
-      "text": "ハヤト / バイイン / 300点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T15:47:25.21359+00:00",
-      "command_id": "e1608406-8fe7-4b90-bf26-9098e0ca9d21",
-      "transaction_id": "db031730-88f3-456c-8069-e5d021589795",
-      "cancelled": false,
-      "sender_name": "テル",
-      "category": "table_out"
-    },
-    {
-      "id": "101d56ce-3fa7-44bb-8a82-e77d0916cafa",
-      "kind": "reply",
-      "text": "ハヤト / アウト / 600点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T15:52:31.173593+00:00",
-      "command_id": "391d0f07-f1ec-4c2c-9970-a7cd5f1691ba",
-      "transaction_id": "dd5c9ddb-56b0-4eb7-9e62-15a070c8d166",
-      "cancelled": false,
-      "sender_name": "テル",
-      "category": "table_in"
-    },
-    {
-      "id": "fe3a3b85-d272-4c70-ba1f-29e2a0d5011c",
-      "kind": "reply",
-      "text": "カツキ / アウト / 832点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T15:52:50.476167+00:00",
-      "command_id": "b5798a1d-2c0c-42a3-8d45-875a986cdc11",
-      "transaction_id": "5a4cd6ae-7062-495e-9b02-6857e31aa757",
-      "cancelled": false,
-      "sender_name": "テル",
-      "category": "table_in"
-    },
-    {
-      "id": "9b9d8b33-07a5-4f40-b473-268d13641210",
-      "kind": "reply",
-      "text": "カケル / プライズ獲得 / 700点 を登録しました（来店ボードから入力）",
-      "ok": true,
-      "warning": null,
-      "created_at": "2026-07-28T16:52:22.724091+00:00",
-      "command_id": "7753bef3-8907-4f3b-82fe-1b4b999bab3b",
-      "transaction_id": "e3d7a52a-3ae8-4e17-8f29-8790d4776320",
+      "created_at": "2026-07-29T13:35:58.474244+00:00",
+      "command_id": "187b704b-dbc9-4e12-b0bd-ef2c8f7608a1",
+      "transaction_id": "a8b6f731-4801-4e16-9f83-0e28276906df",
       "cancelled": false,
       "sender_name": "さかな",
-      "category": "prize"
+      "category": "table_out",
+      "archived_at": null
     },
     {
-      "id": "adcfb8a2-5008-447b-8af4-bdb7fd296bfe",
+      "id": "dc8d2d74-1714-4dbf-97bd-5831eff7061f",
       "kind": "reply",
-      "text": "ヒゲ / プライズ獲得 / 1310点 を登録しました（来店ボードから入力）",
+      "text": "タイノジュウチン / アウト / 0点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T16:52:58.8651+00:00",
-      "command_id": "972e122f-889e-4ea7-9dcd-a13cd6184874",
-      "transaction_id": "2fb37398-2511-44e7-b63b-29a5cc709da9",
+      "created_at": "2026-07-29T13:39:01.225043+00:00",
+      "command_id": "f10b0356-774f-48b3-9c43-43c51b0e7567",
+      "transaction_id": "91572f93-64bb-446b-9c4b-1e232a1f295d",
       "cancelled": false,
       "sender_name": "さかな",
-      "category": "prize"
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "a7a2f9a5-13dd-4823-8409-a9a912e8dfe5",
+      "id": "f9491ca9-c77c-4182-8349-f942e69919b2",
       "kind": "reply",
-      "text": "クラコ / プライズ獲得 / 450点 を登録しました（来店ボードから入力）",
+      "text": "クローバー / アウト / 900点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T16:53:22.3931+00:00",
-      "command_id": "90c58cb7-915f-47b6-82c1-90e1bf919b2a",
-      "transaction_id": "ba3f53d0-1a4c-4600-8c9a-af52466321a7",
+      "created_at": "2026-07-29T13:39:37.107805+00:00",
+      "command_id": "84b562c4-c70f-48f9-bf7e-37579a73df01",
+      "transaction_id": "622da3ea-f0be-4a2f-9e41-a475c41f5eda",
       "cancelled": false,
       "sender_name": "さかな",
-      "category": "prize"
+      "category": "table_in",
+      "archived_at": null
     },
     {
-      "id": "4355b8ba-2998-43af-9275-56a051d27d77",
+      "id": "08ff5bc0-6420-4139-b2b9-741089fe04ba",
       "kind": "reply",
-      "text": "ハジメ② / プライズ獲得 / 300点 を登録しました（来店ボードから入力）",
+      "text": "シュウペイ / バイイン / 1000点 を登録しました（来店ボードから入力）",
       "ok": true,
       "warning": null,
-      "created_at": "2026-07-28T16:54:21.001354+00:00",
-      "command_id": "b97fef53-ab91-457e-a901-a0f4a2e94c22",
-      "transaction_id": "a6c1d4c6-f1ca-4020-a317-79cdf4a16d6f",
+      "created_at": "2026-07-29T14:03:57.685142+00:00",
+      "command_id": "4913aab6-08ba-4e12-bd6e-9c4e75dde46c",
+      "transaction_id": "3b2d8458-e737-4703-a0c4-1762c30895d6",
       "cancelled": false,
       "sender_name": "さかな",
-      "category": "prize"
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "aed6bafa-0a28-4b2e-a2df-a2b6d8f66fb1",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 1000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T14:15:03.578997+00:00",
+      "command_id": "59d0c14c-7e12-4092-ae3e-df791f5d3c93",
+      "transaction_id": "285436e1-c979-4064-b01a-80ba56f52f55",
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "442f1557-455e-4a5e-ad23-c124060fdcc6",
+      "kind": "reply",
+      "text": "セブ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T14:18:22.606812+00:00",
+      "command_id": "ec6b1d8a-ba1d-423c-a238-b4b270e9d6f5",
+      "transaction_id": "82beaaa9-3e6e-4b96-bf64-1603b8591ce6",
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "12cbfabd-19e0-496f-92cb-d385273f5a9e",
+      "kind": "reply",
+      "text": "トワ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T14:29:09.52004+00:00",
+      "command_id": "66e82665-7f0a-4faf-9da3-5a42653f8efa",
+      "transaction_id": "1d124196-312e-4024-a9ce-563512137660",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "purchase",
+      "archived_at": null
+    },
+    {
+      "id": "b9497ee2-36d7-4d08-8097-b4ee11af37da",
+      "kind": "reply",
+      "text": "シュウペイ / バイイン / 1000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T14:43:13.502105+00:00",
+      "command_id": "c9e66374-1e95-46c2-91e6-18bab7ecc8c0",
+      "transaction_id": "c32cb775-928d-4427-b610-7425de6b5407",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "fdbe8a12-5b4c-4f71-bbca-6fbb5b9489c2",
+      "kind": "reply",
+      "text": "ガリ / アウト / 1618点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T14:48:57.403151+00:00",
+      "command_id": "c8ff648e-caaa-4188-957b-922e7df1dd7e",
+      "transaction_id": "39f734ec-9d5c-4706-98cf-594b30e4f0f1",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "1315963c-0650-48dd-8239-d4303579d1ac",
+      "kind": "reply",
+      "text": "カケル / バイイン / 1000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T14:50:59.382969+00:00",
+      "command_id": "14b0c275-2010-4b12-8099-5c71d935d9af",
+      "transaction_id": "4f8563ad-b5c6-472f-af22-7d5a308bb998",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "1df89069-27cc-4044-9d57-03b90f80baad",
+      "kind": "reply",
+      "text": "カケル / バイイン / 1000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:00:06.97104+00:00",
+      "command_id": "5db57d77-5b43-4598-8c42-299501beb5ce",
+      "transaction_id": "04aab130-ed37-4631-91ea-c9ae74eee910",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "8b75553a-f321-4456-9939-4dd679487900",
+      "kind": "reply",
+      "text": "カケル / バイイン / 1000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:07:10.994369+00:00",
+      "command_id": "d27d1de0-68c3-4017-b1a6-495f95f7a961",
+      "transaction_id": "97111fc9-13eb-4968-bb48-3b0ba43f213c",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "1a754e53-acd6-4667-b29f-8095fbac36d9",
+      "kind": "reply",
+      "text": "セブ / バイイン / 1000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:10:04.458474+00:00",
+      "command_id": "b8cfa273-740d-418f-bdd4-244ffb58c627",
+      "transaction_id": "e691323c-c24c-4eaa-8890-70a8fbce50ca",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "6ab7c479-0b11-4f46-a88b-649bad476d40",
+      "kind": "reply",
+      "text": "セブ / バイイン / 3点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:10:46.927471+00:00",
+      "command_id": "344094c4-409a-47c6-936f-602a1a9d3738",
+      "transaction_id": "c8bcab65-65bd-43e8-bc28-530672439d6d",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "7f96f9e6-24ea-4ce7-a959-bbd07f8958c2",
+      "kind": "reply",
+      "text": "セブ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:31:11.458136+00:00",
+      "command_id": "52c70b81-598c-4e1b-851f-e402df6f1ff9",
+      "transaction_id": "b4f63b16-3cdf-441c-9c3b-22adee77e36d",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "purchase",
+      "archived_at": null
+    },
+    {
+      "id": "fd29179c-c22a-411e-8344-db1d823aa9d5",
+      "kind": "reply",
+      "text": "トワ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:44:31.225379+00:00",
+      "command_id": "fcd947f4-1e34-4933-85e0-d7c3ec816f10",
+      "transaction_id": "fe47f7dd-1a83-49fd-953f-6f73b552d87b",
+      "cancelled": false,
+      "sender_name": "ダイバー",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "1e598b77-5d06-4793-b9a6-1aef7f7d2f41",
+      "kind": "reply",
+      "text": "ミヒョク / アウト / 938点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:48:36.900762+00:00",
+      "command_id": "41b19a97-bdeb-4373-a814-8d84e12d3165",
+      "transaction_id": "655a250d-a96a-4bfd-993d-dec435284780",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "5077a872-686a-437d-b469-0609806b267e",
+      "kind": "reply",
+      "text": "シュウペイ / アウト / 2500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:49:20.980922+00:00",
+      "command_id": "53a976ca-b150-4847-b2ac-f2f02f812675",
+      "transaction_id": "db7a67ae-b8b6-4600-9628-1569a8dbee6e",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "224be294-c8ba-4c91-9f64-cd36cafd7da0",
+      "kind": "reply",
+      "text": "トワ / アウト / 809点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:49:32.838852+00:00",
+      "command_id": "f19cdfa6-0fa4-4d3f-bfbf-d53c90702799",
+      "transaction_id": "1b1356dc-7f3f-4593-b160-9c0e68042b97",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "f6086bb7-2602-4782-bd18-a0a40ca1dc98",
+      "kind": "reply",
+      "text": "セブ / アウト / 823点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:50:26.495977+00:00",
+      "command_id": "e21c7744-5d6f-4293-867e-8fd18c68fe79",
+      "transaction_id": "8ef094ec-e00f-4b45-899a-8dfa03f12119",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "0683699f-1932-486b-8f69-46798aea74b7",
+      "kind": "reply",
+      "text": "アンドレイ / アウト / 1883点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:51:57.273756+00:00",
+      "command_id": "5a49fda1-dc1b-444f-8068-e258e4040509",
+      "transaction_id": "0ee7268f-5ab3-4a4f-a9ef-fdd6f995fe41",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "d7eeebed-4e73-4fbc-8117-013a396a73fa",
+      "kind": "reply",
+      "text": "カケル / アウト / 2635点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T15:58:42.992196+00:00",
+      "command_id": "e6c8a716-d154-4fb4-b5ee-42083af9e3e1",
+      "transaction_id": "433bbdee-d183-4978-b2d5-1e86ba404258",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "39ac6b8d-5e74-498f-a26b-5c6759477fdc",
+      "kind": "reply",
+      "text": "OCEAN / 購入 / 9000購入 / 1枚 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-07-29T16:20:22.311645+00:00",
+      "command_id": "2c238f4a-6f12-418d-82e1-43aa0938d41d",
+      "transaction_id": "f627c453-ee76-43d9-96bb-274396727864",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "purchase",
+      "archived_at": null
     }
   ],
   "shop_settings": [
     {
       "id": true,
-      "last_closed_at": "2026-07-28T09:57:27.92+00:00"
+      "last_closed_at": "2026-07-29T10:41:13.824+00:00",
+      "previous_closed_at": null,
+      "close_undoable": false
     }
   ]
 }
