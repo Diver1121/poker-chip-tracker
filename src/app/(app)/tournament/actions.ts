@@ -31,7 +31,7 @@ async function syncLinkedTransaction(
   desired: {
     customerId: string;
     denominationId: string;
-    category: "tournament" | "prize";
+    category: "tournament" | "prize" | "cash_entry";
     quantity: number;
   } | null,
 ): Promise<string | null> {
@@ -73,6 +73,7 @@ type LinkedTransactionIds = {
   chip_transaction_id: string | null;
   addon_transaction_id: string | null;
   prize_transaction_id: string | null;
+  cash_transaction_id: string | null;
 };
 
 type DayValues = {
@@ -129,10 +130,17 @@ async function saveEntryRow(
   if (!name) return;
 
   const customerId = String(formData.get(`customerId-${rowIndex}`) ?? "") || null;
+  const cashAmount = toInt(formData.get(`cashAmount-${rowIndex}`));
   const chipCount = toInt(formData.get(`chipCount-${rowIndex}`));
   const addonCount = toInt(formData.get(`addonCount-${rowIndex}`));
   const prizeAmount = toInt(formData.get(`prizeAmount-${rowIndex}`));
 
+  const cashTransactionId = await syncLinkedTransaction(
+    existing?.cash_transaction_id ?? null,
+    customerId && cashAmount > 0
+      ? { customerId, denominationId: "", category: "cash_entry", quantity: cashAmount }
+      : null,
+  );
   const chipTransactionId = await syncLinkedTransaction(
     existing?.chip_transaction_id ?? null,
     customerId && day.dayDenominationId && chipCount > 0
@@ -166,7 +174,8 @@ async function saveEntryRow(
     name,
     customer_id: customerId,
     entry_fee: toInt(formData.get(`entryFee-${rowIndex}`)),
-    cash_amount: toInt(formData.get(`cashAmount-${rowIndex}`)),
+    cash_amount: cashAmount,
+    cash_transaction_id: cashTransactionId,
     denomination_id: day.dayDenominationId,
     chip_count: chipCount,
     chip_amount: chipCount * day.dayChipValue,
@@ -205,7 +214,7 @@ export async function saveAllTournamentEntries(formData: FormData) {
   if (existingIds.length > 0) {
     const { data: existingRows, error: existingError } = await supabase
       .from("tournament_entries")
-      .select("id, chip_transaction_id, addon_transaction_id, prize_transaction_id")
+      .select("id, chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id")
       .in("id", existingIds);
     if (existingError) throw existingError;
     for (const row of existingRows) existingById.set(row.id, row);
@@ -232,7 +241,7 @@ export async function saveTournamentEntry(rowIndex: number, formData: FormData) 
   if (id) {
     const { data, error } = await supabase
       .from("tournament_entries")
-      .select("chip_transaction_id, addon_transaction_id, prize_transaction_id")
+      .select("chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id")
       .eq("id", id)
       .maybeSingle();
     if (error) throw error;
@@ -256,7 +265,7 @@ export async function deleteTournamentEntry(id: string, _formData: FormData) {
 
   const { data: entry, error: fetchError } = await supabase
     .from("tournament_entries")
-    .select("chip_transaction_id, addon_transaction_id, prize_transaction_id")
+    .select("chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id")
     .eq("id", id)
     .maybeSingle();
   if (fetchError) throw fetchError;
@@ -265,6 +274,7 @@ export async function deleteTournamentEntry(id: string, _formData: FormData) {
     entry?.chip_transaction_id,
     entry?.addon_transaction_id,
     entry?.prize_transaction_id,
+    entry?.cash_transaction_id,
   ].filter((transactionId): transactionId is string => Boolean(transactionId));
 
   if (linkedTransactionIds.length > 0) {

@@ -167,3 +167,24 @@ alter table tournament_entries add column if not exists customer_id uuid referen
 alter table tournament_entries add column if not exists chip_transaction_id uuid references chip_transactions(id) on delete set null;
 alter table tournament_entries add column if not exists addon_transaction_id uuid references chip_transactions(id) on delete set null;
 alter table tournament_entries add column if not exists prize_transaction_id uuid references chip_transactions(id) on delete set null;
+
+-- 現金エントリー欄を取引履歴に記録として残すためのカテゴリ。保有チップは増減させない
+-- （sign=0。src/lib/transactionCategory.tsのCATEGORY_INFO参照）。
+alter table chip_transactions drop constraint if exists chip_transactions_category_check;
+alter table chip_transactions add constraint chip_transactions_category_check
+  check (category in ('purchase', 'table_out', 'table_in', 'tournament', 'prize', 'adjustment', 'cash_entry'));
+
+alter table chip_transactions drop constraint if exists chip_transactions_denomination_by_category;
+alter table chip_transactions add constraint chip_transactions_denomination_by_category check (
+  (category in ('purchase', 'tournament') and denomination_id is not null)
+  or
+  (category in ('table_out', 'table_in', 'prize', 'adjustment', 'cash_entry') and denomination_id is null)
+);
+
+alter table tournament_entries add column if not exists cash_transaction_id uuid references chip_transactions(id) on delete set null;
+
+-- 「営業終了・まとめて退店」の誤操作対策。チャットは削除ではなくアーカイブにして、
+-- 直前の1回だけ取り消せるようにする（src/app/(app)/board/actions.tsのundoLastCheckOut参照）。
+alter table chat_messages add column if not exists archived_at timestamptz;
+alter table shop_settings add column if not exists previous_closed_at timestamptz;
+alter table shop_settings add column if not exists close_undoable boolean not null default false;

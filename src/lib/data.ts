@@ -37,14 +37,24 @@ async function fetchAllRows<T>(
 }
 
 // レーキグラフで「当日分は営業終了・まとめて退店を押すまで表示しない」判定に使う。
-export async function getShopSettings(): Promise<{ lastClosedAt: string | null }> {
+// closeUndoable/previousClosedAtは「営業終了・まとめて退店」の誤操作対策の取り消し機能に使う
+// （src/app/(app)/board/actions.tsのcheckOutAllCustomers/undoLastCheckOut参照）。
+export async function getShopSettings(): Promise<{
+  lastClosedAt: string | null;
+  previousClosedAt: string | null;
+  closeUndoable: boolean;
+}> {
   const { data, error } = await getSupabaseClient()
     .from("shop_settings")
-    .select("last_closed_at")
+    .select("last_closed_at, previous_closed_at, close_undoable")
     .eq("id", true)
     .maybeSingle();
   if (error) throw error;
-  return { lastClosedAt: data?.last_closed_at ?? null };
+  return {
+    lastClosedAt: data?.last_closed_at ?? null,
+    previousClosedAt: data?.previous_closed_at ?? null,
+    closeUndoable: data?.close_undoable ?? false,
+  };
 }
 
 export async function getDenominations(): Promise<Denomination[]> {
@@ -102,10 +112,13 @@ export async function getAllTransactions(): Promise<ChipTransaction[]> {
 }
 
 export async function getChatMessages(): Promise<ChatMessage[]> {
+  // 「営業終了・まとめて退店」でアーカイブされた分は除く（削除はせず、
+  // 誤操作時にundoLastCheckOutで復元できるようarchived_atだけ立てて残している）。
   return fetchAllRows<ChatMessage>((from, to) =>
     getSupabaseClient()
       .from("chat_messages")
       .select("*")
+      .is("archived_at", null)
       .order("created_at", { ascending: true })
       .range(from, to),
   );

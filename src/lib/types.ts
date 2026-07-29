@@ -27,7 +27,9 @@ export type TransactionCategory =
   // プライズ獲得。額面を問わず点数のみ扱う（table_out/table_inと同様）
   | "prize"
   // 他システムからの移行や手入力による残高調整。バイイン/アウト集計には含めない
-  | "adjustment";
+  | "adjustment"
+  // トーナメントの現金エントリー分の記録用。保有チップ・レーキ計算には一切影響しない
+  | "cash_entry";
 
 export type ChipTransaction = {
   id: string;
@@ -54,6 +56,8 @@ export type TournamentEntry = {
   customer_id: string | null;
   entry_fee: number;
   cash_amount: number;
+  // 現金エントリー分を取引履歴に記録するためのcash_entry取引。保有チップには影響しない
+  cash_transaction_id: string | null;
   // chip_countに、選ばれた種類（denomination_id）のvalueを掛けて計算した点数
   chip_amount: number;
   // チップ欄に入力された「チップを使ってエントリーした回数」そのもの

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getCheckedInCustomers, getCustomers, getDenominations } from "@/lib/data";
+import { getCheckedInCustomers, getCustomers, getDenominations, getShopSettings } from "@/lib/data";
 import { getAllTransactions } from "@/lib/data";
 import {
   computeBalances,
@@ -29,6 +29,7 @@ import {
   checkOutAllCustomers,
   recordBoardTransaction,
   undoCheckIn,
+  undoLastCheckOut,
 } from "./actions";
 
 export default async function BoardPage({
@@ -36,13 +37,14 @@ export default async function BoardPage({
 }: {
   searchParams: Promise<{ sort?: string }>;
 }) {
-  const [{ sort }, checkedInCustomers, allCustomers, denominations, transactions] =
+  const [{ sort }, checkedInCustomers, allCustomers, denominations, transactions, shopSettings] =
     await Promise.all([
       searchParams,
       getCheckedInCustomers(),
       getCustomers(),
       getDenominations(),
       getAllTransactions(),
+      getShopSettings(),
     ]);
 
   const sortMode = sort === "name" ? "name" : sort === "recent" ? "recent" : "visit";
@@ -143,16 +145,28 @@ export default async function BoardPage({
             </Link>
           </div>
         </div>
-        {checkedInCustomers.length > 0 && (
-          <form action={checkOutAllCustomers}>
-            <ConfirmSubmitButton
-              confirmMessage={`来店中の${checkedInCustomers.length}人を全員退店にしますか？チャットの履歴は消去されます（保有チップ数・取引履歴は消えず残ります）。`}
-              className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
-            >
-              営業終了・まとめて退店
-            </ConfirmSubmitButton>
-          </form>
-        )}
+        <div className="flex items-center gap-2">
+          {checkedInCustomers.length > 0 && (
+            <form action={checkOutAllCustomers}>
+              <ConfirmSubmitButton
+                confirmMessage={`来店中の${checkedInCustomers.length}人を全員退店にしますか？チャットの履歴は消去されます（保有チップ数・取引履歴は消えず残ります）。`}
+                className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+              >
+                営業終了・まとめて退店
+              </ConfirmSubmitButton>
+            </form>
+          )}
+          {shopSettings.closeUndoable && (
+            <form action={undoLastCheckOut}>
+              <ConfirmSubmitButton
+                confirmMessage="直前の「営業終了・まとめて退店」を取り消しますか？チェックイン状態とチャット履歴が元に戻ります。"
+                className="rounded-md border border-amber-300 bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-800 hover:bg-amber-100"
+              >
+                営業終了を取り消す
+              </ConfirmSubmitButton>
+            </form>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-3">

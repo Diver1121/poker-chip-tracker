@@ -17,6 +17,8 @@ const CATEGORY_ALIASES: Record<TransactionCategory, string[]> = {
   tournament: ["トーナメント使用", "トーナメント"],
   prize: ["プライズ獲得", "プライズ"],
   adjustment: [],
+  // トーナメントページの現金エントリー欄からのみ作られる想定で、チャットからは入力させない
+  cash_entry: [],
 };
 
 export type ParsedChatCommand =

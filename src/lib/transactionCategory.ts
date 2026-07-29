@@ -10,7 +10,7 @@ export const TRANSACTION_CATEGORIES: TransactionCategory[] = [
 
 export const CATEGORY_INFO: Record<
   TransactionCategory,
-  { label: string; sign: 1 | -1; badgeClassName: string }
+  { label: string; sign: 1 | -1 | 0; badgeClassName: string }
 > = {
   purchase: {
     label: "購入",
@@ -41,6 +41,13 @@ export const CATEGORY_INFO: Record<
     label: "残高調整",
     sign: 1,
     badgeClassName: "bg-gray-100 text-gray-700",
+  },
+  cash_entry: {
+    label: "現金エントリー",
+    // 保有チップは増減させない（記録のみ）。categorySign()を使う集計は
+    // quantity×0=0になるので自動的に影響しなくなる。
+    sign: 0,
+    badgeClassName: "bg-teal-100 text-teal-800",
   },
 };
 
