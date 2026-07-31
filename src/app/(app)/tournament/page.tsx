@@ -10,6 +10,7 @@ import { businessDateKey, shiftDayKey } from "@/lib/businessDay";
 import { SubmitButton } from "@/components/SubmitButton";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { TournamentCustomerInput } from "@/components/TournamentCustomerInput";
+import { NumberStepperInput } from "@/components/NumberStepperInput";
 import { TournamentNameDatalistSync } from "@/components/TournamentNameDatalistSync";
 import { deleteTournamentEntry, saveAllTournamentEntries, saveTournamentEntry } from "./actions";
 
@@ -273,50 +274,38 @@ export default async function TournamentPage({
                   <div className="px-1.5 py-1 text-right text-sm text-gray-900">
                     {(entry?.entry_fee ?? 0).toLocaleString()}
                   </div>
-                  <input
+                  <NumberStepperInput
                     name={`cashAmount-${i}`}
-                    type="number"
-                    step={1}
                     defaultValue={entry?.cash_amount ?? ""}
                     placeholder="0"
                     className={inputClassName}
                   />
-                  <input
+                  <NumberStepperInput
                     name={`chipCount-${i}`}
-                    type="number"
-                    step={1}
                     defaultValue={entry?.chip_count ?? ""}
                     placeholder="回数"
                     className={inputClassName}
                   />
-                  <input
+                  <NumberStepperInput
                     name={`ticketAmount-${i}`}
-                    type="number"
-                    step={1}
                     defaultValue={entry?.ticket_amount ?? ""}
                     placeholder="0"
                     className={inputClassName}
                   />
-                  <input
+                  <NumberStepperInput
                     name={`addonCount-${i}`}
-                    type="number"
-                    step={1}
                     defaultValue={entry?.addon_count ?? ""}
                     placeholder="回数"
                     className={inputClassName}
                   />
-                  <input
+                  <NumberStepperInput
                     name={`rank-${i}`}
-                    type="number"
-                    step={1}
                     defaultValue={entry?.rank ?? ""}
                     placeholder="-"
                     className={inputClassName}
                   />
-                  <input
+                  <NumberStepperInput
                     name={`prizeAmount-${i}`}
-                    type="number"
-                    step={1}
                     defaultValue={entry?.prize_amount ?? ""}
                     placeholder="0"
                     className={inputClassName}

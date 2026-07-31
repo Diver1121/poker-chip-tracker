@@ -24,3 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* NumberStepperInput: 自前の△▽ボタンと二重表示にならないよう、ブラウザ標準の
+   スピンボタンを消す（スマホでは元々出ないが、PCのChrome/Safari/Firefox向け）。 */
+.number-stepper-input::-webkit-outer-spin-button,
+.number-stepper-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.number-stepper-input {
+  -moz-appearance: textfield;
+}
