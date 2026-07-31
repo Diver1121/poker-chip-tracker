@@ -125,13 +125,9 @@ export default async function TournamentPage({
   // 無ければ登録済みの先頭の種類、種類が1つも無ければ空。
   const defaultDayDenominationId =
     dayEntries[0]?.denomination_id ?? tournamentDenominations[0]?.id ?? "";
-  const selectedDayDenomination =
-    tournamentDenominations.find((d) => d.id === defaultDayDenominationId) ?? null;
 
   const defaultAddonDenominationId =
     dayEntries[0]?.addon_denomination_id ?? addonDenominations[0]?.id ?? "";
-  const selectedAddonDenomination =
-    addonDenominations.find((d) => d.id === defaultAddonDenominationId) ?? null;
 
   // 名前欄の候補（datalist）。既にその日のシートに入力済みの名前は初期表示から除外し、
   // 残りはTournamentNameDatalistSyncが入力のたびにその場で絞り込む。
@@ -201,21 +197,6 @@ export default async function TournamentPage({
                   </option>
                 ))}
               </select>
-              <p className="mt-1 text-xs text-gray-500">
-                {selectedDayDenomination ? (
-                  <>
-                    チップ欄には点数ではなく「利用回数」を入力してください。選んだ種類の点数で自動計算されます。
-                    現在の合計 {totals.chip.toLocaleString()}点
-                  </>
-                ) : (
-                  <>
-                    「額面設定」でトーナメントに使う項目を登録すると、チップ欄の回数から点数が自動計算されるようになります。
-                    <Link href="/settings/denominations" className="ml-1 text-indigo-600 hover:underline">
-                      額面設定へ
-                    </Link>
-                  </>
-                )}
-              </p>
             </div>
 
             <div>
@@ -234,21 +215,6 @@ export default async function TournamentPage({
                   </option>
                 ))}
               </select>
-              <p className="mt-1 text-xs text-gray-500">
-                {selectedAddonDenomination ? (
-                  <>
-                    アドオン欄には点数ではなく「利用回数」を入力してください。選んだ種類の点数で自動計算されます。
-                    現在の合計 {totals.addon.toLocaleString()}点
-                  </>
-                ) : (
-                  <>
-                    「額面設定」でアドオンに使う項目を登録すると、アドオン欄の回数から点数が自動計算されるようになります。
-                    <Link href="/settings/denominations" className="ml-1 text-indigo-600 hover:underline">
-                      額面設定へ
-                    </Link>
-                  </>
-                )}
-              </p>
             </div>
           </div>
           <div className="text-right">
@@ -280,10 +246,6 @@ export default async function TournamentPage({
                 </div>
               )}
             </div>
-            <p className="mt-1 max-w-[20rem] text-[11px] text-gray-500">
-              この表全体を記録として保存します。グラフページのトーナメント欄から、後で誰が参加したか振り返れます。
-              プライズ計算は合計エントリー{totals.entryFee.toLocaleString()}を基に、対象人数=×15%切り上げ、総額=×単価×0.4（単価はこの日の種類がTURBOなら200、それ以外は300）、配分は上位ほど厚い固定テーブルで算出します。
-            </p>
           </div>
         </div>
 
