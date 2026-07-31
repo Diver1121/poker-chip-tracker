@@ -48,8 +48,21 @@ export type Visit = {
   checked_in_at: string;
 };
 
+// トーナメントの「回」。同じ営業日に複数のトーナメントが並行して立つ場合に、
+// エントリー・種類・プライズ計算を回ごとに独立させるための単位。
+// 種類（denomination_id/addon_denomination_id）は開始時に固定し、途中で変えない。
+export type Tournament = {
+  id: string;
+  label: string;
+  denomination_id: string | null;
+  addon_denomination_id: string | null;
+  created_at: string;
+};
+
 export type TournamentEntry = {
   id: string;
+  // この行が属するトーナメントの回。バックフィル前の古いデータ以外では常に値が入る想定
+  tournament_id: string | null;
   name: string;
   // NAME欄が客一覧の名前と一致した場合に解決される客ID。取引の紐付けに使う
   // （一致しない場合はnullで、この行からは取引を作らない）。

@@ -193,3 +193,16 @@ alter table shop_settings add column if not exists close_undoable boolean not nu
 -- アドオン現金は記録のみ（cash_entry、保有チップには影響しない）。
 alter table tournament_entries add column if not exists addon_cash_amount integer not null default 0;
 alter table tournament_entries add column if not exists addon_cash_transaction_id uuid references chip_transactions(id) on delete set null;
+
+-- 同じ営業日に複数のトーナメントが並行して立つケースに対応するための「回」テーブル。
+-- 種類(denomination_id/addon_denomination_id)は回の開始時に固定し、途中で変えない。
+create table if not exists tournaments (
+  id uuid primary key default gen_random_uuid(),
+  label text not null default '',
+  denomination_id uuid references denominations(id) on delete set null,
+  addon_denomination_id uuid references denominations(id) on delete set null,
+  created_at timestamptz not null default now()
+);
+
+alter table tournament_entries add column if not exists tournament_id uuid references tournaments(id) on delete cascade;
+create index if not exists tournament_entries_tournament_id_idx on tournament_entries(tournament_id);

@@ -7,7 +7,7 @@ import { requireAuth } from "@/lib/require-auth";
 import { insertChipTransaction } from "@/lib/transactions";
 import { categorySign } from "@/lib/transactionCategory";
 import { appendChatMessage } from "@/lib/chatLog";
-import { getDenominations, getTournamentEntries } from "@/lib/data";
+import { getDenominations, getTournamentEntries, getTournaments } from "@/lib/data";
 import { businessDateKey } from "@/lib/businessDay";
 import type { Denomination, TransactionCategory } from "@/lib/types";
 
@@ -118,21 +118,30 @@ type LinkedTransactionIds = {
   addon_cash_transaction_id: string | null;
 };
 
-type DayValues = {
-  dayDenominationId: string | null;
-  dayAddonDenominationId: string | null;
-  dayChipValue: number;
-  dayAddonValue: number;
+type SessionValues = {
+  tournamentId: string;
+  denominationId: string | null;
+  addonDenominationId: string | null;
+  chipValue: number;
+  addonValue: number;
 };
 
-// フォーム共通部分（この日のトーナメント種類・アドオン種類）から、
-// 実際の点数計算に使う値を解決する。行ごと保存・まとめて保存の両方から使う。
-async function resolveDayValues(formData: FormData): Promise<DayValues> {
+// トーナメントの「回」（tournaments行）から、実際の点数計算に使う値を解決する。
+// 種類は回の開始時に固定されており、保存のたびにフォームから送り直す必要はない
+// （同じ営業日に複数の回が並行していても、種類が混ざらないようにするため）。
+async function resolveSessionValues(tournamentId: string): Promise<SessionValues> {
   const supabase = getSupabaseClient();
-  const dayDenominationId = String(formData.get("dayDenominationId") ?? "") || null;
-  const dayAddonDenominationId = String(formData.get("dayAddonDenominationId") ?? "") || null;
+  const { data: tournament, error: tournamentError } = await supabase
+    .from("tournaments")
+    .select("id, denomination_id, addon_denomination_id")
+    .eq("id", tournamentId)
+    .maybeSingle();
+  if (tournamentError) throw tournamentError;
+  if (!tournament) {
+    throw new Error("トーナメントの回が見つかりません。");
+  }
 
-  const denominationIds = [dayDenominationId, dayAddonDenominationId].filter(
+  const denominationIds = [tournament.denomination_id, tournament.addon_denomination_id].filter(
     (id): id is string => Boolean(id),
   );
   const valueById = new Map<string, number>();
@@ -146,11 +155,46 @@ async function resolveDayValues(formData: FormData): Promise<DayValues> {
   }
 
   return {
-    dayDenominationId,
-    dayAddonDenominationId,
-    dayChipValue: dayDenominationId ? (valueById.get(dayDenominationId) ?? 0) : 0,
-    dayAddonValue: dayAddonDenominationId ? (valueById.get(dayAddonDenominationId) ?? 0) : 0,
+    tournamentId,
+    denominationId: tournament.denomination_id,
+    addonDenominationId: tournament.addon_denomination_id,
+    chipValue: tournament.denomination_id ? (valueById.get(tournament.denomination_id) ?? 0) : 0,
+    addonValue: tournament.addon_denomination_id
+      ? (valueById.get(tournament.addon_denomination_id) ?? 0)
+      : 0,
   };
+}
+
+// 新しいトーナメントの回を開始する。同じ営業日にすでに回があっても、
+// 別の種類（例: TURBO）で並行して開始できる。開始できるのは「今日」だけ。
+export async function createTournament(formData: FormData) {
+  await requireAuth();
+
+  const supabase = getSupabaseClient();
+  const label = String(formData.get("label") ?? "").trim();
+  const denominationId = String(formData.get("denominationId") ?? "") || null;
+  const addonDenominationId = String(formData.get("addonDenominationId") ?? "") || null;
+
+  const todayKey = businessDateKey(new Date());
+  const existingTournaments = await getTournaments();
+  const todaysCount = existingTournaments.filter(
+    (t) => businessDateKey(t.created_at) === todayKey,
+  ).length;
+  const resolvedLabel = label || `${todaysCount + 1}回目`;
+
+  const { data, error } = await supabase
+    .from("tournaments")
+    .insert({
+      label: resolvedLabel,
+      denomination_id: denominationId,
+      addon_denomination_id: addonDenominationId,
+    })
+    .select("id")
+    .single();
+  if (error) throw error;
+
+  revalidateAffectedPages();
+  redirect(`/tournament?date=${todayKey}&session=${data.id}`);
 }
 
 // 1行分（rowIndex）だけを保存する。名前が空の行は「未使用の空欄」として何もしない。
@@ -163,7 +207,7 @@ async function resolveDayValues(formData: FormData): Promise<DayValues> {
 async function saveEntryRow(
   formData: FormData,
   rowIndex: number,
-  day: DayValues,
+  session: SessionValues,
   existing: LinkedTransactionIds | undefined,
   senderName: string,
 ) {
@@ -175,7 +219,7 @@ async function saveEntryRow(
   const customerId = String(formData.get(`customerId-${rowIndex}`) ?? "") || null;
   const cashAmount = toInt(formData.get(`cashAmount-${rowIndex}`));
   const chipCount = toInt(formData.get(`chipCount-${rowIndex}`));
-  const chipAmount = chipCount * day.dayChipValue;
+  const chipAmount = chipCount * session.chipValue;
   const ticketAmount = toInt(formData.get(`ticketAmount-${rowIndex}`));
   const addonCashAmount = toInt(formData.get(`addonCashAmount-${rowIndex}`));
   const addonCount = toInt(formData.get(`addonCount-${rowIndex}`));
@@ -187,20 +231,20 @@ async function saveEntryRow(
   // 保有チップが足りない場合も保存自体は止めず、チャットに警告だけ残す
   // （現場の判断で入力を続けられるようにしつつ、あとで気づけるようにするため）。
   const warnings: string[] = [];
-  if (customerId && day.dayDenominationId && chipCount > 0) {
+  if (customerId && session.denominationId && chipCount > 0) {
     const available = await getDenominationBalance(
       customerId,
-      day.dayDenominationId,
+      session.denominationId,
       existing?.chip_transaction_id ?? null,
     );
     if (chipCount > available) {
       warnings.push(`${name}: チップ${chipCount}回分の保有チップが足りません（保有${available}枚）`);
     }
   }
-  if (customerId && day.dayAddonDenominationId && addonCount > 0) {
+  if (customerId && session.addonDenominationId && addonCount > 0) {
     const available = await getDenominationBalance(
       customerId,
-      day.dayAddonDenominationId,
+      session.addonDenominationId,
       existing?.addon_transaction_id ?? null,
     );
     if (addonCount > available) {
@@ -216,10 +260,10 @@ async function saveEntryRow(
   );
   const chipTransactionId = await syncLinkedTransaction(
     existing?.chip_transaction_id ?? null,
-    customerId && day.dayDenominationId && chipCount > 0
+    customerId && session.denominationId && chipCount > 0
       ? {
           customerId,
-          denominationId: day.dayDenominationId,
+          denominationId: session.denominationId,
           category: "tournament",
           quantity: chipCount,
         }
@@ -227,10 +271,10 @@ async function saveEntryRow(
   );
   const addonTransactionId = await syncLinkedTransaction(
     existing?.addon_transaction_id ?? null,
-    customerId && day.dayAddonDenominationId && addonCount > 0
+    customerId && session.addonDenominationId && addonCount > 0
       ? {
           customerId,
-          denominationId: day.dayAddonDenominationId,
+          denominationId: session.addonDenominationId,
           category: "tournament",
           quantity: addonCount,
         }
@@ -250,21 +294,22 @@ async function saveEntryRow(
   );
 
   const fields = {
+    tournament_id: session.tournamentId,
     name,
     customer_id: customerId,
     entry_fee: entryFee,
     cash_amount: cashAmount,
     cash_transaction_id: cashTransactionId,
-    denomination_id: day.dayDenominationId,
+    denomination_id: session.denominationId,
     chip_count: chipCount,
     chip_amount: chipAmount,
     chip_transaction_id: chipTransactionId,
     ticket_amount: ticketAmount,
-    addon_denomination_id: day.dayAddonDenominationId,
+    addon_denomination_id: session.addonDenominationId,
     addon_cash_amount: addonCashAmount,
     addon_cash_transaction_id: addonCashTransactionId,
     addon_count: addonCount,
-    addon_amount: addonCount * day.dayAddonValue,
+    addon_amount: addonCount * session.addonValue,
     addon_transaction_id: addonTransactionId,
     rank: toNullableInt(formData.get(`rank-${rowIndex}`)),
     prize_amount: prizeAmount,
@@ -289,30 +334,35 @@ async function saveEntryRow(
 }
 
 // プライズ対象人数・総額を計算する。人数は合計エントリー数×15%を切り上げ。
-// 総額（チップ）は合計エントリー数×単価×0.4で、単価はこの日のトーナメント種類が
+// 総額（チップ）は合計エントリー数×単価×0.4で、単価はこの回のトーナメント種類が
 // TURBOなら200、それ以外は300。結果はURLパラメータに載せて表示するだけで、
 // 保存や個別の配分は行わない。
 export async function calculatePrizeCount(formData: FormData) {
   await requireAuth();
 
   const dayKey = String(formData.get("dayKey") ?? "");
-  const dayDenominationId = String(formData.get("dayDenominationId") ?? "") || null;
+  const tournamentId = String(formData.get("tournamentId") ?? "");
+  if (!tournamentId) return;
 
-  const [entries, denominations] = await Promise.all([
+  const [entries, denominations, tournaments] = await Promise.all([
     getTournamentEntries(),
     getDenominations(),
+    getTournaments(),
   ]);
   const totalEntries = entries
-    .filter((entry) => businessDateKey(entry.created_at) === dayKey)
+    .filter((entry) => entry.tournament_id === tournamentId)
     .reduce((sum, entry) => sum + entry.entry_fee, 0);
 
-  const dayDenomination = denominations.find((d) => d.id === dayDenominationId);
-  const perEntryValue = isTurboDenomination(dayDenomination) ? 200 : 300;
+  const tournament = tournaments.find((t) => t.id === tournamentId);
+  const sessionDenomination = denominations.find((d) => d.id === tournament?.denomination_id);
+  const perEntryValue = isTurboDenomination(sessionDenomination) ? 200 : 300;
 
   const prizeCount = totalEntries > 0 ? Math.ceil(totalEntries * 0.15) : 0;
   const prizeTotal = Math.round(totalEntries * perEntryValue * 0.4);
 
-  redirect(`/tournament?date=${dayKey}&prizeCount=${prizeCount}&prizeTotal=${prizeTotal}`);
+  redirect(
+    `/tournament?date=${dayKey}&session=${tournamentId}&prizeCount=${prizeCount}&prizeTotal=${prizeTotal}`,
+  );
 }
 
 // 表全体（最大rowCount行）を1回の送信でまとめて保存する。
@@ -320,7 +370,9 @@ export async function saveAllTournamentEntries(formData: FormData) {
   const senderName = await requireAuth();
 
   const supabase = getSupabaseClient();
-  const day = await resolveDayValues(formData);
+  const tournamentId = String(formData.get("tournamentId") ?? "");
+  if (!tournamentId) return;
+  const session = await resolveSessionValues(tournamentId);
   const rowCount = Number(formData.get("rowCount") ?? 0);
 
   const existingIds = Array.from({ length: rowCount }, (_, i) =>
@@ -338,7 +390,7 @@ export async function saveAllTournamentEntries(formData: FormData) {
 
   for (let i = 0; i < rowCount; i++) {
     const id = String(formData.get(`id-${i}`) ?? "");
-    await saveEntryRow(formData, i, day, id ? existingById.get(id) : undefined, senderName);
+    await saveEntryRow(formData, i, session, id ? existingById.get(id) : undefined, senderName);
   }
 
   revalidateAffectedPages();
@@ -350,7 +402,9 @@ export async function saveTournamentEntry(rowIndex: number, formData: FormData) 
   const senderName = await requireAuth();
 
   const supabase = getSupabaseClient();
-  const day = await resolveDayValues(formData);
+  const tournamentId = String(formData.get("tournamentId") ?? "");
+  if (!tournamentId) return;
+  const session = await resolveSessionValues(tournamentId);
 
   const id = String(formData.get(`id-${rowIndex}`) ?? "");
   let existing: LinkedTransactionIds | undefined;
@@ -364,7 +418,7 @@ export async function saveTournamentEntry(rowIndex: number, formData: FormData) 
     existing = data ?? undefined;
   }
 
-  await saveEntryRow(formData, rowIndex, day, existing, senderName);
+  await saveEntryRow(formData, rowIndex, session, existing, senderName);
 
   revalidateAffectedPages();
 }

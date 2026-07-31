@@ -4,6 +4,7 @@ import type {
   ChipTransaction,
   Customer,
   Denomination,
+  Tournament,
   TournamentEntry,
   Visit,
 } from "@/lib/types";
@@ -142,6 +143,15 @@ export async function getTournamentEntries(): Promise<TournamentEntry[]> {
       .order("created_at", { ascending: true })
       .range(from, to),
   );
+}
+
+export async function getTournaments(): Promise<Tournament[]> {
+  const { data, error } = await getSupabaseClient()
+    .from("tournaments")
+    .select("*")
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return data;
 }
 
 export async function getTransactionsForCustomer(

@@ -6,6 +6,7 @@ import {
   getDenominations,
   getShopSettings,
   getTournamentEntries,
+  getTournaments,
 } from "@/lib/data";
 import {
   computeDailyRakeTotals,
@@ -15,6 +16,7 @@ import {
 } from "@/lib/balances";
 import { businessDateKey, businessMonthKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
 import { LineChart } from "@/components/LineChart";
+import type { TournamentEntry } from "@/lib/types";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -26,6 +28,170 @@ function signColorClass(n: number): string {
 }
 function formatSigned(n: number): string {
   return n > 0 ? `+${n.toLocaleString()}` : n.toLocaleString();
+}
+
+type TournamentSessionSummary = {
+  participationRate: number | null;
+  participantCount: number;
+  addonRate: number | null;
+  addonParticipantCount: number;
+  cashRate: number | null;
+  cashParticipantCount: number;
+  entryCount: number;
+  totals: {
+    entryFee: number;
+    cash: number;
+    chip: number;
+    ticket: number;
+    addonCash: number;
+    addon: number;
+    prize: number;
+  };
+};
+
+// トーナメントの回ごとに、参加率・アドオン率・現金エントリー率・合計値を集計する。
+// 参加率の分母(dayVisitCustomerIds)はその営業日にチェックインした客の集合を共有し、
+// 分子はその回にエントリーした客だけを数える（回ごとに独立させるため）。
+function summarizeTournamentSession(
+  sessionEntries: TournamentEntry[],
+  dayVisitCustomerIds: Set<string>,
+): TournamentSessionSummary {
+  const participantCustomerIds = new Set(
+    sessionEntries.map((e) => e.customer_id).filter((id): id is string => Boolean(id)),
+  );
+  const participationRate =
+    dayVisitCustomerIds.size > 0 ? participantCustomerIds.size / dayVisitCustomerIds.size : null;
+
+  const entryCount = sessionEntries.length;
+  const addonParticipantCount = sessionEntries.filter((e) => e.addon_count >= 1).length;
+  const addonRate = entryCount > 0 ? addonParticipantCount / entryCount : null;
+  const cashParticipantCount = sessionEntries.filter((e) => e.cash_amount >= 1).length;
+  const cashRate = entryCount > 0 ? cashParticipantCount / entryCount : null;
+
+  const totals = sessionEntries.reduce(
+    (acc, e) => ({
+      entryFee: acc.entryFee + e.entry_fee,
+      cash: acc.cash + e.cash_amount,
+      chip: acc.chip + e.chip_amount,
+      ticket: acc.ticket + e.ticket_amount,
+      addonCash: acc.addonCash + e.addon_cash_amount,
+      addon: acc.addon + e.addon_amount,
+      prize: acc.prize + e.prize_amount,
+    }),
+    { entryFee: 0, cash: 0, chip: 0, ticket: 0, addonCash: 0, addon: 0, prize: 0 },
+  );
+
+  return {
+    participationRate,
+    participantCount: participantCustomerIds.size,
+    addonRate,
+    addonParticipantCount,
+    cashRate,
+    cashParticipantCount,
+    entryCount,
+    totals,
+  };
+}
+
+// 日別詳細の1回ぶん（参加率などのカード＋エントリー表）。複数の回が並行していた日は
+// これを回ごとに繰り返し描画する。
+function TournamentSessionCard({
+  label,
+  denomLabel,
+  summary,
+  entries,
+}: {
+  label: string;
+  denomLabel: string;
+  summary: TournamentSessionSummary;
+  entries: TournamentEntry[];
+}) {
+  return (
+    <div>
+      <h4 className="text-sm font-bold text-gray-900">
+        {label}
+        <span className="ml-1 font-normal text-gray-400">・{denomLabel}</span>
+      </h4>
+
+      <div className="mt-2 grid grid-cols-3 gap-3 text-center">
+        <div className="rounded-md bg-gray-50 p-3">
+          <p className="text-xs text-gray-500">参加率</p>
+          <p className="text-lg font-bold text-gray-900">
+            {summary.participationRate === null
+              ? "-"
+              : `${Math.round(summary.participationRate * 100)}%`}
+          </p>
+          <p className="text-[10px] text-gray-400">{summary.participantCount}名</p>
+        </div>
+        <div className="rounded-md bg-gray-50 p-3">
+          <p className="text-xs text-gray-500">アドオン率</p>
+          <p className="text-lg font-bold text-gray-900">
+            {summary.addonRate === null ? "-" : `${Math.round(summary.addonRate * 100)}%`}
+          </p>
+          <p className="text-[10px] text-gray-400">
+            {summary.addonParticipantCount}/{summary.entryCount}名
+          </p>
+        </div>
+        <div className="rounded-md bg-gray-50 p-3">
+          <p className="text-xs text-gray-500">現金エントリー率</p>
+          <p className="text-lg font-bold text-gray-900">
+            {summary.cashRate === null ? "-" : `${Math.round(summary.cashRate * 100)}%`}
+          </p>
+          <p className="text-[10px] text-gray-400">
+            {summary.cashParticipantCount}/{summary.entryCount}名
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 overflow-x-auto">
+        <table className="w-full min-w-[640px] text-left text-sm">
+          <thead className="text-gray-500">
+            <tr>
+              <th className="px-2 py-1 font-medium">NAME</th>
+              <th className="px-2 py-1 font-medium">エントリー</th>
+              <th className="px-2 py-1 font-medium">現金</th>
+              <th className="px-2 py-1 font-medium">チップ</th>
+              <th className="px-2 py-1 font-medium">チケット</th>
+              <th className="px-2 py-1 font-medium">アドオン現金</th>
+              <th className="px-2 py-1 font-medium">アドオン</th>
+              <th className="px-2 py-1 font-medium">順位</th>
+              <th className="px-2 py-1 font-medium">獲得</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {entries.map((e) => (
+              <tr key={e.id}>
+                <td className="px-2 py-1 text-gray-900">{e.name}</td>
+                <td className="px-2 py-1 text-gray-900">{e.entry_fee.toLocaleString()}</td>
+                <td className="px-2 py-1 text-gray-900">{e.cash_amount.toLocaleString()}</td>
+                <td className="px-2 py-1 text-gray-900">{e.chip_amount.toLocaleString()}</td>
+                <td className="px-2 py-1 text-gray-900">{e.ticket_amount.toLocaleString()}</td>
+                <td className="px-2 py-1 text-gray-900">
+                  {e.addon_cash_amount.toLocaleString()}
+                </td>
+                <td className="px-2 py-1 text-gray-900">{e.addon_amount.toLocaleString()}</td>
+                <td className="px-2 py-1 text-gray-900">{e.rank ?? "-"}</td>
+                <td className="px-2 py-1 text-gray-900">{e.prize_amount.toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr className="border-t border-gray-200 font-bold text-gray-900">
+              <td className="px-2 py-1">合計</td>
+              <td className="px-2 py-1">{summary.totals.entryFee.toLocaleString()}</td>
+              <td className="px-2 py-1">{summary.totals.cash.toLocaleString()}</td>
+              <td className="px-2 py-1">{summary.totals.chip.toLocaleString()}</td>
+              <td className="px-2 py-1">{summary.totals.ticket.toLocaleString()}</td>
+              <td className="px-2 py-1">{summary.totals.addonCash.toLocaleString()}</td>
+              <td className="px-2 py-1">{summary.totals.addon.toLocaleString()}</td>
+              <td className="px-2 py-1" />
+              <td className="px-2 py-1">{summary.totals.prize.toLocaleString()}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  );
 }
 
 export default async function StatsPage({
@@ -41,6 +207,7 @@ export default async function StatsPage({
     customers,
     shopSettings,
     tournamentEntries,
+    tournaments,
   ] = await Promise.all([
     searchParams,
     getAllTransactions(),
@@ -49,7 +216,9 @@ export default async function StatsPage({
     getCustomers(),
     getShopSettings(),
     getTournamentEntries(),
+    getTournaments(),
   ]);
+  const denominationLabelById = new Map(denominations.map((d) => [d.id, d.label]));
 
   const dailyTotals = computeDailyTotals(transactions, denominations);
   const shopCurrentTotal =
@@ -129,6 +298,26 @@ export default async function StatsPage({
     entriesByDay.set(key, list);
   }
   const dayKeysWithEntries = [...entriesByDay.keys()].sort();
+
+  // 同じ営業日に複数のトーナメント(回)が並行していた場合に、日別詳細を回ごとに
+  // 分けて表示するためのグルーピング。
+  const sessionsByDay = new Map<string, typeof tournaments>();
+  for (const t of tournaments) {
+    const key = businessDateKey(t.created_at);
+    const list = sessionsByDay.get(key) ?? [];
+    list.push(t);
+    sessionsByDay.set(key, list);
+  }
+  for (const list of sessionsByDay.values()) {
+    list.sort((a, b) => (a.created_at < b.created_at ? -1 : 1));
+  }
+  const entriesByTournamentId = new Map<string, typeof tournamentEntries>();
+  for (const entry of tournamentEntries) {
+    if (!entry.tournament_id) continue;
+    const list = entriesByTournamentId.get(entry.tournament_id) ?? [];
+    list.push(entry);
+    entriesByTournamentId.set(entry.tournament_id, list);
+  }
   const latestDayKeyWithEntries = dayKeysWithEntries[dayKeysWithEntries.length - 1] ?? null;
 
   const requestedTMonthKey =
@@ -166,41 +355,21 @@ export default async function StatsPage({
     return `/stats?${params.toString()}`;
   }
 
-  const selectedDayEntries = entriesByDay.get(selectedDayKey) ?? [];
-  const dayEntryCount = selectedDayEntries.length;
-
-  // 参加率: その日来店（チェックイン）した客のうち、トーナメントにエントリーした人の割合
-  // （NAME欄が客一覧と一致してcustomer_idが解決できた行だけを「参加」として数える）
-  const participantCustomerIds = new Set(
-    selectedDayEntries
-      .map((e) => e.customer_id)
-      .filter((id): id is string => Boolean(id)),
-  );
+  // その日にチェックインした客の集合。参加率の分母として回ごとに共有する。
   const dayVisitCustomerIds = new Set(
     visits
       .filter((v) => businessDateKey(v.checked_in_at) === selectedDayKey)
       .map((v) => v.customer_id),
   );
-  const participationRate =
-    dayVisitCustomerIds.size > 0 ? participantCustomerIds.size / dayVisitCustomerIds.size : null;
 
-  // アドオン率・現金エントリー率: その日のエントリー人数のうち、該当する人の割合
-  const addonParticipantCount = selectedDayEntries.filter((e) => e.addon_count >= 1).length;
-  const addonRate = dayEntryCount > 0 ? addonParticipantCount / dayEntryCount : null;
-  const cashParticipantCount = selectedDayEntries.filter((e) => e.cash_amount >= 1).length;
-  const cashRate = dayEntryCount > 0 ? cashParticipantCount / dayEntryCount : null;
-
-  const selectedDayTotals = selectedDayEntries.reduce(
-    (acc, e) => ({
-      entryFee: acc.entryFee + e.entry_fee,
-      cash: acc.cash + e.cash_amount,
-      chip: acc.chip + e.chip_amount,
-      ticket: acc.ticket + e.ticket_amount,
-      addonCash: acc.addonCash + e.addon_cash_amount,
-      addon: acc.addon + e.addon_amount,
-      prize: acc.prize + e.prize_amount,
-    }),
-    { entryFee: 0, cash: 0, chip: 0, ticket: 0, addonCash: 0, addon: 0, prize: 0 },
+  const selectedDaySessions = sessionsByDay.get(selectedDayKey) ?? [];
+  // 万一tournament_idがどの回にも一致しない古いデータがあれば「(未分類)」として拾う
+  // （通常はバックフィル後に発生しない想定の防御的なフォールバック）。
+  const assignedEntryIds = new Set(
+    selectedDaySessions.flatMap((t) => (entriesByTournamentId.get(t.id) ?? []).map((e) => e.id)),
+  );
+  const unassignedEntries = (entriesByDay.get(selectedDayKey) ?? []).filter(
+    (e) => !assignedEntryIds.has(e.id),
   );
 
   return (
@@ -428,90 +597,31 @@ export default async function StatsPage({
 
         <div className="mt-4 rounded-lg border border-gray-200 bg-white p-4">
           <h3 className="text-sm font-bold text-gray-900">{selectedDayLabel}</h3>
-          {selectedDayEntries.length === 0 ? (
+          {selectedDaySessions.length === 0 && unassignedEntries.length === 0 ? (
             <p className="mt-2 text-sm text-gray-500">この日の記録はありません。</p>
           ) : (
-            <>
-              <div className="mt-3 grid grid-cols-3 gap-3 text-center">
-                <div className="rounded-md bg-gray-50 p-3">
-                  <p className="text-xs text-gray-500">参加率</p>
-                  <p className="text-lg font-bold text-gray-900">
-                    {participationRate === null ? "-" : `${Math.round(participationRate * 100)}%`}
-                  </p>
-                  <p className="text-[10px] text-gray-400">
-                    {participantCustomerIds.size}/{dayVisitCustomerIds.size}名
-                  </p>
-                </div>
-                <div className="rounded-md bg-gray-50 p-3">
-                  <p className="text-xs text-gray-500">アドオン率</p>
-                  <p className="text-lg font-bold text-gray-900">
-                    {addonRate === null ? "-" : `${Math.round(addonRate * 100)}%`}
-                  </p>
-                  <p className="text-[10px] text-gray-400">
-                    {addonParticipantCount}/{dayEntryCount}名
-                  </p>
-                </div>
-                <div className="rounded-md bg-gray-50 p-3">
-                  <p className="text-xs text-gray-500">現金エントリー率</p>
-                  <p className="text-lg font-bold text-gray-900">
-                    {cashRate === null ? "-" : `${Math.round(cashRate * 100)}%`}
-                  </p>
-                  <p className="text-[10px] text-gray-400">
-                    {cashParticipantCount}/{dayEntryCount}名
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-4 overflow-x-auto">
-                <table className="w-full min-w-[640px] text-left text-sm">
-                  <thead className="text-gray-500">
-                    <tr>
-                      <th className="px-2 py-1 font-medium">NAME</th>
-                      <th className="px-2 py-1 font-medium">エントリー</th>
-                      <th className="px-2 py-1 font-medium">現金</th>
-                      <th className="px-2 py-1 font-medium">チップ</th>
-                      <th className="px-2 py-1 font-medium">チケット</th>
-                      <th className="px-2 py-1 font-medium">アドオン現金</th>
-                      <th className="px-2 py-1 font-medium">アドオン</th>
-                      <th className="px-2 py-1 font-medium">順位</th>
-                      <th className="px-2 py-1 font-medium">獲得</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {selectedDayEntries.map((e) => (
-                      <tr key={e.id}>
-                        <td className="px-2 py-1 text-gray-900">{e.name}</td>
-                        <td className="px-2 py-1 text-gray-900">{e.entry_fee.toLocaleString()}</td>
-                        <td className="px-2 py-1 text-gray-900">{e.cash_amount.toLocaleString()}</td>
-                        <td className="px-2 py-1 text-gray-900">{e.chip_amount.toLocaleString()}</td>
-                        <td className="px-2 py-1 text-gray-900">
-                          {e.ticket_amount.toLocaleString()}
-                        </td>
-                        <td className="px-2 py-1 text-gray-900">
-                          {e.addon_cash_amount.toLocaleString()}
-                        </td>
-                        <td className="px-2 py-1 text-gray-900">{e.addon_amount.toLocaleString()}</td>
-                        <td className="px-2 py-1 text-gray-900">{e.rank ?? "-"}</td>
-                        <td className="px-2 py-1 text-gray-900">{e.prize_amount.toLocaleString()}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                  <tfoot>
-                    <tr className="border-t border-gray-200 font-bold text-gray-900">
-                      <td className="px-2 py-1">合計</td>
-                      <td className="px-2 py-1">{selectedDayTotals.entryFee.toLocaleString()}</td>
-                      <td className="px-2 py-1">{selectedDayTotals.cash.toLocaleString()}</td>
-                      <td className="px-2 py-1">{selectedDayTotals.chip.toLocaleString()}</td>
-                      <td className="px-2 py-1">{selectedDayTotals.ticket.toLocaleString()}</td>
-                      <td className="px-2 py-1">{selectedDayTotals.addonCash.toLocaleString()}</td>
-                      <td className="px-2 py-1">{selectedDayTotals.addon.toLocaleString()}</td>
-                      <td className="px-2 py-1" />
-                      <td className="px-2 py-1">{selectedDayTotals.prize.toLocaleString()}</td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </>
+            <div className="mt-3 space-y-6">
+              {selectedDaySessions.map((t, idx) => (
+                <TournamentSessionCard
+                  key={t.id}
+                  label={t.label || `${idx + 1}回目`}
+                  denomLabel={denominationLabelById.get(t.denomination_id ?? "") ?? "種類未設定"}
+                  summary={summarizeTournamentSession(
+                    entriesByTournamentId.get(t.id) ?? [],
+                    dayVisitCustomerIds,
+                  )}
+                  entries={entriesByTournamentId.get(t.id) ?? []}
+                />
+              ))}
+              {unassignedEntries.length > 0 && (
+                <TournamentSessionCard
+                  label="(未分類)"
+                  denomLabel="-"
+                  summary={summarizeTournamentSession(unassignedEntries, dayVisitCustomerIds)}
+                  entries={unassignedEntries}
+                />
+              )}
+            </div>
           )}
         </div>
       </section>
