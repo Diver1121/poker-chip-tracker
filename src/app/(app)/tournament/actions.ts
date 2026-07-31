@@ -132,8 +132,13 @@ async function saveEntryRow(
   const customerId = String(formData.get(`customerId-${rowIndex}`) ?? "") || null;
   const cashAmount = toInt(formData.get(`cashAmount-${rowIndex}`));
   const chipCount = toInt(formData.get(`chipCount-${rowIndex}`));
+  const chipAmount = chipCount * day.dayChipValue;
+  const ticketAmount = toInt(formData.get(`ticketAmount-${rowIndex}`));
   const addonCount = toInt(formData.get(`addonCount-${rowIndex}`));
   const prizeAmount = toInt(formData.get(`prizeAmount-${rowIndex}`));
+  // エントリー欄は手入力せず、現金・チップ回数・チケットの合計をサーバー側で自動計算する
+  // （チップは点数換算前の回数そのものを足す。例: 現金2 + チップ回数1 + チケット0 = 3）
+  const entryFee = cashAmount + chipCount + ticketAmount;
 
   const cashTransactionId = await syncLinkedTransaction(
     existing?.cash_transaction_id ?? null,
@@ -173,14 +178,14 @@ async function saveEntryRow(
   const fields = {
     name,
     customer_id: customerId,
-    entry_fee: toInt(formData.get(`entryFee-${rowIndex}`)),
+    entry_fee: entryFee,
     cash_amount: cashAmount,
     cash_transaction_id: cashTransactionId,
     denomination_id: day.dayDenominationId,
     chip_count: chipCount,
-    chip_amount: chipCount * day.dayChipValue,
+    chip_amount: chipAmount,
     chip_transaction_id: chipTransactionId,
-    ticket_amount: toInt(formData.get(`ticketAmount-${rowIndex}`)),
+    ticket_amount: ticketAmount,
     addon_denomination_id: day.dayAddonDenominationId,
     addon_count: addonCount,
     addon_amount: addonCount * day.dayAddonValue,

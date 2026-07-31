@@ -68,12 +68,16 @@ export default async function TournamentPage({
     (acc, entry) => ({
       entryFee: acc.entryFee + entry.entry_fee,
       cash: acc.cash + entry.cash_amount,
+      // chip: 点数換算後の合計（種類選択の下の注意書き用）
       chip: acc.chip + entry.chip_amount,
+      // chipCount: 「チップ(回数)」列の合計はエントリー回数の合計であり、点数ではない
+      chipCount: acc.chipCount + entry.chip_count,
       ticket: acc.ticket + entry.ticket_amount,
       addon: acc.addon + entry.addon_amount,
+      addonCount: acc.addonCount + entry.addon_count,
       prize: acc.prize + entry.prize_amount,
     }),
-    { entryFee: 0, cash: 0, chip: 0, ticket: 0, addon: 0, prize: 0 },
+    { entryFee: 0, cash: 0, chip: 0, chipCount: 0, ticket: 0, addon: 0, addonCount: 0, prize: 0 },
   );
 
   const rowCount = Math.max(MIN_ROWS, dayEntries.length);
@@ -237,11 +241,15 @@ export default async function TournamentPage({
               {totals.entryFee.toLocaleString()}
             </div>
             <div className="text-xs font-bold text-gray-900">{totals.cash.toLocaleString()}</div>
-            <div className="text-xs font-bold text-gray-900">{totals.chip.toLocaleString()}</div>
+            <div className="text-xs font-bold text-gray-900">
+              {totals.chipCount.toLocaleString()}
+            </div>
             <div className="text-xs font-bold text-gray-900">
               {totals.ticket.toLocaleString()}
             </div>
-            <div className="text-xs font-bold text-gray-900">{totals.addon.toLocaleString()}</div>
+            <div className="text-xs font-bold text-gray-900">
+              {totals.addonCount.toLocaleString()}
+            </div>
             <div />
             <div className="text-xs font-bold text-gray-900">{totals.prize.toLocaleString()}</div>
             <div />
@@ -260,14 +268,11 @@ export default async function TournamentPage({
                     datalistId="tournament-checked-in-names"
                     className={inputClassName}
                   />
-                  <input
-                    name={`entryFee-${i}`}
-                    type="number"
-                    step={1}
-                    defaultValue={entry?.entry_fee ?? ""}
-                    placeholder="0"
-                    className={inputClassName}
-                  />
+                  {/* エントリーは現金・チップ・チケットの合計をサーバー側で自動計算する
+                      （手入力ではなく保存後の数値をそのまま表示するだけの欄） */}
+                  <div className="px-1.5 py-1 text-right text-sm text-gray-900">
+                    {(entry?.entry_fee ?? 0).toLocaleString()}
+                  </div>
                   <input
                     name={`cashAmount-${i}`}
                     type="number"

@@ -187,7 +187,20 @@ export async function recordBoardTransaction(formData: FormData) {
   const category = String(formData.get("category") ?? "");
   const quantity = Number(formData.get("quantity"));
   const createdAtLocal = String(formData.get("createdAt") ?? "");
-  const createdAt = createdAtLocal ? fromJstDatetimeLocal(createdAtLocal) : undefined;
+  let createdAt = createdAtLocal ? fromJstDatetimeLocal(createdAtLocal) : undefined;
+
+  const [customer, denomination] = await Promise.all([
+    getCustomer(customerId),
+    denominationId ? getDenomination(denominationId) : Promise.resolve(null),
+  ]);
+
+  // 来店ボードの日時欄はページを開いた時刻のままになりがちで、チェックイン直後に
+  // 入力するとその取引が「チェックインより前」の時刻で記録されてしまうことがある。
+  // そうなると額面バッジの「今回の来店分」判定から漏れ、購入したはずのチップが
+  // 表示されなくなるため、チェックイン時刻より前にはならないよう補正する。
+  if (createdAt && customer?.checked_in_at && createdAt < customer.checked_in_at) {
+    createdAt = customer.checked_in_at;
+  }
 
   const transactionId = await insertChipTransaction({
     customerId,
@@ -200,10 +213,6 @@ export async function recordBoardTransaction(formData: FormData) {
   // 来店ボードの手入力もチャットに残す。チャットからでも手入力からでも
   // 同じ場所に記録が並ぶので、二重登録に気づきやすくなる。
   if (isTransactionCategory(category)) {
-    const [customer, denomination] = await Promise.all([
-      getCustomer(customerId),
-      denominationId ? getDenomination(denominationId) : Promise.resolve(null),
-    ]);
     const summary = formatTransactionSummary({
       customerName: customer?.name ?? "(不明な客)",
       category,

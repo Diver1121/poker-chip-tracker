@@ -78,7 +78,9 @@ export async function deleteTransaction(formData: FormData) {
   // 表示用の数値列は別途リセットしないと古い数値が残ってしまうため）。
   const { data: linkedEntries, error: linkedEntriesError } = await supabase
     .from("tournament_entries")
-    .select("id, chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id")
+    .select(
+      "id, chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id, cash_amount, chip_count, ticket_amount",
+    )
     .or(
       `chip_transaction_id.eq.${id},addon_transaction_id.eq.${id},prize_transaction_id.eq.${id},cash_transaction_id.eq.${id}`,
     );
@@ -86,7 +88,12 @@ export async function deleteTransaction(formData: FormData) {
 
   for (const entry of linkedEntries ?? []) {
     const resetFields: Record<string, number | null> = {};
+    // エントリー欄は現金+チップ回数+チケットの自動計算値なので、その元になる欄を
+    // リセットするときは一緒に計算し直す（そうしないと古い合計が残ってしまうため）。
+    let cashAmount = entry.cash_amount;
+    let chipCount = entry.chip_count;
     if (entry.chip_transaction_id === id) {
+      chipCount = 0;
       resetFields.chip_count = 0;
       resetFields.chip_amount = 0;
       resetFields.chip_transaction_id = null;
@@ -101,8 +108,12 @@ export async function deleteTransaction(formData: FormData) {
       resetFields.prize_transaction_id = null;
     }
     if (entry.cash_transaction_id === id) {
+      cashAmount = 0;
       resetFields.cash_amount = 0;
       resetFields.cash_transaction_id = null;
+    }
+    if (entry.chip_transaction_id === id || entry.cash_transaction_id === id) {
+      resetFields.entry_fee = cashAmount + chipCount + entry.ticket_amount;
     }
     const { error: resetError } = await supabase
       .from("tournament_entries")
