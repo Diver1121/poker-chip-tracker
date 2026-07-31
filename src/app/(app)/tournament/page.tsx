@@ -298,14 +298,18 @@ export default async function TournamentPage({
                     placeholder="回数"
                     className={inputClassName}
                   />
-                  <NumberStepperInput
+                  <input
                     name={`rank-${i}`}
+                    type="number"
+                    step={1}
                     defaultValue={entry?.rank ?? ""}
                     placeholder="-"
                     className={inputClassName}
                   />
-                  <NumberStepperInput
+                  <input
                     name={`prizeAmount-${i}`}
+                    type="number"
+                    step={1}
                     defaultValue={entry?.prize_amount ?? ""}
                     placeholder="0"
                     className={inputClassName}
