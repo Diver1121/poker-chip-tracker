@@ -188,3 +188,8 @@ alter table tournament_entries add column if not exists cash_transaction_id uuid
 alter table chat_messages add column if not exists archived_at timestamptz;
 alter table shop_settings add column if not exists previous_closed_at timestamptz;
 alter table shop_settings add column if not exists close_undoable boolean not null default false;
+
+-- アドオンも現金・チップの2項目で入力できるようにする（エントリーの現金・チップ回数と同じ構造）。
+-- アドオン現金は記録のみ（cash_entry、保有チップには影響しない）。
+alter table tournament_entries add column if not exists addon_cash_amount integer not null default 0;
+alter table tournament_entries add column if not exists addon_cash_transaction_id uuid references chip_transactions(id) on delete set null;

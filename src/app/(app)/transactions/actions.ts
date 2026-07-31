@@ -79,10 +79,10 @@ export async function deleteTransaction(formData: FormData) {
   const { data: linkedEntries, error: linkedEntriesError } = await supabase
     .from("tournament_entries")
     .select(
-      "id, chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id, cash_amount, chip_count, ticket_amount",
+      "id, chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id, addon_cash_transaction_id, cash_amount, chip_count, ticket_amount",
     )
     .or(
-      `chip_transaction_id.eq.${id},addon_transaction_id.eq.${id},prize_transaction_id.eq.${id},cash_transaction_id.eq.${id}`,
+      `chip_transaction_id.eq.${id},addon_transaction_id.eq.${id},prize_transaction_id.eq.${id},cash_transaction_id.eq.${id},addon_cash_transaction_id.eq.${id}`,
     );
   if (linkedEntriesError) throw linkedEntriesError;
 
@@ -111,6 +111,10 @@ export async function deleteTransaction(formData: FormData) {
       cashAmount = 0;
       resetFields.cash_amount = 0;
       resetFields.cash_transaction_id = null;
+    }
+    if (entry.addon_cash_transaction_id === id) {
+      resetFields.addon_cash_amount = 0;
+      resetFields.addon_cash_transaction_id = null;
     }
     if (entry.chip_transaction_id === id || entry.cash_transaction_id === id) {
       resetFields.entry_fee = cashAmount + chipCount + entry.ticket_amount;

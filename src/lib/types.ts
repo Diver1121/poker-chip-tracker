@@ -67,6 +67,9 @@ export type TournamentEntry = {
   // このチップ回数から作られたchip_transactions行。次回保存時の二重登録防止・更新用
   chip_transaction_id: string | null;
   ticket_amount: number;
+  // アドオンの現金分。cash_amountと同様、記録のみで保有チップには影響しない
+  addon_cash_amount: number;
+  addon_cash_transaction_id: string | null;
   // addon_countに、選ばれたアドオン種類のvalueを掛けて計算した点数
   addon_amount: number;
   // アドオン欄に入力された回数そのもの

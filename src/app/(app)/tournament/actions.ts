@@ -4,6 +4,9 @@ import { revalidatePath } from "next/cache";
 import { getSupabaseClient } from "@/lib/supabase";
 import { requireAuth } from "@/lib/require-auth";
 import { insertChipTransaction } from "@/lib/transactions";
+import { categorySign } from "@/lib/transactionCategory";
+import { appendChatMessage } from "@/lib/chatLog";
+import type { TransactionCategory } from "@/lib/types";
 
 function toInt(value: FormDataEntryValue | null): number {
   const n = Number(value);
@@ -20,7 +23,32 @@ function revalidateAffectedPages() {
   revalidatePath("/tournament");
   revalidatePath("/board");
   revalidatePath("/transactions");
+  revalidatePath("/chat");
   revalidatePath("/");
+}
+
+// 指定した客・額面の現在の保有枚数を計算する。excludeTransactionIdには、
+// 今まさに更新しようとしている取引（保存し直す前の古い数量）を渡して除外する
+// （そうしないと「自分自身が使った分」を二重に差し引いて判定してしまうため）。
+async function getDenominationBalance(
+  customerId: string,
+  denominationId: string,
+  excludeTransactionId: string | null,
+): Promise<number> {
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("chip_transactions")
+    .select("id, category, quantity")
+    .eq("customer_id", customerId)
+    .eq("denomination_id", denominationId);
+  if (error) throw error;
+
+  let balance = 0;
+  for (const tx of data ?? []) {
+    if (excludeTransactionId && tx.id === excludeTransactionId) continue;
+    balance += categorySign(tx.category as TransactionCategory) * tx.quantity;
+  }
+  return balance;
 }
 
 // 行のチップ回数・アドオン回数・獲得点数から、来店ボード・取引履歴と共有の
@@ -74,6 +102,7 @@ type LinkedTransactionIds = {
   addon_transaction_id: string | null;
   prize_transaction_id: string | null;
   cash_transaction_id: string | null;
+  addon_cash_transaction_id: string | null;
 };
 
 type DayValues = {
@@ -123,6 +152,7 @@ async function saveEntryRow(
   rowIndex: number,
   day: DayValues,
   existing: LinkedTransactionIds | undefined,
+  senderName: string,
 ) {
   const supabase = getSupabaseClient();
   const id = String(formData.get(`id-${rowIndex}`) ?? "");
@@ -134,11 +164,36 @@ async function saveEntryRow(
   const chipCount = toInt(formData.get(`chipCount-${rowIndex}`));
   const chipAmount = chipCount * day.dayChipValue;
   const ticketAmount = toInt(formData.get(`ticketAmount-${rowIndex}`));
+  const addonCashAmount = toInt(formData.get(`addonCashAmount-${rowIndex}`));
   const addonCount = toInt(formData.get(`addonCount-${rowIndex}`));
   const prizeAmount = toInt(formData.get(`prizeAmount-${rowIndex}`));
   // エントリー欄は手入力せず、現金・チップ回数・チケットの合計をサーバー側で自動計算する
   // （チップは点数換算前の回数そのものを足す。例: 現金2 + チップ回数1 + チケット0 = 3）
   const entryFee = cashAmount + chipCount + ticketAmount;
+
+  // 保有チップが足りない場合も保存自体は止めず、チャットに警告だけ残す
+  // （現場の判断で入力を続けられるようにしつつ、あとで気づけるようにするため）。
+  const warnings: string[] = [];
+  if (customerId && day.dayDenominationId && chipCount > 0) {
+    const available = await getDenominationBalance(
+      customerId,
+      day.dayDenominationId,
+      existing?.chip_transaction_id ?? null,
+    );
+    if (chipCount > available) {
+      warnings.push(`${name}: チップ${chipCount}回分の保有チップが足りません（保有${available}枚）`);
+    }
+  }
+  if (customerId && day.dayAddonDenominationId && addonCount > 0) {
+    const available = await getDenominationBalance(
+      customerId,
+      day.dayAddonDenominationId,
+      existing?.addon_transaction_id ?? null,
+    );
+    if (addonCount > available) {
+      warnings.push(`${name}: アドオン${addonCount}回分の保有チップが足りません（保有${available}枚）`);
+    }
+  }
 
   const cashTransactionId = await syncLinkedTransaction(
     existing?.cash_transaction_id ?? null,
@@ -168,6 +223,12 @@ async function saveEntryRow(
         }
       : null,
   );
+  const addonCashTransactionId = await syncLinkedTransaction(
+    existing?.addon_cash_transaction_id ?? null,
+    customerId && addonCashAmount > 0
+      ? { customerId, denominationId: "", category: "cash_entry", quantity: addonCashAmount }
+      : null,
+  );
   const prizeTransactionId = await syncLinkedTransaction(
     existing?.prize_transaction_id ?? null,
     customerId && prizeAmount > 0
@@ -187,6 +248,8 @@ async function saveEntryRow(
     chip_transaction_id: chipTransactionId,
     ticket_amount: ticketAmount,
     addon_denomination_id: day.dayAddonDenominationId,
+    addon_cash_amount: addonCashAmount,
+    addon_cash_transaction_id: addonCashTransactionId,
     addon_count: addonCount,
     addon_amount: addonCount * day.dayAddonValue,
     addon_transaction_id: addonTransactionId,
@@ -202,11 +265,19 @@ async function saveEntryRow(
     const { error } = await supabase.from("tournament_entries").insert(fields);
     if (error) throw error;
   }
+
+  for (const warningText of warnings) {
+    await appendChatMessage(crypto.randomUUID(), "reply", `⚠ ${warningText}（トーナメント表）`, {
+      ok: true,
+      warning: true,
+      senderName,
+    });
+  }
 }
 
 // 表全体（最大rowCount行）を1回の送信でまとめて保存する。
 export async function saveAllTournamentEntries(formData: FormData) {
-  await requireAuth();
+  const senderName = await requireAuth();
 
   const supabase = getSupabaseClient();
   const day = await resolveDayValues(formData);
@@ -219,7 +290,7 @@ export async function saveAllTournamentEntries(formData: FormData) {
   if (existingIds.length > 0) {
     const { data: existingRows, error: existingError } = await supabase
       .from("tournament_entries")
-      .select("id, chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id")
+      .select("id, chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id, addon_cash_transaction_id")
       .in("id", existingIds);
     if (existingError) throw existingError;
     for (const row of existingRows) existingById.set(row.id, row);
@@ -227,7 +298,7 @@ export async function saveAllTournamentEntries(formData: FormData) {
 
   for (let i = 0; i < rowCount; i++) {
     const id = String(formData.get(`id-${i}`) ?? "");
-    await saveEntryRow(formData, i, day, id ? existingById.get(id) : undefined);
+    await saveEntryRow(formData, i, day, id ? existingById.get(id) : undefined, senderName);
   }
 
   revalidateAffectedPages();
@@ -236,7 +307,7 @@ export async function saveAllTournamentEntries(formData: FormData) {
 // 行ごとの保存ボタン用（formAction + bind(rowIndex)で使う想定）。
 // 「まとめて保存」と同じ共有フォームに同居させ、この行(rowIndex)だけを保存する。
 export async function saveTournamentEntry(rowIndex: number, formData: FormData) {
-  await requireAuth();
+  const senderName = await requireAuth();
 
   const supabase = getSupabaseClient();
   const day = await resolveDayValues(formData);
@@ -246,14 +317,14 @@ export async function saveTournamentEntry(rowIndex: number, formData: FormData) 
   if (id) {
     const { data, error } = await supabase
       .from("tournament_entries")
-      .select("chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id")
+      .select("chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id, addon_cash_transaction_id")
       .eq("id", id)
       .maybeSingle();
     if (error) throw error;
     existing = data ?? undefined;
   }
 
-  await saveEntryRow(formData, rowIndex, day, existing);
+  await saveEntryRow(formData, rowIndex, day, existing, senderName);
 
   revalidateAffectedPages();
 }
@@ -270,7 +341,7 @@ export async function deleteTournamentEntry(id: string, _formData: FormData) {
 
   const { data: entry, error: fetchError } = await supabase
     .from("tournament_entries")
-    .select("chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id")
+    .select("chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id, addon_cash_transaction_id")
     .eq("id", id)
     .maybeSingle();
   if (fetchError) throw fetchError;
@@ -280,6 +351,7 @@ export async function deleteTournamentEntry(id: string, _formData: FormData) {
     entry?.addon_transaction_id,
     entry?.prize_transaction_id,
     entry?.cash_transaction_id,
+    entry?.addon_cash_transaction_id,
   ].filter((transactionId): transactionId is string => Boolean(transactionId));
 
   if (linkedTransactionIds.length > 0) {

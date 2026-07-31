@@ -69,7 +69,7 @@ async function assertDenominationAllowedForCategory(
 ) {
   const { data, error } = await getSupabaseClient()
     .from("denominations")
-    .select("usable_for_purchase, usable_for_tournament")
+    .select("usable_for_purchase, usable_for_tournament, usable_for_addon")
     .eq("id", denominationId)
     .maybeSingle();
   if (error) throw error;
@@ -77,8 +77,13 @@ async function assertDenominationAllowedForCategory(
     throw new Error("指定された額面が見つかりません。");
   }
 
+  // "tournament"カテゴリは、トーナメント表のチップ回数・アドオン回数の両方で使う
+  // （chip_transactionsに専用カテゴリが無いため）。アドオン専用額面は
+  // usable_for_tournamentがfalseなので、usable_for_addonも合わせて許可対象にする。
   const allowed =
-    category === "purchase" ? data.usable_for_purchase : data.usable_for_tournament;
+    category === "purchase"
+      ? data.usable_for_purchase
+      : data.usable_for_tournament || data.usable_for_addon;
   if (!allowed) {
     throw new Error("この額面はこの種別では使用できません。");
   }

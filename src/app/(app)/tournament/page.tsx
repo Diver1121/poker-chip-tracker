@@ -20,10 +20,10 @@ const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 // （エントリーが40件を超えたらその分だけ行を増やす）。
 const MIN_ROWS = 40;
 
-// # / NAME / エントリー / 現金 / チップ / チケット / アドオン / 順位 / 獲得 / 保存 / 削除 の11列
+// # / NAME / エントリー / 現金 / チップ / チケット / アドオン現金 / アドオン / 順位 / 獲得 / 保存 / 削除 の12列
 // スマホでの利用が多いため、NAMEはなるべく幅を取らないようにしている
 const GRID_COLS =
-  "grid-cols-[2rem_minmax(4.5rem,1fr)_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_3.5rem_4.5rem_3.25rem_3.25rem]";
+  "grid-cols-[2rem_minmax(4.5rem,1fr)_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_3.5rem_4.5rem_3.25rem_3.25rem]";
 
 const inputClassName =
   "w-full rounded-md border border-gray-300 px-1.5 py-1 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none";
@@ -74,11 +74,22 @@ export default async function TournamentPage({
       // chipCount: 「チップ(回数)」列の合計はエントリー回数の合計であり、点数ではない
       chipCount: acc.chipCount + entry.chip_count,
       ticket: acc.ticket + entry.ticket_amount,
+      addonCash: acc.addonCash + entry.addon_cash_amount,
       addon: acc.addon + entry.addon_amount,
       addonCount: acc.addonCount + entry.addon_count,
       prize: acc.prize + entry.prize_amount,
     }),
-    { entryFee: 0, cash: 0, chip: 0, chipCount: 0, ticket: 0, addon: 0, addonCount: 0, prize: 0 },
+    {
+      entryFee: 0,
+      cash: 0,
+      chip: 0,
+      chipCount: 0,
+      ticket: 0,
+      addonCash: 0,
+      addon: 0,
+      addonCount: 0,
+      prize: 0,
+    },
   );
 
   const rowCount = Math.max(MIN_ROWS, dayEntries.length);
@@ -230,6 +241,7 @@ export default async function TournamentPage({
             <div className="text-xs font-medium text-gray-500">現金</div>
             <div className="text-xs font-medium text-gray-500">チップ(回数)</div>
             <div className="text-xs font-medium text-gray-500">チケット</div>
+            <div className="text-xs font-medium text-gray-500">アドオン現金</div>
             <div className="text-xs font-medium text-gray-500">アドオン(回数)</div>
             <div className="text-xs font-medium text-gray-500">順位</div>
             <div className="text-xs font-medium text-gray-500">獲得</div>
@@ -247,6 +259,9 @@ export default async function TournamentPage({
             </div>
             <div className="text-xs font-bold text-gray-900">
               {totals.ticket.toLocaleString()}
+            </div>
+            <div className="text-xs font-bold text-gray-900">
+              {totals.addonCash.toLocaleString()}
             </div>
             <div className="text-xs font-bold text-gray-900">
               {totals.addonCount.toLocaleString()}
@@ -289,6 +304,12 @@ export default async function TournamentPage({
                   <NumberStepperInput
                     name={`ticketAmount-${i}`}
                     defaultValue={entry?.ticket_amount ?? ""}
+                    placeholder="0"
+                    className={inputClassName}
+                  />
+                  <NumberStepperInput
+                    name={`addonCashAmount-${i}`}
+                    defaultValue={entry?.addon_cash_amount ?? ""}
                     placeholder="0"
                     className={inputClassName}
                   />

@@ -196,10 +196,11 @@ export default async function StatsPage({
       cash: acc.cash + e.cash_amount,
       chip: acc.chip + e.chip_amount,
       ticket: acc.ticket + e.ticket_amount,
+      addonCash: acc.addonCash + e.addon_cash_amount,
       addon: acc.addon + e.addon_amount,
       prize: acc.prize + e.prize_amount,
     }),
-    { entryFee: 0, cash: 0, chip: 0, ticket: 0, addon: 0, prize: 0 },
+    { entryFee: 0, cash: 0, chip: 0, ticket: 0, addonCash: 0, addon: 0, prize: 0 },
   );
 
   return (
@@ -470,6 +471,7 @@ export default async function StatsPage({
                       <th className="px-2 py-1 font-medium">現金</th>
                       <th className="px-2 py-1 font-medium">チップ</th>
                       <th className="px-2 py-1 font-medium">チケット</th>
+                      <th className="px-2 py-1 font-medium">アドオン現金</th>
                       <th className="px-2 py-1 font-medium">アドオン</th>
                       <th className="px-2 py-1 font-medium">順位</th>
                       <th className="px-2 py-1 font-medium">獲得</th>
@@ -485,6 +487,9 @@ export default async function StatsPage({
                         <td className="px-2 py-1 text-gray-900">
                           {e.ticket_amount.toLocaleString()}
                         </td>
+                        <td className="px-2 py-1 text-gray-900">
+                          {e.addon_cash_amount.toLocaleString()}
+                        </td>
                         <td className="px-2 py-1 text-gray-900">{e.addon_amount.toLocaleString()}</td>
                         <td className="px-2 py-1 text-gray-900">{e.rank ?? "-"}</td>
                         <td className="px-2 py-1 text-gray-900">{e.prize_amount.toLocaleString()}</td>
@@ -498,6 +503,7 @@ export default async function StatsPage({
                       <td className="px-2 py-1">{selectedDayTotals.cash.toLocaleString()}</td>
                       <td className="px-2 py-1">{selectedDayTotals.chip.toLocaleString()}</td>
                       <td className="px-2 py-1">{selectedDayTotals.ticket.toLocaleString()}</td>
+                      <td className="px-2 py-1">{selectedDayTotals.addonCash.toLocaleString()}</td>
                       <td className="px-2 py-1">{selectedDayTotals.addon.toLocaleString()}</td>
                       <td className="px-2 py-1" />
                       <td className="px-2 py-1">{selectedDayTotals.prize.toLocaleString()}</td>
