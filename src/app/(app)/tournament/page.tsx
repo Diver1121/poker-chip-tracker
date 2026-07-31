@@ -12,7 +12,14 @@ import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { TournamentCustomerInput } from "@/components/TournamentCustomerInput";
 import { NumberStepperInput } from "@/components/NumberStepperInput";
 import { TournamentNameDatalistSync } from "@/components/TournamentNameDatalistSync";
-import { deleteTournamentEntry, saveAllTournamentEntries, saveTournamentEntry } from "./actions";
+import { TournamentRankPrizeInputs } from "@/components/TournamentRankPrizeInputs";
+import { computePrizeAmounts } from "@/lib/prizePayout";
+import {
+  calculatePrizeCount,
+  deleteTournamentEntry,
+  saveAllTournamentEntries,
+  saveTournamentEntry,
+} from "./actions";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -31,10 +38,15 @@ const inputClassName =
 export default async function TournamentPage({
   searchParams,
 }: {
-  searchParams: Promise<{ date?: string }>;
+  searchParams: Promise<{ date?: string; prizeCount?: string; prizeTotal?: string }>;
 }) {
-  const [{ date }, entries, denominations, checkedInCustomers, allCustomers] =
-    await Promise.all([
+  const [
+    { date, prizeCount: prizeCountParam, prizeTotal: prizeTotalParam },
+    entries,
+    denominations,
+    checkedInCustomers,
+    allCustomers,
+  ] = await Promise.all([
       searchParams,
       getTournamentEntries(),
       getDenominations(),
@@ -64,6 +76,21 @@ export default async function TournamentPage({
   const dayEntries = entries.filter(
     (entry) => businessDateKey(entry.created_at) === dayKey,
   );
+
+  // プライズ計算ボタンの結果表示。日付を変えたら計算結果は持ち越さない
+  // （dateパラメータと一緒に発行されるURLのprizeCountだけを見る）。
+  const prizeCount =
+    date === dayKey && prizeCountParam && /^\d+$/.test(prizeCountParam)
+      ? Number(prizeCountParam)
+      : null;
+  const prizeTotal =
+    date === dayKey && prizeTotalParam && /^\d+$/.test(prizeTotalParam)
+      ? Number(prizeTotalParam)
+      : null;
+  const prizeAmounts =
+    prizeCount !== null && prizeTotal !== null
+      ? computePrizeAmounts(prizeCount, prizeTotal)
+      : [];
 
   const totals = dayEntries.reduce(
     (acc, entry) => ({
@@ -118,6 +145,7 @@ export default async function TournamentPage({
     <div className="space-y-6">
       <form action={saveAllTournamentEntries} className="space-y-4">
         <input type="hidden" name="rowCount" value={rowCount} />
+        <input type="hidden" name="dayKey" value={dayKey} />
         <datalist id="tournament-checked-in-names" data-all-names={JSON.stringify(checkedInNames)}>
           {availableNames.map((n) => (
             <option key={n} value={n} />
@@ -224,11 +252,37 @@ export default async function TournamentPage({
             </div>
           </div>
           <div className="text-right">
-            <SubmitButton className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
-              記録保存
-            </SubmitButton>
-            <p className="mt-1 max-w-[16rem] text-[11px] text-gray-500">
+            <div className="flex items-start justify-end gap-3">
+              <SubmitButton className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
+                記録保存
+              </SubmitButton>
+              <SubmitButton
+                formAction={calculatePrizeCount}
+                pendingText="計算中"
+                className="rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-700 hover:bg-amber-100 disabled:opacity-50"
+              >
+                プライズ計算
+              </SubmitButton>
+              {prizeCount !== null && prizeTotal !== null && (
+                <div className="flex items-start gap-3 rounded-md bg-amber-50 px-3 py-2 text-left text-xs font-medium text-amber-800">
+                  <div className="whitespace-nowrap">
+                    対象 {prizeCount}名
+                    <br />
+                    総額 {prizeTotal.toLocaleString()}点
+                  </div>
+                  <div className="flex flex-col gap-0.5 whitespace-nowrap border-l border-amber-200 pl-3 font-normal text-amber-700">
+                    {prizeAmounts.map((amount, i) => (
+                      <div key={i}>
+                        {i + 1}位 {amount.toLocaleString()}点
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            <p className="mt-1 max-w-[20rem] text-[11px] text-gray-500">
               この表全体を記録として保存します。グラフページのトーナメント欄から、後で誰が参加したか振り返れます。
+              プライズ計算は合計エントリー{totals.entryFee.toLocaleString()}を基に、対象人数=×15%切り上げ、総額=×単価×0.4（単価はこの日の種類がTURBOなら200、それ以外は300）、配分は上位ほど厚い固定テーブルで算出します。
             </p>
           </div>
         </div>
@@ -319,20 +373,11 @@ export default async function TournamentPage({
                     placeholder="回数"
                     className={inputClassName}
                   />
-                  <input
-                    name={`rank-${i}`}
-                    type="number"
-                    step={1}
-                    defaultValue={entry?.rank ?? ""}
-                    placeholder="-"
-                    className={inputClassName}
-                  />
-                  <input
-                    name={`prizeAmount-${i}`}
-                    type="number"
-                    step={1}
-                    defaultValue={entry?.prize_amount ?? ""}
-                    placeholder="0"
+                  <TournamentRankPrizeInputs
+                    rowIndex={i}
+                    defaultRank={entry?.rank ?? ""}
+                    defaultPrizeAmount={entry?.prize_amount ?? ""}
+                    prizeAmounts={prizeAmounts}
                     className={inputClassName}
                   />
                   <SubmitButton

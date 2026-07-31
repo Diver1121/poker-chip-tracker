@@ -1,12 +1,25 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabase";
 import { requireAuth } from "@/lib/require-auth";
 import { insertChipTransaction } from "@/lib/transactions";
 import { categorySign } from "@/lib/transactionCategory";
 import { appendChatMessage } from "@/lib/chatLog";
-import type { TransactionCategory } from "@/lib/types";
+import { getDenominations, getTournamentEntries } from "@/lib/data";
+import { businessDateKey } from "@/lib/businessDay";
+import type { Denomination, TransactionCategory } from "@/lib/types";
+
+// TURBOの種類だけプライズ総額の計算式が異なる（合計エントリー×200×0.4、
+// 通常は×300×0.4）。額面のラベルまたは別名に「turbo」「ターボ」が含まれるかで判定する。
+function isTurboDenomination(denomination: Denomination | undefined): boolean {
+  if (!denomination) return false;
+  const keywords = [denomination.label, ...denomination.aliases].map((k) =>
+    k.toLowerCase(),
+  );
+  return keywords.some((k) => k.includes("turbo") || k.includes("ターボ"));
+}
 
 function toInt(value: FormDataEntryValue | null): number {
   const n = Number(value);
@@ -273,6 +286,33 @@ async function saveEntryRow(
       senderName,
     });
   }
+}
+
+// プライズ対象人数・総額を計算する。人数は合計エントリー数×15%を切り上げ。
+// 総額（チップ）は合計エントリー数×単価×0.4で、単価はこの日のトーナメント種類が
+// TURBOなら200、それ以外は300。結果はURLパラメータに載せて表示するだけで、
+// 保存や個別の配分は行わない。
+export async function calculatePrizeCount(formData: FormData) {
+  await requireAuth();
+
+  const dayKey = String(formData.get("dayKey") ?? "");
+  const dayDenominationId = String(formData.get("dayDenominationId") ?? "") || null;
+
+  const [entries, denominations] = await Promise.all([
+    getTournamentEntries(),
+    getDenominations(),
+  ]);
+  const totalEntries = entries
+    .filter((entry) => businessDateKey(entry.created_at) === dayKey)
+    .reduce((sum, entry) => sum + entry.entry_fee, 0);
+
+  const dayDenomination = denominations.find((d) => d.id === dayDenominationId);
+  const perEntryValue = isTurboDenomination(dayDenomination) ? 200 : 300;
+
+  const prizeCount = totalEntries > 0 ? Math.ceil(totalEntries * 0.15) : 0;
+  const prizeTotal = Math.round(totalEntries * perEntryValue * 0.4);
+
+  redirect(`/tournament?date=${dayKey}&prizeCount=${prizeCount}&prizeTotal=${prizeTotal}`);
 }
 
 // 表全体（最大rowCount行）を1回の送信でまとめて保存する。
