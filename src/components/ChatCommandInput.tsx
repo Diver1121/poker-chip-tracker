@@ -178,7 +178,6 @@ export function ChatCommandInput({
           type="text"
           name="text"
           required
-          placeholder="例: ダイバー　購入300"
           autoComplete="off"
           className="min-w-0 flex-1 rounded-full border border-gray-300 px-4 py-2 text-gray-900 focus:border-indigo-500 focus:outline-none"
         />
