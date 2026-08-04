@@ -101,7 +101,7 @@ export function ChatCommandInput({
       <div className="flex-1 space-y-2 overflow-y-auto p-4">
         {history.length === 0 && (
           <p className="mt-4 text-center text-sm text-gray-500">
-            例: 「ダイバー　購入300」「OCEAN 300バイイン」「ダイバー トーナメントターボ」
+            例: 「レッド　購入300」「レッド 300バイイン」「レッド トーナメントターボ」
           </p>
         )}
         {history.map((entry) =>

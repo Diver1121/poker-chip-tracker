@@ -17,8 +17,6 @@ const TABLES = [
   "shop_settings",
 ] as const;
 
-const GITHUB_OWNER = "Diver1121";
-const GITHUB_REPO = "poker-chip-tracker";
 const BACKUP_PATH = "backups/latest.json";
 
 async function fetchAllRows(supabase: SupabaseClient, table: string) {
@@ -53,6 +51,15 @@ export async function GET(request: Request) {
     );
   }
 
+  const githubOwner = process.env.BACKUP_GITHUB_OWNER;
+  const githubRepo = process.env.BACKUP_GITHUB_REPO;
+  if (!githubOwner || !githubRepo) {
+    return NextResponse.json(
+      { ok: false, error: "BACKUP_GITHUB_OWNER / BACKUP_GITHUB_REPO is not set" },
+      { status: 500 },
+    );
+  }
+
   const supabase = getSupabaseClient();
   const generatedAt = new Date().toISOString();
   const backup: Record<string, unknown> = { generatedAt };
@@ -68,7 +75,7 @@ export async function GET(request: Request) {
   }
 
   const content = JSON.stringify(backup, null, 2);
-  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${BACKUP_PATH}`;
+  const apiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${BACKUP_PATH}`;
   const githubHeaders = {
     Authorization: `Bearer ${githubToken}`,
     Accept: "application/vnd.github+json",
