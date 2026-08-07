@@ -13,6 +13,8 @@ export function NumberStepperInput({
   className,
   min = 0,
   step = 1,
+  warning = false,
+  title,
 }: {
   name: string;
   defaultValue?: number | string;
@@ -20,6 +22,9 @@ export function NumberStepperInput({
   className?: string;
   min?: number;
   step?: number;
+  // trueなら入力欄を赤く縁取りし、左上に注意バッジを出す（保有チップ不足の警告用）
+  warning?: boolean;
+  title?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -39,9 +44,18 @@ export function NumberStepperInput({
         step={step}
         defaultValue={defaultValue}
         placeholder={placeholder}
-        className={`number-stepper-input ${className ?? ""}`}
+        title={title}
+        className={`number-stepper-input ${className ?? ""} ${warning ? "!border-red-400 !bg-red-50" : ""}`}
         style={{ paddingRight: "1rem" }}
       />
+      {warning && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -top-1 -left-1 flex h-3 w-3 items-center justify-center rounded-full bg-red-500 text-[7px] font-bold text-white"
+        >
+          !
+        </span>
+      )}
       <div className="invisible absolute inset-y-0 right-0 flex w-6 flex-col overflow-hidden rounded-r-md border-l border-gray-300 bg-white opacity-0 shadow-sm transition-opacity group-focus-within:visible group-focus-within:opacity-100">
         <button
           type="button"

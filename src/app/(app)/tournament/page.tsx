@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import {
+  getAllTransactions,
   getCheckedInCustomers,
   getCustomers,
   getDenominations,
   getTournamentEntries,
   getTournaments,
 } from "@/lib/data";
+import { computeBalances } from "@/lib/balances";
 import { businessDateKey, shiftDayKey } from "@/lib/businessDay";
 import { SubmitButton } from "@/components/SubmitButton";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
@@ -30,9 +32,8 @@ const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 const MIN_ROWS = 40;
 
 // # / NAME / エントリー / 現金 / チップ / チケット / アドオン現金 / アドオン / 順位 / 獲得 / 保存 / 削除 の12列
-// スマホでの利用が多いため、NAMEはなるべく幅を取らないようにしている
 const GRID_COLS =
-  "grid-cols-[2rem_minmax(4.5rem,1fr)_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_3.5rem_4.5rem_3.25rem_3.25rem]";
+  "grid-cols-[2rem_minmax(6rem,1fr)_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_3.5rem_4.5rem_3.25rem_3.25rem]";
 
 const inputClassName =
   "w-full rounded-md border border-gray-300 px-1.5 py-1 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none";
@@ -57,6 +58,7 @@ export default async function TournamentPage({
     tournaments,
     checkedInCustomers,
     allCustomers,
+    transactions,
   ] = await Promise.all([
     searchParams,
     getTournamentEntries(),
@@ -64,7 +66,11 @@ export default async function TournamentPage({
     getTournaments(),
     getCheckedInCustomers(),
     getCustomers(),
+    getAllTransactions(),
   ]);
+  // 保有チップ不足の警告表示用。額面ごとの現在の保有枚数（このトーナメント分の
+  // チップ・アドオン使用も含めた最終的な残高）を客ごとに算出する。
+  const balances = computeBalances(transactions);
 
   // 「種類」は額面設定の「トーナメントで使う」項目をそのまま流用する
   // （アドオン専用の項目は種類の選択肢から除き、アドオンの種類選択に出す）
@@ -322,7 +328,7 @@ export default async function TournamentPage({
           </div>
 
           <section className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
-            <div className={`grid ${GRID_COLS} min-w-[760px] items-center gap-x-1.5 gap-y-2 p-4`}>
+            <div className={`grid ${GRID_COLS} min-w-[800px] items-center gap-x-1.5 gap-y-2 p-4`}>
               <div />
               <div className="text-xs font-medium text-gray-500">NAME</div>
               <div className="text-xs font-medium text-gray-500">エントリー</div>
@@ -330,7 +336,7 @@ export default async function TournamentPage({
               <div className="text-xs font-medium text-gray-500">チップ(回数)</div>
               <div className="text-xs font-medium text-gray-500">チケット</div>
               <div className="text-xs font-medium text-gray-500">アドオン現金</div>
-              <div className="text-xs font-medium text-gray-500">アドオン(回数)</div>
+              <div className="text-xs font-medium text-gray-500">アドオン(チップ)</div>
               <div className="text-xs font-medium text-gray-500">順位</div>
               <div className="text-xs font-medium text-gray-500">獲得</div>
               <div />
@@ -361,6 +367,17 @@ export default async function TournamentPage({
 
               {Array.from({ length: rowCount }, (_, i) => {
                 const entry = dayEntries[i];
+                const customerBalances = entry?.customer_id
+                  ? balances.get(entry.customer_id)
+                  : undefined;
+                const chipBalance = selectedSession?.denomination_id
+                  ? (customerBalances?.get(selectedSession.denomination_id) ?? 0)
+                  : 0;
+                const chipWarning = Boolean(entry?.customer_id) && chipBalance < 0;
+                const addonBalance = selectedSession?.addon_denomination_id
+                  ? (customerBalances?.get(selectedSession.addon_denomination_id) ?? 0)
+                  : 0;
+                const addonWarning = Boolean(entry?.customer_id) && addonBalance < 0;
                 return (
                   <Fragment key={entry?.id ?? `blank-${i}`}>
                     <div className="text-xs text-gray-400">{i + 1}</div>
@@ -388,6 +405,8 @@ export default async function TournamentPage({
                       defaultValue={entry?.chip_count ?? ""}
                       placeholder="回数"
                       className={inputClassName}
+                      warning={chipWarning}
+                      title={chipWarning ? `保有チップが不足しています（保有${chipBalance}枚）` : undefined}
                     />
                     <NumberStepperInput
                       name={`ticketAmount-${i}`}
@@ -406,6 +425,8 @@ export default async function TournamentPage({
                       defaultValue={entry?.addon_count ?? ""}
                       placeholder="回数"
                       className={inputClassName}
+                      warning={addonWarning}
+                      title={addonWarning ? `保有チップが不足しています（保有${addonBalance}枚）` : undefined}
                     />
                     <TournamentRankPrizeInputs
                       rowIndex={i}
