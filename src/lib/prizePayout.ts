@@ -16,11 +16,21 @@ function payoutPercentages(count: number): number[] {
 
 // プライズ総額(点)を対象人数に配分し、各順位の獲得点数を返す（配列の0番目が1位）。
 // 配分率を掛けた際の端数は最下位に寄せて、合計が必ずprizeTotalと一致するようにする。
+// さらに1位以外は一の位を切り捨て、切り捨てた分は全て1位に加算する。
 export function computePrizeAmounts(prizeCount: number, prizeTotal: number): number[] {
   if (prizeCount <= 0 || prizeTotal <= 0) return [];
   const percentages = payoutPercentages(prizeCount);
   const amounts = percentages.map((p) => Math.round((prizeTotal * p) / 100));
   const diff = prizeTotal - amounts.reduce((a, b) => a + b, 0);
   if (diff !== 0) amounts[amounts.length - 1] += diff;
+
+  let carry = 0;
+  for (let i = 1; i < amounts.length; i++) {
+    const rounded = Math.floor(amounts[i] / 10) * 10;
+    carry += amounts[i] - rounded;
+    amounts[i] = rounded;
+  }
+  amounts[0] += carry;
+
   return amounts;
 }
