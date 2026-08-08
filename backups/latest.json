@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T20:57:03.738Z",
+  "generatedAt": "2026-08-08T20:34:43.635Z",
   "customers": [
     {
       "id": "5cba8874-f2c0-47ff-a8d7-dea462f33906",
@@ -9,11 +9,11 @@
       "checked_in_at": null
     },
     {
-      "id": "20ed9aa3-c994-47ba-b4e6-6deb2b14ccfc",
-      "name": "アサヒ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:30.595091+00:00",
-      "checked_in_at": null
+      "id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "name": "ゴックン",
+      "note": "トワダンナ",
+      "created_at": "2026-07-12T21:53:41.977222+00:00",
+      "checked_in_at": "2026-08-08T13:57:46.687+00:00"
     },
     {
       "id": "31554623-8bbe-4fbf-b0a9-a2adf6e131d1",
@@ -30,24 +30,17 @@
       "checked_in_at": null
     },
     {
-      "id": "4c502354-aec0-4136-8cdf-f2d3253d2517",
-      "name": "ケント",
-      "note": "セナ連れ",
-      "created_at": "2026-07-12T21:53:41.247704+00:00",
-      "checked_in_at": null
+      "id": "20ed9aa3-c994-47ba-b4e6-6deb2b14ccfc",
+      "name": "アサヒ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:30.595091+00:00",
+      "checked_in_at": "2026-08-08T12:33:38.696+00:00"
     },
     {
       "id": "9dd2794f-2e76-4336-be61-7d9146122f55",
       "name": "ケイ(K)",
       "note": null,
       "created_at": "2026-07-12T21:53:40.586496+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
-      "name": "ゴックン",
-      "note": "トワダンナ",
-      "created_at": "2026-07-12T21:53:41.977222+00:00",
       "checked_in_at": null
     },
     {
@@ -212,13 +205,6 @@
       "checked_in_at": null
     },
     {
-      "id": "1a70753e-17cd-4775-a39a-b8c3c947fbb3",
-      "name": "アヤノ",
-      "note": "タカヒト2人組 40前後",
-      "created_at": "2026-07-12T21:53:31.807509+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "eee5ef2d-5b79-446d-a5e5-5fea538a5fcd",
       "name": "アユカ",
       "note": "ツマ ポコ クチクン アユカ",
@@ -238,6 +224,13 @@
       "note": null,
       "created_at": "2026-07-12T21:53:32.349802+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "1a70753e-17cd-4775-a39a-b8c3c947fbb3",
+      "name": "アヤノ",
+      "note": "タカヒト2人組 40前後",
+      "created_at": "2026-07-12T21:53:31.807509+00:00",
+      "checked_in_at": "2026-08-08T10:09:13.332+00:00"
     },
     {
       "id": "f53b5c33-630f-47e5-aee0-45c7b5661661",
@@ -462,6 +455,13 @@
       "note": null,
       "created_at": "2026-07-12T21:53:37.601297+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "4c502354-aec0-4136-8cdf-f2d3253d2517",
+      "name": "ケント",
+      "note": "セナ連れ",
+      "created_at": "2026-07-12T21:53:41.247704+00:00",
+      "checked_in_at": "2026-08-08T11:08:35.072+00:00"
     },
     {
       "id": "ce110493-f317-4437-9594-57dda6c2f398",
@@ -709,13 +709,6 @@
       "checked_in_at": null
     },
     {
-      "id": "e48876d9-9372-49ea-bc47-2216bc9f47fa",
-      "name": "トウイ",
-      "note": "上昇工業",
-      "created_at": "2026-07-12T21:54:00.546632+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "2194a36e-1bf8-4736-a094-ba918e113958",
       "name": "ナオ",
       "note": "大分大学 教授",
@@ -821,13 +814,6 @@
       "checked_in_at": null
     },
     {
-      "id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
-      "name": "レン",
-      "note": "上昇工業",
-      "created_at": "2026-07-12T21:54:22.426825+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "d3d008c9-e357-4540-b176-99dbcaffe035",
       "name": "ケーワイオー(KYO)",
       "note": null,
@@ -891,13 +877,6 @@
       "checked_in_at": null
     },
     {
-      "id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
-      "name": "ジャンタマ",
-      "note": "しんやまお連れ様",
-      "created_at": "2026-07-12T21:53:46.440947+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "2676740b-4e73-41b2-b5a3-eb618fad8823",
       "name": "ミー",
       "note": "スー連れ",
@@ -926,24 +905,10 @@
       "checked_in_at": null
     },
     {
-      "id": "9a5c1ed0-5b21-457c-8bed-60d799247680",
-      "name": "タガメ",
-      "note": "ユウお連れ様",
-      "created_at": "2026-07-12T21:53:54.536497+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "7a91a1f6-bf9a-4634-a2ec-414be5532694",
       "name": "ゴリ",
       "note": "競艇ガチ トリック出禁",
       "created_at": "2026-07-12T21:53:42.909639+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
-      "name": "ミヒョク",
-      "note": "APU卒 韓国人",
-      "created_at": "2026-07-12T21:54:14.345942+00:00",
       "checked_in_at": null
     },
     {
@@ -959,6 +924,41 @@
       "note": "マリア友人",
       "created_at": "2026-07-12T21:54:22.261422+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "name": "ミヒョク",
+      "note": "APU卒 韓国人",
+      "created_at": "2026-07-12T21:54:14.345942+00:00",
+      "checked_in_at": "2026-08-08T10:44:38.032+00:00"
+    },
+    {
+      "id": "9a5c1ed0-5b21-457c-8bed-60d799247680",
+      "name": "タガメ",
+      "note": "ユウお連れ様",
+      "created_at": "2026-07-12T21:53:54.536497+00:00",
+      "checked_in_at": "2026-08-08T12:25:28.535+00:00"
+    },
+    {
+      "id": "e48876d9-9372-49ea-bc47-2216bc9f47fa",
+      "name": "トウイ",
+      "note": "上昇工業",
+      "created_at": "2026-07-12T21:54:00.546632+00:00",
+      "checked_in_at": "2026-08-08T13:35:31.134+00:00"
+    },
+    {
+      "id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "name": "レン",
+      "note": "上昇工業",
+      "created_at": "2026-07-12T21:54:22.426825+00:00",
+      "checked_in_at": "2026-08-08T13:36:19.433+00:00"
+    },
+    {
+      "id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
+      "name": "ジャンタマ",
+      "note": "しんやまお連れ様",
+      "created_at": "2026-07-12T21:53:46.440947+00:00",
+      "checked_in_at": "2026-08-08T13:44:04.185+00:00"
     },
     {
       "id": "f02304e9-89e0-4c8d-984a-4700baccdfeb",
@@ -1105,13 +1105,6 @@
       "name": "モギモギ",
       "note": "ユーウィンお連れ様",
       "created_at": "2026-07-12T21:54:15.631104+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "ae255c47-958a-4d58-8d68-e71a3331f6c6",
-      "name": "ヤマビシ",
-      "note": "セイさんお連れ様",
-      "created_at": "2026-07-12T21:54:16.796816+00:00",
       "checked_in_at": null
     },
     {
@@ -1276,24 +1269,10 @@
       "checked_in_at": null
     },
     {
-      "id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
-      "name": "ヒギョ",
-      "note": "キザシ、ルイ 3人",
-      "created_at": "2026-07-12T21:54:33.97759+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "3be30a2d-441c-4d67-9674-ca98638e3856",
       "name": "ルイ",
       "note": "ルイ、ヒギョ 3人",
       "created_at": "2026-07-12T21:54:34.065245+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
-      "name": "ガリ",
-      "note": "のっぽ",
-      "created_at": "2026-07-12T21:53:37.777708+00:00",
       "checked_in_at": null
     },
     {
@@ -1332,11 +1311,32 @@
       "checked_in_at": null
     },
     {
+      "id": "ae255c47-958a-4d58-8d68-e71a3331f6c6",
+      "name": "ヤマビシ",
+      "note": "セイさんお連れ様",
+      "created_at": "2026-07-12T21:54:16.796816+00:00",
+      "checked_in_at": "2026-08-08T10:06:01.696+00:00"
+    },
+    {
+      "id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "name": "ヒギョ",
+      "note": "キザシ、ルイ 3人",
+      "created_at": "2026-07-12T21:54:33.97759+00:00",
+      "checked_in_at": "2026-08-08T10:45:22.249+00:00"
+    },
+    {
+      "id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "name": "ガリ",
+      "note": "のっぽ",
+      "created_at": "2026-07-12T21:53:37.777708+00:00",
+      "checked_in_at": "2026-08-08T11:05:40.5+00:00"
+    },
+    {
       "id": "77906b5d-074c-4400-843b-5466b5a497e4",
       "name": "セナ",
       "note": "イケメン 光ユウダイくん友達",
       "created_at": "2026-07-12T21:53:52.017339+00:00",
-      "checked_in_at": null
+      "checked_in_at": "2026-08-08T11:08:21.099+00:00"
     },
     {
       "id": "beea19a3-2d41-44c5-84cd-2748bcf86182",
@@ -1640,18 +1640,18 @@
       "checked_in_at": null
     },
     {
-      "id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
-      "name": "セブ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:52.207798+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "86cbc743-227f-45c7-9cda-b51c19faa792",
       "name": "ユウダイ",
       "note": "光タイプ",
       "created_at": "2026-07-12T21:54:18.075344+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "name": "セブ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:52.207798+00:00",
+      "checked_in_at": "2026-08-08T10:48:02.074+00:00"
     },
     {
       "id": "4f1655f1-1fc5-45f2-a176-51f0f1f937de",
@@ -1948,13 +1948,6 @@
       "checked_in_at": null
     },
     {
-      "id": "e9a61023-c840-44e3-845f-2f7766be499e",
-      "name": "ライスボール",
-      "note": "ユウ お連れ様",
-      "created_at": "2026-07-12T21:54:19.395242+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
       "name": "タイノジュウチン",
       "note": "タクミ連れ",
@@ -1967,6 +1960,13 @@
       "note": "建築",
       "created_at": "2026-07-12T21:54:06.10924+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "e9a61023-c840-44e3-845f-2f7766be499e",
+      "name": "ライスボール",
+      "note": "ユウ お連れ様",
+      "created_at": "2026-07-12T21:54:19.395242+00:00",
+      "checked_in_at": "2026-08-08T12:25:43.976+00:00"
     },
     {
       "id": "b924ab96-35c0-4ac1-bc2d-6d991c67ca96",
@@ -2165,24 +2165,10 @@
       "checked_in_at": null
     },
     {
-      "id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
-      "name": "トウヤ",
-      "note": "ハヤト従業員",
-      "created_at": "2026-07-12T21:54:00.661372+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "e81e83d3-2f6a-4f0c-a714-28127e0adddb",
       "name": "タケムラ",
       "note": "うんちくニキ",
       "created_at": "2026-07-12T21:53:55.93991+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
-      "name": "シンヤマ",
-      "note": "BJ専業",
-      "created_at": "2026-07-12T21:53:49.937238+00:00",
       "checked_in_at": null
     },
     {
@@ -2247,6 +2233,20 @@
       "note": "POKI",
       "created_at": "2026-07-12T21:54:18.981237+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
+      "name": "トウヤ",
+      "note": "ハヤト従業員",
+      "created_at": "2026-07-12T21:54:00.661372+00:00",
+      "checked_in_at": "2026-08-08T13:02:07.844+00:00"
+    },
+    {
+      "id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
+      "name": "シンヤマ",
+      "note": "BJ専業",
+      "created_at": "2026-07-12T21:53:49.937238+00:00",
+      "checked_in_at": "2026-08-08T13:43:55.949+00:00"
     },
     {
       "id": "e71bf32d-0fa3-4f7a-a268-926be043cf39",
@@ -2330,13 +2330,6 @@
       "name": "シンヨウ",
       "note": null,
       "created_at": "2026-07-12T21:53:50.131868+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "d88f5ff6-d568-49db-a1db-bdfa27a67d47",
-      "name": "セイ",
-      "note": "SE",
-      "created_at": "2026-07-12T21:53:51.448326+00:00",
       "checked_in_at": null
     },
     {
@@ -2543,13 +2536,6 @@
       "checked_in_at": null
     },
     {
-      "id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
-      "name": "マエダ",
-      "note": "経営者 低身長",
-      "created_at": "2026-07-12T21:54:11.124518+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "4a26012a-eb12-4948-af0f-2bcc81d8926f",
       "name": "ジツ",
       "note": "ヒカ ジツ 2人組",
@@ -2568,13 +2554,6 @@
       "name": "バーシー",
       "note": "ショウノ2人組トリックでポーカー覚えた 朝野弟子",
       "created_at": "2026-07-12T21:54:05.310744+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "447a1c9c-f24f-4692-8c26-535283966b2b",
-      "name": "タカヒト",
-      "note": "アヤノ2人組 スーツ",
-      "created_at": "2026-07-12T21:53:54.165098+00:00",
       "checked_in_at": null
     },
     {
@@ -2620,18 +2599,39 @@
       "checked_in_at": null
     },
     {
-      "id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
-      "name": "ヨシダリュウ",
-      "note": "タカヒトお連れ様",
-      "created_at": "2026-07-12T21:54:19.157048+00:00",
-      "checked_in_at": null
+      "id": "d88f5ff6-d568-49db-a1db-bdfa27a67d47",
+      "name": "セイ",
+      "note": "SE",
+      "created_at": "2026-07-12T21:53:51.448326+00:00",
+      "checked_in_at": "2026-08-08T10:05:50.121+00:00"
+    },
+    {
+      "id": "447a1c9c-f24f-4692-8c26-535283966b2b",
+      "name": "タカヒト",
+      "note": "アヤノ2人組 スーツ",
+      "created_at": "2026-07-12T21:53:54.165098+00:00",
+      "checked_in_at": "2026-08-08T10:09:04.283+00:00"
+    },
+    {
+      "id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
+      "name": "マエダ",
+      "note": "経営者 低身長",
+      "created_at": "2026-07-12T21:54:11.124518+00:00",
+      "checked_in_at": "2026-08-08T10:57:59.455+00:00"
     },
     {
       "id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
       "name": "ヒゲ",
       "note": "大分最古参ポーカープレイヤー",
       "created_at": "2026-07-12T21:54:07.572436+00:00",
-      "checked_in_at": null
+      "checked_in_at": "2026-08-08T11:45:10.503+00:00"
+    },
+    {
+      "id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "name": "ヨシダリュウ",
+      "note": "タカヒトお連れ様",
+      "created_at": "2026-07-12T21:54:19.157048+00:00",
+      "checked_in_at": "2026-08-08T13:35:21.576+00:00"
     },
     {
       "id": "d653000a-9081-4b6a-b51d-116a879ac8db",
@@ -3152,13 +3152,6 @@
       "checked_in_at": null
     },
     {
-      "id": "9704dadb-9230-43ea-bbf9-c5003e6f3c8b",
-      "name": "ユウセイ",
-      "note": null,
-      "created_at": "2026-07-12T21:54:33.095039+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "543b9952-b3f7-4d7c-a997-1c4cdac7190b",
       "name": "カリ",
       "note": null,
@@ -3199,6 +3192,13 @@
       "note": null,
       "created_at": "2026-07-12T21:54:30.661157+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "9704dadb-9230-43ea-bbf9-c5003e6f3c8b",
+      "name": "ユウセイ",
+      "note": null,
+      "created_at": "2026-07-12T21:54:33.095039+00:00",
+      "checked_in_at": "2026-08-08T13:35:56.87+00:00"
     },
     {
       "id": "9a791995-d08c-43b5-9c6e-076722ef2cc7",
@@ -3607,6 +3607,13 @@
       "checked_in_at": null
     },
     {
+      "id": "cce478fa-a019-4345-8466-4c5a31bcf4c9",
+      "name": "ジュン",
+      "note": "ガリ連れ",
+      "created_at": "2026-08-08T13:55:40.512798+00:00",
+      "checked_in_at": "2026-08-08T13:56:38.09+00:00"
+    },
+    {
       "id": "7f0326a1-434d-44a0-a893-5fd73781d0ed",
       "name": "ヨコサワ",
       "note": "初心者 チン、ニコラス連れ",
@@ -3632,13 +3639,6 @@
       "name": "アンドレイ",
       "note": "オーストラリア出身 自称MTT最強",
       "created_at": "2026-07-12T21:53:32.517834+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
-      "name": "カツキ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:36.676846+00:00",
       "checked_in_at": null
     },
     {
@@ -3674,13 +3674,27 @@
       "name": "クローバー",
       "note": "タクミ連れ",
       "created_at": "2026-07-12T21:53:40.155434+00:00",
-      "checked_in_at": null
+      "checked_in_at": "2026-08-08T12:37:58.346+00:00"
     },
     {
       "id": "34d1ddf6-b8ed-4f76-92d5-67c337066562",
       "name": "タマサブ",
       "note": null,
       "created_at": "2026-07-17T13:26:31.287685+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "name": "カツキ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:36.676846+00:00",
+      "checked_in_at": "2026-08-08T13:02:00.328+00:00"
+    },
+    {
+      "id": "5c973981-668c-45a7-98c9-08a8588e4344",
+      "name": "テスト太郎664449",
+      "note": null,
+      "created_at": "2026-08-08T14:01:09.427089+00:00",
       "checked_in_at": null
     },
     {
@@ -16453,6 +16467,30 @@
       "created_at": "2026-08-07T15:57:00+00:00"
     },
     {
+      "id": "1106dd45-ece4-472c-a815-b3f843609a54",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 2,
+      "created_at": "2026-08-08T13:07:39.209963+00:00"
+    },
+    {
+      "id": "1db0fe0a-ae41-4926-ad6d-6c3b7a05a2f1",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:19:59.785903+00:00"
+    },
+    {
+      "id": "aecd5969-8684-41f8-84de-afe682b8b235",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T13:26:00+00:00"
+    },
+    {
       "id": "97fd421a-e6a4-420f-aa07-db99dea4937c",
       "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
       "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
@@ -16539,6 +16577,862 @@
       "category": "table_in",
       "quantity": 423,
       "created_at": "2026-08-07T16:10:00+00:00"
+    },
+    {
+      "id": "9c855bab-2f2b-417a-aefe-139b0b66fe4d",
+      "customer_id": "1a70753e-17cd-4775-a39a-b8c3c947fbb3",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 150,
+      "created_at": "2026-08-08T10:25:00+00:00"
+    },
+    {
+      "id": "be094932-317c-4f40-9f32-b3992ad42e6a",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2400,
+      "created_at": "2026-08-08T10:50:00+00:00"
+    },
+    {
+      "id": "81b50edb-1fef-414b-83b5-a5bbbb36053c",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-08-08T10:50:00+00:00"
+    },
+    {
+      "id": "571d7a6b-f87e-4ade-879c-ba465f11ec03",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T10:50:00+00:00"
+    },
+    {
+      "id": "077533b2-0472-4208-a1f0-5991f1915856",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T10:51:00+00:00"
+    },
+    {
+      "id": "0e74deca-a861-4584-b615-db5bf5b95f96",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 370,
+      "created_at": "2026-08-08T10:53:00+00:00"
+    },
+    {
+      "id": "aa0e48d2-037e-4f29-867c-12e82a1cea9f",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T10:57:00+00:00"
+    },
+    {
+      "id": "10c3b129-5ffd-4e59-9d19-6e2a3b73f27f",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T11:00:00+00:00"
+    },
+    {
+      "id": "43c27926-e425-410a-9305-45106791383e",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T11:00:00+00:00"
+    },
+    {
+      "id": "103e4750-8f15-40ae-a5c5-6f322f3254fd",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 403,
+      "created_at": "2026-08-08T11:06:00+00:00"
+    },
+    {
+      "id": "bfef8893-f16c-4846-a949-5cd50deb12c9",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T11:06:00+00:00"
+    },
+    {
+      "id": "f9ebb1c5-b991-4723-8f91-157b2046f740",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 400,
+      "created_at": "2026-08-08T11:06:00+00:00"
+    },
+    {
+      "id": "6c9ee214-c456-4f16-a0b4-20c6061aff7e",
+      "customer_id": "4c502354-aec0-4136-8cdf-f2d3253d2517",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-08-08T11:08:35.072+00:00"
+    },
+    {
+      "id": "a84bea96-efca-4cae-9e2b-fe9a6dc7d380",
+      "customer_id": "77906b5d-074c-4400-843b-5466b5a497e4",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-08-08T11:08:21.099+00:00"
+    },
+    {
+      "id": "ca136dd3-2734-4c9d-9a6c-03970a5ac50a",
+      "customer_id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T10:58:00+00:00"
+    },
+    {
+      "id": "4ff7e6cd-c4f8-46ee-8b9f-d4c70a9e68c2",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T11:11:00+00:00"
+    },
+    {
+      "id": "dfd8b63e-70c5-4a27-b48f-2a30b1b01b85",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 238,
+      "created_at": "2026-08-08T11:43:00+00:00"
+    },
+    {
+      "id": "20c15a65-1a02-411f-bfe6-6350d89e3567",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T11:45:10.503+00:00"
+    },
+    {
+      "id": "ecaf7497-0069-4336-8df7-0842f8d18d74",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 150,
+      "created_at": "2026-08-08T11:45:10.503+00:00"
+    },
+    {
+      "id": "cf4fa55e-9cc3-4b4e-9d22-69dad47996b3",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 485,
+      "created_at": "2026-08-08T11:43:00+00:00"
+    },
+    {
+      "id": "4de7dc8b-a39e-40e0-92be-680d578a6acc",
+      "customer_id": "ae255c47-958a-4d58-8d68-e71a3331f6c6",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-08-08T11:46:00+00:00"
+    },
+    {
+      "id": "9bc096d7-da48-4855-8a7a-573b363b1b81",
+      "customer_id": "ae255c47-958a-4d58-8d68-e71a3331f6c6",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T11:49:00+00:00"
+    },
+    {
+      "id": "2fb9efce-8cbb-47b3-9b5b-0e21bae3c0c6",
+      "customer_id": "d88f5ff6-d568-49db-a1db-bdfa27a67d47",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T11:49:00+00:00"
+    },
+    {
+      "id": "d2686881-2aa9-4950-a7b0-43a5ebc79acf",
+      "customer_id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "denomination_id": "22d88b39-cfab-478d-a5cf-81644d189c60",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:39:27.124979+00:00"
+    },
+    {
+      "id": "2cbd0701-bc5a-451f-87c1-7c3f5e762e7e",
+      "customer_id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 585,
+      "created_at": "2026-08-08T11:06:00+00:00"
+    },
+    {
+      "id": "622a4399-fa9a-4714-be04-d2c00c5f0d20",
+      "customer_id": "e48876d9-9372-49ea-bc47-2216bc9f47fa",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:39:30.186318+00:00"
+    },
+    {
+      "id": "223a84ed-34e6-483a-801f-60d00f9bd1fd",
+      "customer_id": "20ed9aa3-c994-47ba-b4e6-6deb2b14ccfc",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T12:34:00+00:00"
+    },
+    {
+      "id": "941a7488-254a-46d0-ac10-b1400cada031",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T12:47:00+00:00"
+    },
+    {
+      "id": "1a5ac2a0-d451-438e-a5aa-656a1b209e3f",
+      "customer_id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T12:47:00+00:00"
+    },
+    {
+      "id": "b43ad45d-5ba9-4e8f-bc7e-82236786a022",
+      "customer_id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T12:54:00+00:00"
+    },
+    {
+      "id": "50350129-6a51-4675-b0b4-2787a5af402f",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T12:55:00+00:00"
+    },
+    {
+      "id": "ba6c7904-2312-4060-b594-245392a2255d",
+      "customer_id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "denomination_id": "6bdbdc0b-f103-47dd-bf9a-29b7386052ae",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:56:00+00:00"
+    },
+    {
+      "id": "2743085f-32bf-4a8a-9e3a-ed093c61ed17",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T14:10:00+00:00"
+    },
+    {
+      "id": "2eac803f-ce29-4aa9-a6b2-1686a18fc98a",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 912,
+      "created_at": "2026-08-08T14:23:00+00:00"
+    },
+    {
+      "id": "d4b87cc0-b851-4503-a265-d47b40dda003",
+      "customer_id": "e48876d9-9372-49ea-bc47-2216bc9f47fa",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:39:30.874636+00:00"
+    },
+    {
+      "id": "4cb6ad7b-687d-483d-86cc-17c9b0d140c7",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 332,
+      "created_at": "2026-08-08T13:01:00+00:00"
+    },
+    {
+      "id": "153f39a3-2c17-4290-aa9f-d3ebfa426d81",
+      "customer_id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 691,
+      "created_at": "2026-08-08T13:56:00+00:00"
+    },
+    {
+      "id": "a48411cf-f2a5-424f-8697-e238b3760b5f",
+      "customer_id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:01:00+00:00"
+    },
+    {
+      "id": "0387cc36-1e42-4595-8408-4bb516cd5d06",
+      "customer_id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T14:02:00+00:00"
+    },
+    {
+      "id": "d1f7be49-e266-49a3-bb9b-352eac8e291e",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T14:03:00+00:00"
+    },
+    {
+      "id": "28e688e2-c7bb-4549-bad6-c7bc932d019f",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T14:02:00+00:00"
+    },
+    {
+      "id": "b492756f-fe3a-4433-9bf7-6816d6e40781",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2000,
+      "created_at": "2026-08-08T13:21:00+00:00"
+    },
+    {
+      "id": "6eff8538-37c7-478a-9629-4ac70d40a14c",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 4000,
+      "created_at": "2026-08-08T13:21:00+00:00"
+    },
+    {
+      "id": "1917aee2-1913-449a-9151-0cd6972b5501",
+      "customer_id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 0,
+      "created_at": "2026-08-08T13:18:00+00:00"
+    },
+    {
+      "id": "1cfd1ad6-25e9-48df-8dca-0f373d683071",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T13:57:00+00:00"
+    },
+    {
+      "id": "417e242e-86c2-4cc6-bc70-6e7a55ab2ee4",
+      "customer_id": "e48876d9-9372-49ea-bc47-2216bc9f47fa",
+      "denomination_id": null,
+      "category": "prize",
+      "quantity": 100,
+      "created_at": "2026-08-08T14:16:06.843318+00:00"
+    },
+    {
+      "id": "7785121a-9f8b-4f79-a164-4340f9ba5539",
+      "customer_id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1730,
+      "created_at": "2026-08-08T13:47:00+00:00"
+    },
+    {
+      "id": "55081517-4c05-49c1-977e-d2024f74e67e",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 589,
+      "created_at": "2026-08-08T13:40:00+00:00"
+    },
+    {
+      "id": "8592eb44-0126-41b8-8b42-c9e6e1c93b16",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 538,
+      "created_at": "2026-08-08T13:41:00+00:00"
+    },
+    {
+      "id": "879a1625-7981-4ca4-94c1-84fc2c616dea",
+      "customer_id": "e9a61023-c840-44e3-845f-2f7766be499e",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-08-08T13:42:00+00:00"
+    },
+    {
+      "id": "560cacf0-cc37-44eb-88f7-0f5db08a6106",
+      "customer_id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 2000,
+      "created_at": "2026-08-08T13:46:00+00:00"
+    },
+    {
+      "id": "8e807931-3da6-4a83-b48e-9e1145b364e9",
+      "customer_id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1500,
+      "created_at": "2026-08-08T13:47:00+00:00"
+    },
+    {
+      "id": "3b1a83a9-9a7b-4d39-aa43-19508f8a213f",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": "7aa7fcd2-e089-4e1c-bd71-cb6630a3319c",
+      "category": "tournament",
+      "quantity": 3,
+      "created_at": "2026-08-08T11:48:54.719991+00:00"
+    },
+    {
+      "id": "ffb5ae3e-060b-4587-b7d7-e4801b259832",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": "7aa7fcd2-e089-4e1c-bd71-cb6630a3319c",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T11:48:56.789841+00:00"
+    },
+    {
+      "id": "bebaf33f-f851-4c61-9c09-1f71d720282f",
+      "customer_id": "9a5c1ed0-5b21-457c-8bed-60d799247680",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 2,
+      "created_at": "2026-08-08T12:26:34.841981+00:00"
+    },
+    {
+      "id": "f61285e8-09a8-46c0-b154-07c118514bc8",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T13:43:00+00:00"
+    },
+    {
+      "id": "258ecd3c-b37e-428e-b4ed-48f82a1559b6",
+      "customer_id": "cce478fa-a019-4345-8466-4c5a31bcf4c9",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:56:38.09+00:00"
+    },
+    {
+      "id": "d0fd2bd6-b9d3-4e69-9659-b65de8ae563e",
+      "customer_id": "9a5c1ed0-5b21-457c-8bed-60d799247680",
+      "denomination_id": "22d88b39-cfab-478d-a5cf-81644d189c60",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:19:57.766011+00:00"
+    },
+    {
+      "id": "cabd397b-398e-4450-837f-1718e833ff5a",
+      "customer_id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:03:06.734543+00:00"
+    },
+    {
+      "id": "e644f930-c225-43a4-827c-4a946f83d414",
+      "customer_id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "denomination_id": "7aa7fcd2-e089-4e1c-bd71-cb6630a3319c",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:37:30.92481+00:00"
+    },
+    {
+      "id": "1af0c98b-1c5d-4a10-a413-179051b9be3d",
+      "customer_id": "cce478fa-a019-4345-8466-4c5a31bcf4c9",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T13:56:38.09+00:00"
+    },
+    {
+      "id": "a18c630c-31ab-477f-97dd-05face9f5cd7",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T13:57:46.687+00:00"
+    },
+    {
+      "id": "3fc2126c-6172-434f-b31e-6159d8753a84",
+      "customer_id": "e9a61023-c840-44e3-845f-2f7766be499e",
+      "denomination_id": "7aa7fcd2-e089-4e1c-bd71-cb6630a3319c",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T12:26:35.88153+00:00"
+    },
+    {
+      "id": "49a0b34b-2d24-4b7a-aa66-604a3f368e07",
+      "customer_id": "9704dadb-9230-43ea-bbf9-c5003e6f3c8b",
+      "denomination_id": "7aa7fcd2-e089-4e1c-bd71-cb6630a3319c",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:38:57.048747+00:00"
+    },
+    {
+      "id": "53086c57-5710-4921-a009-4d4a5eb72dc2",
+      "customer_id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 423,
+      "created_at": "2026-08-08T14:23:00+00:00"
+    },
+    {
+      "id": "4ebb486e-d5cb-4bed-b309-4a6a98b89680",
+      "customer_id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 460,
+      "created_at": "2026-08-08T14:28:00+00:00"
+    },
+    {
+      "id": "4e587f4a-10cd-4424-886f-710443b592a7",
+      "customer_id": "447a1c9c-f24f-4692-8c26-535283966b2b",
+      "denomination_id": null,
+      "category": "prize",
+      "quantity": 200,
+      "created_at": "2026-08-08T14:04:17.311115+00:00"
+    },
+    {
+      "id": "3be7d020-be60-403b-950a-12aab3afe0fa",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:29:10.562339+00:00"
+    },
+    {
+      "id": "6ec09fc6-cad8-4121-bfec-5a8817bcf00a",
+      "customer_id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:29:15.653022+00:00"
+    },
+    {
+      "id": "448d7476-2785-4698-b3a7-67b0fa95df8d",
+      "customer_id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "denomination_id": "7aa7fcd2-e089-4e1c-bd71-cb6630a3319c",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T13:38:40.062835+00:00"
+    },
+    {
+      "id": "f9a4f716-d262-4a35-9e3d-17c922be3cb4",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 2,
+      "created_at": "2026-08-08T14:29:12.580791+00:00"
+    },
+    {
+      "id": "3cc0b844-8b66-4c3f-be57-f53f6176ba79",
+      "customer_id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2890,
+      "created_at": "2026-08-08T14:29:00+00:00"
+    },
+    {
+      "id": "49681a5d-ce83-417e-98e8-e375c813762c",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 669,
+      "created_at": "2026-08-08T14:29:00+00:00"
+    },
+    {
+      "id": "8e34a9ba-7041-441f-a579-a198e97ee17a",
+      "customer_id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-08-08T14:31:00+00:00"
+    },
+    {
+      "id": "6f62a243-c6ca-42b1-90e5-167479fd22e1",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": "22d88b39-cfab-478d-a5cf-81644d189c60",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:36:34.961601+00:00"
+    },
+    {
+      "id": "c85bb176-62c4-4006-aa4a-e5d6c2e7122a",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": "22d88b39-cfab-478d-a5cf-81644d189c60",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:36:36.984991+00:00"
+    },
+    {
+      "id": "236c882d-f1cf-4fcb-8324-7f70f19390a1",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": null,
+      "category": "prize",
+      "quantity": 640,
+      "created_at": "2026-08-08T15:59:29.686148+00:00"
+    },
+    {
+      "id": "2a588653-4e61-4dcf-91f8-6f6b82a28de6",
+      "customer_id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:55:23.973104+00:00"
+    },
+    {
+      "id": "7c9cdb9f-4a80-49b9-9068-ad872af3aa70",
+      "customer_id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:55:24.227224+00:00"
+    },
+    {
+      "id": "f8099e36-ee97-4915-bbd4-41117fa6f7fe",
+      "customer_id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T15:09:39.394159+00:00"
+    },
+    {
+      "id": "423b3cb2-1f8d-46c9-b694-ab733066e476",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": "aae695bf-0179-4237-b70d-127d356eb41a",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:29:16.928187+00:00"
+    },
+    {
+      "id": "5007d23d-6668-4b26-a4a4-e75c45a2e55b",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": "22d88b39-cfab-478d-a5cf-81644d189c60",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-08-08T14:36:44.748425+00:00"
+    },
+    {
+      "id": "d69db59f-6d10-4a31-8ae0-40ae4de80836",
+      "customer_id": "20ed9aa3-c994-47ba-b4e6-6deb2b14ccfc",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T14:42:00+00:00"
+    },
+    {
+      "id": "651fa73b-0fc9-4509-97e3-151489f80b8f",
+      "customer_id": "9704dadb-9230-43ea-bbf9-c5003e6f3c8b",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 400,
+      "created_at": "2026-08-08T16:00:00+00:00"
+    },
+    {
+      "id": "d2404218-0518-4f1c-91a9-8525cb94c962",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T15:00:00+00:00"
+    },
+    {
+      "id": "74f8bac6-c909-43b7-9e1c-1b8885adbad3",
+      "customer_id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "denomination_id": null,
+      "category": "prize",
+      "quantity": 150,
+      "created_at": "2026-08-08T14:41:24.314056+00:00"
+    },
+    {
+      "id": "181a0e3a-77c4-416c-91ac-e1d5999def26",
+      "customer_id": "9704dadb-9230-43ea-bbf9-c5003e6f3c8b",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T15:08:53.756304+00:00"
+    },
+    {
+      "id": "2237f445-e26e-4ac5-ab7a-c6a3aa5d6f73",
+      "customer_id": "9704dadb-9230-43ea-bbf9-c5003e6f3c8b",
+      "denomination_id": null,
+      "category": "prize",
+      "quantity": 200,
+      "created_at": "2026-08-08T14:41:08.2806+00:00"
+    },
+    {
+      "id": "31759bc6-cfbf-4716-b978-717bb360f2f3",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "c3fffa3a-f11f-498a-862c-cb722929f6c2",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 645,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "bc68a212-153a-47d5-85c1-19ac09061484",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "9a080748-dc0b-4d86-a252-213dfe888e41",
+      "customer_id": "20ed9aa3-c994-47ba-b4e6-6deb2b14ccfc",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "00f8efe4-ccda-4c17-b531-4e30aee23444",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 756,
+      "created_at": "2026-08-08T15:45:00+00:00"
+    },
+    {
+      "id": "dc3752ea-4352-4093-8be0-ceb80cbe1516",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2200,
+      "created_at": "2026-08-08T14:54:00+00:00"
+    },
+    {
+      "id": "ddcab623-18e1-46be-94f3-04bbf46df5f7",
+      "customer_id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 324,
+      "created_at": "2026-08-08T15:46:00+00:00"
+    },
+    {
+      "id": "091661f7-2526-4e45-ba88-d73db3184349",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1133,
+      "created_at": "2026-08-08T15:47:00+00:00"
+    },
+    {
+      "id": "ea0f5f5b-234b-40da-af5d-869f6070567c",
+      "customer_id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 365,
+      "created_at": "2026-08-08T15:48:00+00:00"
+    },
+    {
+      "id": "e0e28f2a-4380-42fa-9b17-33a4d322293d",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 911,
+      "created_at": "2026-08-08T15:49:00+00:00"
+    },
+    {
+      "id": "65a8bed1-a0a5-4977-b926-dc2e221e6a20",
+      "customer_id": "20ed9aa3-c994-47ba-b4e6-6deb2b14ccfc",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 195,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "931a155f-97df-473a-8b1f-17251b160f72",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 140,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "d47388c6-1a92-49f8-881a-3001010d929b",
+      "customer_id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1917,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "89e55c11-28f4-4f85-bf72-6b1138f1f386",
+      "customer_id": "d88f5ff6-d568-49db-a1db-bdfa27a67d47",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 356,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "ec6c1f24-5fd0-456a-85ca-22bce1c73d0b",
+      "customer_id": "ae255c47-958a-4d58-8d68-e71a3331f6c6",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 360,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "a3b921d3-da2a-4b53-896a-f44414be7fc5",
+      "customer_id": "4c502354-aec0-4136-8cdf-f2d3253d2517",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 580,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "2482d3d6-2b69-4df1-ae9d-58b2b40ec21e",
+      "customer_id": "77906b5d-074c-4400-843b-5466b5a497e4",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 3586,
+      "created_at": "2026-08-08T15:23:00+00:00"
+    },
+    {
+      "id": "9b6fe380-e18b-41f0-8577-769ef07b07a3",
+      "customer_id": "e48876d9-9372-49ea-bc47-2216bc9f47fa",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 2,
+      "created_at": "2026-08-08T15:06:06.130758+00:00"
+    },
+    {
+      "id": "8a1177c0-f86c-4275-a6dd-446f054788e4",
+      "customer_id": "e48876d9-9372-49ea-bc47-2216bc9f47fa",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-08-08T15:06:26.658761+00:00"
     }
   ],
   "visits": [
@@ -18686,6 +19580,136 @@
       "id": "0179a178-97b7-4e36-8ac3-17f0ba8a7278",
       "customer_id": "8fbc9c18-1585-471f-8cce-ad38ecd6fcc3",
       "checked_in_at": "2026-08-07T15:13:10.342+00:00"
+    },
+    {
+      "id": "ab3d53fa-ae2e-4586-bac3-d3f5d3fec9a4",
+      "customer_id": "d88f5ff6-d568-49db-a1db-bdfa27a67d47",
+      "checked_in_at": "2026-08-08T10:05:50.121+00:00"
+    },
+    {
+      "id": "6138eaf5-c8eb-4ffe-b433-89a19cefbb1d",
+      "customer_id": "ae255c47-958a-4d58-8d68-e71a3331f6c6",
+      "checked_in_at": "2026-08-08T10:06:01.696+00:00"
+    },
+    {
+      "id": "f5128aa6-7241-4802-a19d-7e5e1f0559e7",
+      "customer_id": "447a1c9c-f24f-4692-8c26-535283966b2b",
+      "checked_in_at": "2026-08-08T10:09:04.283+00:00"
+    },
+    {
+      "id": "60fa3397-a243-43d4-9042-dc85f3891bfb",
+      "customer_id": "1a70753e-17cd-4775-a39a-b8c3c947fbb3",
+      "checked_in_at": "2026-08-08T10:09:13.332+00:00"
+    },
+    {
+      "id": "1e50fa0a-c7cd-4815-8812-2b1ce0bbd3b8",
+      "customer_id": "5d1bdd31-509c-444d-b0a4-763d201ee744",
+      "checked_in_at": "2026-08-08T10:44:38.032+00:00"
+    },
+    {
+      "id": "ed437b91-51ba-427b-9115-eacae9d06cb9",
+      "customer_id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "checked_in_at": "2026-08-08T10:45:22.249+00:00"
+    },
+    {
+      "id": "ab43293e-2b8f-4810-9032-ef6ceaebaf57",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "checked_in_at": "2026-08-08T10:48:02.074+00:00"
+    },
+    {
+      "id": "075d484e-a718-4155-9079-7aea79b78e13",
+      "customer_id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
+      "checked_in_at": "2026-08-08T10:57:59.455+00:00"
+    },
+    {
+      "id": "d2927615-a796-43f4-8b3f-ae56b93493b8",
+      "customer_id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "checked_in_at": "2026-08-08T11:05:40.5+00:00"
+    },
+    {
+      "id": "7e53d065-b3fe-4706-9346-bcc664b9b70d",
+      "customer_id": "77906b5d-074c-4400-843b-5466b5a497e4",
+      "checked_in_at": "2026-08-08T11:08:21.099+00:00"
+    },
+    {
+      "id": "d9fbd30f-8b93-4615-9083-f4e99c1b7649",
+      "customer_id": "4c502354-aec0-4136-8cdf-f2d3253d2517",
+      "checked_in_at": "2026-08-08T11:08:35.072+00:00"
+    },
+    {
+      "id": "ff379655-73f9-48a8-aec6-61fb72fc539a",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "checked_in_at": "2026-08-08T11:45:10.503+00:00"
+    },
+    {
+      "id": "951af853-424f-4f6b-a38c-de24ef119f37",
+      "customer_id": "9a5c1ed0-5b21-457c-8bed-60d799247680",
+      "checked_in_at": "2026-08-08T12:25:28.535+00:00"
+    },
+    {
+      "id": "4bb03daa-57e1-4a0a-b118-10c68021413f",
+      "customer_id": "e9a61023-c840-44e3-845f-2f7766be499e",
+      "checked_in_at": "2026-08-08T12:25:43.976+00:00"
+    },
+    {
+      "id": "be5acf07-678a-4282-870d-4af43347e626",
+      "customer_id": "20ed9aa3-c994-47ba-b4e6-6deb2b14ccfc",
+      "checked_in_at": "2026-08-08T12:33:38.696+00:00"
+    },
+    {
+      "id": "c0739e29-6a9c-490a-9253-030917002522",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "checked_in_at": "2026-08-08T12:37:58.346+00:00"
+    },
+    {
+      "id": "dd7fcef8-9cd2-46ee-b9f2-04851276452f",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "checked_in_at": "2026-08-08T13:02:00.328+00:00"
+    },
+    {
+      "id": "04a46a21-a8ff-4bcc-9963-f30d92b27fc5",
+      "customer_id": "1f9927f8-a7bc-46ea-b87d-5bcde28f2d18",
+      "checked_in_at": "2026-08-08T13:02:07.844+00:00"
+    },
+    {
+      "id": "e0ea5627-d9fb-4bb0-9c75-5687592b509f",
+      "customer_id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "checked_in_at": "2026-08-08T13:35:21.576+00:00"
+    },
+    {
+      "id": "416f7f42-3bba-41a4-ab8a-4c674d818404",
+      "customer_id": "e48876d9-9372-49ea-bc47-2216bc9f47fa",
+      "checked_in_at": "2026-08-08T13:35:31.134+00:00"
+    },
+    {
+      "id": "0b358e94-c4bb-41f6-9e31-5dae54109cfc",
+      "customer_id": "9704dadb-9230-43ea-bbf9-c5003e6f3c8b",
+      "checked_in_at": "2026-08-08T13:35:56.87+00:00"
+    },
+    {
+      "id": "ebbeb354-9130-411b-bfe1-cb380a376aa3",
+      "customer_id": "8d9b6794-44d5-4fd0-8db6-d5832667a485",
+      "checked_in_at": "2026-08-08T13:36:19.433+00:00"
+    },
+    {
+      "id": "bff9786a-bec6-49f3-9732-2a7110438a71",
+      "customer_id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
+      "checked_in_at": "2026-08-08T13:43:55.949+00:00"
+    },
+    {
+      "id": "eab1ffe0-df60-42ac-a92b-ba689e281ddc",
+      "customer_id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
+      "checked_in_at": "2026-08-08T13:44:04.185+00:00"
+    },
+    {
+      "id": "d6f62804-e643-4c25-afee-a396c262da8e",
+      "customer_id": "cce478fa-a019-4345-8466-4c5a31bcf4c9",
+      "checked_in_at": "2026-08-08T13:56:38.09+00:00"
+    },
+    {
+      "id": "993c79c5-06e3-4455-a632-8f0a1a39e317",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "checked_in_at": "2026-08-08T13:57:46.687+00:00"
     }
   ],
   "chat_messages": [
@@ -18914,6 +19938,20 @@
       "archived_at": "2026-08-01T18:33:09.239+00:00"
     },
     {
+      "id": "5cea9a98-cbcf-42e0-94e7-ea723997b89c",
+      "kind": "reply",
+      "text": "アヤノ / アウト / 150点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T10:26:51.834092+00:00",
+      "command_id": "7a5594cd-e973-482f-99f5-a9ad21479974",
+      "transaction_id": "9c855bab-2f2b-417a-aefe-139b0b66fe4d",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
       "id": "21fcc79d-c1a2-45ea-bfd9-6a10ca4df60e",
       "kind": "reply",
       "text": "セブ / バイイン / 500点 を登録しました（来店ボードから入力）",
@@ -19040,6 +20078,62 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "d4c465e6-4a86-4336-a37b-44d3788eb119",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T12:26:34.585022+00:00",
+      "command_id": "f9e49e21-3048-44d5-9cbd-aec293fa78d3",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c656f656-befc-41a3-87e0-258f551b647c",
+      "kind": "reply",
+      "text": "レン / 購入 / 500購入 / 1枚 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:01:43.683995+00:00",
+      "command_id": "e5f43587-0893-4f74-aba2-0ee620d82f2c",
+      "transaction_id": "ba6c7904-2312-4060-b594-245392a2255d",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "purchase",
+      "archived_at": null
+    },
+    {
+      "id": "36031405-60b0-464e-b4ef-ec4a897cfee2",
+      "kind": "reply",
+      "text": "⚠ トウイ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:39:44.397248+00:00",
+      "command_id": "a919ae98-67d7-4bfa-8c81-98d4f0acd9c0",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "9fffb175-1df4-40c3-baca-3ca1ed5a2264",
+      "kind": "reply",
+      "text": "セブ / アウト / 2200点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:47:13.13412+00:00",
+      "command_id": "4c9d9677-b52a-4963-93fa-153fe842211f",
+      "transaction_id": "dc3752ea-4352-4093-8be0-ceb80cbe1516",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
       "id": "8b74859e-172c-4842-a0fb-e59243759a7f",
       "kind": "reply",
       "text": "キザシ / バイイン / 300点 を登録しました（来店ボードから入力）",
@@ -19082,6 +20176,34 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "367179e5-5da0-4b73-b295-59ca9505abe8",
+      "kind": "reply",
+      "text": "セブ / アウト / 2400点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T10:50:29.011197+00:00",
+      "command_id": "b2c12f49-06ef-4c0c-82f2-5fb182588d4a",
+      "transaction_id": "be094932-317c-4f40-9f32-b3992ad42e6a",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "990939ac-a330-43b2-8e08-56510392be59",
+      "kind": "reply",
+      "text": "アサヒ / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T12:34:34.006844+00:00",
+      "command_id": "22cf7a39-d0b8-4560-b196-9b0e563e2c6b",
+      "transaction_id": "223a84ed-34e6-483a-801f-60d00f9bd1fd",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
       "id": "8e325713-c032-478a-bc66-a47cdc4cb9ce",
       "kind": "reply",
       "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
@@ -19094,6 +20216,34 @@
       "sender_name": "さかな",
       "category": null,
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "3fd6b618-1000-4afa-a7d0-6d957a479eda",
+      "kind": "reply",
+      "text": "レン / バイイン / 691点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:01:59.831722+00:00",
+      "command_id": "a296b710-0be8-4f96-8e76-807f9fcfc04f",
+      "transaction_id": "153f39a3-2c17-4290-aa9f-d3ebfa426d81",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "b12baa4f-18ef-4d21-95a1-d4e4462a729f",
+      "kind": "reply",
+      "text": "トウヤ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:02:29.234035+00:00",
+      "command_id": "212c3887-060e-494d-b2c4-a0246d4e922e",
+      "transaction_id": "0387cc36-1e42-4595-8408-4bb516cd5d06",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_out",
+      "archived_at": null
     },
     {
       "id": "4d138d40-857f-4391-b985-25a1302a99b8",
@@ -19474,6 +20624,34 @@
       "archived_at": "2026-07-30T14:30:48.995+00:00"
     },
     {
+      "id": "6434d598-0ce5-424e-8845-0792ab50ac75",
+      "kind": "reply",
+      "text": "⚠ トウイ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:39:44.647198+00:00",
+      "command_id": "8e3c2f64-0f10-464f-b1e5-7d5bc8bb50cb",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "51c6607a-28f8-492f-a1bd-8d19dad4c9f5",
+      "kind": "reply",
+      "text": "レン / アウト / 324点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:47:25.403021+00:00",
+      "command_id": "c03fa267-be98-420d-9787-e31b096f7170",
+      "transaction_id": "ddcab623-18e1-46be-94f3-04bbf46df5f7",
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
       "id": "f9491ca9-c77c-4182-8349-f942e69919b2",
       "kind": "reply",
       "text": "クローバー / アウト / 900点 を登録しました（来店ボードから入力）",
@@ -19754,6 +20932,76 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "33b4f66e-63c7-43c8-8716-c87f3e53dd43",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 1000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T10:50:46.473607+00:00",
+      "command_id": "d597537d-17b2-4e87-80ae-af386ea69225",
+      "transaction_id": "81b50edb-1fef-414b-83b5-a5bbbb36053c",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "82eb81ab-ee8f-4bd3-a68e-1384b1f4300f",
+      "kind": "reply",
+      "text": "クローバー / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T12:47:23.560857+00:00",
+      "command_id": "22f0259d-1d84-4a63-b37e-4577a99f8f62",
+      "transaction_id": "941a7488-254a-46d0-ac10-b1400cada031",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "76c2885c-3b4f-49e9-b80f-b79ccec6c6e8",
+      "kind": "reply",
+      "text": "トウヤ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:02:13.493228+00:00",
+      "command_id": "b3f14bab-e506-4e2a-838f-577034377b35",
+      "transaction_id": "a48411cf-f2a5-424f-8697-e238b3760b5f",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "purchase",
+      "archived_at": null
+    },
+    {
+      "id": "a82f610c-0290-4a98-b54d-9d81c7d66f43",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:41:08.813997+00:00",
+      "command_id": "22119a4f-2bb0-436b-8d24-6b868a0b0bc5",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "14187f71-895d-43e7-bf8d-31278d1669d1",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:41:25.114703+00:00",
+      "command_id": "a4312042-c5da-400e-b206-97b65d66b907",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": null,
+      "archived_at": null
+    },
+    {
       "id": "25f83070-29ee-4dbc-8652-6078489ca8ac",
       "kind": "reply",
       "text": "セナ / バイイン / 1000点 を登録しました（来店ボードから入力）",
@@ -19878,6 +21126,34 @@
       "sender_name": "緑テーブル",
       "category": null,
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "6fbbfd82-31a3-4694-9f7b-64f2ca792ec5",
+      "kind": "reply",
+      "text": "ヒゲ / アウト / 1133点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:48:40.994381+00:00",
+      "command_id": "27a09e31-ab8a-47de-a3bd-c70072ab09b7",
+      "transaction_id": "091661f7-2526-4e45-ba88-d73db3184349",
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "4b733558-fb13-49b2-8e01-142aacc9e9dd",
+      "kind": "reply",
+      "text": "セブ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T10:51:06.91918+00:00",
+      "command_id": "572a49c3-f704-44d1-b98b-98d6e051840e",
+      "transaction_id": "571d7a6b-f87e-4ade-879c-ba465f11ec03",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
     },
     {
       "id": "adc16a16-6afa-4d08-886a-54f9d53a0d34",
@@ -20230,6 +21506,48 @@
       "archived_at": "2026-08-01T18:33:09.239+00:00"
     },
     {
+      "id": "dc80d454-a15a-4e70-8471-9440fc7dbdaf",
+      "kind": "reply",
+      "text": "ヒギョ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T12:54:31.461182+00:00",
+      "command_id": "2c84015e-8941-4683-970f-4dc5c01f744c",
+      "transaction_id": "1a5ac2a0-d451-438e-a5aa-656a1b209e3f",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "edefd1c8-dcb1-48cd-b756-9a020a256f7c",
+      "kind": "reply",
+      "text": "カツキ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:03:47.429655+00:00",
+      "command_id": "c5117ced-014d-46e6-9bea-b3a5a1756420",
+      "transaction_id": "d1f7be49-e266-49a3-bb9b-352eac8e291e",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "d02db33c-4b5d-4e3b-a3af-796820a2322d",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:41:24.870133+00:00",
+      "command_id": "01ec2f33-2284-465c-b7f0-5c8b00a82df8",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": null,
+      "archived_at": null
+    },
+    {
       "id": "9b96953d-0005-4649-8153-676d31b59fff",
       "kind": "reply",
       "text": "シュウト / バイイン / 900点 を登録しました（来店ボードから入力）",
@@ -20242,6 +21560,20 @@
       "sender_name": "ももにゃ",
       "category": "table_out",
       "archived_at": "2026-07-31T16:27:24.589+00:00"
+    },
+    {
+      "id": "61569013-951f-4cbc-8d7c-74a8b25cb4bd",
+      "kind": "reply",
+      "text": "シンヤマ / アウト / 365点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:49:13.089143+00:00",
+      "command_id": "d2e27429-0a6e-4524-b7e2-4fc7c71f4acb",
+      "transaction_id": "ea0f5f5b-234b-40da-af5d-869f6070567c",
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": "table_in",
+      "archived_at": null
     },
     {
       "id": "841c21f5-db68-4790-99c2-ae6080db603e",
@@ -20468,6 +21800,20 @@
       "archived_at": "2026-08-01T18:33:09.239+00:00"
     },
     {
+      "id": "0339c63e-ec67-4c4e-9a5e-056039d6d3de",
+      "kind": "reply",
+      "text": "セブ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T10:53:01.799587+00:00",
+      "command_id": "97dc54c3-c6e5-4f69-bb01-d24b2b870d5e",
+      "transaction_id": "077533b2-0472-4208-a1f0-5991f1915856",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
       "id": "c6bcf4a2-9842-4e49-9215-9fc1ed37d059",
       "kind": "reply",
       "text": "ヨシダリュウ / バイイン / 2000点 を登録しました（来店ボードから入力）",
@@ -20620,6 +21966,62 @@
       "sender_name": "ももにゃ",
       "category": "table_out",
       "archived_at": "2026-07-31T16:27:24.589+00:00"
+    },
+    {
+      "id": "79e5fcdb-c7a0-4896-b6a2-cd8f7af6752d",
+      "kind": "reply",
+      "text": "ヒギョ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T12:55:28.16504+00:00",
+      "command_id": "76141560-12ae-4c4b-884e-7b11f7d399ff",
+      "transaction_id": "b43ad45d-5ba9-4e8f-bc7e-82236786a022",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "a6e1a240-481e-49b3-86f0-9377f7cfdd99",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:10:39.543174+00:00",
+      "command_id": "a8a9d2bb-c62e-4113-80af-48ae75f96434",
+      "transaction_id": "28e688e2-c7bb-4549-bad6-c7bc932d019f",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "3edfa63e-2e66-4288-ae2f-ff7f5fa7acdf",
+      "kind": "reply",
+      "text": "アサヒ / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:43:04.378967+00:00",
+      "command_id": "83808cf7-72c6-412b-af92-bd1e7f895276",
+      "transaction_id": "d69db59f-6d10-4a31-8ae0-40ae4de80836",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "3b992c1a-6bec-4c35-83b7-71a5f564420c",
+      "kind": "reply",
+      "text": "ガリ / アウト / 911点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:50:14.307726+00:00",
+      "command_id": "db6dad0a-e2b8-4814-8c6c-117562f20e99",
+      "transaction_id": "e0e28f2a-4380-42fa-9b17-33a4d322293d",
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": "table_in",
+      "archived_at": null
     },
     {
       "id": "027fcfdf-8490-4ca3-84af-36698ba00e1c",
@@ -21630,6 +23032,76 @@
       "archived_at": "2026-07-31T16:27:24.589+00:00"
     },
     {
+      "id": "f22a19ef-afdf-4e5d-aeb0-47ac4da0ac77",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 370点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T10:57:14.4173+00:00",
+      "command_id": "68f58eca-d6b8-40e3-9c11-0403e5df6e1e",
+      "transaction_id": "0e74deca-a861-4584-b615-db5bf5b95f96",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "c3d50d64-7369-4084-8f2a-c7e0b4a7532e",
+      "kind": "reply",
+      "text": "ヒゲ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:01:37.797779+00:00",
+      "command_id": "500ddc66-9c57-4b9f-9387-db96a58e1787",
+      "transaction_id": "50350129-6a51-4675-b0b4-2787a5af402f",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "b6c12220-468b-4032-b14c-1dab0a055cad",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:03:00.474444+00:00",
+      "command_id": "17f8d1e1-7105-4083-a318-c3ccefbd915e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5379b2f1-8008-4fd8-b9cc-550d2d3e6fef",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:03:04.741405+00:00",
+      "command_id": "83dbf059-fd64-4e41-8577-f754cf8a10d5",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "599eab54-d640-4b4b-82d5-75efb5b47867",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ1回分の保有チップが足りません（保有-5枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:03:06.468608+00:00",
+      "command_id": "35f770d6-2c7b-4b91-a70a-2632651a8165",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
       "id": "1287ca2d-9d42-44e3-bed6-a78432f155d9",
       "kind": "reply",
       "text": "⚠ ユウダイ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
@@ -21740,6 +23212,20 @@
       "sender_name": "さかな",
       "category": null,
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "d5f36026-8d95-4c99-994e-485bb813a694",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:00:14.854072+00:00",
+      "command_id": "1de5cde4-46fe-4554-a81e-b668bb769724",
+      "transaction_id": "aa0e48d2-037e-4f29-867c-12e82a1cea9f",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
     },
     {
       "id": "3684ea0a-895a-4139-a89f-a701b0f35481",
@@ -21978,6 +23464,76 @@
       "sender_name": "さかな",
       "category": "table_out",
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "e823aec4-e978-4633-bd38-c391ab52305d",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:03:02.308445+00:00",
+      "command_id": "79fa11e4-42e4-4400-89c7-982f909910ab",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "33524127-ed47-4619-83a8-9b066cc80dc9",
+      "kind": "reply",
+      "text": "クローバー / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:13:27.005755+00:00",
+      "command_id": "c07cbe85-5c27-4f26-baf9-ab374ba452e0",
+      "transaction_id": "1cfd1ad6-25e9-48df-8dca-0f373d683071",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "71dfc0e3-e1c2-4383-affd-b806fce4feb4",
+      "kind": "reply",
+      "text": "⚠ トウイ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:18.177339+00:00",
+      "command_id": "3cb67219-0e3c-443a-9776-1389c5225177",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "06079035-492c-42d2-9725-192505f7e0b8",
+      "kind": "reply",
+      "text": "⚠ トウヤ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:27.161383+00:00",
+      "command_id": "232b3d55-c822-4e58-9d04-f11b904925c5",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "3b23acb9-80de-4eab-afc2-e20def8a4243",
+      "kind": "reply",
+      "text": "アサヒ / アウト / 195点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:50:35.146498+00:00",
+      "command_id": "039fcdc6-9d74-4d8f-abca-774304b77a77",
+      "transaction_id": "65a8bed1-a0a5-4977-b926-dc2e221e6a20",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
     },
     {
       "id": "d77b8c75-af77-4b1b-bfa0-533b82ed1422",
@@ -22890,6 +24446,118 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "58e8f22e-d82b-4953-bace-aad3970a22d9",
+      "kind": "reply",
+      "text": "セブ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:00:23.714191+00:00",
+      "command_id": "ff93961f-02ed-4f93-9157-969f602a6812",
+      "transaction_id": "10c3b129-5ffd-4e59-9d19-6e2a3b73f27f",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "4e3b6047-fdd5-45cc-a220-c6c385b17184",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ2回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:07:54.237108+00:00",
+      "command_id": "68758dde-a006-4864-9d35-fdbfd4957de3",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "f751bb8f-649c-492d-a355-fbb226376d29",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:15:36.136409+00:00",
+      "command_id": "e97b047e-eff6-4654-b49a-4a7c435b4d66",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "bb739fca-755e-42d8-8c98-5c3271aba92d",
+      "kind": "reply",
+      "text": "⚠ トウイ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:18.425675+00:00",
+      "command_id": "f20c8bb9-7d89-4416-9ff4-09fd4b88d53a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "95683b55-1bcd-46c1-b54c-b971a123096c",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:20.822539+00:00",
+      "command_id": "f4b5b9e0-606e-41d3-b61d-b2fdcb50d9b7",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "0cd0e058-3ab8-46f2-82f2-b1ea1b72a7ee",
+      "kind": "reply",
+      "text": "⚠ トウヤ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:27.418916+00:00",
+      "command_id": "d86afb92-034b-49b8-bf49-2c54855a4273",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "21a616fd-34fe-4cb2-9b97-8df259c9920a",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:29.340684+00:00",
+      "command_id": "4a02b171-dc5c-4bc9-8c27-268b01faf14f",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "87aed95f-2b33-45be-92f5-4f831cba53bb",
+      "kind": "reply",
+      "text": "クローバー / アウト / 140点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:50:53.430524+00:00",
+      "command_id": "e839a544-9449-4b2b-ac92-d6a388512bd2",
+      "transaction_id": "931a155f-97df-473a-8b1f-17251b160f72",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
       "id": "8a81d276-1878-40db-b7db-7a3ab90cc7c6",
       "kind": "reply",
       "text": "ミヒョク / バイイン / 1500点 を登録しました（来店ボードから入力）",
@@ -23252,6 +24920,118 @@
       "sender_name": "さかな",
       "category": "table_in",
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "ebdaba04-6fc4-48d6-b835-093204438c10",
+      "kind": "reply",
+      "text": "セブ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:03:32.414646+00:00",
+      "command_id": "c751deea-b67c-44fc-9a5c-a90570b40187",
+      "transaction_id": "43c27926-e425-410a-9305-45106791383e",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "6e581d1a-fc1b-4964-bf54-2fd56f39555f",
+      "kind": "reply",
+      "text": "ヒゲ / アウト / 332点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:18:53.980123+00:00",
+      "command_id": "7a4df83f-b853-4298-8fa0-dd42541fda61",
+      "transaction_id": "4cb6ad7b-687d-483d-86cc-17c9b0d140c7",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "d5b2652c-7580-47f2-be11-d83b75b2153a",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:15:38.035129+00:00",
+      "command_id": "50e6e9c1-9b82-4d62-9e70-7cf025ae9c71",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "45a6632e-4ad5-4a59-8b98-4de4f357bdf3",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:15:44.961947+00:00",
+      "command_id": "1332e929-bf34-4f16-a8ec-2476b381502d",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "4f2a30b4-2d7b-4494-8ebe-ded12e264c85",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: アドオン1回分の保有チップが足りません（保有-2枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:21.082586+00:00",
+      "command_id": "721b4db7-dbcd-45c2-8993-d99a55402fd0",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2f172705-fa3b-4c3d-9afc-27e13ed286a6",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:23.464706+00:00",
+      "command_id": "aca95cf5-6441-416a-b6ed-bf0e3551ce4d",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "03ae9888-4c3b-4e33-8721-4dd877d4ab44",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:29.586404+00:00",
+      "command_id": "5ba01a58-8906-4df9-a66b-4806c6a3f2b0",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "1b64f2ef-6b33-4beb-93a0-2775840fb96f",
+      "kind": "reply",
+      "text": "ヨシダリュウ / アウト / 1917点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:51:32.102151+00:00",
+      "command_id": "99fcb46b-c032-477a-b4bd-cc4e2dd6e42a",
+      "transaction_id": "d47388c6-1a92-49f8-881a-3001010d929b",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
     },
     {
       "id": "70eab2a3-9fcc-4968-ab21-d338604f2eae",
@@ -23644,6 +25424,104 @@
       "sender_name": "さかな",
       "category": null,
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "034a004b-bf73-47d3-9a35-f0f6a7cd5d21",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 403点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:10:59.14749+00:00",
+      "command_id": "f22c3043-58e4-44c1-b00f-79d482a06cea",
+      "transaction_id": "103e4750-8f15-40ae-a5c5-6f322f3254fd",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "ffbb95b5-fc5f-4c86-abeb-dd990a768a35",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ2回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:19:54.001148+00:00",
+      "command_id": "b19745ff-8a31-4e4d-af03-3bb6608ed57a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "648979f2-fa64-4b11-8e13-e7fae61168ea",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:19:58.287625+00:00",
+      "command_id": "218ca5e9-6424-4c12-9a4f-2917e1971453",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "6aadbf34-2736-4249-9986-5120cd35cae2",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:15:39.777586+00:00",
+      "command_id": "07e13bb2-4110-4c1f-8350-0d8dd27cc468",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "99aa37ac-4328-47a0-b227-d78d4cee8d3a",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:15:44.695077+00:00",
+      "command_id": "fad73fa6-7b49-4215-82dd-892b3126c66f",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2175d312-5103-43e1-8ec4-b1bfef4db958",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:15:46.000823+00:00",
+      "command_id": "d8ced598-5c45-4180-8648-16c700fa11b2",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "3fec7a81-6856-4b05-ae1e-4733160341ad",
+      "kind": "reply",
+      "text": "⚠ カツキ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:55:23.717143+00:00",
+      "command_id": "dac659b6-25b9-423c-8594-5412b1243bed",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
     },
     {
       "id": "cb4af0c2-169e-4208-bc7c-f92732ab6375",
@@ -24066,6 +25944,76 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "71745f1f-9f7e-4afe-b08a-fe216d0329e4",
+      "kind": "reply",
+      "text": "セブ / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:11:10.067593+00:00",
+      "command_id": "b26454d4-8da7-47ab-8a12-e9cb350578f4",
+      "transaction_id": "bfef8893-f16c-4846-a949-5cd50deb12c9",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "a259eda9-40d7-4517-a0b2-cffe0b1494ae",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:19:55.890853+00:00",
+      "command_id": "5508428d-7f26-4c6e-8b60-4e475a83f534",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c7868ce3-8436-4788-af7a-05246c52ebcc",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:19:59.278799+00:00",
+      "command_id": "ccc91b56-f8fe-4d6b-a5ae-13310ab08c40",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "94bbb893-a68b-4007-a950-a985c2f58281",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:15:40.842863+00:00",
+      "command_id": "8772f386-1692-4248-8e27-34755be53faf",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "77460cc4-9dd5-432b-aafe-053377bd072f",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:15:47.022604+00:00",
+      "command_id": "f63ec58f-c3c9-429d-b33b-422bf21ee2ef",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
       "id": "7a1a471b-3dce-460c-9a05-edda410f533d",
       "kind": "reply",
       "text": "マリア / バイイン / 510点 を登録しました（来店ボードから入力）",
@@ -24078,6 +26026,76 @@
       "sender_name": "りん",
       "category": "table_out",
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "43fd4260-2a98-4c86-8686-631652c2d4f2",
+      "kind": "reply",
+      "text": "ガリ / バイイン / 400点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:11:21.217432+00:00",
+      "command_id": "7da72f50-d604-400a-b65b-ed51a3cc3615",
+      "transaction_id": "f9ebb1c5-b991-4723-8f91-157b2046f740",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "46d8bbf0-e735-4d5b-864b-9fb1c0f43e1f",
+      "kind": "reply",
+      "text": "ミヒョク / アウト / 2000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:21:35.276908+00:00",
+      "command_id": "fa15ba6f-d34d-4c1f-bea9-004e1b2ec8b4",
+      "transaction_id": "b492756f-fe3a-4433-9bf7-6816d6e40781",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "27d48665-9eed-4e68-9f43-f62437e7bb38",
+      "kind": "reply",
+      "text": "ジャンタマ / アウト / 1730点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:16:59.013471+00:00",
+      "command_id": "8613f510-d18b-480b-bd00-bd8e0bd70d76",
+      "transaction_id": "7785121a-9f8b-4f79-a164-4340f9ba5539",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "c8b501e8-4025-4e83-856e-bfb8691a8fea",
+      "kind": "reply",
+      "text": "ヒゲ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:00:47.964035+00:00",
+      "command_id": "81b29e2d-593c-4aa2-bf6f-12d0a4d787ae",
+      "transaction_id": "d2404218-0518-4f1c-91a9-8525cb94c962",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "38161e18-078e-40e8-b07d-d697d02b06e1",
+      "kind": "reply",
+      "text": "セイ / アウト / 356点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:52:12.974504+00:00",
+      "command_id": "42abb88b-9064-4e22-9516-0d893f2c41f8",
+      "transaction_id": "89e55c11-28f4-4f85-bf72-6b1138f1f386",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
     },
     {
       "id": "1c002fe3-3f37-47a9-aa40-e6bd26700e55",
@@ -24108,6 +26126,300 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "3e624518-7c12-4a0b-97c9-7ee71937040a",
+      "kind": "reply",
+      "text": "ケント / バイイン / 900点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:11:39.766021+00:00",
+      "command_id": "ded3dc17-825c-4404-a520-25d94dca62bf",
+      "transaction_id": "6c9ee214-c456-4f16-a0b4-20c6061aff7e",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "5b2af605-de2f-4e75-ac11-846333abf0e6",
+      "kind": "reply",
+      "text": "セブ / アウト / 4000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:26:29.190483+00:00",
+      "command_id": "301bd3bd-5829-4c0f-beaa-deaa0a939dfe",
+      "transaction_id": "6eff8538-37c7-478a-9629-4ac70d40a14c",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "e31c60ea-54cb-48c8-9135-e888cbe1fd1e",
+      "kind": "reply",
+      "text": "シンヤマ / バイイン / 2890点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:17:15.694756+00:00",
+      "command_id": "be4b6cbd-637c-41d9-956f-51c2e5d77f03",
+      "transaction_id": null,
+      "cancelled": true,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "8637cf75-6a42-4b2e-8e81-d6c6f4c4c582",
+      "kind": "reply",
+      "text": "⚠ トウイ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:07.656941+00:00",
+      "command_id": "c648140b-752a-4923-8ace-8045ae5a57e2",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "f44c0623-cd04-40f2-9ac7-a46e71482815",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:09.274445+00:00",
+      "command_id": "5dd7fb3e-7f4e-4ce9-8d31-9c6339da3b90",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "fd02a5a7-c9b8-4756-a5b3-7f4d76ef07c9",
+      "kind": "reply",
+      "text": "⚠ トウヤ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:14.701859+00:00",
+      "command_id": "8c343c42-9100-4d46-ada7-af3131cfb5c5",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "b5f58b0b-2cb8-45f1-903c-3034ed5ec7fa",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:16.274334+00:00",
+      "command_id": "f12bf138-1c69-4e7c-8f04-61551dadf627",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2c057f5f-e1e5-4dcf-93ee-601abf808122",
+      "kind": "reply",
+      "text": "⚠ トウヤ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:33.904087+00:00",
+      "command_id": "0657c45b-ce00-49e6-af60-4be32a2ce612",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "1ba6afcd-ad91-4913-9355-267af150e814",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:35.43544+00:00",
+      "command_id": "0e949600-9306-43a7-a7f4-6019be77eb2b",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "406abe65-cef4-4bca-b330-9e1c34ba7f43",
+      "kind": "reply",
+      "text": "ヤマビシ / アウト / 360点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:52:24.198189+00:00",
+      "command_id": "75ad9d91-ccd2-4bf2-99f6-b9b4717804e7",
+      "transaction_id": "ec6c1f24-5fd0-456a-85ca-22bce1c73d0b",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "c2ed0bc8-05d2-4562-b827-41afa76acb20",
+      "kind": "reply",
+      "text": "セナ / バイイン / 900点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:11:42.53301+00:00",
+      "command_id": "e1136ca2-e7bb-49ea-9eee-1c8a2471fd94",
+      "transaction_id": "a84bea96-efca-4cae-9e2b-fe9a6dc7d380",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "c757e1a8-bdfb-4f61-891f-ed2592915ee4",
+      "kind": "reply",
+      "text": "ヒギョ / アウト / 0点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:33:02.878068+00:00",
+      "command_id": "24b15dd4-3a65-4c13-8d49-2a0942880ace",
+      "transaction_id": "1917aee2-1913-449a-9151-0cd6972b5501",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "414f1ca5-f9bd-40ed-a257-4315a506a0b4",
+      "kind": "reply",
+      "text": "ガリ / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:21:42.847585+00:00",
+      "command_id": "53055e30-ffa9-4059-98cf-e80622f243f1",
+      "transaction_id": "2743085f-32bf-4a8a-9e3a-ed093c61ed17",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "4abbccff-ec2e-4d92-92da-cd913c14a880",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: アドオン1回分の保有チップが足りません（保有-2枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:09.915046+00:00",
+      "command_id": "3c7c5fb0-7039-4326-bad7-1c99bb348bb1",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "d6225dbf-a4b3-44ed-8de9-b7047ca984b9",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:11.454212+00:00",
+      "command_id": "f1155c10-2a2d-4263-8153-79eef80b574e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "6161665d-5327-4542-80bb-aa8a65665ed5",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:16.530411+00:00",
+      "command_id": "195d8a8c-06f1-437c-9bb5-b42f7ed17653",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "3c63b940-09c0-4d92-8f3a-6183e26f4a7b",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:35.688393+00:00",
+      "command_id": "5cb62ab6-2c2a-416e-80ff-2787924ff45e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5ae886ce-152c-47f7-a4a9-e75ed91ac778",
+      "kind": "reply",
+      "text": "ケント / アウト / 580点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:53:08.137557+00:00",
+      "command_id": "b1af33a2-d2ab-4bfa-93ee-8fcc95d53add",
+      "transaction_id": "a3b921d3-da2a-4b53-896a-f44414be7fc5",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "ca1ac39c-2faf-4afb-bf36-66779d9e185b",
+      "kind": "reply",
+      "text": "セナ / アウト / 3586点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:53:28.683+00:00",
+      "command_id": "1d2185ea-7284-4f3b-93a1-674e8db5be15",
+      "transaction_id": "2482d3d6-2b69-4df1-ae9d-58b2b40ec21e",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "7d48bc33-c9c7-4952-af5c-e42191547c62",
+      "kind": "reply",
+      "text": "マエダ / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:15:53.458144+00:00",
+      "command_id": "201f8228-1104-40e1-9b62-0db85a8b5eb6",
+      "transaction_id": "ca136dd3-2734-4c9d-9a6c-03970a5ac50a",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "34b4e686-8021-4a6c-98ed-f8a7707109d8",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ2回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:37:24.171363+00:00",
+      "command_id": "26d413ad-23e0-459f-8cbb-386c3584339f",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
       "id": "ece046aa-8233-4051-a6e6-b833980b924f",
       "kind": "reply",
       "text": "⚠ ヨシダ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
@@ -24136,6 +26448,314 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "aad8b7be-caad-4892-b2fb-ef258bb3f015",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:06.137799+00:00",
+      "command_id": "33de92c2-cbf0-4590-9af4-7809d54788dd",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "1fd418a2-6da8-426c-bd72-81cbe533edd4",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:33.575637+00:00",
+      "command_id": "6b061e2c-8b72-428b-8bf7-d606e02c91b9",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "94718fd4-213b-4915-9681-f511c136727f",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:34.94319+00:00",
+      "command_id": "a1d1213c-ebd6-4558-8d91-24c21b7e31c4",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "0df6511a-4302-44fd-abb8-879df28a4244",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:50.087349+00:00",
+      "command_id": "db73bce1-7179-41b4-a0c8-9a9383839a06",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "d32bc623-931f-48b7-899c-a12f5d608de7",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:23.734297+00:00",
+      "command_id": "f01011e2-e499-417c-a2ae-11e40768b6d4",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5d96883a-3807-4561-b72f-22865bcd0d59",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:54.857375+00:00",
+      "command_id": "1747519f-0b82-42c2-9d8d-614cea8e3c9f",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "d3bce7b0-554a-44fd-8286-547fcee72d88",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:56.100573+00:00",
+      "command_id": "c80c1f90-eae6-4246-9510-135e2d805cc3",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "f43f745b-2999-45ea-b19e-d5fea1a5ecad",
+      "kind": "reply",
+      "text": "ヒゲ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:40:35.448854+00:00",
+      "command_id": "36577f03-de50-43c3-9116-20880093b587",
+      "transaction_id": "aecd5969-8684-41f8-84de-afe682b8b235",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "d3c44dc1-0889-47ef-a571-a80e7916920a",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:42.877324+00:00",
+      "command_id": "c1faf9ab-5135-47a2-8b81-9953a8487f8b",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "b9ca2329-9a07-4a53-94c7-487a74a0b070",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:44.166742+00:00",
+      "command_id": "efd85608-aed8-4868-91a7-3ef28948340c",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "a083e040-244c-4f0c-b4a6-c063b92293f4",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:45.432747+00:00",
+      "command_id": "bbfede90-204d-488f-af5e-f0fbc240f8cc",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5caab50a-38ba-42d2-900d-25aada66b4c0",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:41:00.402887+00:00",
+      "command_id": "3307c020-3385-431a-8797-01114bdba9d1",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5cb8ee02-b054-4bdb-9e98-aa1d53f65993",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:41:06.981457+00:00",
+      "command_id": "b46a2e7b-f89e-445e-a9a6-9722d3fcb2ee",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "d70e9e60-7689-45e1-bee2-7a46399ba418",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:41:08.573679+00:00",
+      "command_id": "f832c29a-3a41-4362-99b9-901ab1d57c7f",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "807e462e-eda6-47b7-90a4-ae98eee76b8e",
+      "kind": "reply",
+      "text": "ヒゲ / アウト / 912点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:24:58.71179+00:00",
+      "command_id": "b39ff411-5165-41f0-9a8f-38fac5035e65",
+      "transaction_id": "2eac803f-ce29-4aa9-a6b2-1686a18fc98a",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "093968c0-73ce-47ed-8d2c-482b11c07da5",
+      "kind": "reply",
+      "text": "⚠ カツキ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:11.697011+00:00",
+      "command_id": "3110a317-c1da-4459-80da-747e20f1b942",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "77a28a5e-5e95-410e-b9ff-eeba342ce683",
+      "kind": "reply",
+      "text": "⚠ トウヤ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:33.631209+00:00",
+      "command_id": "8786930d-c439-4943-b961-837c96a74c1e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "493779f2-6dad-4261-9f02-836211193725",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:30.608129+00:00",
+      "command_id": "08a8a4c6-a65d-4ed5-888d-3faa8488e7c5",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "8f97a077-e7f5-49d3-b448-eade9bf6b23e",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:45.012061+00:00",
+      "command_id": "a8de12db-d253-4736-a241-1e9fed53e5ec",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "337811e2-978f-4f3a-90f2-8cbe0337b781",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:48.266403+00:00",
+      "command_id": "4950e129-294f-4b82-b34f-0eb4d9eaa2c5",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "fce438b5-6dc7-455e-a3c3-0dfe7d3a5a79",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:53.966997+00:00",
+      "command_id": "abd183b8-2589-4b52-a6a9-ff2fc007bdfe",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "a9e0ef63-49c3-4d27-aeeb-d4c8a776b762",
+      "kind": "reply",
+      "text": "セブ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:20:39.365584+00:00",
+      "command_id": "e3fd99d5-eb7c-4560-9eff-6848909683cc",
+      "transaction_id": "4ff7e6cd-c4f8-46ee-8b9f-d4c70a9e68c2",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
       "id": "86178c2a-76b1-4461-a55c-c1717311e2f5",
       "kind": "reply",
       "text": "タイノジュウチン / バイイン / 1500点 を登録しました（来店ボードから入力）",
@@ -24148,6 +26768,692 @@
       "sender_name": "りん",
       "category": "table_out",
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "7c662f14-2346-41aa-8dca-592cd5f5b570",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:37:25.213908+00:00",
+      "command_id": "7bf0f827-604d-482f-afdd-d4e733b2d16e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5548772e-7025-430d-ac5a-d18201c3a156",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:37:26.95344+00:00",
+      "command_id": "d8c571d8-7d08-403d-8c61-c86d6f84530c",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "0684de7d-0edf-4179-acb7-1d031ef7a805",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:36.388574+00:00",
+      "command_id": "958a2198-dba5-4c00-8d84-f385550bf0db",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c6718dfb-345e-4586-95b2-1336cf0e6920",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:40.598332+00:00",
+      "command_id": "edd38363-0a7f-414b-ad6e-054639a1fec7",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "3e842c96-df8f-458f-b715-8ffe70157e4d",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:51.147682+00:00",
+      "command_id": "c54c56bc-e7f9-4481-bb75-6492bc8ee2f4",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c222e4f4-110d-4dca-9d48-412c718ae59f",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:52.840378+00:00",
+      "command_id": "ca04fd1c-1451-4b18-aae0-27dfc7fe855c",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "64e36629-38bf-4022-b798-391b15774a7b",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:46.458947+00:00",
+      "command_id": "bace4181-d13b-49cd-8b03-05d2b4ecbd34",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "34aab7c3-c451-4e85-a73f-f9e1ab8e88f9",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:13.143514+00:00",
+      "command_id": "87caf88e-55ec-48b3-8788-f687d2057f4a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "f15e5435-3058-493e-944a-d4cce5477b98",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:14.482176+00:00",
+      "command_id": "1e73084b-a26c-46b5-a6d1-4bb377850ccb",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "b925e3c9-dd80-411e-b7dc-2edafc04ace7",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:19.480867+00:00",
+      "command_id": "b485dd06-b4ba-4bc9-ad1a-c58e6faeb7d0",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2da6bdd3-5f34-404c-81be-3561049b9fe4",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:20.77788+00:00",
+      "command_id": "7d4d189d-796e-4541-921c-e86b2366996d",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "181a631d-3bdf-4828-86c3-6d0507524615",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:22.88105+00:00",
+      "command_id": "618c98ac-2912-4590-a657-066f63dd8619",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "86e8d7cd-65ee-4385-9d45-2458be573f04",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:39.722361+00:00",
+      "command_id": "021f2564-2d11-4b45-85fd-b0750a1ed721",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "d4f898a8-99ec-4417-b72b-937c21a76895",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:41:03.787192+00:00",
+      "command_id": "0f4b9d61-0415-4772-9949-5cb32bb490b7",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "cf03367b-ffd6-4aa8-aecf-f12d648f8fb5",
+      "kind": "reply",
+      "text": "トウヤ / アウト / 423点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:25:47.998131+00:00",
+      "command_id": "72363ac4-5c78-49a6-9146-cff022be3d87",
+      "transaction_id": "53086c57-5710-4921-a009-4d4a5eb72dc2",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "58ee58be-ab1b-4540-a6be-008e2bb34ce0",
+      "kind": "reply",
+      "text": "⚠ トウヤ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:14.466422+00:00",
+      "command_id": "7b912e85-c305-4cb6-a8fd-55d3adbd1858",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5311d59c-da21-4468-873d-65f334b6551f",
+      "kind": "reply",
+      "text": "⚠ カツキ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:30.874912+00:00",
+      "command_id": "69a2d798-1b14-44e2-b564-93911412a8f3",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c85d9d2b-eb68-4930-8e2f-61acb05e46c5",
+      "kind": "reply",
+      "text": "⚠ カツキ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:30.867299+00:00",
+      "command_id": "e9adaa2d-bedc-4470-9e68-4cd78e4250a2",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "8052b29a-c93f-4d4c-9289-5c0bdbe6471a",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: アドオン1回分の保有チップが足りません（保有-2枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:45.262318+00:00",
+      "command_id": "a46f2222-2c90-4d90-89d4-d92724437157",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "a8a77e9f-5611-4203-86e6-31a096642dd2",
+      "kind": "reply",
+      "text": "⚠ カツキ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:48.513129+00:00",
+      "command_id": "fcc3acc2-2922-418f-936a-8d9fdbcd9e22",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "a464739a-9a86-4a74-b4f1-61e2fbe9aa40",
+      "kind": "reply",
+      "text": "⚠ トウヤ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:50.624463+00:00",
+      "command_id": "c9b5c051-a80e-4c7c-82fb-c8121cc0cf82",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "bbed74c8-486f-4e5f-bfa8-66d3fa0f3d70",
+      "kind": "reply",
+      "text": "ミヒョク / アウト / 238点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:43:33.027425+00:00",
+      "command_id": "e5a8f0a5-2910-4d53-b74b-26c211ba8dfa",
+      "transaction_id": "dfd8b63e-70c5-4a27-b48f-2a30b1b01b85",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "7c9a621e-0218-455a-843c-69649cb9134e",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:37:28.86608+00:00",
+      "command_id": "525a422e-9eba-4fac-8c61-b4d5ecfd7b05",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "ac9dc1f7-585e-42bf-a9b5-87fa1e536e30",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:37:31.427873+00:00",
+      "command_id": "9eab1b14-747c-4dfd-be81-90d9b12ade52",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "60d8140b-fe33-402f-a7f3-644f24801112",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:37:33.561141+00:00",
+      "command_id": "3664353b-66d0-45e4-921b-f214aaf86d14",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "f004407a-ed1b-481a-b2d9-d591026ce6b2",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:37:34.825343+00:00",
+      "command_id": "de73f263-a1a3-4f71-ab60-6f3f841ebf11",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "8b3b8996-4ca4-4585-b0e2-845ea7ae6075",
+      "kind": "reply",
+      "text": "⚠ トウイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:37:36.135421+00:00",
+      "command_id": "36dd651f-94bb-492b-bf38-0be7a1dbf24b",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "0b176f16-74e8-4e05-adee-6ff5d2597fe6",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:08.693061+00:00",
+      "command_id": "28279aa7-974d-46a3-8475-05c620af05e3",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "b0d87367-609d-40e3-a2c7-344b6c09b952",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:39.03777+00:00",
+      "command_id": "8d0fe930-5d65-4488-ac16-46926866e978",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "ea49b319-c00c-4934-bc1f-68fae7bdc125",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:56.257816+00:00",
+      "command_id": "7133dc21-f6d0-495e-a384-b2787d8b6d0a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c5764e9c-d402-4359-8423-abd65bbb48b7",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:57.548775+00:00",
+      "command_id": "7b6a2525-10cc-4d1e-b354-c12edc334c45",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "e0c3ce4e-ff88-41b3-b7db-cf5e195ba1a1",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:19.9735+00:00",
+      "command_id": "64badc88-7d87-4745-b92b-0b733863137c",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "a27004ee-fcd9-4bba-8066-198e70f08022",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:27.643373+00:00",
+      "command_id": "b5ac3258-f949-44b8-a019-9a50081dc931",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "558b8116-7fba-4f96-8907-35181e09d7a3",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:28.906491+00:00",
+      "command_id": "571fb672-7e68-4b46-9b89-62e6a2cf45c9",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2783d246-e910-4e74-a88a-315c8ffb1269",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:48.223643+00:00",
+      "command_id": "be18d2c4-db7e-4a67-ab6a-e715d761ae50",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "196a6f7f-b8d3-4bf6-856d-b0680cd31b5d",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:49.851847+00:00",
+      "command_id": "0d4dad66-b414-43e8-b2cc-d87bb2b45e28",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "1a3bd215-29fd-4582-8075-0c5db08173ec",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:12.11431+00:00",
+      "command_id": "791e6c82-1954-437e-9fa8-78683641c167",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "6b912936-7b13-41da-9bb7-f385c5e040ee",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:19.740504+00:00",
+      "command_id": "8548365f-de15-4eee-8362-a20fc00edb8d",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "847f4dc1-bc35-4bb5-9e24-44ba5e00529b",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:36.312019+00:00",
+      "command_id": "5c94b522-8d7c-4b3f-b0a8-3d4a9c0d92dc",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "9796b954-dacb-4c21-b870-eaec413b08a8",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:37.431044+00:00",
+      "command_id": "9d9c01e0-6af5-483e-afd1-31b8919f2f1a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5ee55289-3c26-450f-a703-8de0cba758fd",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:38.707971+00:00",
+      "command_id": "d54ccea3-dc78-4457-a69b-53180ca60f9d",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "57de8bd1-132d-4638-aa48-9bda233b40ed",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:42.63813+00:00",
+      "command_id": "efd9589b-4e95-44a3-8dd9-883d89cc78b6",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c0e105a8-cd44-44c1-85bb-36c021424552",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:41:01.444857+00:00",
+      "command_id": "be264144-bd47-4915-ad5d-7d0ff502f564",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "bc257276-e87e-47e0-a74b-6367879f3a72",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:41:02.756463+00:00",
+      "command_id": "ff05ea8f-c008-44dd-a87b-8f62af0d2f1e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "739e7f5d-fccc-4450-91ce-6895d32f9432",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:41:10.27162+00:00",
+      "command_id": "36a3454e-1b7d-4c19-99aa-2f173a16f3f4",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "7e334ef0-4fff-4fd3-a2ac-a8f9f02c5ba5",
+      "kind": "reply",
+      "text": "レン / アウト / 460点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:28:56.126131+00:00",
+      "command_id": "353d68e7-4f8b-4133-a317-a336593f5e02",
+      "transaction_id": "4ebb486e-d5cb-4bed-b309-4a6a98b89680",
+      "cancelled": false,
+      "sender_name": "ダイバー",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "25e46402-56fb-45ce-8687-def327c1f1bc",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:28.844032+00:00",
+      "command_id": "6aeaaa82-9344-4ce5-9e7e-f7411d6939a7",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "62037db3-73d5-4492-824b-2f641527fb60",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:59:53.709809+00:00",
+      "command_id": "ecf19257-41e1-4a0f-a0b8-a9b9b6c38f03",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "9b7d82c4-906f-4d35-b9ba-55ddd4d1a73f",
+      "kind": "reply",
+      "text": "ユウセイ / アウト / 400点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T16:00:32.813692+00:00",
+      "command_id": "5cbb9824-cc6a-4f0d-bc75-42affee95704",
+      "transaction_id": "651fa73b-0fc9-4509-97e3-151489f80b8f",
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": "table_in",
+      "archived_at": null
     },
     {
       "id": "8f269e34-3746-4d85-9e1c-11ce60f1df08",
@@ -24164,6 +27470,258 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "2c9e4632-8ed0-4d17-bf0b-7c66e64d296c",
+      "kind": "reply",
+      "text": "ヒゲ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:45:32.883989+00:00",
+      "command_id": "e7efb5b7-00eb-4344-88c9-6130f48930f9",
+      "transaction_id": "20c15a65-1a02-411f-bfe6-6350d89e3567",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "d71eeca5-5ce8-4ad7-8466-ea7646693c72",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:04.680238+00:00",
+      "command_id": "d23168dc-ea89-4553-be11-bfc939affbf4",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "fd3ba338-c792-4fd2-92bd-4024948f8268",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:12.34957+00:00",
+      "command_id": "80765852-3354-4b6c-a147-8df28f37fd52",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "d26b936e-5739-4ba6-901f-411aa2877442",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:32.146119+00:00",
+      "command_id": "abac495d-4c5e-4c17-bfcd-8478647a8739",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "783881a5-6f2c-42fa-9899-1fc3c10c8fdf",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:58.572895+00:00",
+      "command_id": "a4f5bd3f-e471-4794-869d-5f7354cdfce7",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c9faffc3-9357-4add-9a69-10fa2524839a",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:21.45593+00:00",
+      "command_id": "f0300b6f-974a-4e08-b6a1-4edb6b2a8895",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "651bd4d1-f13b-4960-aba6-9914031c26f1",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:22.721666+00:00",
+      "command_id": "1c3082eb-cf4a-45b8-b34b-853748a92416",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "71bf13a3-0389-4294-92b5-131d18699f12",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:29.929503+00:00",
+      "command_id": "200688a2-ecf0-497b-b006-fe47853377e9",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "a8af031c-2a85-44eb-9c48-feac291a99f6",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:55.097304+00:00",
+      "command_id": "750113ab-eed1-47db-abff-948e72b2f47b",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "07bcf088-f426-4d85-94e7-669a0a6877b1",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:57.322739+00:00",
+      "command_id": "d8e57398-aea4-4d63-8974-f7c2d41f1583",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "96eb9704-a1cb-423a-804d-c81d0f62c3cd",
+      "kind": "reply",
+      "text": "セブ / アウト / 589点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:41:23.174912+00:00",
+      "command_id": "f2d70390-e40e-4588-bd6d-2cb65cfa8d8a",
+      "transaction_id": "55081517-4c05-49c1-977e-d2024f74e67e",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "b85ef3f4-ae22-492f-b39f-775651d847c5",
+      "kind": "reply",
+      "text": "⚠ トウイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:29:09.394566+00:00",
+      "command_id": "714011e9-2764-4d88-ad82-44fb6f0780ec",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2c675354-e104-4c86-9ef1-4ca38b929c8f",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:29:11.053232+00:00",
+      "command_id": "48d679f2-f1b2-43f1-8249-d7e34330f56f",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "cbff3b3e-18b1-48fb-964d-4b276e21ba1a",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:29:13.558074+00:00",
+      "command_id": "4d4ffe85-198a-497a-a260-03497165ef99",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "7d8919f3-7ae4-42b0-89d8-a7172e989a85",
+      "kind": "reply",
+      "text": "⚠ トウヤ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:29:16.167611+00:00",
+      "command_id": "98280a62-a3be-44b1-8ce4-93f0b6c3da44",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "d47e1557-7c18-458d-83ec-e47ed05356d3",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: アドオン1回分の保有チップが足りません（保有-2枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:29.116712+00:00",
+      "command_id": "a8c214a0-ffbd-405e-abd7-fb12b760488e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "cf138a62-c7c0-4b48-b32e-755b8ec9b7a0",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:06:30.623457+00:00",
+      "command_id": "8d245adc-00c0-4cbc-ab3e-1305cd32724a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "57c8d12d-5988-45fb-bfb4-1db11e40ce4f",
+      "kind": "reply",
+      "text": "ヒゲ / アウト / 150点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:45:38.505432+00:00",
+      "command_id": "85379fa4-a223-4636-9651-81faafe1f5df",
+      "transaction_id": "ecaf7497-0069-4336-8df7-0842f8d18d74",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
       "id": "ec17b442-343e-4b8a-8a2a-98ae1f06ff26",
       "kind": "reply",
       "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
@@ -24178,6 +27736,48 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "1c6c5064-b58e-4a25-a46c-17f647ca84b7",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:09.684834+00:00",
+      "command_id": "e6a36b7c-4164-425c-b503-32424c83d7aa",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "403099e5-92a8-4b36-a583-6f216fdd2c17",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:38:53.857776+00:00",
+      "command_id": "874d8af7-7f4a-4689-982d-cf10533af0eb",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2689d19f-734a-4c24-8fde-7e2047b784ce",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:27.898651+00:00",
+      "command_id": "1d32fb11-6949-4427-92c5-167cf777f443",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
       "id": "e1988eb3-8fd6-4a17-8c0e-86edc7258140",
       "kind": "reply",
       "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
@@ -24190,6 +27790,104 @@
       "sender_name": "さかな",
       "category": null,
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "3691e8a7-cfc4-480d-b881-8ff7c0fbce0a",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:39:50.831935+00:00",
+      "command_id": "6761a307-8e67-4b9f-a2f5-00d38cd5c18a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2cb860ad-8186-4380-803e-48a14c2daa1a",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:40:15.880457+00:00",
+      "command_id": "671fdb35-8c29-4e14-9176-f8ac53715b18",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "1321bd9a-bce9-4ebc-8701-dc5d68d33599",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T13:41:07.23671+00:00",
+      "command_id": "8d255868-f0f8-4705-8a3a-8820b6c4ab78",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "12f1d88b-3e4f-448a-b5cd-20e2352f193f",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:29:14.868488+00:00",
+      "command_id": "5d3781af-3007-422b-af1b-404ebb308fb6",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "530a5e20-1a93-4a14-9dcc-4e0264a83632",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ3回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:08:44.276022+00:00",
+      "command_id": "852af368-fb7b-41db-b64a-59224d52c647",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "b6f7b46c-51a0-420b-bcfd-29b376464228",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:08:55.555032+00:00",
+      "command_id": "008bcaa1-994c-4d4d-84b5-1cf894577d9c",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "6640cfda-6f47-4c9a-8a71-82277e2e9dbf",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:09:41.679442+00:00",
+      "command_id": "ea4dafc3-ab7d-47a5-9801-d95915c73678",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
     },
     {
       "id": "8edfac9d-0cde-4a98-ad29-803b9bf8fe33",
@@ -24514,6 +28212,20 @@
       "archived_at": "2026-08-07T16:23:10.209+00:00"
     },
     {
+      "id": "f4504641-9528-4df6-ab44-400894e6af50",
+      "kind": "reply",
+      "text": "ガリ / アウト / 485点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:46:39.179709+00:00",
+      "command_id": "61ba02ce-3eeb-4a66-b8e3-7957860924c1",
+      "transaction_id": "cf4fa55e-9cc3-4b4e-9d22-69dad47996b3",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
       "id": "6b0ce535-927e-492b-bddf-078ca010104d",
       "kind": "reply",
       "text": "クローバー / バイイン / 500点 を登録しました（来店ボードから入力）",
@@ -24526,6 +28238,62 @@
       "sender_name": "とわ",
       "category": "table_out",
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "f52f8794-8e83-4f91-85f4-314ba5162687",
+      "kind": "reply",
+      "text": "ミヒョク / アウト / 538点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:42:55.612495+00:00",
+      "command_id": "f4c698fa-5d27-4006-8e26-f423045b37ef",
+      "transaction_id": "8592eb44-0126-41b8-8b42-c9e6e1c93b16",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "5c9f30fa-7fe9-4d6b-bbca-c027aa469445",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:29:17.47034+00:00",
+      "command_id": "a2c759ea-4495-41cb-b3b7-e1e9c52ba088",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "938ad400-f23e-4d47-9d94-da5cfe9eabc4",
+      "kind": "reply",
+      "text": "シンヤマ / アウト / 2890点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:29:30.793239+00:00",
+      "command_id": "4b8dafd0-225e-4d72-905b-3a9fe93b0e54",
+      "transaction_id": "3cc0b844-8b66-4c3f-be57-f53f6176ba79",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "c898dad8-84b6-4eb5-bf10-d15edf950d21",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:08:45.275878+00:00",
+      "command_id": "b75b01e4-9cbe-4245-b9ab-f74888e579c0",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
     },
     {
       "id": "ebb59202-4806-488b-b5da-fa491b735b9c",
@@ -24946,6 +28714,104 @@
       "sender_name": "りん",
       "category": "table_out",
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "30aca8ec-979a-43a9-a826-969f6d2cf01c",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T11:48:55.636335+00:00",
+      "command_id": "5230600b-094b-4587-a99d-595a1e021b39",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "f17c772e-3f70-4799-9927-27113e3bc0e0",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T11:48:57.717331+00:00",
+      "command_id": "12bcbccf-dc29-46fe-9b66-908fb8689986",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "d00847ea-a986-4643-9dac-ee5cce2f233c",
+      "kind": "reply",
+      "text": "ヤマビシ / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:49:36.799063+00:00",
+      "command_id": "e8b4c4af-2dd2-4979-9548-e5717d87c154",
+      "transaction_id": "4de7dc8b-a39e-40e0-92be-680d578a6acc",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "purchase",
+      "archived_at": null
+    },
+    {
+      "id": "cd8b46cb-c21a-4d82-9bf4-9fac42c980bc",
+      "kind": "reply",
+      "text": "ライスボール / バイイン / 1000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:43:02.549896+00:00",
+      "command_id": "bcbd00ac-4d11-4a08-8050-0521d4dd09cc",
+      "transaction_id": "879a1625-7981-4ca4-94c1-84fc2c616dea",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "aec54a9b-30c8-40f2-898d-70bb2f393d53",
+      "kind": "reply",
+      "text": "ミヒョク / アウト / 669点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:31:03.523564+00:00",
+      "command_id": "dd69058c-cbf5-403e-b0e3-f6c3306125e6",
+      "transaction_id": "49681a5d-ce83-417e-98e8-e375c813762c",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "7fd3179f-722a-421a-ae82-1f2b65bc18ac",
+      "kind": "reply",
+      "text": "⚠ タガメ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:08:47.440558+00:00",
+      "command_id": "308c839b-27ed-4ba5-90f2-bd0bb837db07",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "ca4491e2-9da3-44f1-9ea2-bfd58f56be42",
+      "kind": "reply",
+      "text": "⚠ カツキ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:09:37.193664+00:00",
+      "command_id": "d982c2b9-3e40-421d-8523-93bdae40d215",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
     },
     {
       "id": "fbaa4e83-47e1-474c-8d70-43ea4732ab0c",
@@ -27074,6 +30940,678 @@
       "sender_name": "緑テーブル",
       "category": null,
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "2fc33a04-4eb3-400d-a5bb-7f87b31a09aa",
+      "kind": "reply",
+      "text": "ヤマビシ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:49:45.213071+00:00",
+      "command_id": "5789b2bf-e003-46fb-93f2-6fc5f572558c",
+      "transaction_id": "9bc096d7-da48-4855-8a7a-573b363b1b81",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "21becaa3-a221-4ab7-a4be-c7a8f03f791c",
+      "kind": "reply",
+      "text": "セイ / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T11:49:51.801847+00:00",
+      "command_id": "3d7bc358-2a17-4fdb-bdce-e91700ff07b4",
+      "transaction_id": "2fb9efce-8cbb-47b3-9b5b-0e21bae3c0c6",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "9f13cd0f-9933-4aeb-b085-1437651d615a",
+      "kind": "reply",
+      "text": "シンヤマ / バイイン / 2000点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:47:07.308755+00:00",
+      "command_id": "fc719534-9397-48af-ba54-17274a3a6880",
+      "transaction_id": "560cacf0-cc37-44eb-88f7-0f5db08a6106",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "3f4fee64-ee1a-459d-a501-0bc2e497dae5",
+      "kind": "reply",
+      "text": "シンヤマ / バイイン / 900点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T14:32:35.108819+00:00",
+      "command_id": "fd8a53b7-c1fc-4e08-beb4-00decc4f9b28",
+      "transaction_id": "8e34a9ba-7041-441f-a579-a198e97ee17a",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "838c3c0d-5dfb-4482-9555-70d2147925e2",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:08:48.835865+00:00",
+      "command_id": "ee75d58d-80b4-4fcb-bb5e-7b817d3b509d",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "4a970346-302a-42de-bd49-9309a6024ecd",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: チップ1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:08:51.835105+00:00",
+      "command_id": "627b2174-41bc-4ae0-b96b-25e576d5adee",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "e1f8c165-c865-496b-9857-bbf738889170",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: アドオン1回分の保有チップが足りません（保有-2枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:09:35.437139+00:00",
+      "command_id": "e4828550-4f3e-4f01-9274-3da1a83e7497",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "caf02400-f0d3-4db1-9645-b94c581b3144",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:09:36.940535+00:00",
+      "command_id": "2bbbdfb7-c904-475f-84be-180c296f55c3",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "6c7153e0-02a2-47d2-b71c-05cb36bea085",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T11:52:39.759958+00:00",
+      "command_id": "6c6df85a-0f1b-46d1-9857-d13ac8a471cd",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "86620fc3-67dd-4527-948b-c7fd389f4d4b",
+      "kind": "reply",
+      "text": "ジャンタマ / バイイン / 1500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:47:16.006509+00:00",
+      "command_id": "16b8bde7-7508-401f-9de9-d89992718e8e",
+      "transaction_id": "8e807931-3da6-4a83-b48e-9e1145b364e9",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "a257224a-f247-440d-9452-35c6c8013cf7",
+      "kind": "reply",
+      "text": "⚠ トウイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:33.41758+00:00",
+      "command_id": "2ac3be63-bf57-4a73-af05-a47864390458",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "9e2135f3-7d34-478f-b52e-a2747d0b8e01",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:39.960504+00:00",
+      "command_id": "4537cbfd-18ad-4253-b15d-885cce45ce1b",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "eef9ffd4-9e37-4060-8754-cdbae953aba0",
+      "kind": "reply",
+      "text": "⚠ トウイ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:02.299713+00:00",
+      "command_id": "1f941e79-9fa2-40da-b2c6-fe9a451914af",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "01d13ff9-2ffe-4169-bde1-cc0c57b8be5a",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:12.115449+00:00",
+      "command_id": "2f4c7281-b8e0-4b85-9266-3ad158048506",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "bef3ab73-f1c5-4d7f-ba4c-c943a368fd3c",
+      "kind": "reply",
+      "text": "⚠ ヨシダリュウ: アドオン1回分の保有チップが足りません（保有-1枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:08:52.526469+00:00",
+      "command_id": "c6704eb9-23aa-498e-8e68-49e5873f7b6e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "e6113f1c-69cc-4049-881f-46953b09b110",
+      "kind": "reply",
+      "text": "⚠ ユウセイ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:08:54.514452+00:00",
+      "command_id": "de7d2f19-2560-4d43-b721-50d4cd5a1b2c",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c5b567d5-664a-4eb5-b4dd-cf26383eaca4",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T11:52:41.677491+00:00",
+      "command_id": "7eb786a7-543b-4b48-a084-d41105a8c9cb",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "2db1de46-034d-4332-9128-b0b8324a600f",
+      "kind": "reply",
+      "text": "ガリ / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:51:08.171377+00:00",
+      "command_id": "1742c82a-2695-417b-aa9d-fe24f265bfc9",
+      "transaction_id": "f61285e8-09a8-46c0-b154-07c118514bc8",
+      "cancelled": false,
+      "sender_name": "ショウゴ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "db594495-0e76-4884-b396-6a9fda78e5f9",
+      "kind": "reply",
+      "text": "⚠ トウイ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:33.671612+00:00",
+      "command_id": "1180297d-1407-44e2-8788-1e20a67a0685",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "a6952681-7886-48e6-a87c-92185e0ff620",
+      "kind": "reply",
+      "text": "⚠ レン: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:40.219568+00:00",
+      "command_id": "6609b90f-b53b-4cad-bb69-70ae0eefcea0",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "98faf16a-732e-4d1d-8ff7-4f22f6f03d85",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: アドオン1回分の保有チップが足りません（保有-2枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:04.946419+00:00",
+      "command_id": "504cd1e5-82c6-4e39-a3ad-a377a1139e4e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "cade2d9b-6058-4dcb-a58b-0774ca1ceec2",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:06.630113+00:00",
+      "command_id": "598cfbb8-7070-4fc8-9727-2527587dde2e",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "9b240797-b5d0-4b6e-a9dd-4d3435d8d110",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:09:35.146224+00:00",
+      "command_id": "e2385eb2-48e0-45cd-8a8f-b36a95358dab",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "ae1247e8-bbcf-4d12-817b-792d13a8b183",
+      "kind": "reply",
+      "text": "⚠ トウヤ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:09:39.898031+00:00",
+      "command_id": "14134989-c01a-4c49-bd85-aefb16f80243",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "3da89706-9bb9-4e53-91a5-48eda3c53043",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T15:09:41.435508+00:00",
+      "command_id": "71dd6c69-29dd-433a-89f4-3e66c4c9dfc6",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "99959e85-87ca-4634-b592-a2b108cd5f53",
+      "kind": "reply",
+      "text": "マエダ / アウト / 585点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T12:19:20.8839+00:00",
+      "command_id": "c37932bd-5873-41d5-9efc-9cad4a5fb97a",
+      "transaction_id": "2cbd0701-bc5a-451f-87c1-7c3f5e762e7e",
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": "table_in",
+      "archived_at": null
+    },
+    {
+      "id": "cdbd1ad3-1374-43ac-88bc-404ac83ae8c7",
+      "kind": "reply",
+      "text": "ジュン / 購入 / 300購入 / 1枚 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:56:50.942573+00:00",
+      "command_id": "2713f871-9b36-4ef0-b254-2d08f6aaf5c5",
+      "transaction_id": "258ecd3c-b37e-428e-b4ed-48f82a1559b6",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "purchase",
+      "archived_at": null
+    },
+    {
+      "id": "5523c22e-4f8e-4a92-b393-fcbd61168025",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:35.47578+00:00",
+      "command_id": "02e16f25-a805-4f98-80c5-b6c0309497d9",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "e8398066-fb42-45a7-baec-b0395fad0be2",
+      "kind": "reply",
+      "text": "⚠ トウヤ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:42.861334+00:00",
+      "command_id": "f094eb55-6ac9-48f2-bf0d-c88bf8ba5fc2",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "f83ea0c4-e34c-4d21-a14a-8eb608c9143c",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:23:33.897773+00:00",
+      "command_id": "3a26f012-86e4-44f9-bc69-5d0850bcc895",
+      "transaction_id": "31759bc6-cfbf-4716-b978-717bb360f2f3",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "47249f1e-4e48-4a92-9a54-f23ef06d44f7",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 645点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:23:44.689991+00:00",
+      "command_id": "3fc28dcc-a584-4261-a9e0-cb5bfe6eb9a2",
+      "transaction_id": "c3fffa3a-f11f-498a-862c-cb722929f6c2",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "e3ccc52c-e6b6-424e-862a-7cc29fb85263",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T12:26:05.224313+00:00",
+      "command_id": "775e149a-a8c9-4cc2-8f14-db1dbb835196",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "7cf80174-d6a9-4130-a3b0-d272e5c0fdb0",
+      "kind": "reply",
+      "text": "⚠ ライスボール: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T12:26:36.763781+00:00",
+      "command_id": "17a09a97-0f83-4e44-a555-f95b39d80e9a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "c606d7e4-5fdd-47de-8914-90a5363dc897",
+      "kind": "reply",
+      "text": "ジュン / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:56:58.211971+00:00",
+      "command_id": "99aa63be-4270-4849-be23-639f44bd66c4",
+      "transaction_id": "1af0c98b-1c5d-4a10-a413-179051b9be3d",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "18d61bb3-cd6e-4278-800f-8db5e0fcf32b",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: アドオン1回分の保有チップが足りません（保有-2枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:35.715895+00:00",
+      "command_id": "1b925943-7cc0-4524-8b9a-5078f8ec6ae7",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "64b2c5e4-b213-4d5c-8f37-799f60eafc23",
+      "kind": "reply",
+      "text": "⚠ トウヤ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:43.494891+00:00",
+      "command_id": "6398a6b4-d014-4afb-ae37-637d5e12513d",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "76b194e9-3850-408e-b6a9-33afda602590",
+      "kind": "reply",
+      "text": "⚠ カツキ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:06.870829+00:00",
+      "command_id": "4263702d-2d71-43b9-83b4-dee241d00acc",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "be57cfce-8ae2-443f-a591-c27cd835c247",
+      "kind": "reply",
+      "text": "⚠ レン: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:08.369515+00:00",
+      "command_id": "fab5548b-c30e-476c-a7b5-5f59bb5cf26f",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "9f9d18c7-6eed-4a63-9f8c-e1fe8952558b",
+      "kind": "reply",
+      "text": "ミヒョク / バイイン / 500点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:40:12.215534+00:00",
+      "command_id": "01e76f7a-8abf-4a89-820c-5484b8064f0d",
+      "transaction_id": "bc68a212-153a-47d5-85c1-19ac09061484",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "5ed51d34-08d3-4648-89e9-5fe492736681",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T12:26:06.811603+00:00",
+      "command_id": "953d184f-af02-4f56-a6b8-e6821e0ea74f",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "8c75a975-8fa9-4119-849d-18134496f201",
+      "kind": "reply",
+      "text": "ゴックン / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T13:57:57.425679+00:00",
+      "command_id": "50daf29d-a7ce-46d4-bd51-d509eca86c35",
+      "transaction_id": "a18c630c-31ab-477f-97dd-05face9f5cd7",
+      "cancelled": false,
+      "sender_name": "とわ",
+      "category": "table_out",
+      "archived_at": null
+    },
+    {
+      "id": "d7d8c230-fbe3-4c5c-8d88-6c5d27d24ccc",
+      "kind": "reply",
+      "text": "⚠ カツキ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:37.491122+00:00",
+      "command_id": "0e9317e9-56cf-483a-a867-c3b9cf6da02a",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "561441d4-ea4e-4ce1-93f1-4619c379e82b",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:45.266815+00:00",
+      "command_id": "25ad3487-dc06-4c61-aa0c-040cde965596",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "04bdfff0-1310-43c1-929e-be36d5cd5b05",
+      "kind": "reply",
+      "text": "⚠ トウイ: チップ2回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:02.02724+00:00",
+      "command_id": "a10d19f7-6f93-4ee3-9056-8ef04ea13c2b",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "5a80ee64-8581-44c5-adee-56f8d01a31e4",
+      "kind": "reply",
+      "text": "⚠ ミヒョク: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:04.301006+00:00",
+      "command_id": "89384887-a305-4202-bc22-56185c649cb6",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "0989298e-b5c2-48a0-90aa-26237076cbd6",
+      "kind": "reply",
+      "text": "⚠ トウヤ: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:10.368844+00:00",
+      "command_id": "95c1feab-105f-46e0-81f5-451d22bc5821",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "89d987b7-d8b2-40a7-b5ec-695e13c15cb8",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:11.848457+00:00",
+      "command_id": "d85b2ee8-ae67-43f8-abda-ffc699567ee8",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "14b9f21d-868a-414c-a7af-6ca3f500013b",
+      "kind": "reply",
+      "text": "アサヒ / バイイン / 300点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:41:40.673926+00:00",
+      "command_id": "e8aaa4c1-9265-4366-8da6-0a783646dba3",
+      "transaction_id": "9a080748-dc0b-4d86-a252-213dfe888e41",
+      "cancelled": false,
+      "sender_name": "さかな",
+      "category": "table_out",
+      "archived_at": null
     },
     {
       "id": "0f38b291-cecf-4b50-a2b5-2370fe308dc0",
@@ -29594,6 +34132,90 @@
       "sender_name": "ダイバー",
       "category": "table_in",
       "archived_at": "2026-08-07T16:23:10.209+00:00"
+    },
+    {
+      "id": "0d566d3a-949e-45a0-b7d9-553e1df875fa",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: チップ1回分の保有チップが足りません（保有-4枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T12:26:33.574329+00:00",
+      "command_id": "2db174c8-91b0-440d-ac23-bafe00c8ffb1",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "緑テーブル",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "b7e68099-e292-41c7-bed6-799b2da2f3b5",
+      "kind": "reply",
+      "text": "⚠ カツキ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:37.767331+00:00",
+      "command_id": "f647a605-0d88-43c8-b984-bcfef75ef777",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "e35c0007-d51f-4114-87be-99375ef64ded",
+      "kind": "reply",
+      "text": "⚠ ヒゲ: アドオン1回分の保有チップが足りません（保有-3枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:36:45.5271+00:00",
+      "command_id": "070b7344-2544-4c29-b0b4-152a1455d536",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "54e6ac2c-f9c7-4086-aae0-90474d9741d9",
+      "kind": "reply",
+      "text": "⚠ レン: アドオン1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:08.632158+00:00",
+      "command_id": "8a7c6b10-6a1c-4a44-9a49-51a1327a0209",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "514c41d0-4c1b-40cc-a3f3-68636f0fc23c",
+      "kind": "reply",
+      "text": "⚠ トウヤ: チップ1回分の保有チップが足りません（保有0枚）（トーナメント表）",
+      "ok": true,
+      "warning": true,
+      "created_at": "2026-08-08T14:37:10.129801+00:00",
+      "command_id": "755fb037-f600-48ec-9b74-9d38a460cfe4",
+      "transaction_id": null,
+      "cancelled": false,
+      "sender_name": "れい",
+      "category": null,
+      "archived_at": null
+    },
+    {
+      "id": "a1c9ccc9-0297-4718-bb11-83214a85271d",
+      "kind": "reply",
+      "text": "ゴックン / アウト / 756点 を登録しました（来店ボードから入力）",
+      "ok": true,
+      "warning": null,
+      "created_at": "2026-08-08T15:46:16.281037+00:00",
+      "command_id": "ad83ceca-5dba-4b3a-9489-a5ba14e0c781",
+      "transaction_id": "00f8efe4-ccda-4c17-b531-4e30aee23444",
+      "cancelled": false,
+      "sender_name": "ももにゃ",
+      "category": "table_in",
+      "archived_at": null
     }
   ],
   "shop_settings": [
