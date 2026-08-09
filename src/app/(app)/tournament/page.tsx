@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import {
-  getAllTransactions,
   getCheckedInCustomers,
   getCustomers,
   getDenominations,
   getTournamentEntries,
   getTournaments,
 } from "@/lib/data";
-import { computeBalances } from "@/lib/balances";
 import { businessDateKey, shiftDayKey } from "@/lib/businessDay";
 import { SubmitButton } from "@/components/SubmitButton";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
@@ -22,7 +20,6 @@ import {
   createTournament,
   deleteTournamentEntry,
   saveAllTournamentEntries,
-  saveTournamentEntry,
 } from "./actions";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
@@ -58,7 +55,6 @@ export default async function TournamentPage({
     tournaments,
     checkedInCustomers,
     allCustomers,
-    transactions,
   ] = await Promise.all([
     searchParams,
     getTournamentEntries(),
@@ -66,11 +62,7 @@ export default async function TournamentPage({
     getTournaments(),
     getCheckedInCustomers(),
     getCustomers(),
-    getAllTransactions(),
   ]);
-  // 保有チップ不足の警告表示用。額面ごとの現在の保有枚数（このトーナメント分の
-  // チップ・アドオン使用も含めた最終的な残高）を客ごとに算出する。
-  const balances = computeBalances(transactions);
 
   // 「種類」は額面設定の「トーナメントで使う」項目をそのまま流用する
   // （アドオン専用の項目は種類の選択肢から除き、アドオンの種類選択に出す）
@@ -367,17 +359,6 @@ export default async function TournamentPage({
 
               {Array.from({ length: rowCount }, (_, i) => {
                 const entry = dayEntries[i];
-                const customerBalances = entry?.customer_id
-                  ? balances.get(entry.customer_id)
-                  : undefined;
-                const chipBalance = selectedSession?.denomination_id
-                  ? (customerBalances?.get(selectedSession.denomination_id) ?? 0)
-                  : 0;
-                const chipWarning = Boolean(entry?.customer_id) && chipBalance < 0;
-                const addonBalance = selectedSession?.addon_denomination_id
-                  ? (customerBalances?.get(selectedSession.addon_denomination_id) ?? 0)
-                  : 0;
-                const addonWarning = Boolean(entry?.customer_id) && addonBalance < 0;
                 return (
                   <Fragment key={entry?.id ?? `blank-${i}`}>
                     <div className="text-xs text-gray-400">{i + 1}</div>
@@ -405,8 +386,6 @@ export default async function TournamentPage({
                       defaultValue={entry?.chip_count ?? ""}
                       placeholder="回数"
                       className={inputClassName}
-                      warning={chipWarning}
-                      title={chipWarning ? `保有チップが不足しています（保有${chipBalance}枚）` : undefined}
                     />
                     <NumberStepperInput
                       name={`ticketAmount-${i}`}
@@ -425,8 +404,6 @@ export default async function TournamentPage({
                       defaultValue={entry?.addon_count ?? ""}
                       placeholder="回数"
                       className={inputClassName}
-                      warning={addonWarning}
-                      title={addonWarning ? `保有チップが不足しています（保有${addonBalance}枚）` : undefined}
                     />
                     <TournamentRankPrizeInputs
                       rowIndex={i}
@@ -435,13 +412,7 @@ export default async function TournamentPage({
                       prizeAmounts={prizeAmounts}
                       className={inputClassName}
                     />
-                    <SubmitButton
-                      pendingText="保存中"
-                      formAction={saveTournamentEntry.bind(null, i)}
-                      className="rounded-md border border-indigo-200 px-2 py-1 text-xs font-medium text-indigo-600 hover:bg-indigo-50 disabled:opacity-50"
-                    >
-                      保存
-                    </SubmitButton>
+                    <div />
                     {entry ? (
                       <ConfirmSubmitButton
                         confirmMessage={`「${entry.name}」のエントリーを削除しますか？`}

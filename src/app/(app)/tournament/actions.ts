@@ -5,11 +5,9 @@ import { redirect } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabase";
 import { requireAuth } from "@/lib/require-auth";
 import { insertChipTransaction } from "@/lib/transactions";
-import { categorySign } from "@/lib/transactionCategory";
-import { appendChatMessage } from "@/lib/chatLog";
 import { getDenominations, getTournamentEntries, getTournaments } from "@/lib/data";
 import { businessDateKey } from "@/lib/businessDay";
-import type { Denomination, TransactionCategory } from "@/lib/types";
+import type { Denomination } from "@/lib/types";
 
 // TURBOの種類だけプライズ総額の計算式が異なる（合計エントリー×200×0.4、
 // 通常は×300×0.4）。額面のラベルまたは別名に「turbo」「ターボ」が含まれるかで判定する。
@@ -38,30 +36,6 @@ function revalidateAffectedPages() {
   revalidatePath("/transactions");
   revalidatePath("/chat");
   revalidatePath("/");
-}
-
-// 指定した客・額面の現在の保有枚数を計算する。excludeTransactionIdには、
-// 今まさに更新しようとしている取引（保存し直す前の古い数量）を渡して除外する
-// （そうしないと「自分自身が使った分」を二重に差し引いて判定してしまうため）。
-async function getDenominationBalance(
-  customerId: string,
-  denominationId: string,
-  excludeTransactionId: string | null,
-): Promise<number> {
-  const supabase = getSupabaseClient();
-  const { data, error } = await supabase
-    .from("chip_transactions")
-    .select("id, category, quantity")
-    .eq("customer_id", customerId)
-    .eq("denomination_id", denominationId);
-  if (error) throw error;
-
-  let balance = 0;
-  for (const tx of data ?? []) {
-    if (excludeTransactionId && tx.id === excludeTransactionId) continue;
-    balance += categorySign(tx.category as TransactionCategory) * tx.quantity;
-  }
-  return balance;
 }
 
 // 行のチップ回数・アドオン回数・獲得点数から、来店ボード・取引履歴と共有の
@@ -209,7 +183,6 @@ async function saveEntryRow(
   rowIndex: number,
   session: SessionValues,
   existing: LinkedTransactionIds | undefined,
-  senderName: string,
 ) {
   const supabase = getSupabaseClient();
   const id = String(formData.get(`id-${rowIndex}`) ?? "");
@@ -227,30 +200,6 @@ async function saveEntryRow(
   // エントリー欄は手入力せず、現金・チップ回数・チケットの合計をサーバー側で自動計算する
   // （チップは点数換算前の回数そのものを足す。例: 現金2 + チップ回数1 + チケット0 = 3）
   const entryFee = cashAmount + chipCount + ticketAmount;
-
-  // 保有チップが足りない場合も保存自体は止めず、チャットに警告だけ残す
-  // （現場の判断で入力を続けられるようにしつつ、あとで気づけるようにするため）。
-  const warnings: string[] = [];
-  if (customerId && session.denominationId && chipCount > 0) {
-    const available = await getDenominationBalance(
-      customerId,
-      session.denominationId,
-      existing?.chip_transaction_id ?? null,
-    );
-    if (chipCount > available) {
-      warnings.push(`${name}: チップ${chipCount}回分の保有チップが足りません（保有${available}枚）`);
-    }
-  }
-  if (customerId && session.addonDenominationId && addonCount > 0) {
-    const available = await getDenominationBalance(
-      customerId,
-      session.addonDenominationId,
-      existing?.addon_transaction_id ?? null,
-    );
-    if (addonCount > available) {
-      warnings.push(`${name}: アドオン${addonCount}回分の保有チップが足りません（保有${available}枚）`);
-    }
-  }
 
   const cashTransactionId = await syncLinkedTransaction(
     existing?.cash_transaction_id ?? null,
@@ -323,14 +272,6 @@ async function saveEntryRow(
     const { error } = await supabase.from("tournament_entries").insert(fields);
     if (error) throw error;
   }
-
-  for (const warningText of warnings) {
-    await appendChatMessage(crypto.randomUUID(), "reply", `⚠ ${warningText}（トーナメント表）`, {
-      ok: true,
-      warning: true,
-      senderName,
-    });
-  }
 }
 
 // プライズ対象人数・総額を計算する。人数は合計エントリー数×15%を切り上げ。
@@ -367,7 +308,7 @@ export async function calculatePrizeCount(formData: FormData) {
 
 // 表全体（最大rowCount行）を1回の送信でまとめて保存する。
 export async function saveAllTournamentEntries(formData: FormData) {
-  const senderName = await requireAuth();
+  await requireAuth();
 
   const supabase = getSupabaseClient();
   const tournamentId = String(formData.get("tournamentId") ?? "");
@@ -390,35 +331,8 @@ export async function saveAllTournamentEntries(formData: FormData) {
 
   for (let i = 0; i < rowCount; i++) {
     const id = String(formData.get(`id-${i}`) ?? "");
-    await saveEntryRow(formData, i, session, id ? existingById.get(id) : undefined, senderName);
+    await saveEntryRow(formData, i, session, id ? existingById.get(id) : undefined);
   }
-
-  revalidateAffectedPages();
-}
-
-// 行ごとの保存ボタン用（formAction + bind(rowIndex)で使う想定）。
-// 「まとめて保存」と同じ共有フォームに同居させ、この行(rowIndex)だけを保存する。
-export async function saveTournamentEntry(rowIndex: number, formData: FormData) {
-  const senderName = await requireAuth();
-
-  const supabase = getSupabaseClient();
-  const tournamentId = String(formData.get("tournamentId") ?? "");
-  if (!tournamentId) return;
-  const session = await resolveSessionValues(tournamentId);
-
-  const id = String(formData.get(`id-${rowIndex}`) ?? "");
-  let existing: LinkedTransactionIds | undefined;
-  if (id) {
-    const { data, error } = await supabase
-      .from("tournament_entries")
-      .select("chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id, addon_cash_transaction_id")
-      .eq("id", id)
-      .maybeSingle();
-    if (error) throw error;
-    existing = data ?? undefined;
-  }
-
-  await saveEntryRow(formData, rowIndex, session, existing, senderName);
 
   revalidateAffectedPages();
 }
