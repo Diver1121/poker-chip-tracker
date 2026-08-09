@@ -28,6 +28,9 @@ export function NumberStepperInput({
     if (!el) return;
     const next = (Number(el.value) || 0) + delta;
     el.value = String(Math.max(min, next));
+    // el.valueへの直接代入はネイティブのinputイベントを発火しないため、
+    // 値の変化を追いかけている他コンポーネント（保有チップ表示など）向けに手動で発火する。
+    el.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
   return (

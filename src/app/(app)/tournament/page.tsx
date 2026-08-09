@@ -1,17 +1,20 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import {
+  getAllTransactions,
   getCheckedInCustomers,
   getCustomers,
   getDenominations,
   getTournamentEntries,
   getTournaments,
 } from "@/lib/data";
+import { computePointTotals } from "@/lib/balances";
 import { businessDateKey, shiftDayKey } from "@/lib/businessDay";
 import { SubmitButton } from "@/components/SubmitButton";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { TournamentCustomerInput } from "@/components/TournamentCustomerInput";
 import { NumberStepperInput } from "@/components/NumberStepperInput";
+import { TournamentChipBalance } from "@/components/TournamentChipBalance";
 import { TournamentNameDatalistSync } from "@/components/TournamentNameDatalistSync";
 import { TournamentRankPrizeInputs } from "@/components/TournamentRankPrizeInputs";
 import { computePrizeAmounts } from "@/lib/prizePayout";
@@ -55,6 +58,7 @@ export default async function TournamentPage({
     tournaments,
     checkedInCustomers,
     allCustomers,
+    transactions,
   ] = await Promise.all([
     searchParams,
     getTournamentEntries(),
@@ -62,7 +66,10 @@ export default async function TournamentPage({
     getTournaments(),
     getCheckedInCustomers(),
     getCustomers(),
+    getAllTransactions(),
   ]);
+  // 保有チップ数表示用。来店中ボードと同じ計算式（全額面を点数換算した保有合計）。
+  const pointTotals = computePointTotals(transactions, denominations);
 
   // 「種類」は額面設定の「トーナメントで使う」項目をそのまま流用する
   // （アドオン専用の項目は種類の選択肢から除き、アドオンの種類選択に出す）
@@ -71,6 +78,7 @@ export default async function TournamentPage({
   );
   const addonDenominations = denominations.filter((d) => d.usable_for_addon);
   const denominationLabelById = new Map(denominations.map((d) => [d.id, d.label]));
+  const denominationValueById = new Map(denominations.map((d) => [d.id, d.value]));
 
   const todayKey = businessDateKey(new Date());
   const requestedDayKey =
@@ -95,6 +103,14 @@ export default async function TournamentPage({
   const dayEntries = selectedSession
     ? entries.filter((entry) => entry.tournament_id === selectedSession.id)
     : [];
+
+  // 保有チップ表示のリアルタイム再計算用。1回分のチップ/アドオンの点数価値。
+  const chipValue = selectedSession?.denomination_id
+    ? (denominationValueById.get(selectedSession.denomination_id) ?? 0)
+    : 0;
+  const addonValue = selectedSession?.addon_denomination_id
+    ? (denominationValueById.get(selectedSession.addon_denomination_id) ?? 0)
+    : 0;
 
   // プライズ計算ボタンの結果表示。日付・回を変えたら計算結果は持ち越さない
   // （date/sessionパラメータと一緒に発行されるURLのprizeCountだけを見る）。
@@ -331,7 +347,7 @@ export default async function TournamentPage({
               <div className="text-xs font-medium text-gray-500">アドオン(チップ)</div>
               <div className="text-xs font-medium text-gray-500">順位</div>
               <div className="text-xs font-medium text-gray-500">獲得</div>
-              <div />
+              <div className="text-right text-xs font-medium text-gray-500">保有チップ</div>
               <div />
 
               <div />
@@ -359,6 +375,13 @@ export default async function TournamentPage({
 
               {Array.from({ length: rowCount }, (_, i) => {
                 const entry = dayEntries[i];
+                // この行自身がすでに保存済みのチップ/アドオン消費分を保有合計に足し戻し、
+                // 「この行の入力を除いた」基準残高にしておく（表示側で入力値を引き直すため）。
+                const baseBalance = entry?.customer_id
+                  ? (pointTotals.get(entry.customer_id) ?? 0) +
+                    (entry.chip_amount ?? 0) +
+                    (entry.addon_amount ?? 0)
+                  : null;
                 return (
                   <Fragment key={entry?.id ?? `blank-${i}`}>
                     <div className="text-xs text-gray-400">{i + 1}</div>
@@ -412,7 +435,21 @@ export default async function TournamentPage({
                       prizeAmounts={prizeAmounts}
                       className={inputClassName}
                     />
-                    <div />
+                    {baseBalance !== null ? (
+                      <div className="text-right">
+                        <TournamentChipBalance
+                          chipInputName={`chipCount-${i}`}
+                          addonInputName={`addonCount-${i}`}
+                          defaultChipCount={entry?.chip_count ?? 0}
+                          defaultAddonCount={entry?.addon_count ?? 0}
+                          chipValue={chipValue}
+                          addonValue={addonValue}
+                          baseBalance={baseBalance}
+                        />
+                      </div>
+                    ) : (
+                      <div />
+                    )}
                     {entry ? (
                       <ConfirmSubmitButton
                         confirmMessage={`「${entry.name}」のエントリーを削除しますか？`}
