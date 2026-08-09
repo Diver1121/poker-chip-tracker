@@ -92,6 +92,23 @@ export async function getCustomer(id: string): Promise<Customer | null> {
   return data;
 }
 
+// OCEAN会員アプリ(ocean-app)との連携状態。customer一人につき最大1行(customer_idにunique制約)。
+export type OceanMember = {
+  id: string;
+  phone: string;
+  password_hash: string | null;
+};
+
+export async function getOceanMember(customerId: string): Promise<OceanMember | null> {
+  const { data, error } = await getSupabaseClient()
+    .from("ocean_members")
+    .select("id, phone, password_hash")
+    .eq("customer_id", customerId)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
 export async function getDenomination(id: string): Promise<Denomination | null> {
   const { data, error } = await getSupabaseClient()
     .from("denominations")

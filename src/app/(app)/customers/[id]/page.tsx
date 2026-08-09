@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import {
   getCustomer,
   getDenominations,
+  getOceanMember,
   getTransactionsForCustomer,
 } from "@/lib/data";
 import {
@@ -16,6 +17,7 @@ import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { SubmitButton } from "@/components/SubmitButton";
 import { EditCustomerNameButton } from "@/components/EditCustomerNameButton";
 import { DeleteCustomerButton } from "@/components/DeleteCustomerButton";
+import { OceanMemberLink } from "@/components/OceanMemberLink";
 import { LineChart } from "@/components/LineChart";
 import {
   deleteTransaction,
@@ -30,11 +32,12 @@ export default async function CustomerDetailPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const { id } = await params;
-  const [{ error }, customer, denominations, transactions] = await Promise.all([
+  const [{ error }, customer, denominations, transactions, oceanMember] = await Promise.all([
     searchParams,
     getCustomer(id),
     getDenominations(),
     getTransactionsForCustomer(id),
+    getOceanMember(id),
   ]);
 
   if (!customer) {
@@ -57,6 +60,7 @@ export default async function CustomerDetailPage({
             )}
           </div>
           <div className="flex items-center gap-3">
+            <OceanMemberLink customerId={customer.id} oceanMember={oceanMember} />
             <EditCustomerNameButton customerId={customer.id} currentName={customer.name} />
             <DeleteCustomerButton customerId={customer.id} customerName={customer.name} />
           </div>
@@ -64,6 +68,26 @@ export default async function CustomerDetailPage({
         {error === "duplicate" && (
           <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
             同じ名前の客が既に登録されています。
+          </p>
+        )}
+        {error === "ocean_phone_required" && (
+          <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+            電話番号を入力してください。
+          </p>
+        )}
+        {error === "ocean_customer_not_found" && (
+          <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+            客が見つかりませんでした。
+          </p>
+        )}
+        {error === "ocean_already_linked" && (
+          <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+            この客はすでにアプリに連携されています。
+          </p>
+        )}
+        {error === "ocean_phone_taken" && (
+          <p className="mt-3 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+            この電話番号はすでに別の会員に登録されています。
           </p>
         )}
         <Link
