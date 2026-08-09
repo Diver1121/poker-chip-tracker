@@ -274,7 +274,7 @@ async function saveEntryRow(
   }
 }
 
-// プライズ対象人数・総額を計算する。人数は合計エントリー数×15%を切り上げ。
+// プライズ対象人数・総額を計算する。人数は合計エントリー数×15%を四捨五入。
 // 総額（チップ）は合計エントリー数×単価×0.4で、単価はこの回のトーナメント種類が
 // TURBOなら200、それ以外は300。結果はURLパラメータに載せて表示するだけで、
 // 保存や個別の配分は行わない。
@@ -298,7 +298,7 @@ export async function calculatePrizeCount(formData: FormData) {
   const sessionDenomination = denominations.find((d) => d.id === tournament?.denomination_id);
   const perEntryValue = isTurboDenomination(sessionDenomination) ? 200 : 300;
 
-  const prizeCount = totalEntries > 0 ? Math.ceil(totalEntries * 0.15) : 0;
+  const prizeCount = totalEntries > 0 ? Math.round(totalEntries * 0.15) : 0;
   const prizeTotal = Math.round(totalEntries * perEntryValue * 0.4);
 
   redirect(
