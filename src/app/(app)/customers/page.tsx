@@ -1,5 +1,5 @@
-import { getAllVisits, getCustomers } from "@/lib/data";
-import { computeLastVisitByCustomer } from "@/lib/balances";
+import { getAllTransactions, getAllVisits, getCustomers, getDenominations } from "@/lib/data";
+import { computeLastVisitByCustomer, computePointTotals } from "@/lib/balances";
 import {
   CHIP_RETENTION_DAYS,
   daysUntil,
@@ -17,11 +17,22 @@ export default async function CustomersPage({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
-  const [{ error }, customers, visits] = await Promise.all([
+  const [{ error }, customers, visits, transactions, denominations] = await Promise.all([
     searchParams,
     getCustomers(),
     getAllVisits(),
+    getAllTransactions(),
+    getDenominations(),
   ]);
+
+  // 客一覧の検索欄で「保有数の多い順」に切り替えられるようにするための保有合計。
+  const pointTotals = computePointTotals(transactions, denominations);
+  const customersWithHolding = customers.map((c) => ({
+    id: c.id,
+    name: c.name,
+    note: c.note,
+    holding: pointTotals.get(c.id) ?? 0,
+  }));
 
   // チップ保有期間（来店最終日から1年）の判定。来店記録が無い客は登録日を起点にする。
   const lastVisitByCustomer = computeLastVisitByCustomer(visits);
@@ -156,7 +167,7 @@ export default async function CustomersPage({
 
       <section>
         <h2 className="mb-3 text-sm font-medium text-gray-700">客を検索</h2>
-        <CustomerListSearch customers={customers} />
+        <CustomerListSearch customers={customersWithHolding} />
       </section>
     </div>
   );
