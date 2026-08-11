@@ -266,6 +266,8 @@ export default async function StatsPage({
       visitCount: dailyVisitCountByDate.get(date) ?? 0,
       rake: finalized ? (daily?.rake ?? 0) : 0,
       tournamentChipUsage: finalized ? (daily?.tournamentTotal ?? 0) : 0,
+      // トーナメント単体の純レーキ（使用額からプライズ払い出し分を差し引いたもの）
+      tournamentRake: finalized ? (daily?.tournamentTotal ?? 0) - (daily?.prizeTotal ?? 0) : 0,
       rakeWithTournament: finalized ? (daily?.rakeWithTournament ?? 0) : 0,
     };
   });
@@ -276,6 +278,10 @@ export default async function StatsPage({
   const monthlyRakeTotal = rakeTableData.reduce((sum, d) => sum + d.rake, 0);
   const monthlyTournamentChipUsageTotal = rakeTableData.reduce(
     (sum, d) => sum + d.tournamentChipUsage,
+    0,
+  );
+  const monthlyTournamentRakeTotal = rakeTableData.reduce(
+    (sum, d) => sum + d.tournamentRake,
     0,
   );
   const monthlyVisitCountTotal = rakeTableData.reduce((sum, d) => sum + d.visitCount, 0);
@@ -427,7 +433,7 @@ export default async function StatsPage({
           </div>
         </div>
         <p className="mb-3 text-xs text-gray-500">
-          {monthLabel}の月間合計 来店数 {monthlyVisitCountTotal.toLocaleString()}人／レーキ {monthlyRakeTotal.toLocaleString()}点／トナメ使用数 {monthlyTournamentChipUsageTotal.toLocaleString()}点／総レーキ {monthlyRakeWithTournamentTotal.toLocaleString()}点。
+          {monthLabel}の月間合計 来店数 {monthlyVisitCountTotal.toLocaleString()}人／レーキ {monthlyRakeTotal.toLocaleString()}点／トナメ使用数 {monthlyTournamentChipUsageTotal.toLocaleString()}点／トナメレーキ {monthlyTournamentRakeTotal.toLocaleString()}点／総レーキ {monthlyRakeWithTournamentTotal.toLocaleString()}点。
           本日分のレーキは「営業終了・まとめて退店」を押すまで反映されません。
         </p>
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
@@ -439,6 +445,7 @@ export default async function StatsPage({
                   <th className="px-4 py-2 text-right font-medium">来店数</th>
                   <th className="px-4 py-2 text-right font-medium">レーキ</th>
                   <th className="px-4 py-2 text-right font-medium">トナメ使用数</th>
+                  <th className="px-4 py-2 text-right font-medium">トナメレーキ</th>
                   <th className="px-4 py-2 text-right font-medium">総レーキ</th>
                 </tr>
               </thead>
@@ -464,6 +471,11 @@ export default async function StatsPage({
                       {formatSigned(d.tournamentChipUsage)}
                     </td>
                     <td
+                      className={`px-4 py-2 text-right ${signColorClass(d.tournamentRake)}`}
+                    >
+                      {formatSigned(d.tournamentRake)}
+                    </td>
+                    <td
                       className={`px-4 py-2 text-right ${signColorClass(d.rakeWithTournament)}`}
                     >
                       {formatSigned(d.rakeWithTournament)}
@@ -484,6 +496,11 @@ export default async function StatsPage({
                     className={`px-4 py-2 text-right ${signColorClass(monthlyTournamentChipUsageTotal)}`}
                   >
                     {formatSigned(monthlyTournamentChipUsageTotal)}
+                  </td>
+                  <td
+                    className={`px-4 py-2 text-right ${signColorClass(monthlyTournamentRakeTotal)}`}
+                  >
+                    {formatSigned(monthlyTournamentRakeTotal)}
                   </td>
                   <td
                     className={`px-4 py-2 text-right ${signColorClass(monthlyRakeWithTournamentTotal)}`}
