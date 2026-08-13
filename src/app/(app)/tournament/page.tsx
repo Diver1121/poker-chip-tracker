@@ -21,6 +21,7 @@ import { computePrizeAmounts } from "@/lib/prizePayout";
 import {
   calculatePrizeCount,
   createTournament,
+  deleteTournament,
   deleteTournamentEntry,
   saveAllTournamentEntries,
 } from "./actions";
@@ -315,6 +316,16 @@ export default async function TournamentPage({
                 >
                   プライズ計算
                 </SubmitButton>
+                <ConfirmSubmitButton
+                  confirmMessage={`「${
+                    selectedSession.label ||
+                    `${daySessions.findIndex((t) => t.id === selectedSession.id) + 1}回目`
+                  }」を削除しますか？この回の全エントリーと、そこから記録されたチップの増減もすべて削除され、元に戻せません。`}
+                  formAction={deleteTournament.bind(null, selectedSession.id, dayKey)}
+                  className="rounded-md border border-red-200 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+                >
+                  この回を削除
+                </ConfirmSubmitButton>
                 {prizeCount !== null && prizeTotal !== null && (
                   <div className="flex items-start gap-3 rounded-md bg-amber-50 px-3 py-2 text-left text-xs font-medium text-amber-800">
                     <div className="whitespace-nowrap">

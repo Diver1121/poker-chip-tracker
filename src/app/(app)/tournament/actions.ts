@@ -375,3 +375,49 @@ export async function deleteTournamentEntry(id: string, _formData: FormData) {
 
   revalidateAffectedPages();
 }
+
+// 間違えて作成した回そのものを削除する。エントリー各行から作られたchip_transactions
+// も全部まとめて消してから消す（tournament_entries自体はtournamentsへの外部キーが
+// on delete cascadeなので、tournaments行を消せば一緒に消える）。
+export async function deleteTournament(
+  tournamentId: string,
+  dayKey: string,
+  _formData: FormData,
+) {
+  await requireAuth();
+  if (!tournamentId) return;
+
+  const supabase = getSupabaseClient();
+
+  const { data: entries, error: entriesError } = await supabase
+    .from("tournament_entries")
+    .select(
+      "chip_transaction_id, addon_transaction_id, prize_transaction_id, cash_transaction_id, addon_cash_transaction_id",
+    )
+    .eq("tournament_id", tournamentId);
+  if (entriesError) throw entriesError;
+
+  const linkedTransactionIds = (entries ?? [])
+    .flatMap((entry) => [
+      entry.chip_transaction_id,
+      entry.addon_transaction_id,
+      entry.prize_transaction_id,
+      entry.cash_transaction_id,
+      entry.addon_cash_transaction_id,
+    ])
+    .filter((transactionId): transactionId is string => Boolean(transactionId));
+
+  if (linkedTransactionIds.length > 0) {
+    const { error: deleteTransactionsError } = await supabase
+      .from("chip_transactions")
+      .delete()
+      .in("id", linkedTransactionIds);
+    if (deleteTransactionsError) throw deleteTransactionsError;
+  }
+
+  const { error } = await supabase.from("tournaments").delete().eq("id", tournamentId);
+  if (error) throw error;
+
+  revalidateAffectedPages();
+  redirect(`/tournament?date=${dayKey}`);
+}
