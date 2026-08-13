@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   getAllTransactions,
   getAllVisits,
-  getCustomers,
   getDenominations,
   getShopSettings,
   getTournamentEntries,
@@ -12,7 +11,6 @@ import {
   computeDailyRakeTotals,
   computeDailyTotals,
   computeDailyVisitCounts,
-  computeVisitCountsByCustomer,
 } from "@/lib/balances";
 import { businessDateKey, businessMonthKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
 import { LineChart } from "@/components/LineChart";
@@ -204,7 +202,6 @@ export default async function StatsPage({
     transactions,
     denominations,
     visits,
-    customers,
     shopSettings,
     tournamentEntries,
     tournaments,
@@ -213,7 +210,6 @@ export default async function StatsPage({
     getAllTransactions(),
     getDenominations(),
     getAllVisits(),
-    getCustomers(),
     getShopSettings(),
     getTournamentEntries(),
     getTournaments(),
@@ -285,14 +281,6 @@ export default async function StatsPage({
     0,
   );
   const monthlyVisitCountTotal = rakeTableData.reduce((sum, d) => sum + d.visitCount, 0);
-
-  const visitCountsByCustomer = computeVisitCountsByCustomer(visits);
-
-  const topVisitors = customers
-    .map((c) => ({ customer: c, count: visitCountsByCustomer.get(c.id) ?? 0 }))
-    .filter((c) => c.count > 0)
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 10);
 
   // トーナメント欄: 「記録保存」された tournament_entries を営業日ごとにまとめ、
   // カレンダーで過去を振り返れるようにする。
@@ -512,32 +500,6 @@ export default async function StatsPage({
             </table>
           </div>
         </div>
-      </section>
-
-      <section>
-        <h2 className="mb-4 text-lg font-bold text-gray-900">来店頻度ランキング</h2>
-        {topVisitors.length === 0 ? (
-          <p className="text-sm text-gray-500">まだ来店記録がありません。</p>
-        ) : (
-          <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-gray-50 text-gray-500">
-                <tr>
-                  <th className="px-4 py-2 font-medium">客</th>
-                  <th className="px-4 py-2 font-medium">来店回数</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {topVisitors.map(({ customer, count }) => (
-                  <tr key={customer.id}>
-                    <td className="px-4 py-2 text-gray-900">{customer.name}</td>
-                    <td className="px-4 py-2 text-gray-900">{count.toLocaleString()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
       </section>
 
       <section>
