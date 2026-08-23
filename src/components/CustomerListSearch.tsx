@@ -9,10 +9,17 @@ type SortMode = "name" | "holding";
 export function CustomerListSearch({
   customers,
 }: {
-  customers: { id: string; name: string; note: string | null; holding: number }[];
+  customers: {
+    id: string;
+    name: string;
+    note: string | null;
+    holding: number;
+    lastVisit: string | null;
+  }[];
 }) {
   const [query, setQuery] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("name");
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const normalizedQuery = normalizeForMatch(query);
   const filtered = normalizedQuery
     ? customers.filter((c) => normalizeForMatch(c.name).includes(normalizedQuery))
@@ -58,21 +65,47 @@ export function CustomerListSearch({
         <p className="text-sm text-gray-500">該当する客がいません。</p>
       ) : (
         <div className="divide-y divide-gray-100 rounded-lg border border-gray-200 bg-white">
-          {sorted.map((c) => (
-            <Link
-              key={c.id}
-              href={`/customers/${c.id}`}
-              className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-gray-50"
-            >
-              <div>
-                <p className="font-medium text-gray-900">{c.name}</p>
-                {c.note && <p className="text-sm text-gray-500">{c.note}</p>}
+          {sorted.map((c) => {
+            const expanded = expandedId === c.id;
+            return (
+              <div key={c.id}>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setExpandedId(expanded ? null : c.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setExpandedId(expanded ? null : c.id);
+                    }
+                  }}
+                  className="flex cursor-pointer items-center justify-between gap-3 px-4 py-3 hover:bg-gray-50"
+                >
+                  <div>
+                    <Link
+                      href={`/customers/${c.id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="font-medium text-gray-900 hover:underline"
+                    >
+                      {c.name}
+                    </Link>
+                    <p className="text-xs text-gray-400">
+                      最終来店:{" "}
+                      {c.lastVisit ? new Date(c.lastVisit).toLocaleDateString("ja-JP") : "来店記録なし"}
+                    </p>
+                  </div>
+                  <p className="whitespace-nowrap text-sm text-gray-500">
+                    {c.holding.toLocaleString()}点
+                  </p>
+                </div>
+                {expanded && (
+                  <div className="border-t border-gray-100 bg-gray-50 px-4 py-2 text-sm text-gray-600">
+                    {c.note || "備考なし"}
+                  </div>
+                )}
               </div>
-              <p className="whitespace-nowrap text-sm text-gray-500">
-                {c.holding.toLocaleString()}点
-              </p>
-            </Link>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

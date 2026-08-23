@@ -27,15 +27,16 @@ export default async function CustomersPage({
 
   // 客一覧の検索欄で「保有数の多い順」に切り替えられるようにするための保有合計。
   const pointTotals = computePointTotals(transactions, denominations);
+  const lastVisitByCustomer = computeLastVisitByCustomer(visits);
   const customersWithHolding = customers.map((c) => ({
     id: c.id,
     name: c.name,
     note: c.note,
     holding: pointTotals.get(c.id) ?? 0,
+    lastVisit: lastVisitByCustomer.get(c.id) ?? null,
   }));
 
   // チップ保有期間（来店最終日から1年）の判定。来店記録が無い客は登録日を起点にする。
-  const lastVisitByCustomer = computeLastVisitByCustomer(visits);
   const retentionInfo = customers.map((c) => {
     const lastVisit = lastVisitByCustomer.get(c.id) ?? c.created_at;
     return { customer: c, lastVisit, dueAt: retentionDueAt(lastVisit) };
