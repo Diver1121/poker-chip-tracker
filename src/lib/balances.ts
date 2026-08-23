@@ -285,7 +285,7 @@ export function computeCumulativeRakeTotals(
 // アウト・プライズ獲得は客が得た分としてプラスで扱う。残高調整は収支に含めない。
 function resultSign(category: TransactionCategory): number {
   if (category === "table_in" || category === "prize") return 1;
-  if (category === "purchase" || category === "adjustment" || category === "reward") return 0;
+  if (category === "purchase" || category === "adjustment") return 0;
   return -1;
 }
 
