@@ -83,25 +83,9 @@ export async function updateCustomerName(formData: FormData) {
   revalidatePath(`/customers/${customerId}`);
 }
 
-// 客本体を削除する前に、その客の取引に紐づくチャットログも一緒に消す
-// （/transactionsの個別取引削除と同じ考え方。取引はcustomers削除のcascadeで消える）
+// 客本体を削除する（取引はcustomers削除のcascadeで一緒に消える）
 async function deleteCustomerAndRelatedData(customerId: string) {
   const supabase = getSupabaseClient();
-
-  const { data: txRows, error: txError } = await supabase
-    .from("chip_transactions")
-    .select("id")
-    .eq("customer_id", customerId);
-  if (txError) throw txError;
-
-  const transactionIds = (txRows ?? []).map((row) => row.id);
-  if (transactionIds.length > 0) {
-    const { error: chatError } = await supabase
-      .from("chat_messages")
-      .delete()
-      .in("transaction_id", transactionIds);
-    if (chatError) throw chatError;
-  }
 
   const { error } = await supabase.from("customers").delete().eq("id", customerId);
   if (error) throw error;
@@ -119,7 +103,6 @@ export async function deleteCustomer(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/board");
   revalidatePath("/transactions");
-  revalidatePath("/chat");
 }
 
 // チップ保有期間（来店最終日から1年）を過ぎた客をスタッフの確認操作で削除する。
@@ -161,5 +144,4 @@ export async function deleteExpiredCustomer(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/board");
   revalidatePath("/transactions");
-  revalidatePath("/chat");
 }

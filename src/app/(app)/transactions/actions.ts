@@ -65,14 +65,6 @@ export async function deleteTransaction(formData: FormData) {
 
   const supabase = getSupabaseClient();
 
-  // チャットからこの取引を作った吹き出しも一緒に消す（取引を消した後だと
-  // chat_messages.transaction_idがon delete set nullでnullになり辿れなくなるため先に削除する）
-  const { error: chatError } = await supabase
-    .from("chat_messages")
-    .delete()
-    .eq("transaction_id", id);
-  if (chatError) throw chatError;
-
   // トーナメント表からこの取引が作られていた場合、行の回数・点数表示も一緒に0へ戻す
   // （*_transaction_idはon delete set nullで自動的にnullになるが、chip_count等の
   // 表示用の数値列は別途リセットしないと古い数値が残ってしまうため）。
@@ -134,7 +126,6 @@ export async function deleteTransaction(formData: FormData) {
   revalidatePath("/customers");
   if (customerId) revalidatePath(`/customers/${customerId}`);
   revalidatePath("/transactions");
-  revalidatePath("/chat");
   if ((linkedEntries ?? []).length > 0) {
     revalidatePath("/tournament");
     revalidatePath("/stats");

@@ -16,11 +16,19 @@ import {
 import { businessDateKey, toJstDatetimeLocal } from "@/lib/businessDay";
 
 // トーナメント使用・プライズ獲得は「トーナメント」ページの記録保存から
-// 自動でchip_transactionsが作られるようになったため、ボードの手入力ボタンからは外す
-// （チャットコマンドでの入力は引き続き使えるよう、共有のTRANSACTION_CATEGORIES自体は変更しない）。
+// 自動でchip_transactionsが作られるようになったため、ボードの手入力ボタンからは外す。
 const BOARD_MANUAL_CATEGORIES = TRANSACTION_CATEGORIES.filter(
   (category) => category !== "tournament" && category !== "prize",
 );
+
+// バイイン/アウトを開くと、ポーカー用・ブラックジャック用のフォームを並べて出す
+// （1つのフォーム内でゲームを選ばせるより押し間違いに気づきやすいため）。
+const GAMES = ["poker", "blackjack"] as const;
+const GAME_LABELS: Record<(typeof GAMES)[number], string> = {
+  poker: "ポーカー",
+  blackjack: "ブラックジャック",
+};
+
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { SubmitButton } from "@/components/SubmitButton";
 import { CustomerCombobox } from "@/components/CustomerCombobox";
@@ -299,6 +307,7 @@ export default async function BoardPage({
                       ? denominationsForCategory(category, denominations)
                       : [];
                     const disabled = needsDenomination && categoryDenominations.length === 0;
+                    const isGameCategory = category === "table_out" || category === "table_in";
                     const borderClass =
                       category === "table_out"
                         ? "border-red-300"
@@ -320,7 +329,47 @@ export default async function BoardPage({
                         <summary className={summaryClass}>
                           {categoryLabel(category)}
                         </summary>
-                        {!disabled && (
+                        {!disabled && isGameCategory && (
+                          <div className="flex flex-wrap gap-4 border-t border-gray-200 p-3">
+                            {GAMES.map((game) => (
+                              <form
+                                key={game}
+                                action={recordBoardTransaction}
+                                className="flex flex-col gap-1"
+                              >
+                                <span className="text-xs font-medium text-gray-500">
+                                  {GAME_LABELS[game]}
+                                </span>
+                                <div className="flex flex-wrap items-end gap-2">
+                                  <input type="hidden" name="customerId" value={customer.id} />
+                                  <input type="hidden" name="category" value={category} />
+                                  <input type="hidden" name="game" value={game} />
+                                  <input
+                                    type="number"
+                                    name="quantity"
+                                    min={category === "table_in" ? 0 : 1}
+                                    step={1}
+                                    required
+                                    placeholder="数量"
+                                    className="w-24 rounded-md border border-gray-300 px-2 py-1.5 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none"
+                                  />
+                                  <input
+                                    type="datetime-local"
+                                    name="createdAt"
+                                    defaultValue={nowJstLocal}
+                                    required
+                                    title="日時（入力し忘れの後追い記録の場合はここで日時を変更）"
+                                    className="rounded-md border border-gray-300 px-2 py-1.5 text-xs text-gray-900 focus:border-indigo-500 focus:outline-none"
+                                  />
+                                  <SubmitButton className="rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
+                                    確定
+                                  </SubmitButton>
+                                </div>
+                              </form>
+                            ))}
+                          </div>
+                        )}
+                        {!disabled && !isGameCategory && (
                           <form
                             action={recordBoardTransaction}
                             className="flex flex-wrap items-end gap-2 border-t border-gray-200 p-3"
@@ -347,7 +396,7 @@ export default async function BoardPage({
                             <input
                               type="number"
                               name="quantity"
-                              min={category === "table_in" ? 0 : 1}
+                              min={1}
                               step={1}
                               required
                               placeholder="数量"

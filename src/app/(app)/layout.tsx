@@ -10,7 +10,6 @@ const NAV_ITEMS = [
   { href: "/board", label: "来店中ボード" },
   { href: "/transactions", label: "取引履歴" },
   { href: "/tournament", label: "トーナメント" },
-  { href: "/chat", label: "チャット" },
   { href: "/customers", label: "客一覧" },
   { href: "/stats", label: "グラフ" },
   { href: "/settings/denominations", label: "額面設定" },

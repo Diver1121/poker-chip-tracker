@@ -5,9 +5,7 @@ import { getSupabaseClient } from "@/lib/supabase";
 import { requireAuth } from "@/lib/require-auth";
 import { insertChipTransaction } from "@/lib/transactions";
 import { businessDateKey, fromJstDatetimeLocal } from "@/lib/businessDay";
-import { getAllVisits, getCustomer, getCustomers, getDenomination } from "@/lib/data";
-import { isTransactionCategory } from "@/lib/transactionCategory";
-import { appendChatMessage, formatTransactionSummary } from "@/lib/chatLog";
+import { getAllVisits, getCustomer, getCustomers } from "@/lib/data";
 
 export async function checkInCustomer(formData: FormData) {
   await requireAuth();
@@ -89,15 +87,6 @@ export async function checkOutAllCustomers() {
 
   const closedAt = new Date().toISOString();
 
-  // チャットの吹き出しは営業終了のタイミングで見た目上まとめて消すが、
-  // 誤操作でこのボタンを押してしまった場合にundoLastCheckOutで復元できるよう、
-  // 削除はせずarchived_atを立てるだけにする（getChatMessagesで除外表示される）。
-  const { error: chatError } = await supabase
-    .from("chat_messages")
-    .update({ archived_at: closedAt })
-    .is("archived_at", null);
-  if (chatError) throw chatError;
-
   // レーキグラフは、まだプレイ中で未回収のチップを「レーキ」と誤表示しないよう
   // この時刻より前の当日分だけを確定表示する（/statsのgetShopSettingsで参照）。
   // previous_closed_at/close_undoableは、この操作を丸ごと取り消せるようにするための記録。
@@ -112,7 +101,6 @@ export async function checkOutAllCustomers() {
   if (settingsError) throw settingsError;
 
   revalidatePath("/board");
-  revalidatePath("/chat");
   revalidatePath("/stats");
 }
 
@@ -134,12 +122,6 @@ export async function undoLastCheckOut() {
   if (!settings?.close_undoable || !settings.last_closed_at) return;
 
   const closedAt = settings.last_closed_at;
-
-  const { error: chatError } = await supabase
-    .from("chat_messages")
-    .update({ archived_at: null })
-    .eq("archived_at", closedAt);
-  if (chatError) throw chatError;
 
   // 通常の退店は「営業終了・まとめて退店」でしか起きないため、締め処理をした
   // 営業日分のvisitsが、そのまま「直前まで来店中だった客」の一覧になる。
@@ -175,24 +157,22 @@ export async function undoLastCheckOut() {
   if (restoreSettingsError) throw restoreSettingsError;
 
   revalidatePath("/board");
-  revalidatePath("/chat");
   revalidatePath("/stats");
 }
 
 export async function recordBoardTransaction(formData: FormData) {
-  const senderName = await requireAuth();
+  await requireAuth();
 
   const customerId = String(formData.get("customerId") ?? "");
   const denominationId = String(formData.get("denominationId") ?? "");
   const category = String(formData.get("category") ?? "");
   const quantity = Number(formData.get("quantity"));
+  const gameRaw = String(formData.get("game") ?? "");
+  const game = gameRaw === "poker" || gameRaw === "blackjack" ? gameRaw : undefined;
   const createdAtLocal = String(formData.get("createdAt") ?? "");
   let createdAt = createdAtLocal ? fromJstDatetimeLocal(createdAtLocal) : undefined;
 
-  const [customer, denomination] = await Promise.all([
-    getCustomer(customerId),
-    denominationId ? getDenomination(denominationId) : Promise.resolve(null),
-  ]);
+  const customer = await getCustomer(customerId);
 
   // 来店ボードの日時欄はページを開いた時刻のままになりがちで、チェックイン直後に
   // 入力するとその取引が「チェックインより前」の時刻で記録されてしまうことがある。
@@ -202,35 +182,18 @@ export async function recordBoardTransaction(formData: FormData) {
     createdAt = customer.checked_in_at;
   }
 
-  const transactionId = await insertChipTransaction({
+  await insertChipTransaction({
     customerId,
     denominationId,
     category,
     quantity,
     createdAt,
+    game,
   });
-
-  // 来店ボードの手入力もチャットに残す。チャットからでも手入力からでも
-  // 同じ場所に記録が並ぶので、二重登録に気づきやすくなる。
-  if (isTransactionCategory(category)) {
-    const summary = formatTransactionSummary({
-      customerName: customer?.name ?? "(不明な客)",
-      category,
-      denominationLabel: denomination?.label,
-      quantity,
-    });
-    await appendChatMessage(crypto.randomUUID(), "reply", `${summary}（来店ボードから入力）`, {
-      ok: true,
-      transactionId,
-      senderName,
-      category,
-    });
-  }
 
   revalidatePath("/");
   revalidatePath("/board");
   revalidatePath("/customers");
   revalidatePath(`/customers/${customerId}`);
   revalidatePath("/transactions");
-  revalidatePath("/chat");
 }

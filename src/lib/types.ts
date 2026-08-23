@@ -39,6 +39,9 @@ export type ChipTransaction = {
   category: TransactionCategory;
   // purchase/tournament: 額面の枚数 / table_out/table_in: 点数そのもの
   quantity: number;
+  // table_out/table_in のみ有効。ポーカー/ブラックジャックのレーキを分けて
+  // 集計するための区分。過去データやそれ以外のcategoryではnull
+  game: "poker" | "blackjack" | null;
   created_at: string;
 };
 
@@ -97,18 +100,3 @@ export type TournamentEntry = {
   created_at: string;
 };
 
-export type ChatMessage = {
-  id: string;
-  kind: "user" | "reply";
-  text: string;
-  ok: boolean | null;
-  warning: boolean | null;
-  command_id: string;
-  transaction_id: string | null;
-  cancelled: boolean;
-  // 送信したスタッフの名前（ログイン時に入力）。システム生成の返信はnull
-  sender_name: string | null;
-  // 登録した取引の種別。取引を伴うreply行だけ入る（吹き出しの色分けに使う）
-  category: TransactionCategory | null;
-  created_at: string;
-};

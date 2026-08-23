@@ -1,6 +1,5 @@
 import { getSupabaseClient } from "@/lib/supabase";
 import type {
-  ChatMessage,
   ChipTransaction,
   Customer,
   Denomination,
@@ -125,19 +124,6 @@ export async function getAllTransactions(): Promise<ChipTransaction[]> {
       .from("chip_transactions")
       .select("*")
       .order("created_at", { ascending: false })
-      .range(from, to),
-  );
-}
-
-export async function getChatMessages(): Promise<ChatMessage[]> {
-  // 「営業終了・まとめて退店」でアーカイブされた分は除く（削除はせず、
-  // 誤操作時にundoLastCheckOutで復元できるようarchived_atだけ立てて残している）。
-  return fetchAllRows<ChatMessage>((from, to) =>
-    getSupabaseClient()
-      .from("chat_messages")
-      .select("*")
-      .is("archived_at", null)
-      .order("created_at", { ascending: true })
       .range(from, to),
   );
 }

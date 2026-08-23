@@ -8,6 +8,7 @@ import {
 } from "@/lib/data";
 import {
   computeBalances,
+  computeCustomerGameResultTimeline,
   computeCustomerResultTimeline,
   computePointTotals,
 } from "@/lib/balances";
@@ -18,7 +19,7 @@ import { SubmitButton } from "@/components/SubmitButton";
 import { EditCustomerNameButton } from "@/components/EditCustomerNameButton";
 import { DeleteCustomerButton } from "@/components/DeleteCustomerButton";
 import { OceanMemberLink } from "@/components/OceanMemberLink";
-import { LineChart } from "@/components/LineChart";
+import { GameLineChart } from "@/components/GameLineChart";
 import {
   deleteTransaction,
   updateTransactionDate,
@@ -48,6 +49,8 @@ export default async function CustomerDetailPage({
   const totalPoints = computePointTotals(transactions, denominations).get(customer.id) ?? 0;
   const denominationLabel = new Map(denominations.map((d) => [d.id, d.label]));
   const resultChartData = computeCustomerResultTimeline(transactions, denominations);
+  const pokerResultChartData = computeCustomerGameResultTimeline(transactions, "poker");
+  const blackjackResultChartData = computeCustomerGameResultTimeline(transactions, "blackjack");
 
   return (
     <div className="space-y-8">
@@ -127,14 +130,17 @@ export default async function CustomerDetailPage({
       <section>
         <h2 className="mb-4 text-lg font-bold text-gray-900">収支の推移</h2>
         <p className="mb-3 text-xs text-gray-500">
-          バイイン・トーナメント使用はマイナス、アウト（テーブルからカウント）・プライズ獲得はプラスとして累計しています（購入はカウントしません）。
+          「全体」はバイイン・トーナメント使用をマイナス、アウト・プライズ獲得をプラスとして累計（購入はカウントしません）。
+          「ポーカー」「ブラックジャック」はそのゲームのバイイン・アウトだけの収支です。
         </p>
         <div className="rounded-lg border border-gray-200 bg-white p-4">
           {resultChartData.length === 0 ? (
             <p className="text-sm text-gray-500">まだ取引がありません。</p>
           ) : (
-            <LineChart
-              data={resultChartData}
+            <GameLineChart
+              all={resultChartData}
+              poker={pokerResultChartData}
+              blackjack={blackjackResultChartData}
               color="#dc2626"
               gradientId="customerResultFill"
             />

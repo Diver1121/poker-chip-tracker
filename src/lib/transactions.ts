@@ -11,6 +11,7 @@ export async function insertChipTransaction({
   category,
   quantity,
   createdAt,
+  game,
 }: {
   customerId: string;
   denominationId: string;
@@ -19,6 +20,9 @@ export async function insertChipTransaction({
   // 未指定ならDB側のdefault now()が使われる。入力し忘れの後追い記録用に、
   // 過去の営業日の時刻を指定できるようにするためのオプション項目。
   createdAt?: string;
+  // バイイン/アウト(table_out/table_in)のみ有効。ポーカー/ブラックジャックの
+  // レーキを分けて集計するための区分（未指定なら旧データ同様nullのまま）。
+  game?: "poker" | "blackjack";
 }): Promise<string> {
   if (
     !customerId ||
@@ -48,6 +52,8 @@ export async function insertChipTransaction({
     await assertDenominationAllowedForCategory(denominationId, category);
   }
 
+  const usesGame = category === "table_out" || category === "table_in";
+
   const { data, error } = await getSupabaseClient()
     .from("chip_transactions")
     .insert({
@@ -55,6 +61,7 @@ export async function insertChipTransaction({
       denomination_id: needsDenomination ? denominationId : null,
       category,
       quantity,
+      game: usesGame ? (game ?? null) : null,
       ...(createdAt ? { created_at: createdAt } : {}),
     })
     .select("id")

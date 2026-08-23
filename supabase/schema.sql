@@ -206,3 +206,15 @@ create table if not exists tournaments (
 
 alter table tournament_entries add column if not exists tournament_id uuid references tournaments(id) on delete cascade;
 create index if not exists tournament_entries_tournament_id_idx on tournament_entries(tournament_id);
+
+-- バイイン/アウトを「ポーカー」「ブラックジャック」で分けて集計できるようにする区分。
+-- 過去データはgameがnullのまま残る（レーキ集計上は便宜的にポーカー扱いにする。
+-- src/lib/balances.tsのcomputeDailyRakeTotals等を参照）。
+alter table chip_transactions add column if not exists game text;
+
+alter table chip_transactions drop constraint if exists chip_transactions_game_check;
+alter table chip_transactions add constraint chip_transactions_game_check check (
+  (category in ('table_out', 'table_in') and (game is null or game in ('poker', 'blackjack')))
+  or
+  (category not in ('table_out', 'table_in') and game is null)
+);

@@ -34,7 +34,6 @@ function revalidateAffectedPages() {
   revalidatePath("/tournament");
   revalidatePath("/board");
   revalidatePath("/transactions");
-  revalidatePath("/chat");
   revalidatePath("/");
 }
 
