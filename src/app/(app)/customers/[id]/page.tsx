@@ -13,7 +13,7 @@ import {
   computePointTotals,
 } from "@/lib/balances";
 import { CATEGORY_INFO, quantityUnitLabel } from "@/lib/transactionCategory";
-import { toJstDatetimeLocal } from "@/lib/businessDay";
+import { businessMonthKey, shiftMonthKey, toJstDatetimeLocal } from "@/lib/businessDay";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { SubmitButton } from "@/components/SubmitButton";
 import { EditCustomerNameButton } from "@/components/EditCustomerNameButton";
@@ -30,10 +30,10 @@ export default async function CustomerDetailPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; month?: string }>;
 }) {
   const { id } = await params;
-  const [{ error }, customer, denominations, transactions, oceanMember] = await Promise.all([
+  const [{ error, month }, customer, denominations, transactions, oceanMember] = await Promise.all([
     searchParams,
     getCustomer(id),
     getDenominations(),
@@ -51,6 +51,26 @@ export default async function CustomerDetailPage({
   const resultChartData = computeCustomerResultTimeline(transactions, denominations);
   const pokerResultChartData = computeCustomerGameResultTimeline(transactions, "poker");
   const blackjackResultChartData = computeCustomerGameResultTimeline(transactions, "blackjack");
+
+  // 取引履歴は月ごとに区切って表示する（ずっと更新され続けてスクロールが大変なため）。
+  // 指定が無ければ、その客の直近の取引があった月をデフォルトにする
+  // （今月まだ来店が無い客だと、素の今月表示では空欄になってしまうため）。
+  const currentMonthKey = businessMonthKey(new Date());
+  const latestTransactionMonthKey =
+    transactions.length > 0 ? businessMonthKey(transactions[0].created_at) : currentMonthKey;
+  const requestedMonthKey = month && /^\d{4}-\d{2}$/.test(month) ? month : null;
+  const monthKey =
+    requestedMonthKey && requestedMonthKey <= currentMonthKey
+      ? requestedMonthKey
+      : latestTransactionMonthKey;
+  const prevMonthKey = shiftMonthKey(monthKey, -1);
+  const nextMonthKey = shiftMonthKey(monthKey, 1);
+  const canGoNext = nextMonthKey <= currentMonthKey;
+  const [monthYearPart, monthNumPart] = monthKey.split("-");
+  const monthLabel = `${monthYearPart}年${Number(monthNumPart)}月`;
+  const monthTransactions = transactions.filter(
+    (tx) => businessMonthKey(tx.created_at) === monthKey,
+  );
 
   return (
     <div className="space-y-8">
@@ -149,9 +169,32 @@ export default async function CustomerDetailPage({
       </section>
 
       <section>
-        <h2 className="mb-4 text-lg font-bold text-gray-900">取引履歴</h2>
-        {transactions.length === 0 ? (
-          <p className="text-sm text-gray-500">まだ取引がありません。</p>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-lg font-bold text-gray-900">取引履歴</h2>
+          <div className="flex items-center gap-2 text-sm">
+            <Link
+              href={`/customers/${customer.id}?month=${prevMonthKey}`}
+              className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+            >
+              ← 前月
+            </Link>
+            <span className="font-medium text-gray-900">{monthLabel}</span>
+            {canGoNext ? (
+              <Link
+                href={`/customers/${customer.id}?month=${nextMonthKey}`}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+              >
+                翌月 →
+              </Link>
+            ) : (
+              <span className="cursor-not-allowed rounded-md border border-gray-200 px-2 py-1 text-gray-300">
+                翌月 →
+              </span>
+            )}
+          </div>
+        </div>
+        {monthTransactions.length === 0 ? (
+          <p className="text-sm text-gray-500">この月の取引はありません。</p>
         ) : (
           <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
             <table className="w-full text-left text-sm">
@@ -165,7 +208,7 @@ export default async function CustomerDetailPage({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {transactions.map((tx) => (
+                {monthTransactions.map((tx) => (
                   <tr key={tx.id}>
                     <td className="px-4 py-2 text-gray-500">
                       <details className="group">
