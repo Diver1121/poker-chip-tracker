@@ -14,6 +14,10 @@ const AXIS_HEIGHT = 26;
 const HEIGHT = CHART_HEIGHT + AXIS_HEIGHT;
 const TICK_COUNT = 5;
 
+// splitAtZero用の色。日別レーキ表のプラス青／マイナス赤（signColorClass）と揃えている。
+const POSITIVE_COLOR = "#2563eb";
+const NEGATIVE_COLOR = "#dc2626";
+
 // data.lengthに応じて、間引いた横軸ラベルのインデックスを均等に選ぶ（両端は必ず含む）。
 function pickTickIndices(length: number, count: number): number[] {
   if (length <= count) return Array.from({ length }, (_, i) => i);
@@ -24,12 +28,39 @@ function pickTickIndices(length: number, count: number): number[] {
   return [...indices].sort((a, b) => a - b);
 }
 
+type ScreenPoint = { x: number; y: number; total: number };
+
+// 折れ線を0との交点で分割し、線分ごとに「プラス側/マイナス側」の区間を作る。
+// 区間をまたぐところは0の高さ（zeroY）で正確に交差する点を補間して差し込む。
+function splitSegmentsAtZero(
+  points: ScreenPoint[],
+  zeroY: number,
+): { x1: number; y1: number; x2: number; y2: number; positive: boolean }[] {
+  const segments: { x1: number; y1: number; x2: number; y2: number; positive: boolean }[] = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const sign1 = p1.total >= 0;
+    const sign2 = p2.total >= 0;
+    if (sign1 === sign2) {
+      segments.push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, positive: sign1 });
+    } else {
+      const t = (zeroY - p1.y) / (p2.y - p1.y);
+      const crossX = p1.x + (p2.x - p1.x) * t;
+      segments.push({ x1: p1.x, y1: p1.y, x2: crossX, y2: zeroY, positive: sign1 });
+      segments.push({ x1: crossX, y1: zeroY, x2: p2.x, y2: p2.y, positive: sign2 });
+    }
+  }
+  return segments;
+}
+
 export function LineChart({
   data,
   color = "#4f46e5",
   gradientId,
   zoomToData = false,
   referenceLine,
+  splitAtZero = false,
 }: {
   data: { date: string; total: number }[];
   color?: string;
@@ -39,6 +70,9 @@ export function LineChart({
   zoomToData?: boolean;
   // 基準線（例：営業開始時点の値）を破線で表示する。
   referenceLine?: { label: string; value: number };
+  // trueなら、線・塗り・現在値の数字を0より上(プラス)は青、0より下(マイナス)は赤で
+  // 描き分ける（店の儲け/払い出しなど、符号に意味がある指標向け）。
+  splitAtZero?: boolean;
 }) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -54,10 +88,10 @@ export function LineChart({
   const range = max - min || 1;
   const latest = data[data.length - 1].total;
 
-  const points = data.map((d, i) => {
+  const points: ScreenPoint[] = data.map((d, i) => {
     const x = data.length === 1 ? WIDTH / 2 : (i / (data.length - 1)) * WIDTH;
     const y = CHART_HEIGHT - ((d.total - min) / range) * CHART_HEIGHT;
-    return { x, y };
+    return { x, y, total: d.total };
   });
 
   const linePath = points
@@ -66,12 +100,19 @@ export function LineChart({
   const areaPath = `${linePath} L${points[points.length - 1].x.toFixed(2)},${CHART_HEIGHT} L0,${CHART_HEIGHT} Z`;
   const zeroY = CHART_HEIGHT - ((0 - min) / range) * CHART_HEIGHT;
   const showZeroLine = min < 0 && max > 0;
+  // ずっと片側（全部プラス/全部マイナス）のときは、区間分けせず単色で塗る。
+  const zeroSegments = splitAtZero && showZeroLine ? splitSegmentsAtZero(points, zeroY) : null;
+  const overallPositive = min >= 0;
+  const signColor = splitAtZero ? (overallPositive ? POSITIVE_COLOR : NEGATIVE_COLOR) : color;
+  const latestColor = splitAtZero ? (latest >= 0 ? POSITIVE_COLOR : NEGATIVE_COLOR) : color;
   const referenceY =
     referenceLine != null
       ? CHART_HEIGHT - ((referenceLine.value - min) / range) * CHART_HEIGHT
       : null;
   const lastPoint = points[points.length - 1];
   const tickIndices = pickTickIndices(data.length, Math.min(TICK_COUNT, data.length));
+  const positiveGradientId = `${gradientId}-pos`;
+  const negativeGradientId = `${gradientId}-neg`;
 
   function updateActiveFromClientX(clientX: number) {
     const svg = svgRef.current;
@@ -87,7 +128,9 @@ export function LineChart({
   return (
     <div className="space-y-2">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="text-2xl font-bold text-gray-900">
+        <p
+          className={`text-2xl font-bold ${splitAtZero ? (latest >= 0 ? "text-blue-600" : "text-red-600") : "text-gray-900"}`}
+        >
           {latest.toLocaleString()}
           <span className="ml-1 text-sm font-normal text-gray-500">現在値</span>
         </p>
@@ -124,10 +167,23 @@ export function LineChart({
             }}
           >
             <defs>
-              <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color} stopOpacity={0.25} />
-                <stop offset="100%" stopColor={color} stopOpacity={0} />
-              </linearGradient>
+              {splitAtZero ? (
+                <>
+                  <linearGradient id={positiveGradientId} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={POSITIVE_COLOR} stopOpacity={0.25} />
+                    <stop offset="100%" stopColor={POSITIVE_COLOR} stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id={negativeGradientId} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={NEGATIVE_COLOR} stopOpacity={0} />
+                    <stop offset="100%" stopColor={NEGATIVE_COLOR} stopOpacity={0.25} />
+                  </linearGradient>
+                </>
+              ) : (
+                <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={color} stopOpacity={0.25} />
+                  <stop offset="100%" stopColor={color} stopOpacity={0} />
+                </linearGradient>
+              )}
             </defs>
             {showZeroLine && (
               <line
@@ -151,9 +207,32 @@ export function LineChart({
                 strokeDasharray="4 4"
               />
             )}
-            <path d={areaPath} fill={`url(#${gradientId})`} />
-            <path d={linePath} fill="none" stroke={color} strokeWidth={2} />
-            <circle cx={lastPoint.x} cy={lastPoint.y} r={4} fill={color} />
+            {zeroSegments ? (
+              <>
+                {zeroSegments.map((s, i) => (
+                  <path
+                    key={`area-${i}`}
+                    d={`M${s.x1.toFixed(2)},${s.y1.toFixed(2)} L${s.x2.toFixed(2)},${s.y2.toFixed(2)} L${s.x2.toFixed(2)},${zeroY.toFixed(2)} L${s.x1.toFixed(2)},${zeroY.toFixed(2)} Z`}
+                    fill={`url(#${s.positive ? positiveGradientId : negativeGradientId})`}
+                  />
+                ))}
+                {zeroSegments.map((s, i) => (
+                  <path
+                    key={`line-${i}`}
+                    d={`M${s.x1.toFixed(2)},${s.y1.toFixed(2)} L${s.x2.toFixed(2)},${s.y2.toFixed(2)}`}
+                    fill="none"
+                    stroke={s.positive ? POSITIVE_COLOR : NEGATIVE_COLOR}
+                    strokeWidth={2}
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                <path d={areaPath} fill={`url(#${gradientId})`} />
+                <path d={linePath} fill="none" stroke={signColor} strokeWidth={2} />
+              </>
+            )}
+            <circle cx={lastPoint.x} cy={lastPoint.y} r={4} fill={latestColor} />
 
             {tickIndices.map((i) => (
               <g key={i}>

@@ -161,7 +161,6 @@ export default async function CustomerDetailPage({
               all={resultChartData}
               poker={pokerResultChartData}
               blackjack={blackjackResultChartData}
-              color="#dc2626"
               gradientId="customerResultFill"
             />
           )}

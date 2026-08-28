@@ -12,19 +12,18 @@ const MODE_LABELS: Record<Mode, string> = {
 };
 
 // 全体/ポーカー/ブラックジャックをボタンで切り替えられるLineChart。
-// レーキグラフ・客ごとの収支グラフの両方で使う。
+// レーキグラフ・客ごとの収支グラフの両方で使う。店の儲け/払い出しを表す指標なので、
+// 0を境に常に青(プラス)/赤(マイナス)で描き分ける。
 export function GameLineChart({
   all,
   poker,
   blackjack,
-  color = "#4f46e5",
   gradientId,
   zoomToData = false,
 }: {
   all: { date: string; total: number }[];
   poker: { date: string; total: number }[];
   blackjack: { date: string; total: number }[];
-  color?: string;
   gradientId: string;
   zoomToData?: boolean;
 }) {
@@ -52,7 +51,7 @@ export function GameLineChart({
       {data.length === 0 ? (
         <p className="text-sm text-gray-500">データがありません。</p>
       ) : (
-        <LineChart data={data} color={color} gradientId={gradientId} zoomToData={zoomToData} />
+        <LineChart data={data} gradientId={gradientId} zoomToData={zoomToData} splitAtZero />
       )}
     </div>
   );

@@ -435,7 +435,6 @@ export default async function StatsPage({
             all={cumulativeRakeTotals.all}
             poker={cumulativeRakeTotals.poker}
             blackjack={cumulativeRakeTotals.blackjack}
-            color="#4f46e5"
             gradientId="rakeCumulativeFill"
             zoomToData
           />
