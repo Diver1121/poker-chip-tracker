@@ -182,6 +182,11 @@ async function saveEntryRow(
   rowIndex: number,
   session: SessionValues,
   existing: LinkedTransactionIds | undefined,
+  // 新規行のcreated_at。行を並行保存するとDBへの到達順が入力順と一致しなくなり、
+  // created_at昇順で並べる一覧の行番号(紙のエントリーシート通し番号)がずれてしまうため、
+  // rowIndexから機械的に決めた時刻を明示的に入れて並び順を保証する
+  // （既存行の更新では触らないので、後からの編集で並び順が動くことはない）。
+  newRowCreatedAt: string,
 ) {
   const supabase = getSupabaseClient();
   const id = String(formData.get(`id-${rowIndex}`) ?? "");
@@ -200,46 +205,56 @@ async function saveEntryRow(
   // （チップは点数換算前の回数そのものを足す。例: 現金2 + チップ回数1 + チケット0 = 3）
   const entryFee = cashAmount + chipCount + ticketAmount;
 
-  const cashTransactionId = await syncLinkedTransaction(
-    existing?.cash_transaction_id ?? null,
-    customerId && cashAmount > 0
-      ? { customerId, denominationId: "", category: "cash_entry", quantity: cashAmount }
-      : null,
-  );
-  const chipTransactionId = await syncLinkedTransaction(
-    existing?.chip_transaction_id ?? null,
-    customerId && session.denominationId && chipCount > 0
-      ? {
-          customerId,
-          denominationId: session.denominationId,
-          category: "tournament",
-          quantity: chipCount,
-        }
-      : null,
-  );
-  const addonTransactionId = await syncLinkedTransaction(
-    existing?.addon_transaction_id ?? null,
-    customerId && session.addonDenominationId && addonCount > 0
-      ? {
-          customerId,
-          denominationId: session.addonDenominationId,
-          category: "tournament",
-          quantity: addonCount,
-        }
-      : null,
-  );
-  const addonCashTransactionId = await syncLinkedTransaction(
-    existing?.addon_cash_transaction_id ?? null,
-    customerId && addonCashAmount > 0
-      ? { customerId, denominationId: "", category: "cash_entry", quantity: addonCashAmount }
-      : null,
-  );
-  const prizeTransactionId = await syncLinkedTransaction(
-    existing?.prize_transaction_id ?? null,
-    customerId && prizeAmount > 0
-      ? { customerId, denominationId: "", category: "prize", quantity: prizeAmount }
-      : null,
-  );
+  // 5つの連携チップ取引は互いに独立（別カラムのtransaction_id）なので、
+  // 順番に待たず並行実行する（行数×5回の直列往復が反映の遅さの主因だったため）。
+  const [
+    cashTransactionId,
+    chipTransactionId,
+    addonTransactionId,
+    addonCashTransactionId,
+    prizeTransactionId,
+  ] = await Promise.all([
+    syncLinkedTransaction(
+      existing?.cash_transaction_id ?? null,
+      customerId && cashAmount > 0
+        ? { customerId, denominationId: "", category: "cash_entry", quantity: cashAmount }
+        : null,
+    ),
+    syncLinkedTransaction(
+      existing?.chip_transaction_id ?? null,
+      customerId && session.denominationId && chipCount > 0
+        ? {
+            customerId,
+            denominationId: session.denominationId,
+            category: "tournament",
+            quantity: chipCount,
+          }
+        : null,
+    ),
+    syncLinkedTransaction(
+      existing?.addon_transaction_id ?? null,
+      customerId && session.addonDenominationId && addonCount > 0
+        ? {
+            customerId,
+            denominationId: session.addonDenominationId,
+            category: "tournament",
+            quantity: addonCount,
+          }
+        : null,
+    ),
+    syncLinkedTransaction(
+      existing?.addon_cash_transaction_id ?? null,
+      customerId && addonCashAmount > 0
+        ? { customerId, denominationId: "", category: "cash_entry", quantity: addonCashAmount }
+        : null,
+    ),
+    syncLinkedTransaction(
+      existing?.prize_transaction_id ?? null,
+      customerId && prizeAmount > 0
+        ? { customerId, denominationId: "", category: "prize", quantity: prizeAmount }
+        : null,
+    ),
+  ]);
 
   const fields = {
     tournament_id: session.tournamentId,
@@ -268,7 +283,9 @@ async function saveEntryRow(
     const { error } = await supabase.from("tournament_entries").update(fields).eq("id", id);
     if (error) throw error;
   } else {
-    const { error } = await supabase.from("tournament_entries").insert(fields);
+    const { error } = await supabase
+      .from("tournament_entries")
+      .insert({ ...fields, created_at: newRowCreatedAt });
     if (error) throw error;
   }
 }
@@ -328,10 +345,23 @@ export async function saveAllTournamentEntries(formData: FormData) {
     for (const row of existingRows) existingById.set(row.id, row);
   }
 
-  for (let i = 0; i < rowCount; i++) {
-    const id = String(formData.get(`id-${i}`) ?? "");
-    await saveEntryRow(formData, i, session, id ? existingById.get(id) : undefined);
-  }
+  // 行同士も別レコードを触るだけで独立しているので、直列に40行分待たず並行保存する。
+  // newRowBaseTimeはrowIndexごとにミリ秒ずつずらした新規行用のcreated_atの基準時刻
+  // （並行保存でもcreated_at昇順=入力順になるようにするため）。
+  const newRowBaseTime = Date.now();
+  await Promise.all(
+    Array.from({ length: rowCount }, (_, i) => {
+      const id = String(formData.get(`id-${i}`) ?? "");
+      const newRowCreatedAt = new Date(newRowBaseTime + i).toISOString();
+      return saveEntryRow(
+        formData,
+        i,
+        session,
+        id ? existingById.get(id) : undefined,
+        newRowCreatedAt,
+      );
+    }),
+  );
 
   revalidateAffectedPages();
 }
