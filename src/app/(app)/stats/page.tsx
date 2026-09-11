@@ -10,14 +10,13 @@ import {
 } from "@/lib/data";
 import {
   computeCumulativeRakeTotals,
-  computeDailyPurchaseValueTotals,
   computeDailyRakeTotals,
   computeDailyTotals,
   computeDailyVisitCounts,
-  computePurchaseTotalsByDenomination,
 } from "@/lib/balances";
 import { businessDateKey, businessMonthKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
 import { LineChart } from "@/components/LineChart";
+import { PurchaseBreakdownSection } from "@/components/PurchaseBreakdownSection";
 import type { TournamentEntry } from "@/lib/types";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
@@ -179,44 +178,6 @@ export default async function StatsPage({
     0,
   );
   const monthlyVisitCountTotal = rakeTableData.reduce((sum, d) => sum + d.visitCount, 0);
-
-  // 額面ごとの購入内訳（全期間）。特定の額面はたまにしか購入されず月ごとに区切ると
-  // 0件の月が多くなってしまうため、月では絞らず全期間を対象にする。
-  const purchaseTotalsByDenomination = computePurchaseTotalsByDenomination(transactions);
-  const totalPurchaseQuantityTotal = [...purchaseTotalsByDenomination.values()].reduce(
-    (sum, v) => sum + v.quantity,
-    0,
-  );
-  const purchaseTableData = denominations
-    .map((d) => {
-      const totals = purchaseTotalsByDenomination.get(d.id) ?? { count: 0, quantity: 0 };
-      return {
-        denominationId: d.id,
-        label: d.label,
-        count: totals.count,
-        quantity: totals.quantity,
-        rate: totalPurchaseQuantityTotal > 0 ? totals.quantity / totalPurchaseQuantityTotal : 0,
-      };
-    })
-    .filter((d) => d.count > 0);
-  const totalPurchaseCountTotal = purchaseTableData.reduce((sum, d) => sum + d.count, 0);
-
-  // 購入ペース: 点数換算した購入総量を、購入が実際にあった月数・日数で割って
-  // 「1ヶ月あたり／1日あたり、平均どれくらい購入されているか」を出す。
-  // 例: 2日で300購入3回・1500購入2回なら合計点数は300*3+1500*2=3900、1日平均は3900/2=1950。
-  const dailyPurchaseValueByDate = computeDailyPurchaseValueTotals(transactions, denominations);
-  const totalPurchaseValue = [...dailyPurchaseValueByDate.values()].reduce((s, v) => s + v, 0);
-  const purchaseActiveDayCount = dailyPurchaseValueByDate.size;
-  const purchaseActiveMonthCount = new Set(
-    [...dailyPurchaseValueByDate.keys()].map((d) => d.slice(0, 7)),
-  ).size;
-  const currentMonthPurchaseValue = [...dailyPurchaseValueByDate.entries()]
-    .filter(([date]) => date.slice(0, 7) === currentMonthKey)
-    .reduce((sum, [, v]) => sum + v, 0);
-  const monthlyAvgPurchaseValue =
-    purchaseActiveMonthCount > 0 ? totalPurchaseValue / purchaseActiveMonthCount : null;
-  const dailyAvgPurchaseValue =
-    purchaseActiveDayCount > 0 ? totalPurchaseValue / purchaseActiveDayCount : null;
 
   // トーナメント欄: 「記録保存」された tournament_entries を営業日ごとにまとめ、
   // カレンダーで過去を振り返れるようにする。
@@ -380,130 +341,66 @@ export default async function StatsPage({
             />
           )}
         </div>
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <div className="max-h-[420px] overflow-y-auto">
-            <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
-              <thead className="sticky top-0 z-10 bg-gray-50 text-gray-500 shadow-[0_1px_0_0_rgba(0,0,0,0.06)]">
-                <tr>
-                  <th className="px-4 py-2 text-left font-medium">日付</th>
-                  <th className="px-4 py-2 text-right font-medium">来店数</th>
-                  <th className="px-4 py-2 text-right font-medium">店全体</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {rakeTableData.map((d) => (
-                  <tr key={d.date} className="hover:bg-gray-50">
-                    <td
-                      className={`px-4 py-2 text-left ${
-                        d.weekday === "日" ? "text-red-500" : d.weekday === "土" ? "text-blue-500" : "text-gray-900"
-                      }`}
-                    >
-                      {d.day}日（{d.weekday}）
-                    </td>
-                    <td className="px-4 py-2 text-right text-gray-900">
-                      {d.visitCount > 0 ? d.visitCount.toLocaleString() : "-"}
-                    </td>
-                    <td
-                      className={`px-4 py-2 text-right ${signColorClass(d.rakeWithTournament)}`}
-                    >
-                      {formatSigned(d.rakeWithTournament)}
-                    </td>
+        <details className="group">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
+            <span className="inline-block transition-transform group-open:rotate-90">▶</span>
+            日別の内訳を表示
+          </summary>
+          <div className="mt-3 overflow-hidden rounded-lg border border-gray-200 bg-white">
+            <div className="max-h-[420px] overflow-y-auto">
+              <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
+                <thead className="sticky top-0 z-10 bg-gray-50 text-gray-500 shadow-[0_1px_0_0_rgba(0,0,0,0.06)]">
+                  <tr>
+                    <th className="px-4 py-2 text-left font-medium">日付</th>
+                    <th className="px-4 py-2 text-right font-medium">来店数</th>
+                    <th className="px-4 py-2 text-right font-medium">店全体</th>
                   </tr>
-                ))}
-              </tbody>
-              <tfoot className="sticky bottom-0 bg-gray-50">
-                <tr className="border-t border-gray-200 font-bold">
-                  <td className="px-4 py-2 text-left text-gray-900">合計</td>
-                  <td className="px-4 py-2 text-right text-gray-900">
-                    {monthlyVisitCountTotal.toLocaleString()}
-                  </td>
-                  <td
-                    className={`px-4 py-2 text-right ${signColorClass(monthlyRakeWithTournamentTotal)}`}
-                  >
-                    {formatSigned(monthlyRakeWithTournamentTotal)}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="mb-4 text-lg font-bold text-gray-900">購入内訳（額面別・全期間）</h2>
-
-        <div className="mb-4 grid grid-cols-3 gap-3 text-center">
-          <div className="rounded-md border border-gray-200 bg-white p-3">
-            <p className="text-xs text-gray-500">今月の合計</p>
-            <p className="text-lg font-bold text-gray-900">
-              {currentMonthPurchaseValue.toLocaleString()}購入
-            </p>
-          </div>
-          <div className="rounded-md border border-gray-200 bg-white p-3">
-            <p className="text-xs text-gray-500">月平均</p>
-            <p className="text-lg font-bold text-gray-900">
-              {monthlyAvgPurchaseValue === null
-                ? "-"
-                : `${Math.round(monthlyAvgPurchaseValue).toLocaleString()}購入`}
-            </p>
-          </div>
-          <div className="rounded-md border border-gray-200 bg-white p-3">
-            <p className="text-xs text-gray-500">1日平均</p>
-            <p className="text-lg font-bold text-gray-900">
-              {dailyAvgPurchaseValue === null
-                ? "-"
-                : `${Math.round(dailyAvgPurchaseValue).toLocaleString()}購入`}
-            </p>
-          </div>
-        </div>
-
-        {purchaseTableData.length === 0 ? (
-          <p className="text-sm text-gray-500">購入はまだありません。</p>
-        ) : (
-          <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-            <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
-              <thead className="bg-gray-50 text-gray-500">
-                <tr>
-                  <th className="px-4 py-2 text-left font-medium">額面</th>
-                  <th className="px-4 py-2 text-right font-medium">購入回数</th>
-                  <th className="px-4 py-2 text-right font-medium">購入枚数</th>
-                  <th className="px-4 py-2 text-right font-medium">割合</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {[...purchaseTableData]
-                  .sort((a, b) => b.quantity - a.quantity)
-                  .map((d) => (
-                    <tr key={d.denominationId} className="hover:bg-gray-50">
-                      <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
-                      <td className="px-4 py-2 text-right text-gray-900">
-                        {d.count.toLocaleString()}
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {rakeTableData.map((d) => (
+                    <tr key={d.date} className="hover:bg-gray-50">
+                      <td
+                        className={`px-4 py-2 text-left ${
+                          d.weekday === "日" ? "text-red-500" : d.weekday === "土" ? "text-blue-500" : "text-gray-900"
+                        }`}
+                      >
+                        {d.day}日（{d.weekday}）
                       </td>
                       <td className="px-4 py-2 text-right text-gray-900">
-                        {d.quantity.toLocaleString()}
+                        {d.visitCount > 0 ? d.visitCount.toLocaleString() : "-"}
                       </td>
-                      <td className="px-4 py-2 text-right text-gray-500">
-                        {(d.rate * 100).toFixed(1)}%
+                      <td
+                        className={`px-4 py-2 text-right ${signColorClass(d.rakeWithTournament)}`}
+                      >
+                        {formatSigned(d.rakeWithTournament)}
                       </td>
                     </tr>
                   ))}
-              </tbody>
-              <tfoot>
-                <tr className="border-t border-gray-200 font-bold">
-                  <td className="px-4 py-2 text-left text-gray-900">合計</td>
-                  <td className="px-4 py-2 text-right text-gray-900">
-                    {totalPurchaseCountTotal.toLocaleString()}
-                  </td>
-                  <td className="px-4 py-2 text-right text-gray-900">
-                    {totalPurchaseQuantityTotal.toLocaleString()}
-                  </td>
-                  <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
-                </tr>
-              </tfoot>
-            </table>
+                </tbody>
+                <tfoot className="sticky bottom-0 bg-gray-50">
+                  <tr className="border-t border-gray-200 font-bold">
+                    <td className="px-4 py-2 text-left text-gray-900">合計</td>
+                    <td className="px-4 py-2 text-right text-gray-900">
+                      {monthlyVisitCountTotal.toLocaleString()}
+                    </td>
+                    <td
+                      className={`px-4 py-2 text-right ${signColorClass(monthlyRakeWithTournamentTotal)}`}
+                    >
+                      {formatSigned(monthlyRakeWithTournamentTotal)}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
           </div>
-        )}
+        </details>
       </section>
+
+      <PurchaseBreakdownSection
+        transactions={transactions}
+        denominations={denominations}
+        currentMonthKey={currentMonthKey}
+      />
 
       <section>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
