@@ -12,6 +12,7 @@ import {
   toJstDatetimeLocal,
 } from "@/lib/businessDay";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
+import { LinkPendingDot } from "@/components/LinkPendingDot";
 import { SubmitButton } from "@/components/SubmitButton";
 import { normalizeForMatch } from "@/lib/textMatch";
 import type { ChipTransaction } from "@/lib/types";
@@ -251,6 +252,7 @@ export function TransactionsSearch({
                       className="text-indigo-600 hover:underline"
                     >
                       {customerName}
+                      <LinkPendingDot />
                     </Link>
                   </td>
                   <td className="px-4 py-2">

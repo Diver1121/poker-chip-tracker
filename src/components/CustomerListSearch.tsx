@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { LinkPendingDot } from "@/components/LinkPendingDot";
 import { normalizeForMatch } from "@/lib/textMatch";
 
 type SortMode = "name" | "holding";
@@ -88,6 +89,7 @@ export function CustomerListSearch({
                       className="font-medium text-gray-900 hover:underline"
                     >
                       {c.name}
+                      <LinkPendingDot />
                     </Link>
                     <p className="text-xs text-gray-400">
                       最終来店:{" "}

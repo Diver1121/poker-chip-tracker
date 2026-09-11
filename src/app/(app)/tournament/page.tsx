@@ -12,6 +12,7 @@ import { computePointTotals } from "@/lib/balances";
 import { businessDateKey, shiftDayKey } from "@/lib/businessDay";
 import { SubmitButton } from "@/components/SubmitButton";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
+import { LinkPendingDot } from "@/components/LinkPendingDot";
 import { TournamentCustomerInput } from "@/components/TournamentCustomerInput";
 import { NumberStepperInput } from "@/components/NumberStepperInput";
 import { TournamentChipBalance } from "@/components/TournamentChipBalance";
@@ -186,6 +187,7 @@ export default async function TournamentPage({
             className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
           >
             ← 前日
+            <LinkPendingDot />
           </Link>
           <span className="font-medium text-gray-900">{dayLabel}</span>
           {canGoNext ? (
@@ -194,6 +196,7 @@ export default async function TournamentPage({
               className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
             >
               翌日 →
+              <LinkPendingDot />
             </Link>
           ) : (
             <span className="cursor-not-allowed rounded-md border border-gray-200 px-2 py-1 text-gray-300">
@@ -224,6 +227,7 @@ export default async function TournamentPage({
                   <span className={isActive ? "ml-1 text-indigo-100" : "ml-1 text-gray-400"}>
                     ・{denomLabel}
                   </span>
+                  <LinkPendingDot />
                 </Link>
               );
             })}

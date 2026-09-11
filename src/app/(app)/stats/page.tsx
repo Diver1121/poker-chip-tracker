@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LinkPendingDot } from "@/components/LinkPendingDot";
 import {
   getAllTransactions,
   getAllVisits,
@@ -398,6 +399,7 @@ export default async function StatsPage({
               className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
             >
               ← 前月
+              <LinkPendingDot />
             </Link>
             <span className="font-medium text-gray-900">{monthLabel}</span>
             {canGoNext ? (
@@ -406,6 +408,7 @@ export default async function StatsPage({
                 className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
               >
                 翌月 →
+                <LinkPendingDot />
               </Link>
             ) : (
               <span className="cursor-not-allowed rounded-md border border-gray-200 px-2 py-1 text-gray-300">
@@ -493,6 +496,7 @@ export default async function StatsPage({
               className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
             >
               ← 前月
+              <LinkPendingDot />
             </Link>
             <span className="font-medium text-gray-900">{tMonthLabel}</span>
             {canGoNextT ? (
@@ -501,6 +505,7 @@ export default async function StatsPage({
                 className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
               >
                 翌月 →
+                <LinkPendingDot />
               </Link>
             ) : (
               <span className="cursor-not-allowed rounded-md border border-gray-200 px-2 py-1 text-gray-300">
@@ -536,7 +541,10 @@ export default async function StatsPage({
                       : "text-gray-400 hover:bg-gray-50"
                 }`}
               >
-                <span>{dayNum}</span>
+                <span>
+                  {dayNum}
+                  <LinkPendingDot />
+                </span>
                 {hasEntries && (
                   <span
                     className={`mt-0.5 text-[10px] ${

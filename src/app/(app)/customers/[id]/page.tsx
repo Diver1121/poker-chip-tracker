@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { LinkPendingDot } from "@/components/LinkPendingDot";
 import {
   getCustomer,
   getDenominations,
@@ -118,6 +119,7 @@ export default async function CustomerDetailPage({
           className="mt-3 inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
         >
           来店中ボードで記録する
+          <LinkPendingDot />
         </Link>
       </div>
 
@@ -176,6 +178,7 @@ export default async function CustomerDetailPage({
               className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
             >
               ← 前月
+              <LinkPendingDot />
             </Link>
             <span className="font-medium text-gray-900">{monthLabel}</span>
             {canGoNext ? (
@@ -184,6 +187,7 @@ export default async function CustomerDetailPage({
                 className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
               >
                 翌月 →
+                <LinkPendingDot />
               </Link>
             ) : (
               <span className="cursor-not-allowed rounded-md border border-gray-200 px-2 py-1 text-gray-300">

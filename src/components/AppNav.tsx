@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { LinkPendingDot } from "@/components/LinkPendingDot";
 
 type NavItem = { href: string; label: string };
 
@@ -103,6 +104,7 @@ export function AppNav({ items }: { items: NavItem[] }) {
           }`}
         >
           {item.label}
+          <LinkPendingDot />
         </Link>
       ))}
     </nav>

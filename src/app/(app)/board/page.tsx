@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LinkPendingDot } from "@/components/LinkPendingDot";
 import { getCheckedInCustomers, getCustomers, getDenominations, getShopSettings } from "@/lib/data";
 import { getAllTransactions } from "@/lib/data";
 import {
@@ -130,6 +131,7 @@ export default async function BoardPage({
               }
             >
               来店順
+              <LinkPendingDot />
             </Link>
             <Link
               href="/board?sort=name"
@@ -140,6 +142,7 @@ export default async function BoardPage({
               }
             >
               五十音順
+              <LinkPendingDot />
             </Link>
             <Link
               href="/board?sort=recent"
@@ -150,6 +153,7 @@ export default async function BoardPage({
               }
             >
               最終入力順
+              <LinkPendingDot />
             </Link>
           </div>
         </div>
@@ -251,6 +255,7 @@ export default async function BoardPage({
                       className="font-bold text-gray-900 hover:text-indigo-600 hover:underline"
                     >
                       {customer.name}
+                      <LinkPendingDot />
                     </Link>
                     <p className="text-sm text-gray-500">
                       保有合計 {totalPoints.toLocaleString()} 点
