@@ -267,21 +267,11 @@ export default async function StatsPage({
       day: rDay,
       weekday,
       visitCount: dailyVisitCountByDate.get(date) ?? 0,
-      pokerRake: finalized ? (daily?.pokerRake ?? 0) : 0,
-      blackjackRake: finalized ? (daily?.blackjackRake ?? 0) : 0,
-      // トーナメント単体の純レーキ（使用額からプライズ払い出し分を差し引いたもの）
-      tournamentRake: finalized ? (daily?.tournamentTotal ?? 0) - (daily?.prizeTotal ?? 0) : 0,
       rakeWithTournament: finalized ? (daily?.rakeWithTournament ?? 0) : 0,
     };
   });
   const monthlyRakeWithTournamentTotal = rakeTableData.reduce(
     (sum, d) => sum + d.rakeWithTournament,
-    0,
-  );
-  const monthlyPokerRakeTotal = rakeTableData.reduce((sum, d) => sum + d.pokerRake, 0);
-  const monthlyBlackjackRakeTotal = rakeTableData.reduce((sum, d) => sum + d.blackjackRake, 0);
-  const monthlyTournamentRakeTotal = rakeTableData.reduce(
-    (sum, d) => sum + d.tournamentRake,
     0,
   );
   const monthlyVisitCountTotal = rakeTableData.reduce((sum, d) => sum + d.visitCount, 0);
@@ -425,8 +415,7 @@ export default async function StatsPage({
           </div>
         </div>
         <p className="mb-3 text-xs text-gray-500">
-          {monthLabel}の月間合計 来店数 {monthlyVisitCountTotal.toLocaleString()}人／ポーカー {monthlyPokerRakeTotal.toLocaleString()}点／ブラックジャック {monthlyBlackjackRakeTotal.toLocaleString()}点／トーナメント {monthlyTournamentRakeTotal.toLocaleString()}点／店全体 {monthlyRakeWithTournamentTotal.toLocaleString()}点。
-          トーナメントはプライズ払い出し分を差し引いた純額、店全体は3つを合計した数値です。
+          {monthLabel}の月間合計 来店数 {monthlyVisitCountTotal.toLocaleString()}人／店全体 {monthlyRakeWithTournamentTotal.toLocaleString()}点。
           本日分は「営業終了・まとめて退店」を押すまで反映されません。
         </p>
         <div className="mb-4 rounded-lg border border-gray-200 bg-white p-4">
@@ -448,9 +437,6 @@ export default async function StatsPage({
                 <tr>
                   <th className="px-4 py-2 text-left font-medium">日付</th>
                   <th className="px-4 py-2 text-right font-medium">来店数</th>
-                  <th className="px-4 py-2 text-right font-medium">ポーカー</th>
-                  <th className="px-4 py-2 text-right font-medium">ブラックジャック</th>
-                  <th className="px-4 py-2 text-right font-medium">トーナメント</th>
                   <th className="px-4 py-2 text-right font-medium">店全体</th>
                 </tr>
               </thead>
@@ -467,19 +453,6 @@ export default async function StatsPage({
                     <td className="px-4 py-2 text-right text-gray-900">
                       {d.visitCount > 0 ? d.visitCount.toLocaleString() : "-"}
                     </td>
-                    <td className={`px-4 py-2 text-right ${signColorClass(d.pokerRake)}`}>
-                      {formatSigned(d.pokerRake)}
-                    </td>
-                    <td
-                      className={`px-4 py-2 text-right ${signColorClass(d.blackjackRake)}`}
-                    >
-                      {formatSigned(d.blackjackRake)}
-                    </td>
-                    <td
-                      className={`px-4 py-2 text-right ${signColorClass(d.tournamentRake)}`}
-                    >
-                      {formatSigned(d.tournamentRake)}
-                    </td>
                     <td
                       className={`px-4 py-2 text-right ${signColorClass(d.rakeWithTournament)}`}
                     >
@@ -493,19 +466,6 @@ export default async function StatsPage({
                   <td className="px-4 py-2 text-left text-gray-900">合計</td>
                   <td className="px-4 py-2 text-right text-gray-900">
                     {monthlyVisitCountTotal.toLocaleString()}
-                  </td>
-                  <td className={`px-4 py-2 text-right ${signColorClass(monthlyPokerRakeTotal)}`}>
-                    {formatSigned(monthlyPokerRakeTotal)}
-                  </td>
-                  <td
-                    className={`px-4 py-2 text-right ${signColorClass(monthlyBlackjackRakeTotal)}`}
-                  >
-                    {formatSigned(monthlyBlackjackRakeTotal)}
-                  </td>
-                  <td
-                    className={`px-4 py-2 text-right ${signColorClass(monthlyTournamentRakeTotal)}`}
-                  >
-                    {formatSigned(monthlyTournamentRakeTotal)}
                   </td>
                   <td
                     className={`px-4 py-2 text-right ${signColorClass(monthlyRakeWithTournamentTotal)}`}
