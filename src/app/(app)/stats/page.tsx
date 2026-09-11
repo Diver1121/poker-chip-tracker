@@ -10,6 +10,7 @@ import {
 } from "@/lib/data";
 import {
   computeCumulativeRakeTotals,
+  computeDailyPurchaseValueTotals,
   computeDailyRakeTotals,
   computeDailyTotals,
   computeDailyVisitCounts,
@@ -179,12 +180,10 @@ export default async function StatsPage({
   );
   const monthlyVisitCountTotal = rakeTableData.reduce((sum, d) => sum + d.visitCount, 0);
 
-  // 額面ごとの購入内訳（選択中の月）。何がどれだけ買われているかを一覧できるようにする。
-  const monthTransactions = transactions.filter(
-    (tx) => businessDateKey(tx.created_at).slice(0, 7) === monthKey,
-  );
-  const purchaseTotalsByDenomination = computePurchaseTotalsByDenomination(monthTransactions);
-  const monthlyPurchaseQuantityTotal = [...purchaseTotalsByDenomination.values()].reduce(
+  // 額面ごとの購入内訳（全期間）。特定の額面はたまにしか購入されず月ごとに区切ると
+  // 0件の月が多くなってしまうため、月では絞らず全期間を対象にする。
+  const purchaseTotalsByDenomination = computePurchaseTotalsByDenomination(transactions);
+  const totalPurchaseQuantityTotal = [...purchaseTotalsByDenomination.values()].reduce(
     (sum, v) => sum + v.quantity,
     0,
   );
@@ -196,11 +195,28 @@ export default async function StatsPage({
         label: d.label,
         count: totals.count,
         quantity: totals.quantity,
-        rate: monthlyPurchaseQuantityTotal > 0 ? totals.quantity / monthlyPurchaseQuantityTotal : 0,
+        rate: totalPurchaseQuantityTotal > 0 ? totals.quantity / totalPurchaseQuantityTotal : 0,
       };
     })
     .filter((d) => d.count > 0);
-  const monthlyPurchaseCountTotal = purchaseTableData.reduce((sum, d) => sum + d.count, 0);
+  const totalPurchaseCountTotal = purchaseTableData.reduce((sum, d) => sum + d.count, 0);
+
+  // 購入ペース: 点数換算した購入総量を、購入が実際にあった月数・日数で割って
+  // 「1ヶ月あたり／1日あたり、平均どれくらい購入されているか」を出す。
+  // 例: 2日で300購入3回・1500購入2回なら合計点数は300*3+1500*2=3900、1日平均は3900/2=1950。
+  const dailyPurchaseValueByDate = computeDailyPurchaseValueTotals(transactions, denominations);
+  const totalPurchaseValue = [...dailyPurchaseValueByDate.values()].reduce((s, v) => s + v, 0);
+  const purchaseActiveDayCount = dailyPurchaseValueByDate.size;
+  const purchaseActiveMonthCount = new Set(
+    [...dailyPurchaseValueByDate.keys()].map((d) => d.slice(0, 7)),
+  ).size;
+  const currentMonthPurchaseValue = [...dailyPurchaseValueByDate.entries()]
+    .filter(([date]) => date.slice(0, 7) === currentMonthKey)
+    .reduce((sum, [, v]) => sum + v, 0);
+  const monthlyAvgPurchaseValue =
+    purchaseActiveMonthCount > 0 ? totalPurchaseValue / purchaseActiveMonthCount : null;
+  const dailyAvgPurchaseValue =
+    purchaseActiveDayCount > 0 ? totalPurchaseValue / purchaseActiveDayCount : null;
 
   // トーナメント欄: 「記録保存」された tournament_entries を営業日ごとにまとめ、
   // カレンダーで過去を振り返れるようにする。
@@ -414,34 +430,35 @@ export default async function StatsPage({
       </section>
 
       <section>
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-bold text-gray-900">購入内訳（額面別）</h2>
-          <div className="flex items-center gap-2 text-sm">
-            <Link
-              href={statsHref({ month: prevMonthKey })}
-              className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
-            >
-              ← 前月
-              <LinkPendingDot />
-            </Link>
-            <span className="font-medium text-gray-900">{monthLabel}</span>
-            {canGoNext ? (
-              <Link
-                href={statsHref({ month: nextMonthKey })}
-                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
-              >
-                翌月 →
-                <LinkPendingDot />
-              </Link>
-            ) : (
-              <span className="cursor-not-allowed rounded-md border border-gray-200 px-2 py-1 text-gray-300">
-                翌月 →
-              </span>
-            )}
+        <h2 className="mb-4 text-lg font-bold text-gray-900">購入内訳（額面別・全期間）</h2>
+
+        <div className="mb-4 grid grid-cols-3 gap-3 text-center">
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">今月の合計</p>
+            <p className="text-lg font-bold text-gray-900">
+              {currentMonthPurchaseValue.toLocaleString()}購入
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">月平均</p>
+            <p className="text-lg font-bold text-gray-900">
+              {monthlyAvgPurchaseValue === null
+                ? "-"
+                : `${Math.round(monthlyAvgPurchaseValue).toLocaleString()}購入`}
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">1日平均</p>
+            <p className="text-lg font-bold text-gray-900">
+              {dailyAvgPurchaseValue === null
+                ? "-"
+                : `${Math.round(dailyAvgPurchaseValue).toLocaleString()}購入`}
+            </p>
           </div>
         </div>
+
         {purchaseTableData.length === 0 ? (
-          <p className="text-sm text-gray-500">{monthLabel}の購入はまだありません。</p>
+          <p className="text-sm text-gray-500">購入はまだありません。</p>
         ) : (
           <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
             <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
@@ -475,10 +492,10 @@ export default async function StatsPage({
                 <tr className="border-t border-gray-200 font-bold">
                   <td className="px-4 py-2 text-left text-gray-900">合計</td>
                   <td className="px-4 py-2 text-right text-gray-900">
-                    {monthlyPurchaseCountTotal.toLocaleString()}
+                    {totalPurchaseCountTotal.toLocaleString()}
                   </td>
                   <td className="px-4 py-2 text-right text-gray-900">
-                    {monthlyPurchaseQuantityTotal.toLocaleString()}
+                    {totalPurchaseQuantityTotal.toLocaleString()}
                   </td>
                   <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
                 </tr>

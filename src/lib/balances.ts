@@ -396,6 +396,24 @@ export function computePurchaseTotalsByDenomination(
   return totals;
 }
 
+// 日付（JST）ごとの購入合計点数（額面の枚数×額面点数）。/statsの月合計・月平均・
+// 1日平均（購入ペース）に使う。額面別の枚数（computePurchaseTotalsByDenomination）
+// とは別に、点数換算した「購入された総量」を日別に見たい場合に使う。
+export function computeDailyPurchaseValueTotals(
+  transactions: ChipTransaction[],
+  denominations: Denomination[],
+): Map<string, number> {
+  const valueByDenomination = new Map(denominations.map((d) => [d.id, d.value]));
+  const totals = new Map<string, number>();
+  for (const tx of transactions) {
+    if (tx.category !== "purchase" || !tx.denomination_id) continue;
+    const value = tx.quantity * (valueByDenomination.get(tx.denomination_id) ?? 0);
+    const date = businessDateKey(tx.created_at);
+    totals.set(date, (totals.get(date) ?? 0) + value);
+  }
+  return totals;
+}
+
 // customerId -> category -> 入力された点数の合計（符号なし、そのまま合算）。
 // 「バイイン合計」「アウト合計」のように、カテゴリごとの動きをそのまま見せたい場合に使う。
 export function computeCategoryQuantityTotals(
