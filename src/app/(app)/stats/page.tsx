@@ -15,7 +15,6 @@ import {
 } from "@/lib/balances";
 import { businessDateKey, businessMonthKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
 import { LineChart } from "@/components/LineChart";
-import { GameLineChart } from "@/components/GameLineChart";
 import type { TournamentEntry } from "@/lib/types";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
@@ -431,13 +430,16 @@ export default async function StatsPage({
           本日分は「営業終了・まとめて退店」を押すまで反映されません。
         </p>
         <div className="mb-4 rounded-lg border border-gray-200 bg-white p-4">
-          <GameLineChart
-            all={cumulativeRakeTotals.all}
-            poker={cumulativeRakeTotals.poker}
-            blackjack={cumulativeRakeTotals.blackjack}
-            gradientId="rakeCumulativeFill"
-            zoomToData
-          />
+          {cumulativeRakeTotals.all.length === 0 ? (
+            <p className="text-sm text-gray-500">データがありません。</p>
+          ) : (
+            <LineChart
+              data={cumulativeRakeTotals.all}
+              gradientId="rakeCumulativeFill"
+              zoomToData
+              splitAtZero
+            />
+          )}
         </div>
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
           <div className="max-h-[420px] overflow-y-auto">
