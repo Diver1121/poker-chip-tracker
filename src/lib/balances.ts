@@ -381,6 +381,21 @@ export function computeCustomerGameResultTimeline(
   return series;
 }
 
+// 額面（denomination）ごとの購入回数・購入枚数の集計。/statsの購入内訳表に使う。
+export function computePurchaseTotalsByDenomination(
+  transactions: ChipTransaction[],
+): Map<string, { count: number; quantity: number }> {
+  const totals = new Map<string, { count: number; quantity: number }>();
+  for (const tx of transactions) {
+    if (tx.category !== "purchase" || !tx.denomination_id) continue;
+    const current = totals.get(tx.denomination_id) ?? { count: 0, quantity: 0 };
+    current.count += 1;
+    current.quantity += tx.quantity;
+    totals.set(tx.denomination_id, current);
+  }
+  return totals;
+}
+
 // customerId -> category -> 入力された点数の合計（符号なし、そのまま合算）。
 // 「バイイン合計」「アウト合計」のように、カテゴリごとの動きをそのまま見せたい場合に使う。
 export function computeCategoryQuantityTotals(

@@ -13,6 +13,7 @@ import {
   computeDailyRakeTotals,
   computeDailyTotals,
   computeDailyVisitCounts,
+  computePurchaseTotalsByDenomination,
 } from "@/lib/balances";
 import { businessDateKey, businessMonthKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
 import { LineChart } from "@/components/LineChart";
@@ -28,6 +29,10 @@ function signColorClass(n: number): string {
 }
 function formatSigned(n: number): string {
   return n > 0 ? `+${n.toLocaleString()}` : n.toLocaleString();
+}
+function average(values: number[]): number | null {
+  if (values.length === 0) return null;
+  return values.reduce((sum, v) => sum + v, 0) / values.length;
 }
 
 type TournamentSessionSummary = {
@@ -93,107 +98,6 @@ function summarizeTournamentSession(
   };
 }
 
-// 日別詳細の1回ぶん（参加率などのカード＋エントリー表）。複数の回が並行していた日は
-// これを回ごとに繰り返し描画する。
-function TournamentSessionCard({
-  label,
-  denomLabel,
-  summary,
-  entries,
-}: {
-  label: string;
-  denomLabel: string;
-  summary: TournamentSessionSummary;
-  entries: TournamentEntry[];
-}) {
-  return (
-    <div>
-      <h4 className="text-sm font-bold text-gray-900">
-        {label}
-        <span className="ml-1 font-normal text-gray-400">・{denomLabel}</span>
-      </h4>
-
-      <div className="mt-2 grid grid-cols-3 gap-3 text-center">
-        <div className="rounded-md bg-gray-50 p-3">
-          <p className="text-xs text-gray-500">参加率</p>
-          <p className="text-lg font-bold text-gray-900">
-            {summary.participationRate === null
-              ? "-"
-              : `${Math.round(summary.participationRate * 100)}%`}
-          </p>
-          <p className="text-[10px] text-gray-400">{summary.participantCount}名</p>
-        </div>
-        <div className="rounded-md bg-gray-50 p-3">
-          <p className="text-xs text-gray-500">アドオン率</p>
-          <p className="text-lg font-bold text-gray-900">
-            {summary.addonRate === null ? "-" : `${Math.round(summary.addonRate * 100)}%`}
-          </p>
-          <p className="text-[10px] text-gray-400">
-            {summary.addonParticipantCount}/{summary.entryCount}名
-          </p>
-        </div>
-        <div className="rounded-md bg-gray-50 p-3">
-          <p className="text-xs text-gray-500">現金エントリー率</p>
-          <p className="text-lg font-bold text-gray-900">
-            {summary.cashRate === null ? "-" : `${Math.round(summary.cashRate * 100)}%`}
-          </p>
-          <p className="text-[10px] text-gray-400">
-            {summary.cashParticipantCount}/{summary.entryCount}名
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[640px] text-left text-sm">
-          <thead className="text-gray-500">
-            <tr>
-              <th className="px-2 py-1 font-medium">NAME</th>
-              <th className="px-2 py-1 font-medium">エントリー</th>
-              <th className="px-2 py-1 font-medium">現金</th>
-              <th className="px-2 py-1 font-medium">チップ</th>
-              <th className="px-2 py-1 font-medium">チケット</th>
-              <th className="px-2 py-1 font-medium">アドオン現金</th>
-              <th className="px-2 py-1 font-medium">アドオン</th>
-              <th className="px-2 py-1 font-medium">順位</th>
-              <th className="px-2 py-1 font-medium">獲得</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {entries.map((e) => (
-              <tr key={e.id}>
-                <td className="px-2 py-1 text-gray-900">{e.name}</td>
-                <td className="px-2 py-1 text-gray-900">{e.entry_fee.toLocaleString()}</td>
-                <td className="px-2 py-1 text-gray-900">{e.cash_amount.toLocaleString()}</td>
-                <td className="px-2 py-1 text-gray-900">{e.chip_amount.toLocaleString()}</td>
-                <td className="px-2 py-1 text-gray-900">{e.ticket_amount.toLocaleString()}</td>
-                <td className="px-2 py-1 text-gray-900">
-                  {e.addon_cash_amount.toLocaleString()}
-                </td>
-                <td className="px-2 py-1 text-gray-900">{e.addon_amount.toLocaleString()}</td>
-                <td className="px-2 py-1 text-gray-900">{e.rank ?? "-"}</td>
-                <td className="px-2 py-1 text-gray-900">{e.prize_amount.toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr className="border-t border-gray-200 font-bold text-gray-900">
-              <td className="px-2 py-1">合計</td>
-              <td className="px-2 py-1">{summary.totals.entryFee.toLocaleString()}</td>
-              <td className="px-2 py-1">{summary.totals.cash.toLocaleString()}</td>
-              <td className="px-2 py-1">{summary.totals.chip.toLocaleString()}</td>
-              <td className="px-2 py-1">{summary.totals.ticket.toLocaleString()}</td>
-              <td className="px-2 py-1">{summary.totals.addonCash.toLocaleString()}</td>
-              <td className="px-2 py-1">{summary.totals.addon.toLocaleString()}</td>
-              <td className="px-2 py-1" />
-              <td className="px-2 py-1">{summary.totals.prize.toLocaleString()}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-  );
-}
-
 export default async function StatsPage({
   searchParams,
 }: {
@@ -216,8 +120,6 @@ export default async function StatsPage({
     getTournamentEntries(),
     getTournaments(),
   ]);
-  const denominationLabelById = new Map(denominations.map((d) => [d.id, d.label]));
-
   const dailyTotals = computeDailyTotals(transactions, denominations);
   const shopCurrentTotal =
     dailyTotals.length > 0 ? dailyTotals[dailyTotals.length - 1].total : 0;
@@ -277,6 +179,29 @@ export default async function StatsPage({
   );
   const monthlyVisitCountTotal = rakeTableData.reduce((sum, d) => sum + d.visitCount, 0);
 
+  // 額面ごとの購入内訳（選択中の月）。何がどれだけ買われているかを一覧できるようにする。
+  const monthTransactions = transactions.filter(
+    (tx) => businessDateKey(tx.created_at).slice(0, 7) === monthKey,
+  );
+  const purchaseTotalsByDenomination = computePurchaseTotalsByDenomination(monthTransactions);
+  const monthlyPurchaseQuantityTotal = [...purchaseTotalsByDenomination.values()].reduce(
+    (sum, v) => sum + v.quantity,
+    0,
+  );
+  const purchaseTableData = denominations
+    .map((d) => {
+      const totals = purchaseTotalsByDenomination.get(d.id) ?? { count: 0, quantity: 0 };
+      return {
+        denominationId: d.id,
+        label: d.label,
+        count: totals.count,
+        quantity: totals.quantity,
+        rate: monthlyPurchaseQuantityTotal > 0 ? totals.quantity / monthlyPurchaseQuantityTotal : 0,
+      };
+    })
+    .filter((d) => d.count > 0);
+  const monthlyPurchaseCountTotal = purchaseTableData.reduce((sum, d) => sum + d.count, 0);
+
   // トーナメント欄: 「記録保存」された tournament_entries を営業日ごとにまとめ、
   // カレンダーで過去を振り返れるようにする。
   const entriesByDay = new Map<string, typeof tournamentEntries>();
@@ -288,18 +213,6 @@ export default async function StatsPage({
   }
   const dayKeysWithEntries = [...entriesByDay.keys()].sort();
 
-  // 同じ営業日に複数のトーナメント(回)が並行していた場合に、日別詳細を回ごとに
-  // 分けて表示するためのグルーピング。
-  const sessionsByDay = new Map<string, typeof tournaments>();
-  for (const t of tournaments) {
-    const key = businessDateKey(t.created_at);
-    const list = sessionsByDay.get(key) ?? [];
-    list.push(t);
-    sessionsByDay.set(key, list);
-  }
-  for (const list of sessionsByDay.values()) {
-    list.sort((a, b) => (a.created_at < b.created_at ? -1 : 1));
-  }
   const entriesByTournamentId = new Map<string, typeof tournamentEntries>();
   for (const entry of tournamentEntries) {
     if (!entry.tournament_id) continue;
@@ -330,10 +243,6 @@ export default async function StatsPage({
   const requestedTDateKey = tDate && /^\d{4}-\d{2}-\d{2}$/.test(tDate) ? tDate : null;
   const selectedDayKey =
     requestedTDateKey ?? latestDayInDisplayedMonth ?? latestDayKeyWithEntries ?? todayKey;
-  const [selYearPart, selMonthPart, selDayPart] = selectedDayKey.split("-").map(Number);
-  const selectedWeekday =
-    WEEKDAY_LABELS[new Date(Date.UTC(selYearPart, selMonthPart - 1, selDayPart)).getUTCDay()];
-  const selectedDayLabel = `${selYearPart}年${selMonthPart}月${selDayPart}日（${selectedWeekday}）`;
 
   function statsHref(next: { month?: string; tMonth?: string; tDate?: string }) {
     const params = new URLSearchParams();
@@ -344,22 +253,44 @@ export default async function StatsPage({
     return `/stats?${params.toString()}`;
   }
 
-  // その日にチェックインした客の集合。参加率の分母として回ごとに共有する。
-  const dayVisitCustomerIds = new Set(
-    visits
-      .filter((v) => businessDateKey(v.checked_in_at) === selectedDayKey)
-      .map((v) => v.customer_id),
+  // トーナメントの月間平均。参加率は営業日単位のチェックイン客数を分母にするため、
+  // 回（セッション）ごとにその開催日のチェックイン客集合を求めてから平均する。
+  // tournament_idが無い古いデータ（未分類扱い）はどの回にも属さないため平均には含めない。
+  const tMonthSessions = tournaments.filter((t) =>
+    tMonthDays.includes(businessDateKey(t.created_at)),
   );
-
-  const selectedDaySessions = sessionsByDay.get(selectedDayKey) ?? [];
-  // 万一tournament_idがどの回にも一致しない古いデータがあれば「(未分類)」として拾う
-  // （通常はバックフィル後に発生しない想定の防御的なフォールバック）。
-  const assignedEntryIds = new Set(
-    selectedDaySessions.flatMap((t) => (entriesByTournamentId.get(t.id) ?? []).map((e) => e.id)),
+  const tMonthSessionSummaries = tMonthSessions.map((t) => {
+    const sessionDayKey = businessDateKey(t.created_at);
+    const sessionDayVisitCustomerIds = new Set(
+      visits
+        .filter((v) => businessDateKey(v.checked_in_at) === sessionDayKey)
+        .map((v) => v.customer_id),
+    );
+    return summarizeTournamentSession(
+      entriesByTournamentId.get(t.id) ?? [],
+      sessionDayVisitCustomerIds,
+    );
+  });
+  const tMonthSessionCount = tMonthSessionSummaries.length;
+  const avgParticipationRate = average(
+    tMonthSessionSummaries.map((s) => s.participationRate).filter((r): r is number => r !== null),
   );
-  const unassignedEntries = (entriesByDay.get(selectedDayKey) ?? []).filter(
-    (e) => !assignedEntryIds.has(e.id),
+  const avgAddonRate = average(
+    tMonthSessionSummaries.map((s) => s.addonRate).filter((r): r is number => r !== null),
   );
+  const avgCashRate = average(
+    tMonthSessionSummaries.map((s) => s.cashRate).filter((r): r is number => r !== null),
+  );
+  const avgEntryCount = average(tMonthSessionSummaries.map((s) => s.entryCount)) ?? 0;
+  const avgTotals = {
+    entryFee: average(tMonthSessionSummaries.map((s) => s.totals.entryFee)) ?? 0,
+    cash: average(tMonthSessionSummaries.map((s) => s.totals.cash)) ?? 0,
+    chip: average(tMonthSessionSummaries.map((s) => s.totals.chip)) ?? 0,
+    ticket: average(tMonthSessionSummaries.map((s) => s.totals.ticket)) ?? 0,
+    addonCash: average(tMonthSessionSummaries.map((s) => s.totals.addonCash)) ?? 0,
+    addon: average(tMonthSessionSummaries.map((s) => s.totals.addon)) ?? 0,
+    prize: average(tMonthSessionSummaries.map((s) => s.totals.prize)) ?? 0,
+  };
 
   return (
     <div className="space-y-8">
@@ -484,10 +415,85 @@ export default async function StatsPage({
 
       <section>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-lg font-bold text-gray-900">購入内訳（額面別）</h2>
+          <div className="flex items-center gap-2 text-sm">
+            <Link
+              href={statsHref({ month: prevMonthKey })}
+              className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+            >
+              ← 前月
+              <LinkPendingDot />
+            </Link>
+            <span className="font-medium text-gray-900">{monthLabel}</span>
+            {canGoNext ? (
+              <Link
+                href={statsHref({ month: nextMonthKey })}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+              >
+                翌月 →
+                <LinkPendingDot />
+              </Link>
+            ) : (
+              <span className="cursor-not-allowed rounded-md border border-gray-200 px-2 py-1 text-gray-300">
+                翌月 →
+              </span>
+            )}
+          </div>
+        </div>
+        {purchaseTableData.length === 0 ? (
+          <p className="text-sm text-gray-500">{monthLabel}の購入はまだありません。</p>
+        ) : (
+          <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+            <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
+              <thead className="bg-gray-50 text-gray-500">
+                <tr>
+                  <th className="px-4 py-2 text-left font-medium">額面</th>
+                  <th className="px-4 py-2 text-right font-medium">購入回数</th>
+                  <th className="px-4 py-2 text-right font-medium">購入枚数</th>
+                  <th className="px-4 py-2 text-right font-medium">割合</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {[...purchaseTableData]
+                  .sort((a, b) => b.quantity - a.quantity)
+                  .map((d) => (
+                    <tr key={d.denominationId} className="hover:bg-gray-50">
+                      <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
+                      <td className="px-4 py-2 text-right text-gray-900">
+                        {d.count.toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2 text-right text-gray-900">
+                        {d.quantity.toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2 text-right text-gray-500">
+                        {(d.rate * 100).toFixed(1)}%
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+              <tfoot>
+                <tr className="border-t border-gray-200 font-bold">
+                  <td className="px-4 py-2 text-left text-gray-900">合計</td>
+                  <td className="px-4 py-2 text-right text-gray-900">
+                    {monthlyPurchaseCountTotal.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-2 text-right text-gray-900">
+                    {monthlyPurchaseQuantityTotal.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        )}
+      </section>
+
+      <section>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-lg font-bold text-gray-900">トーナメント</h2>
             <p className="mt-0.5 text-xs text-gray-500">
-              日付を選ぶと、トーナメントページで「記録保存」した表と参加率などを振り返れます。
+              カレンダーは「記録保存」された日の目安です。下は{tMonthLabel}の月間平均です。
             </p>
           </div>
           <div className="flex items-center gap-2 text-sm">
@@ -560,32 +566,80 @@ export default async function StatsPage({
         </div>
 
         <div className="mt-4 rounded-lg border border-gray-200 bg-white p-4">
-          <h3 className="text-sm font-bold text-gray-900">{selectedDayLabel}</h3>
-          {selectedDaySessions.length === 0 && unassignedEntries.length === 0 ? (
-            <p className="mt-2 text-sm text-gray-500">この日の記録はありません。</p>
+          <h3 className="text-sm font-bold text-gray-900">
+            {tMonthLabel}の月間平均
+            <span className="ml-1 font-normal text-gray-400">（{tMonthSessionCount}回開催）</span>
+          </h3>
+          {tMonthSessionCount === 0 ? (
+            <p className="mt-2 text-sm text-gray-500">この月の記録はありません。</p>
           ) : (
-            <div className="mt-3 space-y-6">
-              {selectedDaySessions.map((t, idx) => (
-                <TournamentSessionCard
-                  key={t.id}
-                  label={t.label || `${idx + 1}回目`}
-                  denomLabel={denominationLabelById.get(t.denomination_id ?? "") ?? "種類未設定"}
-                  summary={summarizeTournamentSession(
-                    entriesByTournamentId.get(t.id) ?? [],
-                    dayVisitCustomerIds,
-                  )}
-                  entries={entriesByTournamentId.get(t.id) ?? []}
-                />
-              ))}
-              {unassignedEntries.length > 0 && (
-                <TournamentSessionCard
-                  label="(未分類)"
-                  denomLabel="-"
-                  summary={summarizeTournamentSession(unassignedEntries, dayVisitCustomerIds)}
-                  entries={unassignedEntries}
-                />
-              )}
-            </div>
+            <>
+              <div className="mt-2 grid grid-cols-3 gap-3 text-center">
+                <div className="rounded-md bg-gray-50 p-3">
+                  <p className="text-xs text-gray-500">平均参加率</p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {avgParticipationRate === null
+                      ? "-"
+                      : `${Math.round(avgParticipationRate * 100)}%`}
+                  </p>
+                </div>
+                <div className="rounded-md bg-gray-50 p-3">
+                  <p className="text-xs text-gray-500">平均アドオン率</p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {avgAddonRate === null ? "-" : `${Math.round(avgAddonRate * 100)}%`}
+                  </p>
+                </div>
+                <div className="rounded-md bg-gray-50 p-3">
+                  <p className="text-xs text-gray-500">平均現金エントリー率</p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {avgCashRate === null ? "-" : `${Math.round(avgCashRate * 100)}%`}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[640px] text-left text-sm">
+                  <thead className="text-gray-500">
+                    <tr>
+                      <th className="px-2 py-1 font-medium">平均エントリー数</th>
+                      <th className="px-2 py-1 font-medium">平均エントリー</th>
+                      <th className="px-2 py-1 font-medium">平均現金</th>
+                      <th className="px-2 py-1 font-medium">平均チップ</th>
+                      <th className="px-2 py-1 font-medium">平均チケット</th>
+                      <th className="px-2 py-1 font-medium">平均アドオン現金</th>
+                      <th className="px-2 py-1 font-medium">平均アドオン</th>
+                      <th className="px-2 py-1 font-medium">平均獲得</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="px-2 py-1 text-gray-900">{avgEntryCount.toFixed(1)}人</td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {Math.round(avgTotals.entryFee).toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {Math.round(avgTotals.cash).toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {Math.round(avgTotals.chip).toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {Math.round(avgTotals.ticket).toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {Math.round(avgTotals.addonCash).toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {Math.round(avgTotals.addon).toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {Math.round(avgTotals.prize).toLocaleString()}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
       </section>
