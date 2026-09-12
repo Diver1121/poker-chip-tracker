@@ -6,7 +6,9 @@ import {
   computePurchaseTotalsByDenomination,
 } from "@/lib/balances";
 import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
+import { monthLabelOf } from "@/lib/statsFormat";
 import type { ChipTransaction, Denomination } from "@/lib/types";
+import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
 
 export function PurchaseBreakdownSection({
   transactions,
@@ -51,6 +53,39 @@ export function PurchaseBreakdownSection({
   const activeDayCountAllTime = dailyPurchaseValueByDate.size;
   const dailyAvgPurchaseValueAllTime =
     activeDayCountAllTime > 0 ? totalPurchaseValueAllTime / activeDayCountAllTime : null;
+
+  // 「全期間」の2枚のカードは、タップすると月別の内訳が見られるようにする。
+  const monthlyKeys = [
+    ...new Set([...dailyPurchaseValueByDate.keys()].map((date) => date.slice(0, 7))),
+  ]
+    .sort()
+    .reverse();
+  const monthlyPurchaseTotal = new Map<string, number>();
+  const monthlyActiveDayCount = new Map<string, number>();
+  for (const [date, value] of dailyPurchaseValueByDate) {
+    const mKey = date.slice(0, 7);
+    monthlyPurchaseTotal.set(mKey, (monthlyPurchaseTotal.get(mKey) ?? 0) + value);
+    monthlyActiveDayCount.set(mKey, (monthlyActiveDayCount.get(mKey) ?? 0) + 1);
+  }
+  const purchaseTotalBreakdown: StatBreakdownRow[] | undefined =
+    monthlyKeys.length > 1
+      ? monthlyKeys.map((k) => ({
+          label: monthLabelOf(k),
+          value: `${(monthlyPurchaseTotal.get(k) ?? 0).toLocaleString()}購入`,
+        }))
+      : undefined;
+  const purchaseAvgBreakdown: StatBreakdownRow[] | undefined =
+    monthlyKeys.length > 1
+      ? monthlyKeys.map((k) => {
+          const total = monthlyPurchaseTotal.get(k) ?? 0;
+          const days = monthlyActiveDayCount.get(k) ?? 0;
+          const avg = days > 0 ? total / days : null;
+          return {
+            label: monthLabelOf(k),
+            value: avg === null ? "-" : `${Math.round(avg).toLocaleString()}購入`,
+          };
+        })
+      : undefined;
 
   const monthEntries = [...dailyPurchaseValueByDate.entries()].filter(
     ([date]) => date.slice(0, 7) === monthKey,
@@ -113,20 +148,20 @@ export function PurchaseBreakdownSection({
       </div>
 
       <div className="mb-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">全期間の購入数</p>
-          <p className="text-lg font-bold text-gray-900">
-            {totalPurchaseValueAllTime.toLocaleString()}購入
-          </p>
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">全期間の1日平均</p>
-          <p className="text-lg font-bold text-gray-900">
-            {dailyAvgPurchaseValueAllTime === null
+        <ExpandableStatCard
+          label="全期間の購入数"
+          value={`${totalPurchaseValueAllTime.toLocaleString()}購入`}
+          breakdown={purchaseTotalBreakdown}
+        />
+        <ExpandableStatCard
+          label="全期間の1日平均"
+          value={
+            dailyAvgPurchaseValueAllTime === null
               ? "-"
-              : `${Math.round(dailyAvgPurchaseValueAllTime).toLocaleString()}購入`}
-          </p>
-        </div>
+              : `${Math.round(dailyAvgPurchaseValueAllTime).toLocaleString()}購入`
+          }
+          breakdown={purchaseAvgBreakdown}
+        />
         <div className="rounded-md border border-gray-200 bg-white p-3">
           <p className="text-xs text-gray-500">{monthLabel}の購入数</p>
           <p className="text-lg font-bold text-gray-900">

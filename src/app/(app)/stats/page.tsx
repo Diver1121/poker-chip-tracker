@@ -8,11 +8,13 @@ import {
   getTournaments,
 } from "@/lib/data";
 import { computeDailyTotals } from "@/lib/balances";
-import { businessMonthKey } from "@/lib/businessDay";
+import { businessDateKey, businessMonthKey } from "@/lib/businessDay";
 import { MonthlyOperationsSummarySection } from "@/components/MonthlyOperationsSummarySection";
 import { PurchaseBreakdownSection } from "@/components/PurchaseBreakdownSection";
+import { ShopCurrentTotalCard } from "@/components/ShopCurrentTotalCard";
 import { ShopTotalTrendSection } from "@/components/ShopTotalTrendSection";
 import { TournamentSummarySection } from "@/components/TournamentSummarySection";
+import { WeekdayBreakdownSection } from "@/components/WeekdayBreakdownSection";
 
 export default async function StatsPage() {
   const [transactions, denominations, visits, shopSettings, tournamentEntries, tournaments, customers] =
@@ -30,17 +32,22 @@ export default async function StatsPage() {
   const shopCurrentTotal = dailyTotals.length > 0 ? dailyTotals[dailyTotals.length - 1].total : 0;
   const currentMonthKey = businessMonthKey(new Date());
 
+  // 「営業開始時点」の基準線：当営業日（朝5時区切り）が始まった時点の保有点数。
+  // 当日分の増減（delta）を現在値から差し引くことで求める。
+  const todayKey = businessDateKey(new Date());
+  const lastDaily = dailyTotals[dailyTotals.length - 1];
+  const businessStartTotal =
+    lastDaily && lastDaily.date === todayKey ? lastDaily.total - lastDaily.delta : shopCurrentTotal;
+
   return (
     <div className="space-y-8">
       <h1 className="text-lg font-bold text-gray-900">データ</h1>
 
-      <div className="rounded-lg border border-gray-200 bg-white p-4">
-        <p className="text-sm text-gray-500">店全体の保有チップ量（現在）</p>
-        <p className="text-3xl font-bold text-indigo-600">
-          {shopCurrentTotal.toLocaleString()}
-          <span className="ml-1 text-sm font-normal text-gray-500">点</span>
-        </p>
-      </div>
+      <ShopCurrentTotalCard
+        shopCurrentTotal={shopCurrentTotal}
+        businessStartTotal={businessStartTotal}
+        dailyTotals={dailyTotals}
+      />
 
       <ShopTotalTrendSection dailyTotals={dailyTotals} currentMonthKey={currentMonthKey} />
 
@@ -64,6 +71,13 @@ export default async function StatsPage() {
         tournaments={tournaments}
         visits={visits}
         currentMonthKey={currentMonthKey}
+      />
+
+      <WeekdayBreakdownSection
+        transactions={transactions}
+        visits={visits}
+        denominations={denominations}
+        lastClosedAt={shopSettings.lastClosedAt}
       />
     </div>
   );

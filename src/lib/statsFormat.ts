@@ -19,3 +19,8 @@ export function formatMinutes(minutes: number): string {
   const m = minutes % 60;
   return h > 0 ? `${h}時間${m}分` : `${m}分`;
 }
+
+export function monthLabelOf(monthKey: string): string {
+  const [y, m] = monthKey.split("-");
+  return `${y}年${Number(m)}月`;
+}

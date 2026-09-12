@@ -8,8 +8,9 @@ import {
   computeDailyVisitCounts,
 } from "@/lib/balances";
 import { businessDateKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
-import { average, formatMinutes, formatSigned, signColorClass } from "@/lib/statsFormat";
+import { average, formatMinutes, formatSigned, monthLabelOf, signColorClass } from "@/lib/statsFormat";
 import type { ChipTransaction, Customer, Denomination, Visit } from "@/lib/types";
+import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -42,7 +43,6 @@ export function MonthlyOperationsSummarySection({
 }) {
   const [viewMode, setViewMode] = useState<ViewMode>("total");
   const [monthKey, setMonthKey] = useState(currentMonthKey);
-  const [repeatBreakdownOpen, setRepeatBreakdownOpen] = useState(false);
 
   const todayKey = businessDateKey(new Date());
   // 退店処理（営業終了・まとめて退店）が押されるまで、当日分はまだプレイ中で
@@ -142,6 +142,115 @@ export function MonthlyOperationsSummarySection({
   );
   const avgSpendPerVisit = totalVisitCount > 0 ? totalPurchaseValue / totalVisitCount : null;
 
+  // 各カードの「タップで月別」内訳は、選択中の月/トータルに関わらず、
+  // 記録がある全月を新しい順に並べて全期間の推移を見せる。
+  const monthlyKeys = [...new Set(activeDates.map((d) => d.slice(0, 7)))].sort().reverse();
+  const monthlyVisitCount = new Map<string, number>();
+  const monthlyActiveDayCount = new Map<string, number>();
+  const monthlyRake = new Map<string, number>();
+  const monthlyPurchaseValue = new Map<string, number>();
+  const monthlyOperatingMinutesList = new Map<string, number[]>();
+  for (const date of activeDates) {
+    const mKey = date.slice(0, 7);
+    const finalized = date !== todayKey || todayClosed;
+    const visitCountOnDate = dailyVisitCountByDate.get(date) ?? 0;
+    monthlyVisitCount.set(mKey, (monthlyVisitCount.get(mKey) ?? 0) + visitCountOnDate);
+    if (visitCountOnDate > 0) {
+      monthlyActiveDayCount.set(mKey, (monthlyActiveDayCount.get(mKey) ?? 0) + 1);
+    }
+    if (finalized) {
+      monthlyRake.set(
+        mKey,
+        (monthlyRake.get(mKey) ?? 0) + (dailyRakeByDate.get(date)?.rakeWithTournament ?? 0),
+      );
+      monthlyPurchaseValue.set(
+        mKey,
+        (monthlyPurchaseValue.get(mKey) ?? 0) + (dailyPurchaseValueByDate.get(date) ?? 0),
+      );
+      const om = dailyPokerOperatingMinutesByDate.get(date);
+      if (om !== undefined) {
+        const list = monthlyOperatingMinutesList.get(mKey) ?? [];
+        list.push(om);
+        monthlyOperatingMinutesList.set(mKey, list);
+      }
+    }
+  }
+
+  const monthlyVisitorSet = new Map<string, Set<string>>();
+  const monthlyNewVisitCount = new Map<string, number>();
+  for (const v of visits) {
+    const date = businessDateKey(v.checked_in_at);
+    const mKey = date.slice(0, 7);
+    const set = monthlyVisitorSet.get(mKey) ?? new Set<string>();
+    set.add(v.customer_id);
+    monthlyVisitorSet.set(mKey, set);
+    if (firstVisitDateByCustomer.get(v.customer_id) === date) {
+      monthlyNewVisitCount.set(mKey, (monthlyNewVisitCount.get(mKey) ?? 0) + 1);
+    }
+  }
+
+  const monthlyNewCustomerCount = new Map<string, number>();
+  for (const c of customers) {
+    const mKey = businessDateKey(c.created_at).slice(0, 7);
+    monthlyNewCustomerCount.set(mKey, (monthlyNewCustomerCount.get(mKey) ?? 0) + 1);
+  }
+
+  // 月が1つしかない場合はタップしても同じ数字が出るだけなので、内訳自体を出さない。
+  const monthlyBreakdown = <T,>(rows: T[]): T[] | undefined =>
+    monthlyKeys.length > 1 ? rows : undefined;
+
+  const visitCountBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
+    label: monthLabelOf(k),
+    value: `${(monthlyVisitCount.get(k) ?? 0).toLocaleString()}人`,
+  }));
+  const uniqueVisitorBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
+    label: monthLabelOf(k),
+    value: `${(monthlyVisitorSet.get(k)?.size ?? 0).toLocaleString()}人`,
+  }));
+  const avgVisitsPerDayBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
+    const total = monthlyVisitCount.get(k) ?? 0;
+    const activeDays = monthlyActiveDayCount.get(k) ?? 0;
+    const avg = activeDays > 0 ? total / activeDays : null;
+    return { label: monthLabelOf(k), value: avg === null ? "-" : `${avg.toFixed(1)}人` };
+  });
+  const rakeBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
+    label: monthLabelOf(k),
+    value: formatSigned(monthlyRake.get(k) ?? 0),
+  }));
+  const newVisitRateBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
+    const total = monthlyVisitCount.get(k) ?? 0;
+    const newCount = monthlyNewVisitCount.get(k) ?? 0;
+    const rate = total > 0 ? newCount / total : null;
+    return {
+      label: monthLabelOf(k),
+      value:
+        rate === null
+          ? "-"
+          : `新規${Math.round(rate * 100)}% / 既存${Math.round((1 - rate) * 100)}%`,
+    };
+  });
+  const avgSpendBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
+    const visitCountInMonth = monthlyVisitCount.get(k) ?? 0;
+    const purchaseValueInMonth = monthlyPurchaseValue.get(k) ?? 0;
+    const avg = visitCountInMonth > 0 ? purchaseValueInMonth / visitCountInMonth : null;
+    return {
+      label: monthLabelOf(k),
+      value: avg === null ? "-" : `${Math.round(avg).toLocaleString()}購入`,
+    };
+  });
+  const avgOperatingMinutesBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
+    const avg = average(monthlyOperatingMinutesList.get(k) ?? []);
+    return { label: monthLabelOf(k), value: avg === null ? "-" : formatMinutes(Math.round(avg)) };
+  });
+  const newCustomerBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
+    label: monthLabelOf(k),
+    value: `${(monthlyNewCustomerCount.get(k) ?? 0).toLocaleString()}人`,
+  }));
+  const repeatRateBreakdown: StatBreakdownRow[] = repeatBreakdown.map(({ min, count, rate }) => ({
+    label: `${min}回以上`,
+    value: rate === null ? "-" : `${Math.round(rate * 100)}%（${count}人）`,
+  }));
+
   const [yearPart, numPart] = monthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
@@ -207,91 +316,62 @@ export function MonthlyOperationsSummarySection({
       </p>
 
       <div className="mb-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">
-            来店数（{viewMode === "month" ? "月合計" : "全期間合計"}）
-          </p>
-          <p className="text-lg font-bold text-gray-900">{totalVisitCount.toLocaleString()}人</p>
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">1日平均来店数</p>
-          <p className="text-lg font-bold text-gray-900">
-            {avgVisitsPerActiveDay === null ? "-" : `${avgVisitsPerActiveDay.toFixed(1)}人`}
-          </p>
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">
-            レーキ（{viewMode === "month" ? "月合計" : "全期間合計"}・店全体）
-          </p>
-          <p className={`text-lg font-bold ${signColorClass(totalRake)}`}>
-            {formatSigned(totalRake)}
-          </p>
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">来店客数（ユニーク）</p>
-          <p className="text-lg font-bold text-gray-900">
-            {uniqueVisitorCount.toLocaleString()}人
-          </p>
-        </div>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={() => setRepeatBreakdownOpen((v) => !v)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              setRepeatBreakdownOpen((v) => !v);
-            }
-          }}
-          className="cursor-pointer rounded-md border border-gray-200 bg-white p-3 hover:bg-gray-50"
-        >
-          <p className="text-xs text-gray-500">リピート率（2回以上来店・タップで内訳）</p>
-          <p className="text-lg font-bold text-gray-900">
-            {repeatRate === null ? "-" : `${Math.round(repeatRate * 100)}%`}
-          </p>
-          {repeatBreakdownOpen && (
-            <div className="mt-2 space-y-0.5 border-t border-gray-100 pt-2 text-left text-xs text-gray-500">
-              {repeatBreakdown.map(({ min, count, rate }) => (
-                <p key={min}>
-                  {min}回以上: {rate === null ? "-" : `${Math.round(rate * 100)}%`}（{count}人）
-                </p>
-              ))}
-            </div>
-          )}
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">来店の内訳（新規/既存）</p>
-          <p className="text-lg font-bold text-gray-900">
-            {newVisitRate === null
+        <ExpandableStatCard
+          label={`来店数・延べ（${viewMode === "month" ? "月合計" : "全期間合計"}）`}
+          value={`${totalVisitCount.toLocaleString()}人`}
+          caption="同じ客の再来店も1回ずつ数える"
+          breakdown={monthlyBreakdown(visitCountBreakdown)}
+        />
+        <ExpandableStatCard
+          label="来店客数（人数）"
+          value={`${uniqueVisitorCount.toLocaleString()}人`}
+          caption="同じ客の再来店はまとめて1人"
+          breakdown={monthlyBreakdown(uniqueVisitorBreakdown)}
+        />
+        <ExpandableStatCard
+          label="1日平均来店数"
+          value={avgVisitsPerActiveDay === null ? "-" : `${avgVisitsPerActiveDay.toFixed(1)}人`}
+          breakdown={monthlyBreakdown(avgVisitsPerDayBreakdown)}
+        />
+        <ExpandableStatCard
+          label={`レーキ（${viewMode === "month" ? "月合計" : "全期間合計"}・店全体）`}
+          value={<span className={signColorClass(totalRake)}>{formatSigned(totalRake)}</span>}
+          breakdown={monthlyBreakdown(rakeBreakdown)}
+        />
+        <ExpandableStatCard
+          label="リピート率（2回以上来店）"
+          value={repeatRate === null ? "-" : `${Math.round(repeatRate * 100)}%`}
+          breakdown={repeatRateBreakdown}
+        />
+        <ExpandableStatCard
+          label="来店の内訳（新規/既存）"
+          value={
+            newVisitRate === null
               ? "-"
-              : `新規${Math.round(newVisitRate * 100)}% / 既存${Math.round((1 - newVisitRate) * 100)}%`}
-          </p>
-          <p className="text-xs text-gray-400">
-            {newVisitCount.toLocaleString()}件 / {existingVisitCount.toLocaleString()}件
-          </p>
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">客単価（購入/来店）</p>
-          <p className="text-lg font-bold text-gray-900">
-            {avgSpendPerVisit === null
+              : `新規${Math.round(newVisitRate * 100)}% / 既存${Math.round((1 - newVisitRate) * 100)}%`
+          }
+          caption={`${newVisitCount.toLocaleString()}件 / ${existingVisitCount.toLocaleString()}件`}
+          breakdown={monthlyBreakdown(newVisitRateBreakdown)}
+        />
+        <ExpandableStatCard
+          label="客単価（購入/来店）"
+          value={
+            avgSpendPerVisit === null
               ? "-"
-              : `${Math.round(avgSpendPerVisit).toLocaleString()}購入`}
-          </p>
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">ポーカー稼働時間（平均）</p>
-          <p className="text-lg font-bold text-gray-900">
-            {avgOperatingMinutes === null ? "-" : formatMinutes(Math.round(avgOperatingMinutes))}
-          </p>
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">
-            {viewMode === "month" ? "新規客数（今月登録）" : "客数（累計登録）"}
-          </p>
-          <p className="text-lg font-bold text-gray-900">
-            {newCustomerCount.toLocaleString()}人
-          </p>
-        </div>
+              : `${Math.round(avgSpendPerVisit).toLocaleString()}購入`
+          }
+          breakdown={monthlyBreakdown(avgSpendBreakdown)}
+        />
+        <ExpandableStatCard
+          label="ポーカー稼働時間（平均）"
+          value={avgOperatingMinutes === null ? "-" : formatMinutes(Math.round(avgOperatingMinutes))}
+          breakdown={monthlyBreakdown(avgOperatingMinutesBreakdown)}
+        />
+        <ExpandableStatCard
+          label={viewMode === "month" ? "新規客数（今月登録）" : "客数（累計登録）"}
+          value={`${newCustomerCount.toLocaleString()}人`}
+          breakdown={monthlyBreakdown(newCustomerBreakdown)}
+        />
       </div>
 
       {rows.length === 0 ? (
