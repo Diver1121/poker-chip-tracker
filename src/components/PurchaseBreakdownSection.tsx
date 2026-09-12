@@ -64,6 +64,24 @@ export function PurchaseBreakdownSection({
     .filter(([date]) => viewMode === "total" || date.slice(0, 7) === monthKey)
     .reduce((sum, [, v]) => sum + v, 0);
 
+  // 月ごとの1日平均。ペースが上がっているか下がっているかを月単位で見比べられるようにする。
+  const monthlyPaceByMonth = new Map<string, { total: number; activeDays: number }>();
+  for (const [date, value] of dailyPurchaseValueByDate) {
+    const month = date.slice(0, 7);
+    const current = monthlyPaceByMonth.get(month) ?? { total: 0, activeDays: 0 };
+    current.total += value;
+    current.activeDays += 1;
+    monthlyPaceByMonth.set(month, current);
+  }
+  const monthlyPaceData = [...monthlyPaceByMonth.entries()]
+    .sort(([a], [b]) => b.localeCompare(a))
+    .map(([month, { total, activeDays }]) => ({
+      month,
+      total,
+      activeDays,
+      dailyAvg: activeDays > 0 ? total / activeDays : 0,
+    }));
+
   const [yearPart, numPart] = monthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
@@ -146,6 +164,46 @@ export function PurchaseBreakdownSection({
           </p>
         </div>
       </div>
+
+      {monthlyPaceData.length > 0 && (
+        <details className="group mb-4">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
+            <span className="inline-block transition-transform group-open:rotate-90">▶</span>
+            月別の1日平均を表示
+          </summary>
+          <div className="mt-3 overflow-hidden rounded-lg border border-gray-200 bg-white">
+            <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
+              <thead className="bg-gray-50 text-gray-500">
+                <tr>
+                  <th className="px-4 py-2 text-left font-medium">月</th>
+                  <th className="px-4 py-2 text-right font-medium">月合計</th>
+                  <th className="px-4 py-2 text-right font-medium">購入日数</th>
+                  <th className="px-4 py-2 text-right font-medium">1日平均</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {monthlyPaceData.map((m) => {
+                  const [y, mm] = m.month.split("-");
+                  return (
+                    <tr key={m.month} className="hover:bg-gray-50">
+                      <td className="px-4 py-2 text-left text-gray-900">
+                        {y}年{Number(mm)}月
+                      </td>
+                      <td className="px-4 py-2 text-right text-gray-900">
+                        {m.total.toLocaleString()}購入
+                      </td>
+                      <td className="px-4 py-2 text-right text-gray-900">{m.activeDays}日</td>
+                      <td className="px-4 py-2 text-right text-gray-900">
+                        {Math.round(m.dailyAvg).toLocaleString()}購入
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      )}
 
       {purchaseTableData.length === 0 ? (
         <p className="text-sm text-gray-500">
