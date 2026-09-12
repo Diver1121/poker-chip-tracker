@@ -42,6 +42,7 @@ export function MonthlyOperationsSummarySection({
 }) {
   const [viewMode, setViewMode] = useState<ViewMode>("total");
   const [monthKey, setMonthKey] = useState(currentMonthKey);
+  const [repeatBreakdownOpen, setRepeatBreakdownOpen] = useState(false);
 
   const todayKey = businessDateKey(new Date());
   // 退店処理（営業終了・まとめて退店）が押されるまで、当日分はまだプレイ中で
@@ -113,6 +114,10 @@ export function MonthlyOperationsSummarySection({
   const uniqueVisitorCount = visitCountByCustomer.size;
   const repeatVisitorCount = [...visitCountByCustomer.values()].filter((n) => n >= 2).length;
   const repeatRate = uniqueVisitorCount > 0 ? repeatVisitorCount / uniqueVisitorCount : null;
+  const repeatBreakdown = [2, 5, 10].map((min) => {
+    const count = [...visitCountByCustomer.values()].filter((n) => n >= min).length;
+    return { min, count, rate: uniqueVisitorCount > 0 ? count / uniqueVisitorCount : null };
+  });
 
   // 新規/既存の来店構成比: 客ごとの初来店日（全期間で最も古い来店日）を求め、
   // この期間の来店（延べ数）のうち、それが初来店だったものの割合を「新規」とする。
@@ -228,11 +233,31 @@ export function MonthlyOperationsSummarySection({
             {uniqueVisitorCount.toLocaleString()}人
           </p>
         </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">リピート率（2回以上来店）</p>
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => setRepeatBreakdownOpen((v) => !v)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setRepeatBreakdownOpen((v) => !v);
+            }
+          }}
+          className="cursor-pointer rounded-md border border-gray-200 bg-white p-3 hover:bg-gray-50"
+        >
+          <p className="text-xs text-gray-500">リピート率（2回以上来店・タップで内訳）</p>
           <p className="text-lg font-bold text-gray-900">
             {repeatRate === null ? "-" : `${Math.round(repeatRate * 100)}%`}
           </p>
+          {repeatBreakdownOpen && (
+            <div className="mt-2 space-y-0.5 border-t border-gray-100 pt-2 text-left text-xs text-gray-500">
+              {repeatBreakdown.map(({ min, count, rate }) => (
+                <p key={min}>
+                  {min}回以上: {rate === null ? "-" : `${Math.round(rate * 100)}%`}（{count}人）
+                </p>
+              ))}
+            </div>
+          )}
         </div>
         <div className="rounded-md border border-gray-200 bg-white p-3">
           <p className="text-xs text-gray-500">来店の内訳（新規/既存）</p>
