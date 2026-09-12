@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {
-  computeDailyPurchaseValueTotals,
+  computeDailyPurchaseQuantityTotals,
   computePurchaseTotalsByDenomination,
 } from "@/lib/balances";
 import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
@@ -49,27 +49,26 @@ export function PurchaseBreakdownSection({
 
   // 月平均・1日平均は表示中の絞り込み（月/トータル）に関わらず、常に全期間の実績を
   // 基準値として見せる（比較対象がないと平均だけ見ても意味が薄いため）。
-  const dailyPurchaseValueByDate = computeDailyPurchaseValueTotals(transactions, denominations);
-  const totalPurchaseValue = [...dailyPurchaseValueByDate.values()].reduce((s, v) => s + v, 0);
-  const purchaseActiveDayCount = dailyPurchaseValueByDate.size;
+  const dailyPurchaseQuantityByDate = computeDailyPurchaseQuantityTotals(transactions);
+  const totalPurchaseQuantityAllTime = [...dailyPurchaseQuantityByDate.values()].reduce(
+    (s, v) => s + v,
+    0,
+  );
+  const purchaseActiveDayCount = dailyPurchaseQuantityByDate.size;
   const purchaseActiveMonthCount = new Set(
-    [...dailyPurchaseValueByDate.keys()].map((d) => d.slice(0, 7)),
+    [...dailyPurchaseQuantityByDate.keys()].map((d) => d.slice(0, 7)),
   ).size;
-  const monthlyAvgPurchaseValue =
-    purchaseActiveMonthCount > 0 ? totalPurchaseValue / purchaseActiveMonthCount : null;
-  const dailyAvgPurchaseValue =
-    purchaseActiveDayCount > 0 ? totalPurchaseValue / purchaseActiveDayCount : null;
-
-  const scopedValueTotal = [...dailyPurchaseValueByDate.entries()]
-    .filter(([date]) => viewMode === "total" || date.slice(0, 7) === monthKey)
-    .reduce((sum, [, v]) => sum + v, 0);
+  const monthlyAvgPurchaseQuantity =
+    purchaseActiveMonthCount > 0 ? totalPurchaseQuantityAllTime / purchaseActiveMonthCount : null;
+  const dailyAvgPurchaseQuantity =
+    purchaseActiveDayCount > 0 ? totalPurchaseQuantityAllTime / purchaseActiveDayCount : null;
 
   // 月ごとの1日平均。ペースが上がっているか下がっているかを月単位で見比べられるようにする。
   const monthlyPaceByMonth = new Map<string, { total: number; activeDays: number }>();
-  for (const [date, value] of dailyPurchaseValueByDate) {
+  for (const [date, quantity] of dailyPurchaseQuantityByDate) {
     const month = date.slice(0, 7);
     const current = monthlyPaceByMonth.get(month) ?? { total: 0, activeDays: 0 };
-    current.total += value;
+    current.total += quantity;
     current.activeDays += 1;
     monthlyPaceByMonth.set(month, current);
   }
@@ -144,23 +143,23 @@ export function PurchaseBreakdownSection({
             {viewMode === "month" ? `${monthLabel}の合計` : "全期間の合計"}
           </p>
           <p className="text-lg font-bold text-gray-900">
-            {scopedValueTotal.toLocaleString()}購入
+            {scopedQuantityTotal.toLocaleString()}枚
           </p>
         </div>
         <div className="rounded-md border border-gray-200 bg-white p-3">
           <p className="text-xs text-gray-500">月平均</p>
           <p className="text-lg font-bold text-gray-900">
-            {monthlyAvgPurchaseValue === null
+            {monthlyAvgPurchaseQuantity === null
               ? "-"
-              : `${Math.round(monthlyAvgPurchaseValue).toLocaleString()}購入`}
+              : `${Math.round(monthlyAvgPurchaseQuantity).toLocaleString()}枚`}
           </p>
         </div>
         <div className="rounded-md border border-gray-200 bg-white p-3">
           <p className="text-xs text-gray-500">1日平均</p>
           <p className="text-lg font-bold text-gray-900">
-            {dailyAvgPurchaseValue === null
+            {dailyAvgPurchaseQuantity === null
               ? "-"
-              : `${Math.round(dailyAvgPurchaseValue).toLocaleString()}購入`}
+              : `${Math.round(dailyAvgPurchaseQuantity).toLocaleString()}枚`}
           </p>
         </div>
       </div>
@@ -190,11 +189,11 @@ export function PurchaseBreakdownSection({
                         {y}年{Number(mm)}月
                       </td>
                       <td className="px-4 py-2 text-right text-gray-900">
-                        {m.total.toLocaleString()}購入
+                        {m.total.toLocaleString()}枚
                       </td>
                       <td className="px-4 py-2 text-right text-gray-900">{m.activeDays}日</td>
                       <td className="px-4 py-2 text-right text-gray-900">
-                        {Math.round(m.dailyAvg).toLocaleString()}購入
+                        {Math.round(m.dailyAvg).toLocaleString()}枚
                       </td>
                     </tr>
                   );
