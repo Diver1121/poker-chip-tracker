@@ -9,7 +9,7 @@ import {
   getTournaments,
 } from "@/lib/data";
 import {
-  computeCumulativeRakeTotals,
+  computeDailyPokerOperatingMinutes,
   computeDailyRakeTotals,
   computeDailyTotals,
   computeDailyVisitCounts,
@@ -33,6 +33,11 @@ function formatSigned(n: number): string {
 function average(values: number[]): number | null {
   if (values.length === 0) return null;
   return values.reduce((sum, v) => sum + v, 0) / values.length;
+}
+function formatMinutes(minutes: number): string {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return h > 0 ? `${h}時間${m}分` : `${m}分`;
 }
 
 type TournamentSessionSummary = {
@@ -149,28 +154,31 @@ export default async function StatsPage({
   const dailyRakeByDate = new Map(
     computeDailyRakeTotals(transactions, denominations).map((d) => [d.date, d]),
   );
-  // 累計レーキグラフも、本日分は「営業終了・まとめて退店」を押すまで含めない
-  // （日別テーブルの当日0円扱いと同じ理由）。
-  const rakeGraphTransactions = todayClosed
-    ? transactions
-    : transactions.filter((tx) => businessDateKey(tx.created_at) !== todayKey);
-  const cumulativeRakeTotals = computeCumulativeRakeTotals(rakeGraphTransactions, denominations);
   // 来店数はレーキ表に合体させ、日ごとの動きを1つの表でまとめて見られるようにする
   // （営業終了前でも実際の来店数をそのまま表示してよいので、finalizedの判定は適用しない）。
   const dailyVisitCountByDate = new Map(
     computeDailyVisitCounts(visits).map((d) => [d.date, d.count]),
   );
+  const dailyPokerOperatingMinutesByDate = computeDailyPokerOperatingMinutes(transactions);
   const rakeTableData = daysInMonth(monthKey).map((date) => {
     const finalized = date !== todayKey || todayClosed;
     const daily = dailyRakeByDate.get(date);
     const [rYear, rMonth, rDay] = date.split("-").map(Number);
     const weekday = WEEKDAY_LABELS[new Date(Date.UTC(rYear, rMonth - 1, rDay)).getUTCDay()];
+    const rakeWithTournament = finalized ? (daily?.rakeWithTournament ?? 0) : 0;
+    const operatingMinutes = finalized ? (dailyPokerOperatingMinutesByDate.get(date) ?? null) : null;
     return {
       date,
       day: rDay,
       weekday,
       visitCount: dailyVisitCountByDate.get(date) ?? 0,
-      rakeWithTournament: finalized ? (daily?.rakeWithTournament ?? 0) : 0,
+      rakeWithTournament,
+      operatingMinutes,
+      // 稼働時間1時間あたりのレーキ。稼働時間が無い日（アウト未入力・未確定日）は算出不可。
+      rakePerHour:
+        operatingMinutes && operatingMinutes > 0
+          ? (rakeWithTournament / operatingMinutes) * 60
+          : null,
     };
   });
   const monthlyRakeWithTournamentTotal = rakeTableData.reduce(
@@ -178,6 +186,16 @@ export default async function StatsPage({
     0,
   );
   const monthlyVisitCountTotal = rakeTableData.reduce((sum, d) => sum + d.visitCount, 0);
+  const monthlyAvgOperatingMinutes = average(
+    rakeTableData
+      .map((d) => d.operatingMinutes)
+      .filter((m): m is number => m !== null),
+  );
+  const monthlyAvgRakePerHour = average(
+    rakeTableData
+      .map((d) => d.rakePerHour)
+      .filter((r): r is number => r !== null),
+  );
 
   // トーナメント欄: 「記録保存」された tournament_entries を営業日ごとにまとめ、
   // カレンダーで過去を振り返れるようにする。
@@ -329,18 +347,6 @@ export default async function StatsPage({
           {monthLabel}の月間合計 来店数 {monthlyVisitCountTotal.toLocaleString()}人／店全体 {monthlyRakeWithTournamentTotal.toLocaleString()}点。
           本日分は「営業終了・まとめて退店」を押すまで反映されません。
         </p>
-        <div className="mb-4 rounded-lg border border-gray-200 bg-white p-4">
-          {cumulativeRakeTotals.all.length === 0 ? (
-            <p className="text-sm text-gray-500">データがありません。</p>
-          ) : (
-            <LineChart
-              data={cumulativeRakeTotals.all}
-              gradientId="rakeCumulativeFill"
-              zoomToData
-              splitAtZero
-            />
-          )}
-        </div>
         <details className="group">
           <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
             <span className="inline-block transition-transform group-open:rotate-90">▶</span>
@@ -354,6 +360,8 @@ export default async function StatsPage({
                     <th className="px-4 py-2 text-left font-medium">日付</th>
                     <th className="px-4 py-2 text-right font-medium">来店数</th>
                     <th className="px-4 py-2 text-right font-medium">店全体</th>
+                    <th className="px-4 py-2 text-right font-medium">ポーカー稼働時間</th>
+                    <th className="px-4 py-2 text-right font-medium">1時間あたりレーキ</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -374,6 +382,16 @@ export default async function StatsPage({
                       >
                         {formatSigned(d.rakeWithTournament)}
                       </td>
+                      <td className="px-4 py-2 text-right text-gray-900">
+                        {d.operatingMinutes === null ? "-" : formatMinutes(d.operatingMinutes)}
+                      </td>
+                      <td
+                        className={`px-4 py-2 text-right ${
+                          d.rakePerHour === null ? "text-gray-400" : signColorClass(d.rakePerHour)
+                        }`}
+                      >
+                        {d.rakePerHour === null ? "-" : formatSigned(Math.round(d.rakePerHour))}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -387,6 +405,20 @@ export default async function StatsPage({
                       className={`px-4 py-2 text-right ${signColorClass(monthlyRakeWithTournamentTotal)}`}
                     >
                       {formatSigned(monthlyRakeWithTournamentTotal)}
+                    </td>
+                    <td className="px-4 py-2 text-right text-gray-900">
+                      {monthlyAvgOperatingMinutes === null
+                        ? "-"
+                        : `平均 ${formatMinutes(Math.round(monthlyAvgOperatingMinutes))}`}
+                    </td>
+                    <td
+                      className={`px-4 py-2 text-right ${
+                        monthlyAvgRakePerHour === null ? "text-gray-400" : signColorClass(monthlyAvgRakePerHour)
+                      }`}
+                    >
+                      {monthlyAvgRakePerHour === null
+                        ? "-"
+                        : `平均 ${formatSigned(Math.round(monthlyAvgRakePerHour))}`}
                     </td>
                   </tr>
                 </tfoot>

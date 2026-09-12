@@ -1,6 +1,6 @@
 import type { ChipTransaction, Denomination, TransactionCategory, Visit } from "@/lib/types";
 import { categorySign } from "@/lib/transactionCategory";
-import { businessDateKey, shiftDayKey } from "@/lib/businessDay";
+import { businessDateKey } from "@/lib/businessDay";
 
 // customerId -> denominationId -> 現在の保有枚数（purchase/tournamentのみが対象）
 export type BalanceMap = Map<string, Map<string, number>>;
@@ -215,68 +215,37 @@ export function computeDailyRakeTotals(
     });
 }
 
-// 日付（JST）ごとの累計レーキ推移。店全体の保有点数グラフ（computeDailyTotals）と
-// 同じ「running total」の形式で、全体（ポーカー+ブラックジャック+トーナメント）・
-// ポーカーのみ・ブラックジャックのみの3系列を返す。
-// 全体はgame未設定（機能追加前）のバイイン/アウトも含めた店全体の実態を表示する。
-// ポーカー/ブラックジャックはgameが明示的にタグ付けされた取引だけを対象にし、
-// 機能導入前の古いデータを引き継がない（=導入した日から0で始まる）。
-export function computeCumulativeRakeTotals(
+// 日付（JST）ごとのポーカーテーブル稼働時間（分）。その日最初のバイイン（table_out）
+// から最後のアウト（table_in）までを稼働時間とみなす。ブラックジャックは含めない。
+// バイインかアウトの片方しか無い日（営業中でまだアウトが無い当日など）は
+// 算出できないため結果に含めない。
+export function computeDailyPokerOperatingMinutes(
   transactions: ChipTransaction[],
-  denominations: Denomination[],
-): {
-  all: { date: string; total: number }[];
-  poker: { date: string; total: number }[];
-  blackjack: { date: string; total: number }[];
-} {
-  const valueByDenomination = new Map(denominations.map((d) => [d.id, d.value]));
-  const deltaByDateAll = new Map<string, number>();
-  const deltaByDatePoker = new Map<string, number>();
-  const deltaByDateBlackjack = new Map<string, number>();
-
-  const add = (map: Map<string, number>, date: string, delta: number) => {
-    map.set(date, (map.get(date) ?? 0) + delta);
-  };
+): Map<string, number> {
+  const firstBuyInByDate = new Map<string, number>();
+  const lastOutByDate = new Map<string, number>();
 
   for (const tx of transactions) {
+    if (tx.game !== "poker") continue;
+    if (tx.category !== "table_out" && tx.category !== "table_in") continue;
     const date = businessDateKey(tx.created_at);
-    if (tx.category === "table_out" || tx.category === "table_in") {
-      const delta = (tx.category === "table_out" ? 1 : -1) * tx.quantity;
-      add(deltaByDateAll, date, delta);
-      if (tx.game === "poker") add(deltaByDatePoker, date, delta);
-      else if (tx.game === "blackjack") add(deltaByDateBlackjack, date, delta);
-    } else if (tx.category === "tournament") {
-      const value = tx.quantity * (valueByDenomination.get(tx.denomination_id ?? "") ?? 0);
-      add(deltaByDateAll, date, value);
-    } else if (tx.category === "prize") {
-      add(deltaByDateAll, date, -tx.quantity);
+    const time = new Date(tx.created_at).getTime();
+    if (tx.category === "table_out") {
+      const current = firstBuyInByDate.get(date);
+      if (current === undefined || time < current) firstBuyInByDate.set(date, time);
+    } else {
+      const current = lastOutByDate.get(date);
+      if (current === undefined || time > current) lastOutByDate.set(date, time);
     }
   }
 
-  function toRunningSeries(
-    map: Map<string, number>,
-    // trueなら、実データの前日に0点の起点を1つ足してから積み上げる
-    // （導入前の古いデータを引き継がない系列を、見た目上0から始められるようにするため）。
-    anchorAtZero: boolean,
-  ): { date: string; total: number }[] {
-    const sortedDates = [...map.keys()].sort();
-    const series: { date: string; total: number }[] = [];
-    if (anchorAtZero && sortedDates.length > 0) {
-      series.push({ date: shiftDayKey(sortedDates[0], -1), total: 0 });
-    }
-    let running = 0;
-    for (const date of sortedDates) {
-      running += map.get(date)!;
-      series.push({ date, total: running });
-    }
-    return series;
+  const result = new Map<string, number>();
+  for (const [date, firstBuyIn] of firstBuyInByDate) {
+    const lastOut = lastOutByDate.get(date);
+    if (lastOut === undefined || lastOut <= firstBuyIn) continue;
+    result.set(date, Math.round((lastOut - firstBuyIn) / 60000));
   }
-
-  return {
-    all: toRunningSeries(deltaByDateAll, false),
-    poker: toRunningSeries(deltaByDatePoker, true),
-    blackjack: toRunningSeries(deltaByDateBlackjack, true),
-  };
+  return result;
 }
 
 // 客ごとの収支グラフ専用の符号（保有チップ数の符号 categorySign とは別の意味）。
