@@ -101,9 +101,35 @@ export function MonthlyOperationsSummarySection({
   const visitActiveDayCount = rows.filter((d) => d.visitCount > 0).length;
   const avgVisitsPerActiveDay =
     visitActiveDayCount > 0 ? totalVisitCount / visitActiveDayCount : null;
-  const operatingDayCount = rows.filter((d) => d.operatingMinutes !== null).length;
-  const pokerUtilizationRate =
-    visitActiveDayCount > 0 ? operatingDayCount / visitActiveDayCount : null;
+
+  // リピート率: この期間に来店した客（ユニーク）のうち、2回以上来店した客の割合。
+  const dateSet = new Set(dates);
+  const visitCountByCustomer = new Map<string, number>();
+  for (const v of visits) {
+    const date = businessDateKey(v.checked_in_at);
+    if (!dateSet.has(date)) continue;
+    visitCountByCustomer.set(v.customer_id, (visitCountByCustomer.get(v.customer_id) ?? 0) + 1);
+  }
+  const uniqueVisitorCount = visitCountByCustomer.size;
+  const repeatVisitorCount = [...visitCountByCustomer.values()].filter((n) => n >= 2).length;
+  const repeatRate = uniqueVisitorCount > 0 ? repeatVisitorCount / uniqueVisitorCount : null;
+
+  // 新規/既存の来店構成比: 客ごとの初来店日（全期間で最も古い来店日）を求め、
+  // この期間の来店（延べ数）のうち、それが初来店だったものの割合を「新規」とする。
+  const firstVisitDateByCustomer = new Map<string, string>();
+  for (const v of visits) {
+    const date = businessDateKey(v.checked_in_at);
+    const current = firstVisitDateByCustomer.get(v.customer_id);
+    if (current === undefined || date < current) firstVisitDateByCustomer.set(v.customer_id, date);
+  }
+  let newVisitCount = 0;
+  for (const v of visits) {
+    const date = businessDateKey(v.checked_in_at);
+    if (!dateSet.has(date)) continue;
+    if (firstVisitDateByCustomer.get(v.customer_id) === date) newVisitCount += 1;
+  }
+  const existingVisitCount = totalVisitCount - newVisitCount;
+  const newVisitRate = totalVisitCount > 0 ? newVisitCount / totalVisitCount : null;
 
   const totalPurchaseValue = dates.reduce(
     (sum, date) => sum + (dailyPurchaseValueByDate.get(date) ?? 0),
@@ -197,17 +223,34 @@ export function MonthlyOperationsSummarySection({
           </p>
         </div>
         <div className="rounded-md border border-gray-200 bg-white p-3">
+          <p className="text-xs text-gray-500">来店客数（ユニーク）</p>
+          <p className="text-lg font-bold text-gray-900">
+            {uniqueVisitorCount.toLocaleString()}人
+          </p>
+        </div>
+        <div className="rounded-md border border-gray-200 bg-white p-3">
+          <p className="text-xs text-gray-500">リピート率（2回以上来店）</p>
+          <p className="text-lg font-bold text-gray-900">
+            {repeatRate === null ? "-" : `${Math.round(repeatRate * 100)}%`}
+          </p>
+        </div>
+        <div className="rounded-md border border-gray-200 bg-white p-3">
+          <p className="text-xs text-gray-500">来店の内訳（新規/既存）</p>
+          <p className="text-lg font-bold text-gray-900">
+            {newVisitRate === null
+              ? "-"
+              : `新規${Math.round(newVisitRate * 100)}% / 既存${Math.round((1 - newVisitRate) * 100)}%`}
+          </p>
+          <p className="text-xs text-gray-400">
+            {newVisitCount.toLocaleString()}件 / {existingVisitCount.toLocaleString()}件
+          </p>
+        </div>
+        <div className="rounded-md border border-gray-200 bg-white p-3">
           <p className="text-xs text-gray-500">客単価（購入/来店）</p>
           <p className="text-lg font-bold text-gray-900">
             {avgSpendPerVisit === null
               ? "-"
               : `${Math.round(avgSpendPerVisit).toLocaleString()}購入`}
-          </p>
-        </div>
-        <div className="rounded-md border border-gray-200 bg-white p-3">
-          <p className="text-xs text-gray-500">ポーカー稼働率</p>
-          <p className="text-lg font-bold text-gray-900">
-            {pokerUtilizationRate === null ? "-" : `${Math.round(pokerUtilizationRate * 100)}%`}
           </p>
         </div>
         <div className="rounded-md border border-gray-200 bg-white p-3">

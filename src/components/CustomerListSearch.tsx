@@ -80,7 +80,12 @@ export function CustomerListSearch({
       {sorted.length === 0 ? (
         <p className="text-sm text-gray-500">該当する客がいません。</p>
       ) : (
-        <>
+        <details className="group">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
+            <span className="inline-block transition-transform group-open:rotate-90">▶</span>
+            客一覧を表示（{sorted.length.toLocaleString()}人）
+          </summary>
+          <div className="mt-3">
           <p className="mb-2 text-xs text-gray-500">
             {sorted.length.toLocaleString()}人中 {visible.length.toLocaleString()}人を表示
           </p>
@@ -137,7 +142,8 @@ export function CustomerListSearch({
               もっと見る（残り{(sorted.length - visibleCount).toLocaleString()}人）
             </button>
           )}
-        </>
+          </div>
+        </details>
       )}
     </div>
   );
