@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { href: "/transactions", label: "取引履歴" },
   { href: "/tournament", label: "トーナメント" },
   { href: "/customers", label: "客一覧" },
-  { href: "/stats", label: "グラフ" },
+  { href: "/stats", label: "データ" },
   { href: "/settings/denominations", label: "額面設定" },
 ];
 

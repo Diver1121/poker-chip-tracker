@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { computePurchaseTotalsByDenomination } from "@/lib/balances";
-import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
+import {
+  computeDailyPurchaseValueTotals,
+  computePurchaseTotalsByDenomination,
+} from "@/lib/balances";
+import { shiftMonthKey } from "@/lib/businessDay";
 import type { ChipTransaction, Denomination } from "@/lib/types";
-
-type ViewMode = "month" | "total";
 
 export function PurchaseBreakdownSection({
   transactions,
@@ -16,16 +17,10 @@ export function PurchaseBreakdownSection({
   denominations: Denomination[];
   currentMonthKey: string;
 }) {
-  const [viewMode, setViewMode] = useState<ViewMode>("total");
-  const [monthKey, setMonthKey] = useState(currentMonthKey);
-
-  const scopedTransactions =
-    viewMode === "month"
-      ? transactions.filter((tx) => businessDateKey(tx.created_at).slice(0, 7) === monthKey)
-      : transactions;
-
-  const purchaseTotalsByDenomination = computePurchaseTotalsByDenomination(scopedTransactions);
-  const scopedQuantityTotal = [...purchaseTotalsByDenomination.values()].reduce(
+  // 額面ごとの内訳表は常に全期間を対象にする（月で絞ると、たまにしか
+  // 買われない額面が0件の月では消えて見えてしまうため）。
+  const purchaseTotalsByDenomination = computePurchaseTotalsByDenomination(transactions);
+  const totalQuantityAllTime = [...purchaseTotalsByDenomination.values()].reduce(
     (sum, v) => sum + v.quantity,
     0,
   );
@@ -37,12 +32,33 @@ export function PurchaseBreakdownSection({
         label: d.label,
         count: totals.count,
         quantity: totals.quantity,
-        rate: scopedQuantityTotal > 0 ? totals.quantity / scopedQuantityTotal : 0,
+        rate: totalQuantityAllTime > 0 ? totals.quantity / totalQuantityAllTime : 0,
       };
     })
     .filter((d) => d.count > 0)
     .sort((a, b) => b.quantity - a.quantity);
-  const scopedCountTotal = purchaseTableData.reduce((sum, d) => sum + d.count, 0);
+  const totalCountAllTime = purchaseTableData.reduce((sum, d) => sum + d.count, 0);
+
+  // 点数換算した購入総量（額面が違うと枚数だけでは売上量を比較できないため）。
+  // 全期間の合計・1日平均に加えて、月を選んで「その月の合計・1日平均」も
+  // 同時に一目で見られるようにする。
+  const [monthKey, setMonthKey] = useState(currentMonthKey);
+  const dailyPurchaseValueByDate = computeDailyPurchaseValueTotals(transactions, denominations);
+  const totalPurchaseValueAllTime = [...dailyPurchaseValueByDate.values()].reduce(
+    (s, v) => s + v,
+    0,
+  );
+  const activeDayCountAllTime = dailyPurchaseValueByDate.size;
+  const dailyAvgPurchaseValueAllTime =
+    activeDayCountAllTime > 0 ? totalPurchaseValueAllTime / activeDayCountAllTime : null;
+
+  const monthEntries = [...dailyPurchaseValueByDate.entries()].filter(
+    ([date]) => date.slice(0, 7) === monthKey,
+  );
+  const totalPurchaseValueForMonth = monthEntries.reduce((sum, [, v]) => sum + v, 0);
+  const activeDayCountForMonth = monthEntries.length;
+  const dailyAvgPurchaseValueForMonth =
+    activeDayCountForMonth > 0 ? totalPurchaseValueForMonth / activeDayCountForMonth : null;
 
   const [yearPart, numPart] = monthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
@@ -52,58 +68,59 @@ export function PurchaseBreakdownSection({
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-bold text-gray-900">購入内訳（額面別）</h2>
-        <div className="flex flex-wrap items-center gap-2 text-sm">
-          <div className="flex gap-1 rounded-md border border-gray-300 p-0.5">
-            <button
-              type="button"
-              onClick={() => setViewMode("month")}
-              className={`rounded px-2 py-1 font-medium ${
-                viewMode === "month"
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              月
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode("total")}
-              className={`rounded px-2 py-1 font-medium ${
-                viewMode === "total"
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              トータル
-            </button>
-          </div>
-          {viewMode === "month" && (
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setMonthKey((k) => shiftMonthKey(k, -1))}
-                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
-              >
-                ← 前月
-              </button>
-              <span className="font-medium text-gray-900">{monthLabel}</span>
-              <button
-                type="button"
-                onClick={() => setMonthKey((k) => shiftMonthKey(k, 1))}
-                disabled={!canGoNextMonth}
-                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                翌月 →
-              </button>
-            </div>
-          )}
+        <div className="flex items-center gap-2 text-sm">
+          <button
+            type="button"
+            onClick={() => setMonthKey((k) => shiftMonthKey(k, -1))}
+            className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+          >
+            ← 前月
+          </button>
+          <span className="font-medium text-gray-900">{monthLabel}</span>
+          <button
+            type="button"
+            onClick={() => setMonthKey((k) => shiftMonthKey(k, 1))}
+            disabled={!canGoNextMonth}
+            className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            翌月 →
+          </button>
+        </div>
+      </div>
+
+      <div className="mb-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
+        <div className="rounded-md border border-gray-200 bg-white p-3">
+          <p className="text-xs text-gray-500">全期間の購入数</p>
+          <p className="text-lg font-bold text-gray-900">
+            {totalPurchaseValueAllTime.toLocaleString()}購入
+          </p>
+        </div>
+        <div className="rounded-md border border-gray-200 bg-white p-3">
+          <p className="text-xs text-gray-500">全期間の1日平均</p>
+          <p className="text-lg font-bold text-gray-900">
+            {dailyAvgPurchaseValueAllTime === null
+              ? "-"
+              : `${Math.round(dailyAvgPurchaseValueAllTime).toLocaleString()}購入`}
+          </p>
+        </div>
+        <div className="rounded-md border border-gray-200 bg-white p-3">
+          <p className="text-xs text-gray-500">{monthLabel}の購入数</p>
+          <p className="text-lg font-bold text-gray-900">
+            {totalPurchaseValueForMonth.toLocaleString()}購入
+          </p>
+        </div>
+        <div className="rounded-md border border-gray-200 bg-white p-3">
+          <p className="text-xs text-gray-500">{monthLabel}の1日平均</p>
+          <p className="text-lg font-bold text-gray-900">
+            {dailyAvgPurchaseValueForMonth === null
+              ? "-"
+              : `${Math.round(dailyAvgPurchaseValueForMonth).toLocaleString()}購入`}
+          </p>
         </div>
       </div>
 
       {purchaseTableData.length === 0 ? (
-        <p className="text-sm text-gray-500">
-          {viewMode === "month" ? `${monthLabel}の購入はまだありません。` : "購入はまだありません。"}
-        </p>
+        <p className="text-sm text-gray-500">購入はまだありません。</p>
       ) : (
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
           <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
@@ -131,7 +148,7 @@ export function PurchaseBreakdownSection({
               <tr className="border-t border-gray-200 font-bold">
                 <td className="px-4 py-2 text-left text-gray-900">合計</td>
                 <td className="px-4 py-2 text-right text-gray-900">
-                  {scopedCountTotal.toLocaleString()}
+                  {totalCountAllTime.toLocaleString()}
                 </td>
                 <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
               </tr>

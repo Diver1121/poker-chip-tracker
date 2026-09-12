@@ -3,6 +3,7 @@ import { LinkPendingDot } from "@/components/LinkPendingDot";
 import {
   getAllTransactions,
   getAllVisits,
+  getCustomers,
   getDenominations,
   getShopSettings,
   getTournamentEntries,
@@ -10,6 +11,7 @@ import {
 } from "@/lib/data";
 import {
   computeDailyPokerOperatingMinutes,
+  computeDailyPurchaseValueTotals,
   computeDailyRakeTotals,
   computeDailyTotals,
   computeDailyVisitCounts,
@@ -115,6 +117,7 @@ export default async function StatsPage({
     shopSettings,
     tournamentEntries,
     tournaments,
+    customers,
   ] = await Promise.all([
     searchParams,
     getAllTransactions(),
@@ -123,6 +126,7 @@ export default async function StatsPage({
     getShopSettings(),
     getTournamentEntries(),
     getTournaments(),
+    getCustomers(),
   ]);
   const dailyTotals = computeDailyTotals(transactions, denominations);
   const shopCurrentTotal =
@@ -167,6 +171,8 @@ export default async function StatsPage({
       weekday,
       visitCount: dailyVisitCountByDate.get(date) ?? 0,
       rakeWithTournament,
+      pokerRake: finalized ? (daily?.pokerRake ?? 0) : 0,
+      blackjackRake: finalized ? (daily?.blackjackRake ?? 0) : 0,
       operatingMinutes,
       // 稼働時間1時間あたりのレーキ。稼働時間が無い日（アウト未入力・未確定日）は算出不可。
       rakePerHour:
@@ -190,6 +196,32 @@ export default async function StatsPage({
       .map((d) => d.rakePerHour)
       .filter((r): r is number => r !== null),
   );
+  const monthlyPokerRakeTotal = rakeTableData.reduce((sum, d) => sum + d.pokerRake, 0);
+  const monthlyBlackjackRakeTotal = rakeTableData.reduce((sum, d) => sum + d.blackjackRake, 0);
+
+  // 客が実際に来店した日数を分母にした1日平均来店数（休業日や来店ゼロの日で
+  // 薄まらないようにするため、月内の全日数ではなく来店があった日数で割る）。
+  const visitActiveDayCount = rakeTableData.filter((d) => d.visitCount > 0).length;
+  const avgVisitsPerActiveDay =
+    visitActiveDayCount > 0 ? monthlyVisitCountTotal / visitActiveDayCount : null;
+  // ポーカー稼働率: 来店があった日のうち、実際にポーカーが稼働した日の割合。
+  const operatingDayCount = rakeTableData.filter((d) => d.operatingMinutes !== null).length;
+  const pokerUtilizationRate =
+    visitActiveDayCount > 0 ? operatingDayCount / visitActiveDayCount : null;
+
+  // 客単価: その月に購入された点数（額面換算）の合計を、来店数で割った1人あたりの平均。
+  const dailyPurchaseValueByDate = computeDailyPurchaseValueTotals(transactions, denominations);
+  const monthlyPurchaseValueTotal = daysInMonth(monthKey).reduce(
+    (sum, date) => sum + (dailyPurchaseValueByDate.get(date) ?? 0),
+    0,
+  );
+  const avgSpendPerVisit =
+    monthlyVisitCountTotal > 0 ? monthlyPurchaseValueTotal / monthlyVisitCountTotal : null;
+
+  // 新規客数: その月に登録された客の数（客の成長ペースを見る指標）。
+  const newCustomerCountThisMonth = customers.filter(
+    (c) => businessDateKey(c.created_at).slice(0, 7) === monthKey,
+  ).length;
 
   // トーナメント欄: 「記録保存」された tournament_entries を営業日ごとにまとめ、
   // カレンダーで過去を振り返れるようにする。
@@ -293,7 +325,7 @@ export default async function StatsPage({
 
   return (
     <div className="space-y-8">
-      <h1 className="text-lg font-bold text-gray-900">グラフ</h1>
+      <h1 className="text-lg font-bold text-gray-900">データ</h1>
 
       <div className="rounded-lg border border-gray-200 bg-white p-4">
         <p className="text-sm text-gray-500">店全体の保有チップ量（現在）</p>
@@ -350,7 +382,7 @@ export default async function StatsPage({
 
       <section>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-lg font-bold text-gray-900">来店数・レーキ</h2>
+          <h2 className="text-lg font-bold text-gray-900">月次運営サマリー</h2>
           <div className="flex items-center gap-2 text-sm">
             <Link
               href={statsHref({ month: prevMonthKey })}
@@ -376,9 +408,70 @@ export default async function StatsPage({
           </div>
         </div>
         <p className="mb-3 text-xs text-gray-500">
-          {monthLabel}の月間合計 来店数 {monthlyVisitCountTotal.toLocaleString()}人／店全体 {monthlyRakeWithTournamentTotal.toLocaleString()}点。
           本日分は「営業終了・まとめて退店」を押すまで反映されません。
         </p>
+
+        <div className="mb-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">来店数（月合計）</p>
+            <p className="text-lg font-bold text-gray-900">
+              {monthlyVisitCountTotal.toLocaleString()}人
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">1日平均来店数</p>
+            <p className="text-lg font-bold text-gray-900">
+              {avgVisitsPerActiveDay === null ? "-" : `${avgVisitsPerActiveDay.toFixed(1)}人`}
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">レーキ（月合計・店全体）</p>
+            <p className={`text-lg font-bold ${signColorClass(monthlyRakeWithTournamentTotal)}`}>
+              {formatSigned(monthlyRakeWithTournamentTotal)}
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">ポーカー / BJ レーキ</p>
+            <p className="text-sm font-bold text-gray-900">
+              <span className={signColorClass(monthlyPokerRakeTotal)}>
+                {formatSigned(monthlyPokerRakeTotal)}
+              </span>
+              <span className="mx-1 font-normal text-gray-300">/</span>
+              <span className={signColorClass(monthlyBlackjackRakeTotal)}>
+                {formatSigned(monthlyBlackjackRakeTotal)}
+              </span>
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">客単価（購入/来店）</p>
+            <p className="text-lg font-bold text-gray-900">
+              {avgSpendPerVisit === null
+                ? "-"
+                : `${Math.round(avgSpendPerVisit).toLocaleString()}購入`}
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">ポーカー稼働率</p>
+            <p className="text-lg font-bold text-gray-900">
+              {pokerUtilizationRate === null ? "-" : `${Math.round(pokerUtilizationRate * 100)}%`}
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">ポーカー稼働時間（平均）</p>
+            <p className="text-lg font-bold text-gray-900">
+              {monthlyAvgOperatingMinutes === null
+                ? "-"
+                : formatMinutes(Math.round(monthlyAvgOperatingMinutes))}
+            </p>
+          </div>
+          <div className="rounded-md border border-gray-200 bg-white p-3">
+            <p className="text-xs text-gray-500">新規客数（今月登録）</p>
+            <p className="text-lg font-bold text-gray-900">
+              {newCustomerCountThisMonth.toLocaleString()}人
+            </p>
+          </div>
+        </div>
+
         <details className="group">
           <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
             <span className="inline-block transition-transform group-open:rotate-90">▶</span>
