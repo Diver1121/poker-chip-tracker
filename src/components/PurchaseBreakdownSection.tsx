@@ -5,7 +5,7 @@ import {
   computeDailyPurchaseValueTotals,
   computePurchaseTotalsByDenomination,
 } from "@/lib/balances";
-import { shiftMonthKey } from "@/lib/businessDay";
+import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
 import type { ChipTransaction, Denomination } from "@/lib/types";
 
 export function PurchaseBreakdownSection({
@@ -64,6 +64,30 @@ export function PurchaseBreakdownSection({
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
 
+  // 選択中の月だけの額面別内訳。全期間の内訳表とは別に、月ごとの傾向も見られるようにする。
+  const monthTransactions = transactions.filter(
+    (tx) => businessDateKey(tx.created_at).slice(0, 7) === monthKey,
+  );
+  const purchaseTotalsByDenominationForMonth = computePurchaseTotalsByDenomination(monthTransactions);
+  const totalQuantityForMonth = [...purchaseTotalsByDenominationForMonth.values()].reduce(
+    (sum, v) => sum + v.quantity,
+    0,
+  );
+  const monthPurchaseTableData = denominations
+    .map((d) => {
+      const totals = purchaseTotalsByDenominationForMonth.get(d.id) ?? { count: 0, quantity: 0 };
+      return {
+        denominationId: d.id,
+        label: d.label,
+        count: totals.count,
+        quantity: totals.quantity,
+        rate: totalQuantityForMonth > 0 ? totals.quantity / totalQuantityForMonth : 0,
+      };
+    })
+    .filter((d) => d.count > 0)
+    .sort((a, b) => b.quantity - a.quantity);
+  const totalCountForMonth = monthPurchaseTableData.reduce((sum, d) => sum + d.count, 0);
+
   return (
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -119,6 +143,46 @@ export function PurchaseBreakdownSection({
         </div>
       </div>
 
+      <h3 className="mb-2 text-sm font-bold text-gray-900">{monthLabel}の内訳（額面別）</h3>
+      {monthPurchaseTableData.length === 0 ? (
+        <p className="mb-4 text-sm text-gray-500">{monthLabel}の購入はまだありません。</p>
+      ) : (
+        <div className="mb-4 overflow-hidden rounded-lg border border-gray-200 bg-white">
+          <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
+            <thead className="bg-gray-50 text-gray-500">
+              <tr>
+                <th className="px-4 py-2 text-left font-medium">額面</th>
+                <th className="px-4 py-2 text-right font-medium">購入回数</th>
+                <th className="px-4 py-2 text-right font-medium">割合</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {monthPurchaseTableData.map((d) => (
+                <tr key={d.denominationId} className="hover:bg-gray-50">
+                  <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
+                  <td className="px-4 py-2 text-right text-gray-900">
+                    {d.count.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-2 text-right text-gray-500">
+                    {(d.rate * 100).toFixed(1)}%
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="border-t border-gray-200 font-bold">
+                <td className="px-4 py-2 text-left text-gray-900">合計</td>
+                <td className="px-4 py-2 text-right text-gray-900">
+                  {totalCountForMonth.toLocaleString()}
+                </td>
+                <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      )}
+
+      <h3 className="mb-2 text-sm font-bold text-gray-900">全期間の内訳（額面別）</h3>
       {purchaseTableData.length === 0 ? (
         <p className="text-sm text-gray-500">購入はまだありません。</p>
       ) : (
