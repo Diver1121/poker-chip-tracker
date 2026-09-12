@@ -33,15 +33,15 @@ const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 // （エントリーが40件を超えたらその分だけ行を増やす）。
 const MIN_ROWS = 40;
 
-// # / NAME / エントリー / 現金 / チップ / チケット / アドオン現金 / アドオン / 順位 / 獲得 / 保存 / 削除 の12列
+// # / NAME / エントリー / 現金 / チップ / アドオン現金 / アドオン / 順位 / 獲得 / 保有チップ / 削除 の11列
 const GRID_COLS =
-  "grid-cols-[2rem_minmax(6rem,1fr)_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_4.5rem_3.5rem_4.5rem_3.25rem_3.25rem]";
+  "grid-cols-[2rem_minmax(6rem,1fr)_5rem_5rem_5rem_5rem_5rem_3.75rem_5rem_3.5rem_3.5rem]";
 
 const inputClassName =
-  "w-full rounded-md border border-gray-300 px-1.5 py-1 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none";
+  "w-full rounded-md border border-gray-300 px-2 py-2 text-base text-gray-900 focus:border-indigo-500 focus:outline-none";
 
 const selectClassName =
-  "w-40 rounded-md border border-gray-300 px-2 py-1.5 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none";
+  "w-40 rounded-md border border-gray-300 px-2 py-2 text-base text-gray-900 focus:border-indigo-500 focus:outline-none";
 
 export default async function TournamentPage({
   searchParams,
@@ -143,7 +143,6 @@ export default async function TournamentPage({
       chip: acc.chip + entry.chip_amount,
       // chipCount: 「チップ(回数)」列の合計はエントリー回数の合計であり、点数ではない
       chipCount: acc.chipCount + entry.chip_count,
-      ticket: acc.ticket + entry.ticket_amount,
       addonCash: acc.addonCash + entry.addon_cash_amount,
       addon: acc.addon + entry.addon_amount,
       addonCount: acc.addonCount + entry.addon_count,
@@ -154,7 +153,6 @@ export default async function TournamentPage({
       cash: 0,
       chip: 0,
       chipCount: 0,
-      ticket: 0,
       addonCash: 0,
       addon: 0,
       addonCount: 0,
@@ -357,7 +355,6 @@ export default async function TournamentPage({
               <div className="text-xs font-medium text-gray-500">エントリー</div>
               <div className="text-xs font-medium text-gray-500">現金</div>
               <div className="text-xs font-medium text-gray-500">チップ(回数)</div>
-              <div className="text-xs font-medium text-gray-500">チケット</div>
               <div className="text-xs font-medium text-gray-500">アドオン現金</div>
               <div className="text-xs font-medium text-gray-500">アドオン(チップ)</div>
               <div className="text-xs font-medium text-gray-500">順位</div>
@@ -373,9 +370,6 @@ export default async function TournamentPage({
               <div className="text-xs font-bold text-gray-900">{totals.cash.toLocaleString()}</div>
               <div className="text-xs font-bold text-gray-900">
                 {totals.chipCount.toLocaleString()}
-              </div>
-              <div className="text-xs font-bold text-gray-900">
-                {totals.ticket.toLocaleString()}
               </div>
               <div className="text-xs font-bold text-gray-900">
                 {totals.addonCash.toLocaleString()}
@@ -408,9 +402,9 @@ export default async function TournamentPage({
                       datalistId="tournament-checked-in-names"
                       className={inputClassName}
                     />
-                    {/* エントリーは現金・チップ・チケットの合計をサーバー側で自動計算する
+                    {/* エントリーは現金・チップの合計をサーバー側で自動計算する
                         （手入力ではなく保存後の数値をそのまま表示するだけの欄） */}
-                    <div className="px-1.5 py-1 text-right text-sm text-gray-900">
+                    <div className="px-2 py-2 text-right text-base text-gray-900">
                       {(entry?.entry_fee ?? 0).toLocaleString()}
                     </div>
                     <NumberStepperInput
@@ -423,12 +417,6 @@ export default async function TournamentPage({
                       name={`chipCount-${i}`}
                       defaultValue={entry?.chip_count ?? ""}
                       placeholder="回数"
-                      className={inputClassName}
-                    />
-                    <NumberStepperInput
-                      name={`ticketAmount-${i}`}
-                      defaultValue={entry?.ticket_amount ?? ""}
-                      placeholder="0"
                       className={inputClassName}
                     />
                     <NumberStepperInput

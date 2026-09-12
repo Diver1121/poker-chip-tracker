@@ -111,7 +111,6 @@ export function PurchaseBreakdownSection({
               <tr>
                 <th className="px-4 py-2 text-left font-medium">額面</th>
                 <th className="px-4 py-2 text-right font-medium">購入回数</th>
-                <th className="px-4 py-2 text-right font-medium">購入枚数</th>
                 <th className="px-4 py-2 text-right font-medium">割合</th>
               </tr>
             </thead>
@@ -121,9 +120,6 @@ export function PurchaseBreakdownSection({
                   <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
                   <td className="px-4 py-2 text-right text-gray-900">
                     {d.count.toLocaleString()}
-                  </td>
-                  <td className="px-4 py-2 text-right text-gray-900">
-                    {d.quantity.toLocaleString()}
                   </td>
                   <td className="px-4 py-2 text-right text-gray-500">
                     {(d.rate * 100).toFixed(1)}%
@@ -136,9 +132,6 @@ export function PurchaseBreakdownSection({
                 <td className="px-4 py-2 text-left text-gray-900">合計</td>
                 <td className="px-4 py-2 text-right text-gray-900">
                   {scopedCountTotal.toLocaleString()}
-                </td>
-                <td className="px-4 py-2 text-right text-gray-900">
-                  {scopedQuantityTotal.toLocaleString()}
                 </td>
                 <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
               </tr>

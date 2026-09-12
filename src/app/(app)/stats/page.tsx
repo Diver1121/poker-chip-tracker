@@ -15,7 +15,6 @@ import {
   computeDailyVisitCounts,
 } from "@/lib/balances";
 import { businessDateKey, businessMonthKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
-import { LineChart } from "@/components/LineChart";
 import { PurchaseBreakdownSection } from "@/components/PurchaseBreakdownSection";
 import type { TournamentEntry } from "@/lib/types";
 
@@ -129,12 +128,7 @@ export default async function StatsPage({
   const shopCurrentTotal =
     dailyTotals.length > 0 ? dailyTotals[dailyTotals.length - 1].total : 0;
 
-  // 「営業開始時点」の基準線：当営業日（朝5時区切り）が始まった時点の保有点数。
-  // 当日分の増減（delta）を現在値から差し引くことで求める。
   const todayKey = businessDateKey(new Date());
-  const lastDaily = dailyTotals[dailyTotals.length - 1];
-  const businessStartTotal =
-    lastDaily && lastDaily.date === todayKey ? lastDaily.total - lastDaily.delta : shopCurrentTotal;
   // レーキグラフ: 月切り替え（未来月には行けない）＋ 月内の全日を0埋めして棒を揃える。
   const currentMonthKey = businessMonthKey(new Date());
   const requestedMonthKey =
@@ -286,6 +280,16 @@ export default async function StatsPage({
     addon: average(tMonthSessionSummaries.map((s) => s.totals.addon)) ?? 0,
     prize: average(tMonthSessionSummaries.map((s) => s.totals.prize)) ?? 0,
   };
+  const totalEntryCount = tMonthSessionSummaries.reduce((sum, s) => sum + s.entryCount, 0);
+  const sumTotals = {
+    entryFee: tMonthSessionSummaries.reduce((sum, s) => sum + s.totals.entryFee, 0),
+    cash: tMonthSessionSummaries.reduce((sum, s) => sum + s.totals.cash, 0),
+    chip: tMonthSessionSummaries.reduce((sum, s) => sum + s.totals.chip, 0),
+    ticket: tMonthSessionSummaries.reduce((sum, s) => sum + s.totals.ticket, 0),
+    addonCash: tMonthSessionSummaries.reduce((sum, s) => sum + s.totals.addonCash, 0),
+    addon: tMonthSessionSummaries.reduce((sum, s) => sum + s.totals.addon, 0),
+    prize: tMonthSessionSummaries.reduce((sum, s) => sum + s.totals.prize, 0),
+  };
 
   return (
     <div className="space-y-8">
@@ -301,19 +305,47 @@ export default async function StatsPage({
 
       <section>
         <h2 className="mb-4 text-lg font-bold text-gray-900">店全体の保有点数の推移</h2>
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
-          {dailyTotals.length === 0 ? (
-            <p className="text-sm text-gray-500">まだ取引がありません。</p>
-          ) : (
-            <LineChart
-              data={dailyTotals}
-              color="#4f46e5"
-              gradientId="shopTotalFill"
-              zoomToData
-              referenceLine={{ label: "営業開始", value: businessStartTotal }}
-            />
-          )}
-        </div>
+        {dailyTotals.length === 0 ? (
+          <p className="text-sm text-gray-500">まだ取引がありません。</p>
+        ) : (
+          <details className="group">
+            <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
+              <span className="inline-block transition-transform group-open:rotate-90">▶</span>
+              日別の内訳を表示
+            </summary>
+            <div className="mt-3 overflow-hidden rounded-lg border border-gray-200 bg-white">
+              <div className="max-h-[420px] overflow-y-auto">
+                <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
+                  <thead className="sticky top-0 z-10 bg-gray-50 text-gray-500 shadow-[0_1px_0_0_rgba(0,0,0,0.06)]">
+                    <tr>
+                      <th className="px-4 py-2 text-left font-medium">日付</th>
+                      <th className="px-4 py-2 text-right font-medium">増減</th>
+                      <th className="px-4 py-2 text-right font-medium">保有点数合計</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {[...dailyTotals].reverse().map((d) => {
+                      const [ty, tm, td] = d.date.split("-").map(Number);
+                      return (
+                        <tr key={d.date} className="hover:bg-gray-50">
+                          <td className="px-4 py-2 text-left text-gray-900">
+                            {ty}年{tm}月{td}日
+                          </td>
+                          <td className={`px-4 py-2 text-right ${signColorClass(d.delta)}`}>
+                            {formatSigned(d.delta)}
+                          </td>
+                          <td className="px-4 py-2 text-right text-gray-900">
+                            {d.total.toLocaleString()}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+        )}
       </section>
 
       <section>
@@ -467,49 +499,55 @@ export default async function StatsPage({
           </div>
         </div>
 
-        <div className="grid grid-cols-7 gap-1 rounded-lg border border-gray-200 bg-white p-3 text-center text-xs">
-          {WEEKDAY_LABELS.map((w) => (
-            <div key={w} className="py-1 font-medium text-gray-400">
-              {w}
-            </div>
-          ))}
-          {Array.from({ length: firstWeekday }, (_, i) => (
-            <div key={`blank-${i}`} />
-          ))}
-          {tMonthDays.map((dayKey) => {
-            const dayEntries = entriesByDay.get(dayKey) ?? [];
-            const hasEntries = dayEntries.length > 0;
-            const isSelected = dayKey === selectedDayKey;
-            const dayNum = Number(dayKey.slice(-2));
-            return (
-              <Link
-                key={dayKey}
-                href={statsHref({ tDate: dayKey })}
-                className={`flex flex-col items-center rounded-md py-1.5 ${
-                  isSelected
-                    ? "bg-indigo-600 text-white"
-                    : hasEntries
-                      ? "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
-                      : "text-gray-400 hover:bg-gray-50"
-                }`}
-              >
-                <span>
-                  {dayNum}
-                  <LinkPendingDot />
-                </span>
-                {hasEntries && (
-                  <span
-                    className={`mt-0.5 text-[10px] ${
-                      isSelected ? "text-indigo-100" : "text-indigo-500"
-                    }`}
-                  >
-                    {dayEntries.length}名
+        <details className="group">
+          <summary className="inline-flex cursor-pointer list-none items-center gap-1 rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50">
+            <span className="inline-block transition-transform group-open:rotate-90">▶</span>
+            カレンダーを表示
+          </summary>
+          <div className="mt-3 grid grid-cols-7 gap-1 rounded-lg border border-gray-200 bg-white p-3 text-center text-xs">
+            {WEEKDAY_LABELS.map((w) => (
+              <div key={w} className="py-1 font-medium text-gray-400">
+                {w}
+              </div>
+            ))}
+            {Array.from({ length: firstWeekday }, (_, i) => (
+              <div key={`blank-${i}`} />
+            ))}
+            {tMonthDays.map((dayKey) => {
+              const dayEntries = entriesByDay.get(dayKey) ?? [];
+              const hasEntries = dayEntries.length > 0;
+              const isSelected = dayKey === selectedDayKey;
+              const dayNum = Number(dayKey.slice(-2));
+              return (
+                <Link
+                  key={dayKey}
+                  href={statsHref({ tDate: dayKey })}
+                  className={`flex flex-col items-center rounded-md py-1.5 ${
+                    isSelected
+                      ? "bg-indigo-600 text-white"
+                      : hasEntries
+                        ? "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+                        : "text-gray-400 hover:bg-gray-50"
+                  }`}
+                >
+                  <span>
+                    {dayNum}
+                    <LinkPendingDot />
                   </span>
-                )}
-              </Link>
-            );
-          })}
-        </div>
+                  {hasEntries && (
+                    <span
+                      className={`mt-0.5 text-[10px] ${
+                        isSelected ? "text-indigo-100" : "text-indigo-500"
+                      }`}
+                    >
+                      {dayEntries.length}名
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </details>
 
         <div className="mt-4 rounded-lg border border-gray-200 bg-white p-4">
           <h3 className="text-sm font-bold text-gray-900">
@@ -547,18 +585,43 @@ export default async function StatsPage({
                 <table className="w-full min-w-[640px] text-left text-sm">
                   <thead className="text-gray-500">
                     <tr>
-                      <th className="px-2 py-1 font-medium">平均エントリー数</th>
-                      <th className="px-2 py-1 font-medium">平均エントリー</th>
-                      <th className="px-2 py-1 font-medium">平均現金</th>
-                      <th className="px-2 py-1 font-medium">平均チップ</th>
-                      <th className="px-2 py-1 font-medium">平均チケット</th>
-                      <th className="px-2 py-1 font-medium">平均アドオン現金</th>
-                      <th className="px-2 py-1 font-medium">平均アドオン</th>
-                      <th className="px-2 py-1 font-medium">平均獲得</th>
+                      <th className="px-2 py-1 font-medium"></th>
+                      <th className="px-2 py-1 font-medium">エントリー数</th>
+                      <th className="px-2 py-1 font-medium">エントリー</th>
+                      <th className="px-2 py-1 font-medium">現金</th>
+                      <th className="px-2 py-1 font-medium">チップ</th>
+                      <th className="px-2 py-1 font-medium">チケット</th>
+                      <th className="px-2 py-1 font-medium">アドオン現金</th>
+                      <th className="px-2 py-1 font-medium">アドオン</th>
+                      <th className="px-2 py-1 font-medium">獲得</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-gray-100">
                     <tr>
+                      <td className="px-2 py-1 font-medium text-gray-500">月合計</td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {totalEntryCount.toLocaleString()}人
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {sumTotals.entryFee.toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">{sumTotals.cash.toLocaleString()}</td>
+                      <td className="px-2 py-1 text-gray-900">{sumTotals.chip.toLocaleString()}</td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {sumTotals.ticket.toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {sumTotals.addonCash.toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {sumTotals.addon.toLocaleString()}
+                      </td>
+                      <td className="px-2 py-1 text-gray-900">
+                        {sumTotals.prize.toLocaleString()}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="px-2 py-1 font-medium text-gray-500">月平均</td>
                       <td className="px-2 py-1 text-gray-900">{avgEntryCount.toFixed(1)}人</td>
                       <td className="px-2 py-1 text-gray-900">
                         {Math.round(avgTotals.entryFee).toLocaleString()}
