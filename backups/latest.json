@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T20:18:34.698Z",
+  "generatedAt": "2026-09-13T20:18:34.901Z",
   "customers": [
     {
       "id": "5cba8874-f2c0-47ff-a8d7-dea462f33906",
@@ -153,6 +153,13 @@
       "name": "アット",
       "note": null,
       "created_at": "2026-07-12T21:53:31.054437+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "ce110493-f317-4437-9594-57dda6c2f398",
+      "name": "ヤマモト",
+      "note": "マエダ連れ",
+      "created_at": "2026-07-31T11:44:40.234246+00:00",
       "checked_in_at": null
     },
     {
@@ -408,13 +415,6 @@
       "checked_in_at": null
     },
     {
-      "id": "ce110493-f317-4437-9594-57dda6c2f398",
-      "name": "ヤマモト",
-      "note": "マエダ連れ",
-      "created_at": "2026-07-31T11:44:40.234246+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "ce33d52f-dacd-4a97-aab0-7323b52d6c4b",
       "name": "カンナ",
       "note": "不夜城",
@@ -667,17 +667,17 @@
       "checked_in_at": null
     },
     {
-      "id": "25a9aa44-058f-4b20-a1f5-53fc7faf3d67",
-      "name": "ウメシャン",
-      "note": "カケル彼女",
-      "created_at": "2026-07-12T21:53:34.410759+00:00",
-      "checked_in_at": "2026-09-12T12:03:56.117+00:00"
-    },
-    {
       "id": "04de482d-226d-4440-9f78-86def0513e76",
       "name": "クルミ",
       "note": "ミラン友人",
       "created_at": "2026-09-06T13:10:47.236623+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "25a9aa44-058f-4b20-a1f5-53fc7faf3d67",
+      "name": "ウメシャン",
+      "note": "カケル彼女",
+      "created_at": "2026-07-12T21:53:34.410759+00:00",
       "checked_in_at": null
     },
     {
@@ -856,6 +856,13 @@
       "checked_in_at": null
     },
     {
+      "id": "33360bb3-7b99-4e5c-9b19-4df80daab08a",
+      "name": "マリア",
+      "note": "ケンタ夫婦",
+      "created_at": "2026-07-12T21:54:13.210984+00:00",
+      "checked_in_at": null
+    },
+    {
       "id": "e3eda301-e87d-43ef-bb65-492a1b1f32af",
       "name": "ロイ",
       "note": null,
@@ -996,24 +1003,10 @@
       "checked_in_at": null
     },
     {
-      "id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
-      "name": "ハルチン",
-      "note": "佐伯組",
-      "created_at": "2026-07-12T21:54:06.752808+00:00",
-      "checked_in_at": "2026-09-12T10:55:34.743+00:00"
-    },
-    {
       "id": "b2ad092b-cc3a-44b6-9bd4-96f00c26eeb1",
       "name": "OCEAN",
       "note": null,
       "created_at": "2026-07-12T21:53:29.264996+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "33360bb3-7b99-4e5c-9b19-4df80daab08a",
-      "name": "マリア",
-      "note": "ケンタ夫婦",
-      "created_at": "2026-07-12T21:54:13.210984+00:00",
       "checked_in_at": null
     },
     {
@@ -1024,31 +1017,38 @@
       "checked_in_at": null
     },
     {
-      "id": "11e7f7db-6496-49a8-8d79-24619d0aa008",
-      "name": "ナカムラ",
-      "note": "タナカ③、ミネリュウタ連れ",
-      "created_at": "2026-09-12T10:59:55.00961+00:00",
-      "checked_in_at": "2026-09-12T11:01:06.954+00:00"
-    },
-    {
-      "id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
-      "name": "コウダイ②",
-      "note": "ミライ",
-      "created_at": "2026-09-07T10:28:49.598145+00:00",
-      "checked_in_at": "2026-09-12T12:20:42.357+00:00"
-    },
-    {
-      "id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
-      "name": "ジャンタマ",
-      "note": "しんやまお連れ様",
-      "created_at": "2026-07-12T21:53:46.440947+00:00",
-      "checked_in_at": "2026-09-12T13:28:58.193+00:00"
+      "id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
+      "name": "ハルチン",
+      "note": "佐伯組",
+      "created_at": "2026-07-12T21:54:06.752808+00:00",
+      "checked_in_at": null
     },
     {
       "id": "52bc3347-0fc8-41ef-bf4b-e9957621de46",
       "name": "フクロウ",
       "note": "Bar Bloodオーナー カイトくん",
       "created_at": "2026-07-12T21:54:09.147862+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "11e7f7db-6496-49a8-8d79-24619d0aa008",
+      "name": "ナカムラ",
+      "note": "タナカ③、ミネリュウタ連れ",
+      "created_at": "2026-09-12T10:59:55.00961+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "name": "コウダイ②",
+      "note": "ミライ",
+      "created_at": "2026-09-07T10:28:49.598145+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "53c16580-9d5b-44fb-a233-f2ea1e734088",
+      "name": "ジャンタマ",
+      "note": "しんやまお連れ様",
+      "created_at": "2026-07-12T21:53:46.440947+00:00",
       "checked_in_at": null
     },
     {
@@ -1290,17 +1290,24 @@
       "checked_in_at": null
     },
     {
-      "id": "c5266471-3c43-4e95-8c4d-be1962795e4d",
-      "name": "ヒロピン",
-      "note": "佐伯組",
-      "created_at": "2026-07-12T21:54:08.717693+00:00",
-      "checked_in_at": "2026-09-12T10:54:52.682+00:00"
+      "id": "b61232d9-872c-45b5-9a42-7f143db5047c",
+      "name": "ケンタ",
+      "note": "別府からマリアさん夫婦",
+      "created_at": "2026-07-12T21:53:41.075171+00:00",
+      "checked_in_at": null
     },
     {
       "id": "ace1ed5e-0ec3-42fc-92fe-374215dea11f",
       "name": "ミク",
       "note": null,
       "created_at": "2026-07-12T21:54:13.951415+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "name": "ヒギョ",
+      "note": "キザシ、ルイ 3人",
+      "created_at": "2026-07-12T21:54:33.97759+00:00",
       "checked_in_at": null
     },
     {
@@ -1311,32 +1318,11 @@
       "checked_in_at": null
     },
     {
-      "id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
-      "name": "ガリ",
-      "note": "のっぽ",
-      "created_at": "2026-07-12T21:53:37.777708+00:00",
-      "checked_in_at": "2026-09-12T10:55:43.339+00:00"
-    },
-    {
       "id": "64369954-8402-4521-9f1e-2d01c722baf4",
       "name": "ナオキ",
       "note": null,
       "created_at": "2026-07-12T21:54:02.805632+00:00",
       "checked_in_at": null
-    },
-    {
-      "id": "11ff6c58-d209-4fac-b4ad-118c451f28db",
-      "name": "ミライ",
-      "note": null,
-      "created_at": "2026-09-07T10:29:02.055039+00:00",
-      "checked_in_at": "2026-09-12T12:17:25.37+00:00"
-    },
-    {
-      "id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
-      "name": "シュウト",
-      "note": null,
-      "created_at": "2026-07-12T21:53:46.629135+00:00",
-      "checked_in_at": "2026-09-12T12:26:13.931+00:00"
     },
     {
       "id": "ac13c214-1af9-4c77-9262-ed4bf2bc609c",
@@ -1374,24 +1360,24 @@
       "checked_in_at": null
     },
     {
-      "id": "9e23b23f-f80d-44b3-a2c0-afbccfd2be78",
-      "name": "カワシマ",
-      "note": "ガリ友人",
-      "created_at": "2026-07-12T21:53:37.938037+00:00",
-      "checked_in_at": "2026-09-12T12:55:14.348+00:00"
-    },
-    {
-      "id": "6f10e722-b8be-4a84-891f-56d5c8592f86",
-      "name": "キャップ",
-      "note": null,
-      "created_at": "2026-09-12T13:14:15.340927+00:00",
-      "checked_in_at": "2026-09-12T13:21:54.064+00:00"
-    },
-    {
       "id": "b546dcb1-ea79-4c3a-8ae3-218f38f3356d",
       "name": "シバタ",
       "note": "ミゾノ、イノウエ、シバタ",
       "created_at": "2026-08-10T11:07:51.421094+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "c5266471-3c43-4e95-8c4d-be1962795e4d",
+      "name": "ヒロピン",
+      "note": "佐伯組",
+      "created_at": "2026-07-12T21:54:08.717693+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "35a8be6b-7b46-40b9-9979-afcb5b73d150",
+      "name": "ガリ",
+      "note": "のっぽ",
+      "created_at": "2026-07-12T21:53:37.777708+00:00",
       "checked_in_at": null
     },
     {
@@ -1430,10 +1416,38 @@
       "checked_in_at": null
     },
     {
+      "id": "11ff6c58-d209-4fac-b4ad-118c451f28db",
+      "name": "ミライ",
+      "note": null,
+      "created_at": "2026-09-07T10:29:02.055039+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "b73b074d-ef6a-49e2-986e-f2dc7bdddf3d",
+      "name": "シュウト",
+      "note": null,
+      "created_at": "2026-07-12T21:53:46.629135+00:00",
+      "checked_in_at": null
+    },
+    {
       "id": "c2f1ac7d-1cf7-455d-aada-f7a740b07bea",
       "name": "マコト",
       "note": "ジジ様とよく来店されるオジ",
       "created_at": "2026-07-12T21:54:11.631417+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "9e23b23f-f80d-44b3-a2c0-afbccfd2be78",
+      "name": "カワシマ",
+      "note": "ガリ友人",
+      "created_at": "2026-07-12T21:53:37.938037+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "6f10e722-b8be-4a84-891f-56d5c8592f86",
+      "name": "キャップ",
+      "note": null,
+      "created_at": "2026-09-12T13:14:15.340927+00:00",
       "checked_in_at": null
     },
     {
@@ -1484,20 +1498,6 @@
       "note": "シンヤマさんお連れ",
       "created_at": "2026-07-12T21:53:49.362343+00:00",
       "checked_in_at": null
-    },
-    {
-      "id": "b61232d9-872c-45b5-9a42-7f143db5047c",
-      "name": "ケンタ",
-      "note": "別府からマリアさん夫婦",
-      "created_at": "2026-07-12T21:53:41.075171+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
-      "name": "ヒギョ",
-      "note": "キザシ、ルイ 3人",
-      "created_at": "2026-07-12T21:54:33.97759+00:00",
-      "checked_in_at": "2026-09-12T10:40:49.283+00:00"
     },
     {
       "id": "beea19a3-2d41-44c5-84cd-2748bcf86182",
@@ -1861,14 +1861,14 @@
       "name": "ユウダイ",
       "note": "光タイプ",
       "created_at": "2026-07-12T21:54:18.075344+00:00",
-      "checked_in_at": "2026-09-12T11:36:11.539+00:00"
+      "checked_in_at": null
     },
     {
       "id": "4f1655f1-1fc5-45f2-a176-51f0f1f937de",
       "name": "マサミツ",
       "note": "宇佐からのバンク系",
       "created_at": "2026-07-12T21:54:12.36172+00:00",
-      "checked_in_at": "2026-09-12T13:13:47.429+00:00"
+      "checked_in_at": null
     },
     {
       "id": "3a4b850f-cc17-436d-ac15-39807dcb1e8f",
@@ -2214,13 +2214,6 @@
       "checked_in_at": null
     },
     {
-      "id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
-      "name": "タイノジュウチン",
-      "note": "タクミ連れ",
-      "created_at": "2026-07-12T21:53:53.687661+00:00",
-      "checked_in_at": "2026-09-12T12:02:25.344+00:00"
-    },
-    {
       "id": "f85f1a4b-3f7d-45f4-9c80-80e085f04095",
       "name": "ユウダイゴトウ",
       "note": "GTO",
@@ -2228,11 +2221,18 @@
       "checked_in_at": null
     },
     {
+      "id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
+      "name": "タイノジュウチン",
+      "note": "タクミ連れ",
+      "created_at": "2026-07-12T21:53:53.687661+00:00",
+      "checked_in_at": null
+    },
+    {
       "id": "6c906564-c07a-4100-8694-29722ab7325f",
       "name": "ミランモトキ",
       "note": "てる 友達",
       "created_at": "2026-07-12T21:54:14.823005+00:00",
-      "checked_in_at": "2026-09-12T12:55:29.908+00:00"
+      "checked_in_at": null
     },
     {
       "id": "3fefe433-bae0-44e6-92d7-4ae8148665f2",
@@ -2582,14 +2582,14 @@
       "name": "トウヤ",
       "note": "ハヤト従業員",
       "created_at": "2026-07-12T21:54:00.661372+00:00",
-      "checked_in_at": "2026-09-12T12:36:03.741+00:00"
+      "checked_in_at": null
     },
     {
       "id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
       "name": "シンヤマ",
       "note": "BJ専業",
       "created_at": "2026-07-12T21:53:49.937238+00:00",
-      "checked_in_at": "2026-09-12T13:29:52.613+00:00"
+      "checked_in_at": null
     },
     {
       "id": "ffe748b9-95d8-46a7-9daa-b720e68727a0",
@@ -2809,6 +2809,13 @@
       "checked_in_at": null
     },
     {
+      "id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
+      "name": "マエダ",
+      "note": "経営者 低身長",
+      "created_at": "2026-07-12T21:54:11.124518+00:00",
+      "checked_in_at": null
+    },
+    {
       "id": "5a63e770-98c8-41b3-baa5-31668ead1d01",
       "name": "ドンブリ",
       "note": null,
@@ -2893,13 +2900,6 @@
       "checked_in_at": null
     },
     {
-      "id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
-      "name": "マエダ",
-      "note": "経営者 低身長",
-      "created_at": "2026-07-12T21:54:11.124518+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "2156daa5-e7d1-4884-8f49-c923920dece6",
       "name": "マサト",
       "note": "SIX",
@@ -2960,14 +2960,14 @@
       "name": "バーシー",
       "note": "ショウノ2人組トリックでポーカー覚えた 朝野弟子",
       "created_at": "2026-07-12T21:54:05.310744+00:00",
-      "checked_in_at": "2026-09-12T11:47:43.884+00:00"
+      "checked_in_at": null
     },
     {
       "id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
       "name": "ヒゲ",
       "note": "大分最古参ポーカープレイヤー",
       "created_at": "2026-07-12T21:54:07.572436+00:00",
-      "checked_in_at": "2026-09-12T12:17:09.513+00:00"
+      "checked_in_at": null
     },
     {
       "id": "d653000a-9081-4b6a-b51d-116a879ac8db",
@@ -4143,7 +4143,7 @@
       "name": "ミネリュウタ",
       "note": "ナカムラ、タナカ連れ",
       "created_at": "2026-09-12T10:56:41.227473+00:00",
-      "checked_in_at": "2026-09-12T11:02:04.712+00:00"
+      "checked_in_at": null
     },
     {
       "id": "7f0326a1-434d-44a0-a893-5fd73781d0ed",
@@ -4157,6 +4157,13 @@
       "name": "トミー②",
       "note": "宮崎の人",
       "created_at": "2026-07-12T21:54:37.367779+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "name": "アンドレイ",
+      "note": "オーストラリア出身 自称MTT最強",
+      "created_at": "2026-07-12T21:53:32.517834+00:00",
       "checked_in_at": null
     },
     {
@@ -4202,32 +4209,11 @@
       "checked_in_at": null
     },
     {
-      "id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
-      "name": "アンドレイ",
-      "note": "オーストラリア出身 自称MTT最強",
-      "created_at": "2026-07-12T21:53:32.517834+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "34d1ddf6-b8ed-4f76-92d5-67c337066562",
       "name": "タマサブ",
       "note": null,
       "created_at": "2026-07-17T13:26:31.287685+00:00",
       "checked_in_at": null
-    },
-    {
-      "id": "a37d40af-c7db-4c3d-a9b8-527f63301f25",
-      "name": "タナカ③",
-      "note": "ナカムラ、ミネリュウタ連れ",
-      "created_at": "2026-09-12T10:57:21.020943+00:00",
-      "checked_in_at": "2026-09-12T11:01:17.476+00:00"
-    },
-    {
-      "id": "3054a344-a041-4de7-afa9-3743d176d4de",
-      "name": "クローバー",
-      "note": "タクミ連れ",
-      "created_at": "2026-07-12T21:53:40.155434+00:00",
-      "checked_in_at": "2026-09-12T12:02:37.424+00:00"
     },
     {
       "id": "76f55e81-28e7-421d-acfe-f30faecf55e0",
@@ -4265,17 +4251,31 @@
       "checked_in_at": null
     },
     {
-      "id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
-      "name": "カツキ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:36.676846+00:00",
-      "checked_in_at": "2026-09-12T12:36:14.412+00:00"
+      "id": "a37d40af-c7db-4c3d-a9b8-527f63301f25",
+      "name": "タナカ③",
+      "note": "ナカムラ、ミネリュウタ連れ",
+      "created_at": "2026-09-12T10:57:21.020943+00:00",
+      "checked_in_at": null
     },
     {
       "id": "ffd8b496-1614-4e10-a459-74671a6e1567",
       "name": "ナツキング",
       "note": null,
       "created_at": "2026-08-25T12:47:43.138577+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "name": "クローバー",
+      "note": "タクミ連れ",
+      "created_at": "2026-07-12T21:53:40.155434+00:00",
+      "checked_in_at": null
+    },
+    {
+      "id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "name": "カツキ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:36.676846+00:00",
       "checked_in_at": null
     },
     {
@@ -37481,6 +37481,114 @@
       "quantity": 1895,
       "created_at": "2026-09-12T15:51:00+00:00",
       "game": "poker"
+    },
+    {
+      "id": "79d96c4a-1c14-447c-b9dd-71b2c76efd8e",
+      "customer_id": "b61232d9-872c-45b5-9a42-7f143db5047c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 900,
+      "created_at": "2026-09-13T10:17:22.829+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "20086ed6-57bf-4ad8-996f-8372fb2ff290",
+      "customer_id": "33360bb3-7b99-4e5c-9b19-4df80daab08a",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 982,
+      "created_at": "2026-09-13T10:17:31.904+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "3873362a-84ba-4e6d-8109-df16c9114007",
+      "customer_id": "ce110493-f317-4437-9594-57dda6c2f398",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-09-13T11:17:26.286+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "70a4e1cc-ae8d-4703-84af-9ad31f32014c",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-09-13T12:10:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "75cf8d23-b6a4-43db-91b2-874f629f1c4b",
+      "customer_id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-09-13T14:16:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "e3e230ab-02d4-4f2f-952f-660c3bd0233d",
+      "customer_id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-09-13T14:16:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "a2a29113-0f0a-4700-8641-459530045bde",
+      "customer_id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 454,
+      "created_at": "2026-09-13T14:16:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "99fe9038-17ca-465a-87ff-6a84eb6abcca",
+      "customer_id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 678,
+      "created_at": "2026-09-13T14:50:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "55f3e70b-dfd8-4651-9108-99a8430bdb51",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 167,
+      "created_at": "2026-09-13T14:51:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "54cff90e-e281-44ae-a113-ee69650d6ccd",
+      "customer_id": "ce110493-f317-4437-9594-57dda6c2f398",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-09-13T14:51:00+00:00",
+      "game": null
+    },
+    {
+      "id": "4ffce886-1ffc-4c49-a2e9-5965663f04b9",
+      "customer_id": "ce110493-f317-4437-9594-57dda6c2f398",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 192,
+      "created_at": "2026-09-13T14:51:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "bce46f69-9aab-45c3-a5bf-ceef03dfe9be",
+      "customer_id": "33360bb3-7b99-4e5c-9b19-4df80daab08a",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 644,
+      "created_at": "2026-09-13T14:52:00+00:00",
+      "game": "poker"
     }
   ],
   "visits": [
@@ -42353,6 +42461,36 @@
       "id": "b5385e50-a4ae-46a4-9ad8-a4b39d20b1bb",
       "customer_id": "e7af9599-3392-44b7-811d-94cb56c4dd9c",
       "checked_in_at": "2026-09-12T13:29:52.613+00:00"
+    },
+    {
+      "id": "08bbe725-417a-43d6-8b88-c11d70c66426",
+      "customer_id": "b61232d9-872c-45b5-9a42-7f143db5047c",
+      "checked_in_at": "2026-09-13T10:17:22.829+00:00"
+    },
+    {
+      "id": "39c21ac5-5002-44ed-932e-83d0dd2ecb5d",
+      "customer_id": "33360bb3-7b99-4e5c-9b19-4df80daab08a",
+      "checked_in_at": "2026-09-13T10:17:31.904+00:00"
+    },
+    {
+      "id": "6615fbf0-7b14-4fab-85bc-e81c13f47ec6",
+      "customer_id": "f105ec7e-4f71-44ef-93ec-192ef8bbe27c",
+      "checked_in_at": "2026-09-13T11:12:44.006+00:00"
+    },
+    {
+      "id": "16a590cb-28fc-4785-81af-779881494ffc",
+      "customer_id": "ce110493-f317-4437-9594-57dda6c2f398",
+      "checked_in_at": "2026-09-13T11:17:26.286+00:00"
+    },
+    {
+      "id": "efa986fe-a2ff-470f-ac0e-de2ea02e6f9d",
+      "customer_id": "07feeebb-db8a-42e4-b8e2-aeec29f2463b",
+      "checked_in_at": "2026-09-13T11:17:35.564+00:00"
+    },
+    {
+      "id": "425358cd-b2d4-47b8-8069-40fd1d6d4e6e",
+      "customer_id": "9872f636-f977-4ddf-a9aa-5abca88426b0",
+      "checked_in_at": "2026-09-13T12:09:44.922+00:00"
     }
   ],
   "chat_messages": [
@@ -66930,8 +67068,8 @@
   "shop_settings": [
     {
       "id": true,
-      "last_closed_at": "2026-09-12T00:50:32.79+00:00",
-      "previous_closed_at": "2026-09-11T10:00:46.598+00:00",
+      "last_closed_at": "2026-09-13T16:26:25.353+00:00",
+      "previous_closed_at": "2026-09-13T10:05:21.876+00:00",
       "close_undoable": true
     }
   ]
