@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { href: "/tournament", label: "トーナメント" },
   { href: "/customers", label: "客一覧" },
   { href: "/stats", label: "データ" },
+  { href: "/ranking", label: "ランキング" },
   { href: "/settings/denominations", label: "額面設定" },
 ];
 

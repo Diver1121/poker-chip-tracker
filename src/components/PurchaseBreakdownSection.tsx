@@ -45,6 +45,7 @@ export function PurchaseBreakdownSection({
   // 全期間の合計・1日平均に加えて、月を選んで「その月の合計・1日平均」も
   // 同時に一目で見られるようにする。
   const [monthKey, setMonthKey] = useState(currentMonthKey);
+  const [tableViewMode, setTableViewMode] = useState<"month" | "total">("month");
   const dailyPurchaseValueByDate = computeDailyPurchaseValueTotals(transactions, denominations);
   const totalPurchaseValueAllTime = [...dailyPurchaseValueByDate.values()].reduce(
     (s, v) => s + v,
@@ -178,83 +179,82 @@ export function PurchaseBreakdownSection({
         </div>
       </div>
 
-      <h3 className="mb-2 text-sm font-bold text-gray-900">{monthLabel}の内訳（額面別）</h3>
-      {monthPurchaseTableData.length === 0 ? (
-        <p className="mb-4 text-sm text-gray-500">{monthLabel}の購入はまだありません。</p>
-      ) : (
-        <div className="mb-4 overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
-            <thead className="bg-gray-50 text-gray-500">
-              <tr>
-                <th className="px-4 py-2 text-left font-medium">額面</th>
-                <th className="px-4 py-2 text-right font-medium">購入回数</th>
-                <th className="px-4 py-2 text-right font-medium">割合</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {monthPurchaseTableData.map((d) => (
-                <tr key={d.denominationId} className="hover:bg-gray-50">
-                  <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
-                  <td className="px-4 py-2 text-right text-gray-900">
-                    {d.count.toLocaleString()}
-                  </td>
-                  <td className="px-4 py-2 text-right text-gray-500">
-                    {(d.rate * 100).toFixed(1)}%
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr className="border-t border-gray-200 font-bold">
-                <td className="px-4 py-2 text-left text-gray-900">合計</td>
-                <td className="px-4 py-2 text-right text-gray-900">
-                  {totalCountForMonth.toLocaleString()}
-                </td>
-                <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
-              </tr>
-            </tfoot>
-          </table>
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
+        <h3 className="text-sm font-bold text-gray-900">
+          {tableViewMode === "month" ? `${monthLabel}の内訳（額面別）` : "全期間の内訳（額面別）"}
+        </h3>
+        <div className="flex gap-1 rounded-md border border-gray-300 p-0.5 text-sm">
+          <button
+            type="button"
+            onClick={() => setTableViewMode("month")}
+            className={`rounded px-2 py-1 font-medium ${
+              tableViewMode === "month"
+                ? "bg-indigo-600 text-white"
+                : "text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            月
+          </button>
+          <button
+            type="button"
+            onClick={() => setTableViewMode("total")}
+            className={`rounded px-2 py-1 font-medium ${
+              tableViewMode === "total"
+                ? "bg-indigo-600 text-white"
+                : "text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            トータル
+          </button>
         </div>
-      )}
-
-      <h3 className="mb-2 text-sm font-bold text-gray-900">全期間の内訳（額面別）</h3>
-      {purchaseTableData.length === 0 ? (
-        <p className="text-sm text-gray-500">購入はまだありません。</p>
-      ) : (
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-          <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
-            <thead className="bg-gray-50 text-gray-500">
-              <tr>
-                <th className="px-4 py-2 text-left font-medium">額面</th>
-                <th className="px-4 py-2 text-right font-medium">購入回数</th>
-                <th className="px-4 py-2 text-right font-medium">割合</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {purchaseTableData.map((d) => (
-                <tr key={d.denominationId} className="hover:bg-gray-50">
-                  <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
-                  <td className="px-4 py-2 text-right text-gray-900">
-                    {d.count.toLocaleString()}
-                  </td>
-                  <td className="px-4 py-2 text-right text-gray-500">
-                    {(d.rate * 100).toFixed(1)}%
-                  </td>
+      </div>
+      {(() => {
+        const activeTableData =
+          tableViewMode === "month" ? monthPurchaseTableData : purchaseTableData;
+        const activeTotalCount = tableViewMode === "month" ? totalCountForMonth : totalCountAllTime;
+        if (activeTableData.length === 0) {
+          return (
+            <p className="text-sm text-gray-500">
+              {tableViewMode === "month" ? `${monthLabel}の購入はまだありません。` : "購入はまだありません。"}
+            </p>
+          );
+        }
+        return (
+          <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+            <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
+              <thead className="bg-gray-50 text-gray-500">
+                <tr>
+                  <th className="px-4 py-2 text-left font-medium">額面</th>
+                  <th className="px-4 py-2 text-right font-medium">購入回数</th>
+                  <th className="px-4 py-2 text-right font-medium">割合</th>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr className="border-t border-gray-200 font-bold">
-                <td className="px-4 py-2 text-left text-gray-900">合計</td>
-                <td className="px-4 py-2 text-right text-gray-900">
-                  {totalCountAllTime.toLocaleString()}
-                </td>
-                <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      )}
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {activeTableData.map((d) => (
+                  <tr key={d.denominationId} className="hover:bg-gray-50">
+                    <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
+                    <td className="px-4 py-2 text-right text-gray-900">
+                      {d.count.toLocaleString()}
+                    </td>
+                    <td className="px-4 py-2 text-right text-gray-500">
+                      {(d.rate * 100).toFixed(1)}%
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr className="border-t border-gray-200 font-bold">
+                  <td className="px-4 py-2 text-left text-gray-900">合計</td>
+                  <td className="px-4 py-2 text-right text-gray-900">
+                    {activeTotalCount.toLocaleString()}
+                  </td>
+                  <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        );
+      })()}
     </section>
   );
 }

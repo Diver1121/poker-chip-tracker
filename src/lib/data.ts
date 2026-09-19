@@ -169,3 +169,16 @@ export async function getTransactionsForCustomer(
       .range(from, to),
   );
 }
+
+export async function getTournamentEntriesForCustomer(
+  customerId: string,
+): Promise<TournamentEntry[]> {
+  return fetchAllRows<TournamentEntry>((from, to) =>
+    getSupabaseClient()
+      .from("tournament_entries")
+      .select("*")
+      .eq("customer_id", customerId)
+      .order("created_at", { ascending: false })
+      .range(from, to),
+  );
+}

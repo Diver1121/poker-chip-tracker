@@ -135,6 +135,24 @@ export function computeShopTableTotals(transactions: ChipTransaction[]): {
   return { buyInTotal, outTotal, rake: buyInTotal - outTotal };
 }
 
+// 客ごとのリングゲーム（ポーカー）収支（アウト合計 − バイイン合計）。
+// ポーカー/ブラックジャックの入力欄が分かれる前の過去データはgameがnullで、
+// どちらのゲームか判別できないためランキングには含めない
+// （computeDailyRakeTotals等の「game未設定はポーカー扱い」という便宜的な集計とは別の考え方）。
+// トーナメント成績ランキングと対になる「チップを増やした人」ランキングに使う。
+export function computeRingGameNetByCustomer(
+  transactions: ChipTransaction[],
+): Map<string, number> {
+  const totals = new Map<string, number>();
+  for (const tx of transactions) {
+    if (tx.category !== "table_out" && tx.category !== "table_in") continue;
+    if (tx.game !== "poker") continue;
+    const delta = tx.category === "table_in" ? tx.quantity : -tx.quantity;
+    totals.set(tx.customer_id, (totals.get(tx.customer_id) ?? 0) + delta);
+  }
+  return totals;
+}
+
 // 日付（JST）ごとのバイイン/アウト/トーナメント使用/レーキ。レーキグラフに使う。
 // pokerRake/blackjackRakeはそれぞれのゲームのバイイン-アウトのみ（rake = 両者の合計と一致）。
 // game未設定（機能追加前の過去データ）のバイイン/アウトはポーカー扱いにする。

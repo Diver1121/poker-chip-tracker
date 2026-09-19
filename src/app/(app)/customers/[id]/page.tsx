@@ -5,6 +5,7 @@ import {
   getCustomer,
   getDenominations,
   getOceanMember,
+  getTournamentEntriesForCustomer,
   getTransactionsForCustomer,
 } from "@/lib/data";
 import {
@@ -34,13 +35,15 @@ export default async function CustomerDetailPage({
   searchParams: Promise<{ error?: string; month?: string }>;
 }) {
   const { id } = await params;
-  const [{ error, month }, customer, denominations, transactions, oceanMember] = await Promise.all([
-    searchParams,
-    getCustomer(id),
-    getDenominations(),
-    getTransactionsForCustomer(id),
-    getOceanMember(id),
-  ]);
+  const [{ error, month }, customer, denominations, transactions, oceanMember, tournamentEntries] =
+    await Promise.all([
+      searchParams,
+      getCustomer(id),
+      getDenominations(),
+      getTransactionsForCustomer(id),
+      getOceanMember(id),
+      getTournamentEntriesForCustomer(id),
+    ]);
 
   if (!customer) {
     notFound();
@@ -52,6 +55,13 @@ export default async function CustomerDetailPage({
   const resultChartData = computeCustomerResultTimeline(transactions, denominations);
   const pokerResultChartData = computeCustomerGameResultTimeline(transactions, "poker");
   const blackjackResultChartData = computeCustomerGameResultTimeline(transactions, "blackjack");
+
+  const rankedEntries = tournamentEntries.filter((e) => e.rank !== null);
+  const averageRank =
+    rankedEntries.length > 0
+      ? rankedEntries.reduce((sum, e) => sum + (e.rank ?? 0), 0) / rankedEntries.length
+      : null;
+  const totalPrize = tournamentEntries.reduce((sum, e) => sum + e.prize_amount, 0);
 
   // 取引履歴は月ごとに区切って表示する（ずっと更新され続けてスクロールが大変なため）。
   // 指定が無ければ、その客の直近の取引があった月をデフォルトにする
@@ -167,6 +177,66 @@ export default async function CustomerDetailPage({
             />
           )}
         </div>
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-lg font-bold text-gray-900">トーナメント成績</h2>
+        {tournamentEntries.length === 0 ? (
+          <p className="text-sm text-gray-500">エントリー記録がありません。</p>
+        ) : (
+          <>
+            <div className="mb-4 grid grid-cols-3 gap-3 text-center">
+              <div className="rounded-md bg-gray-50 p-3">
+                <p className="text-xs text-gray-500">エントリー回数</p>
+                <p className="text-lg font-bold text-gray-900">{tournamentEntries.length}回</p>
+              </div>
+              <div className="rounded-md bg-gray-50 p-3">
+                <p className="text-xs text-gray-500">平均順位</p>
+                <p className="text-lg font-bold text-gray-900">
+                  {averageRank === null ? "-" : `${averageRank.toFixed(1)}位`}
+                </p>
+              </div>
+              <div className="rounded-md bg-gray-50 p-3">
+                <p className="text-xs text-gray-500">通算獲得</p>
+                <p className="text-lg font-bold text-gray-900">
+                  {totalPrize.toLocaleString()}
+                </p>
+              </div>
+            </div>
+            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+              <div className="max-h-[360px] overflow-y-auto">
+                <table className="w-full text-left text-sm [font-variant-numeric:tabular-nums]">
+                  <thead className="sticky top-0 bg-gray-50 text-gray-500">
+                    <tr>
+                      <th className="px-4 py-2 font-medium">日時</th>
+                      <th className="px-4 py-2 text-right font-medium">順位</th>
+                      <th className="px-4 py-2 text-right font-medium">エントリー</th>
+                      <th className="px-4 py-2 text-right font-medium">獲得</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {tournamentEntries.map((e) => (
+                      <tr key={e.id}>
+                        <td className="px-4 py-2 text-gray-500">
+                          {new Date(e.created_at).toLocaleString("ja-JP")}
+                        </td>
+                        <td className="px-4 py-2 text-right text-gray-900">
+                          {e.rank === null ? "-" : `${e.rank}位`}
+                        </td>
+                        <td className="px-4 py-2 text-right text-gray-900">
+                          {e.entry_fee.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-2 text-right text-gray-900">
+                          {e.prize_amount.toLocaleString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
+        )}
       </section>
 
       <section>
