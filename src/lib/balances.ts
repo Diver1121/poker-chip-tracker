@@ -401,6 +401,22 @@ export function computeDailyPurchaseValueTotals(
   return totals;
 }
 
+// 月（JST、"YYYY-MM"）ごとの購入合計点数。computeDailyPurchaseValueTotalsの月次版。
+// 店全体の売上推移、客ごとの利用推移（先月比較）の両方に使う
+// （呼び出し側で全取引/客ごとの取引のどちらを渡すかを決める）。
+export function computeMonthlyPurchaseValueTotals(
+  transactions: ChipTransaction[],
+  denominations: Denomination[],
+): Map<string, number> {
+  const daily = computeDailyPurchaseValueTotals(transactions, denominations);
+  const totals = new Map<string, number>();
+  for (const [date, value] of daily) {
+    const monthKey = date.slice(0, 7);
+    totals.set(monthKey, (totals.get(monthKey) ?? 0) + value);
+  }
+  return totals;
+}
+
 // customerId -> category -> 入力された点数の合計（符号なし、そのまま合算）。
 // 「バイイン合計」「アウト合計」のように、カテゴリごとの動きをそのまま見せたい場合に使う。
 export function computeCategoryQuantityTotals(

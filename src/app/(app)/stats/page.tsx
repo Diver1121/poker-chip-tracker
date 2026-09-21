@@ -11,6 +11,7 @@ import { computeDailyTotals } from "@/lib/balances";
 import { businessDateKey, businessMonthKey } from "@/lib/businessDay";
 import { MonthlyOperationsSummarySection } from "@/components/MonthlyOperationsSummarySection";
 import { PurchaseBreakdownSection } from "@/components/PurchaseBreakdownSection";
+import { RevenueTrendSection } from "@/components/RevenueTrendSection";
 import { ShopCurrentTotalCard } from "@/components/ShopCurrentTotalCard";
 import { ShopTotalTrendSection } from "@/components/ShopTotalTrendSection";
 import { TournamentSummarySection } from "@/components/TournamentSummarySection";
@@ -57,6 +58,12 @@ export default async function StatsPage() {
         denominations={denominations}
         customers={customers}
         lastClosedAt={shopSettings.lastClosedAt}
+        currentMonthKey={currentMonthKey}
+      />
+
+      <RevenueTrendSection
+        transactions={transactions}
+        denominations={denominations}
         currentMonthKey={currentMonthKey}
       />
 

@@ -24,3 +24,31 @@ export function monthLabelOf(monthKey: string): string {
   const [y, m] = monthKey.split("-");
   return `${y}年${Number(m)}月`;
 }
+
+// 前月比などの増減率（%）。基準値が0だと算出できないためnullを返す
+// （0→何かへの変化は「無限%増」になってしまい意味のある数字にならないため）。
+export function percentChange(current: number, previous: number): number | null {
+  if (previous === 0) return null;
+  return ((current - previous) / previous) * 100;
+}
+
+export function formatPercentSigned(percent: number): string {
+  const rounded = Math.round(percent * 10) / 10;
+  return rounded > 0 ? `+${rounded.toFixed(1)}%` : `${rounded.toFixed(1)}%`;
+}
+
+// 日別合計マップ（date -> value, dateは"YYYY-MM-DD"）から、指定した月の1日目〜maxDay日目
+// までの合計だけを取り出す。進行中の今月と先月をフェアに比べるために使う
+// （先月の月末までの合計とそのまま比べると、月の前半ほど不当に「減っている」ように見えるため）。
+export function sumThroughDay(
+  dailyTotals: Map<string, number>,
+  monthKey: string,
+  maxDay: number,
+): number {
+  let sum = 0;
+  for (const [date, value] of dailyTotals) {
+    if (!date.startsWith(monthKey)) continue;
+    if (Number(date.slice(8, 10)) <= maxDay) sum += value;
+  }
+  return sum;
+}

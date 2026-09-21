@@ -12,16 +12,21 @@ import {
   computeBalances,
   computeCustomerGameResultTimeline,
   computeCustomerResultTimeline,
+  computeDailyPurchaseValueTotals,
+  computeMonthlyPurchaseValueTotals,
   computePointTotals,
 } from "@/lib/balances";
 import { CATEGORY_INFO, quantityUnitLabel } from "@/lib/transactionCategory";
-import { businessMonthKey, shiftMonthKey, toJstDatetimeLocal } from "@/lib/businessDay";
+import { businessDateKey, businessMonthKey, shiftMonthKey, toJstDatetimeLocal } from "@/lib/businessDay";
+import { percentChange, sumThroughDay } from "@/lib/statsFormat";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { SubmitButton } from "@/components/SubmitButton";
 import { EditCustomerNameButton } from "@/components/EditCustomerNameButton";
 import { DeleteCustomerButton } from "@/components/DeleteCustomerButton";
 import { OceanMemberLink } from "@/components/OceanMemberLink";
 import { GameLineChart } from "@/components/GameLineChart";
+import { MonthlyBarChart } from "@/components/MonthlyBarChart";
+import { MonthlyTrendHeadline } from "@/components/MonthlyTrendHeadline";
 import {
   deleteTransaction,
   updateTransactionDate,
@@ -82,6 +87,30 @@ export default async function CustomerDetailPage({
   const monthTransactions = transactions.filter(
     (tx) => businessMonthKey(tx.created_at) === monthKey,
   );
+
+  // この客の利用（購入点数）の月次推移。「先月より使っているか」を一目で見えるようにする。
+  // 今月は進行中なので、先月も同じ日数目までに絞ってフェアに比較する。
+  const monthlyPurchaseTotals = computeMonthlyPurchaseValueTotals(transactions, denominations);
+  const previousMonthKey = shiftMonthKey(currentMonthKey, -1);
+  const currentMonthPurchaseValue = monthlyPurchaseTotals.get(currentMonthKey) ?? 0;
+  const dailyPurchaseTotals = computeDailyPurchaseValueTotals(transactions, denominations);
+  const todayOfMonth = Number(businessDateKey(new Date()).slice(8, 10));
+  const previousMonthPurchaseValueThroughSameDay = sumThroughDay(
+    dailyPurchaseTotals,
+    previousMonthKey,
+    todayOfMonth,
+  );
+  const purchaseChangePercent = percentChange(
+    currentMonthPurchaseValue,
+    previousMonthPurchaseValueThroughSameDay,
+  );
+  const purchaseTrendMonthKeys = [...monthlyPurchaseTotals.keys()].sort().slice(-12);
+  const purchaseTrendData = purchaseTrendMonthKeys.map((k) => ({
+    monthKey: k,
+    value: monthlyPurchaseTotals.get(k) ?? 0,
+  }));
+  const [currentYearPart, currentNumPart] = currentMonthKey.split("-");
+  const currentMonthLabel = `${currentYearPart}年${Number(currentNumPart)}月`;
 
   return (
     <div className="space-y-8">
@@ -177,6 +206,26 @@ export default async function CustomerDetailPage({
             />
           )}
         </div>
+      </section>
+
+      <section>
+        <h2 className="mb-4 text-lg font-bold text-gray-900">利用（購入点数）の月次推移</h2>
+        {purchaseTrendData.length === 0 ? (
+          <p className="text-sm text-gray-500">まだ購入の記録がありません。</p>
+        ) : (
+          <div className="rounded-lg border border-gray-200 bg-white p-4">
+            <div className="mb-4">
+              <MonthlyTrendHeadline
+                monthLabel={`${currentMonthLabel}の購入`}
+                value={currentMonthPurchaseValue}
+                unit="購入"
+                changePercent={purchaseChangePercent}
+                changeNote={`前月同日比（${todayOfMonth}日まで）`}
+              />
+            </div>
+            <MonthlyBarChart data={purchaseTrendData} label="購入" unit="購入" />
+          </div>
+        )}
       </section>
 
       <section>
