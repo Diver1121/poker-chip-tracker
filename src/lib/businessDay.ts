@@ -42,6 +42,40 @@ export function shiftDayKey(dayKey: string, delta: number): string {
   return `${y}-${m}-${dd}`;
 }
 
+// businessDateKeyの年部分（"YYYY"）。ランキングの年切り替えに使う。
+export function businessYearKey(input: string | Date): string {
+  return businessDateKey(input).slice(0, 4);
+}
+
+// "YYYY"をdelta年ぶんずらす（delta=-1で前年、+1で翌年）。
+export function shiftYearKey(yearKey: string, delta: number): string {
+  return String(Number(yearKey) + delta);
+}
+
+// 月曜始まりの週の月曜日を businessDateKey（"YYYY-MM-DD"）で返す。ランキングの週切り替えに使う。
+export function businessWeekKey(input: string | Date): string {
+  const dateKey = businessDateKey(input);
+  const [year, month, day] = dateKey.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  const weekday = date.getUTCDay(); // 0=日, 1=月, ..., 6=土
+  const diffToMonday = weekday === 0 ? 6 : weekday - 1;
+  date.setUTCDate(date.getUTCDate() - diffToMonday);
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+// 週の月曜日（businessWeekKeyの戻り値）をdelta週ぶんずらす。
+export function shiftWeekKey(weekKey: string, delta: number): string {
+  return shiftDayKey(weekKey, delta * 7);
+}
+
+// 週の月曜日（"YYYY-MM-DD"）から、その週の7日分の日付を列挙する。
+export function daysInWeek(weekKey: string): string[] {
+  return Array.from({ length: 7 }, (_, i) => shiftDayKey(weekKey, i));
+}
+
 // "YYYY-MM"の月に含まれる日付（"YYYY-MM-DD"）を1日から月末まで列挙する。
 // レーキグラフで、取引が無い日も0本の棒として表示するために使う。
 export function daysInMonth(monthKey: string): string[] {

@@ -35,6 +35,9 @@ export function PurchaseBreakdownSection({
         count: totals.count,
         quantity: totals.quantity,
         rate: totalQuantityAllTime > 0 ? totals.quantity / totalQuantityAllTime : 0,
+        value: d.value,
+        // 購入回数×額面の点数（例: 300購入が101回なら30,300点）。行内バーの元データ。
+        points: totals.count * d.value,
       };
     })
     .filter((d) => d.count > 0)
@@ -118,6 +121,8 @@ export function PurchaseBreakdownSection({
         count: totals.count,
         quantity: totals.quantity,
         rate: totalQuantityForMonth > 0 ? totals.quantity / totalQuantityForMonth : 0,
+        value: d.value,
+        points: totals.count * d.value,
       };
     })
     .filter((d) => d.count > 0)
@@ -219,6 +224,10 @@ export function PurchaseBreakdownSection({
             </p>
           );
         }
+        // 行の背景バー（購入回数×額面の点数を、表内で最大の額面を100%とした横棒として重ねる）。
+        // 割合(%)は枚数ベースだが、こちらは「結局チップとして何点分売れたか」の量感を一目で見せる。
+        const maxPoints = Math.max(1, ...activeTableData.map((d) => d.points));
+        const totalPoints = activeTableData.reduce((sum, d) => sum + d.points, 0);
         return (
           <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
             <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
@@ -227,20 +236,34 @@ export function PurchaseBreakdownSection({
                   <th className="px-4 py-2 text-left font-medium">額面</th>
                   <th className="px-4 py-2 text-right font-medium">購入回数</th>
                   <th className="px-4 py-2 text-right font-medium">割合</th>
+                  <th className="px-4 py-2 text-right font-medium">トータル</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {activeTableData.map((d) => (
-                  <tr key={d.denominationId} className="hover:bg-gray-50">
-                    <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
-                    <td className="px-4 py-2 text-right text-gray-900">
-                      {d.count.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-2 text-right text-gray-500">
-                      {(d.rate * 100).toFixed(1)}%
-                    </td>
-                  </tr>
-                ))}
+                {activeTableData.map((d) => {
+                  const barPct = (d.points / maxPoints) * 100;
+                  return (
+                    <tr
+                      key={d.denominationId}
+                      className="transition-[filter] hover:brightness-95"
+                      style={{
+                        background: `linear-gradient(to right, rgba(99,102,241,0.16) ${barPct}%, transparent ${barPct}%)`,
+                      }}
+                      title={`${d.label}: ${d.count.toLocaleString()}回 × ${d.value.toLocaleString()} = ${d.points.toLocaleString()}点`}
+                    >
+                      <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
+                      <td className="px-4 py-2 text-right text-gray-900">
+                        {d.count.toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2 text-right text-gray-500">
+                        {(d.rate * 100).toFixed(1)}%
+                      </td>
+                      <td className="px-4 py-2 text-right font-medium text-gray-900">
+                        {d.points.toLocaleString()}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
               <tfoot>
                 <tr className="border-t border-gray-200 font-bold">
@@ -249,6 +272,9 @@ export function PurchaseBreakdownSection({
                     {activeTotalCount.toLocaleString()}
                   </td>
                   <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
+                  <td className="px-4 py-2 text-right text-gray-900">
+                    {totalPoints.toLocaleString()}
+                  </td>
                 </tr>
               </tfoot>
             </table>

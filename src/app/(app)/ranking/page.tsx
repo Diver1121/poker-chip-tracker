@@ -16,14 +16,14 @@ export default async function RankingPage() {
     <div className="space-y-8">
       <h1 className="text-lg font-bold text-gray-900">ランキング</h1>
 
-      <TournamentRankingSection
-        tournamentEntries={tournamentEntries}
+      <RingGameRankingSection
+        transactions={transactions}
         customers={customers}
         currentMonthKey={currentMonthKey}
       />
 
-      <RingGameRankingSection
-        transactions={transactions}
+      <TournamentRankingSection
+        tournamentEntries={tournamentEntries}
         customers={customers}
         currentMonthKey={currentMonthKey}
       />
