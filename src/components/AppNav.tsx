@@ -99,8 +99,8 @@ export function AppNav({ items }: { items: NavItem[] }) {
               draggedRef.current = false;
             }
           }}
-          className={`touch-none cursor-grab rounded-md px-3 py-1.5 text-sm font-medium text-gray-700 select-none hover:bg-gray-100 active:cursor-grabbing ${
-            draggingHref === item.href ? "bg-indigo-50 text-indigo-700" : ""
+          className={`touch-none cursor-grab rounded-md px-3 py-1.5 text-sm font-medium text-purple-100 select-none hover:bg-white/15 hover:text-white active:cursor-grabbing ${
+            draggingHref === item.href ? "bg-white/20 text-white" : ""
           }`}
         >
           {item.label}
