@@ -15,12 +15,23 @@ import {
   shiftWeekKey,
   shiftYearKey,
 } from "@/lib/businessDay";
-import { formatSigned, signColorClass } from "@/lib/statsFormat";
+import { signColorClass } from "@/lib/statsFormat";
 import type { ChipTransaction, Customer } from "@/lib/types";
 
 // インスタ投稿用プロンプトに載せる人数。上位3名（金銀銅）だけに絞ることで
 // 「選ばれた3人」としての価値を出す（アプリ内の表自体は全員表示のまま）。
 const SHARE_TOP_N = 3;
+
+// リングゲームの収支をポーカーらしくBBで表示するための換算レート。
+// 2/5（2sb/5bb）のテーブルを想定し、1BB=5点として扱う
+// （実際のテーブルのレートを取引ごとに記録していないため、固定レートで換算する）。
+const BB_VALUE = 5;
+
+function formatBB(net: number): string {
+  const bb = Math.round((net / BB_VALUE) * 10) / 10;
+  const formatted = bb.toLocaleString(undefined, { maximumFractionDigits: 1 });
+  return bb > 0 ? `+${formatted}BB` : `${formatted}BB`;
+}
 
 type ViewMode = "day" | "week" | "month" | "year" | "total";
 
@@ -46,7 +57,7 @@ function buildInstagramPrompt(
   positiveRanking: { rank: number; name: string; net: number }[],
 ): string {
   const lines = positiveRanking
-    .map((r) => `${r.rank}位 ${r.name} +${r.net.toLocaleString()}`)
+    .map((r) => `${r.rank}位 ${r.name} ${formatBB(r.net)}`)
     .join("\n");
   return [
     `OCEAN大分店 リングゲーム収支ランキング（${periodLabel}）のインスタストーリー画像を作ってください。`,
@@ -182,6 +193,7 @@ export function RingGameRankingSection({
           <p className="mt-0.5 text-xs text-gray-500">
             ポーカーのバイイン・アウト収支（アウト − バイイン）の多い順に全員表示。
             マイナス収支の客も含みます。トーナメント使用分・ブラックジャックは含みません。
+            収支は2/5（1BB=5点）換算のBB表示です。
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -319,7 +331,7 @@ export function RingGameRankingSection({
                 <tr>
                   <th className="px-4 py-2 text-left font-medium"></th>
                   <th className="px-4 py-2 text-left font-medium">名前</th>
-                  <th className="px-4 py-2 text-right font-medium">収支</th>
+                  <th className="px-4 py-2 text-right font-medium">収支(BB)</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -336,7 +348,7 @@ export function RingGameRankingSection({
                       </Link>
                     </td>
                     <td className={`px-4 py-2 text-right font-bold ${signColorClass(r.net)}`}>
-                      {formatSigned(r.net)}
+                      {formatBB(r.net)}
                     </td>
                   </tr>
                 ))}
