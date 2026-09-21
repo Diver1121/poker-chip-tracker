@@ -14,6 +14,7 @@ import { PurchaseBreakdownSection } from "@/components/PurchaseBreakdownSection"
 import { RevenueTrendSection } from "@/components/RevenueTrendSection";
 import { ShopCurrentTotalCard } from "@/components/ShopCurrentTotalCard";
 import { ShopTotalTrendSection } from "@/components/ShopTotalTrendSection";
+import { StatsTabSwitcher } from "@/components/StatsTabSwitcher";
 import { TournamentSummarySection } from "@/components/TournamentSummarySection";
 import { WeekdayBreakdownSection } from "@/components/WeekdayBreakdownSection";
 
@@ -41,50 +42,70 @@ export default async function StatsPage() {
     lastDaily && lastDaily.date === todayKey ? lastDaily.total - lastDaily.delta : shopCurrentTotal;
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-lg font-bold text-gray-900">データ</h1>
+    <div>
+      <h1 className="mb-6 text-lg font-bold text-gray-900">データ</h1>
 
-      <ShopCurrentTotalCard
-        shopCurrentTotal={shopCurrentTotal}
-        businessStartTotal={businessStartTotal}
-        dailyTotals={dailyTotals}
-      />
-
-      <ShopTotalTrendSection dailyTotals={dailyTotals} currentMonthKey={currentMonthKey} />
-
-      <MonthlyOperationsSummarySection
-        transactions={transactions}
-        visits={visits}
-        denominations={denominations}
-        customers={customers}
-        lastClosedAt={shopSettings.lastClosedAt}
-        currentMonthKey={currentMonthKey}
-      />
-
-      <RevenueTrendSection
-        transactions={transactions}
-        denominations={denominations}
-        currentMonthKey={currentMonthKey}
-      />
-
-      <PurchaseBreakdownSection
-        transactions={transactions}
-        denominations={denominations}
-        currentMonthKey={currentMonthKey}
-      />
-
-      <TournamentSummarySection
-        tournamentEntries={tournamentEntries}
-        tournaments={tournaments}
-        visits={visits}
-        currentMonthKey={currentMonthKey}
-      />
-
-      <WeekdayBreakdownSection
-        transactions={transactions}
-        visits={visits}
-        denominations={denominations}
-        lastClosedAt={shopSettings.lastClosedAt}
+      <StatsTabSwitcher
+        tabs={[
+          {
+            key: "operations",
+            label: "運営サマリー",
+            content: (
+              <>
+                <ShopCurrentTotalCard
+                  shopCurrentTotal={shopCurrentTotal}
+                  businessStartTotal={businessStartTotal}
+                  dailyTotals={dailyTotals}
+                />
+                <ShopTotalTrendSection dailyTotals={dailyTotals} currentMonthKey={currentMonthKey} />
+                <MonthlyOperationsSummarySection
+                  transactions={transactions}
+                  visits={visits}
+                  denominations={denominations}
+                  customers={customers}
+                  lastClosedAt={shopSettings.lastClosedAt}
+                  currentMonthKey={currentMonthKey}
+                />
+                <WeekdayBreakdownSection
+                  transactions={transactions}
+                  visits={visits}
+                  denominations={denominations}
+                  lastClosedAt={shopSettings.lastClosedAt}
+                />
+              </>
+            ),
+          },
+          {
+            key: "revenue",
+            label: "売上・購入",
+            content: (
+              <>
+                <RevenueTrendSection
+                  transactions={transactions}
+                  denominations={denominations}
+                  currentMonthKey={currentMonthKey}
+                />
+                <PurchaseBreakdownSection
+                  transactions={transactions}
+                  denominations={denominations}
+                  currentMonthKey={currentMonthKey}
+                />
+              </>
+            ),
+          },
+          {
+            key: "tournament",
+            label: "トーナメント",
+            content: (
+              <TournamentSummarySection
+                tournamentEntries={tournamentEntries}
+                tournaments={tournaments}
+                visits={visits}
+                currentMonthKey={currentMonthKey}
+              />
+            ),
+          },
+        ]}
       />
     </div>
   );

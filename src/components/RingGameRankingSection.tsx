@@ -15,7 +15,7 @@ import {
   shiftWeekKey,
   shiftYearKey,
 } from "@/lib/businessDay";
-import { signColorClass } from "@/lib/statsFormat";
+import { formatSigned, signColorClass } from "@/lib/statsFormat";
 import type { ChipTransaction, Customer } from "@/lib/types";
 
 // インスタ投稿用プロンプトに載せる人数。上位3名（金銀銅）だけに絞ることで
@@ -193,7 +193,7 @@ export function RingGameRankingSection({
           <p className="mt-0.5 text-xs text-gray-500">
             ポーカーのバイイン・アウト収支（アウト − バイイン）の多い順に全員表示。
             マイナス収支の客も含みます。トーナメント使用分・ブラックジャックは含みません。
-            収支は2/5（1BB=5点）換算のBB表示です。
+            投稿ボタンで送るプロンプトは2/5（1BB=5点）換算のBB表示にしています。
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -331,7 +331,7 @@ export function RingGameRankingSection({
                 <tr>
                   <th className="px-4 py-2 text-left font-medium"></th>
                   <th className="px-4 py-2 text-left font-medium">名前</th>
-                  <th className="px-4 py-2 text-right font-medium">収支(BB)</th>
+                  <th className="px-4 py-2 text-right font-medium">収支</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -348,7 +348,7 @@ export function RingGameRankingSection({
                       </Link>
                     </td>
                     <td className={`px-4 py-2 text-right font-bold ${signColorClass(r.net)}`}>
-                      {formatBB(r.net)}
+                      {formatSigned(r.net)}
                     </td>
                   </tr>
                 ))}
