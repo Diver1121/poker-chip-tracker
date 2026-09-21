@@ -18,6 +18,11 @@ import {
 import { formatSigned, signColorClass } from "@/lib/statsFormat";
 import type { ChipTransaction, Customer } from "@/lib/types";
 
+// インスタ投稿用プロンプトに載せる人数。以前作った固定デザイン（上位3名を金銀銅の
+// カード、4〜10位を一覧行）がTOP10前提のため、週/月/年で該当者が多い日でもここで絞る
+// （アプリ内の表自体は全員表示のまま）。
+const SHARE_TOP_N = 10;
+
 type ViewMode = "day" | "week" | "month" | "year" | "total";
 
 const VIEW_MODE_LABELS: Record<ViewMode, string> = {
@@ -33,6 +38,33 @@ function medalLabel(rank: number): string {
   if (rank === 2) return "🥈";
   if (rank === 3) return "🥉";
   return `${rank}位`;
+}
+
+// インスタのストーリー画像を作ってもらうためのAI向けプロンプト文。
+// スマホの共有機能で好きなAIアプリ・チャットに渡せるよう、テキスト1本にまとめている。
+function buildInstagramPrompt(
+  periodLabel: string,
+  positiveRanking: { rank: number; name: string; net: number }[],
+): string {
+  const lines = positiveRanking
+    .map((r) => `${r.rank}位 ${r.name} +${r.net.toLocaleString()}`)
+    .join("\n");
+  return [
+    `OCEAN大分店 リングゲーム収支ランキング（${periodLabel}）のインスタストーリー画像を作ってください。`,
+    "",
+    "【デザイン】",
+    "・サイズ 1080×1920（インスタのストーリー用の縦長）",
+    "・背景は黒と紫を基調にしたネオン風グラデーション",
+    "・見出しに「OCEAN大分店」「リングゲーム収支ランキング」",
+    `・上位${SHARE_TOP_N}名まで。1〜3位はゴールド/シルバー/ブロンズで特別感を出した大きめのカードで表示`,
+    "・4位以下はシンプルな一覧行で表示",
+    "・文字は背景に対して見やすい配色（白やネオングリーンなど）にする",
+    "",
+    "【この期間の収支ランキング（プラスの客のみ）】",
+    lines,
+    "",
+    "このデータを上のデザインに当てはめて画像を作ってください。",
+  ].join("\n");
 }
 
 export function RingGameRankingSection({
@@ -52,6 +84,7 @@ export function RingGameRankingSection({
   const [weekKey, setWeekKey] = useState(businessWeekKey(now));
   const [monthKey, setMonthKey] = useState(currentMonthKey);
   const [yearKey, setYearKey] = useState(businessYearKey(now));
+  const [shareStatus, setShareStatus] = useState<null | "copied" | "unsupported">(null);
 
   let targetTransactions: ChipTransaction[];
   if (viewMode === "day") {
@@ -107,6 +140,41 @@ export function RingGameRankingSection({
 
   const yearLabel = `${yearKey}年`;
   const canGoNextYear = shiftYearKey(yearKey, 1) <= businessYearKey(now);
+
+  // 日/週/月/年のどれを見ていても、その期間のプラス収支の客だけを対象に
+  // インスタ投稿用の画像生成プロンプトをスマホの共有機能に渡せるようにする
+  // （LINE・メモ・AIアプリなど好きな送り先を選んでもらう）。トータルは期間として
+  // 曖昧なため対象外。
+  const periodLabel =
+    viewMode === "day"
+      ? dayLabel
+      : viewMode === "week"
+        ? weekLabel
+        : viewMode === "month"
+          ? monthLabel
+          : viewMode === "year"
+            ? yearLabel
+            : "";
+  const positiveRanking = ranking.filter((r) => r.net > 0);
+
+  async function handleShareRanking() {
+    const text = buildInstagramPrompt(periodLabel, positiveRanking.slice(0, SHARE_TOP_N));
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({ title: "OCEAN リングゲームランキング", text });
+      } catch {
+        // 共有をキャンセルした場合は何もしない
+      }
+      return;
+    }
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      await navigator.clipboard.writeText(text);
+      setShareStatus("copied");
+      setTimeout(() => setShareStatus(null), 3000);
+      return;
+    }
+    setShareStatus("unsupported");
+  }
 
   return (
     <section>
@@ -213,6 +281,31 @@ export function RingGameRankingSection({
               >
                 翌年 →
               </button>
+            </div>
+          )}
+          {viewMode !== "total" && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleShareRanking}
+                disabled={positiveRanking.length === 0}
+                title={
+                  positiveRanking.length === 0
+                    ? "この期間はプラス収支の客がいません"
+                    : "プラス収支のランキングをスマホの共有機能で送る"
+                }
+                className="rounded-md bg-indigo-600 px-2 py-1 font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                📱 投稿ボタン
+              </button>
+              {shareStatus === "copied" && (
+                <span className="text-xs text-gray-500">コピーしました</span>
+              )}
+              {shareStatus === "unsupported" && (
+                <span className="text-xs text-red-600">
+                  この端末では共有・コピーに対応していません
+                </span>
+              )}
             </div>
           )}
         </div>
