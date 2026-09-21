@@ -111,6 +111,17 @@ export default async function BoardPage({
   const { buyInTotal: shopBuyInTotal, outTotal: shopOutTotal, rake } =
     computeShopTableTotals(todaysTransactions);
   const checkedInIds = new Set(checkedInCustomers.map((c) => c.id));
+
+  // バイイン/アウト等の入力欄（<details>）は確定後も開いたままになってしまう
+  // （フォーム送信後にページが再描画されても、React側にはopen属性の指定が無いため
+  // ブラウザが保持しているopen状態がそのまま残る）。客・カテゴリごとの取引件数を
+  // key に含めて、確定で件数が変わったタイミングで<details>を作り直し、
+  // 閉じた状態に戻す。
+  const categoryTxCountByCustomer = new Map<string, number>();
+  for (const tx of transactions) {
+    const key = `${tx.customer_id}:${tx.category}`;
+    categoryTxCountByCustomer.set(key, (categoryTxCountByCustomer.get(key) ?? 0) + 1);
+  }
   const notCheckedIn = allCustomers.filter((c) => !checkedInIds.has(c.id));
   const nowJstLocal = toJstDatetimeLocal(new Date().toISOString());
 
@@ -326,9 +337,11 @@ export default async function BoardPage({
                         : category === "table_in"
                           ? "cursor-pointer list-none rounded-md px-3 py-1.5 text-xs font-bold bg-blue-200 text-blue-900 hover:bg-blue-300 group-open:bg-blue-300"
                           : "cursor-pointer list-none rounded-md px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 group-open:bg-gray-100";
+                    const categoryTxCount =
+                      categoryTxCountByCustomer.get(`${customer.id}:${category}`) ?? 0;
                     return (
                       <details
-                        key={category}
+                        key={`${category}-${categoryTxCount}`}
                         className={`group rounded-md border ${borderClass}`}
                       >
                         <summary className={summaryClass}>
