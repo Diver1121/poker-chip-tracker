@@ -229,55 +229,53 @@ export function PurchaseBreakdownSection({
         const maxPoints = Math.max(1, ...activeTableData.map((d) => d.points));
         const totalPoints = activeTableData.reduce((sum, d) => sum + d.points, 0);
         return (
-          <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-            <table className="w-full text-sm [font-variant-numeric:tabular-nums]">
-              <thead className="bg-gray-50 text-gray-500">
-                <tr>
-                  <th className="px-4 py-2 text-left font-medium">額面</th>
-                  <th className="px-4 py-2 text-right font-medium">購入回数</th>
-                  <th className="px-4 py-2 text-right font-medium">割合</th>
-                  <th className="px-4 py-2 text-right font-medium">トータル</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {activeTableData.map((d) => {
-                  const barPct = (d.points / maxPoints) * 100;
-                  return (
-                    <tr
-                      key={d.denominationId}
-                      className="transition-[filter] hover:brightness-95"
-                      style={{
-                        background: `linear-gradient(to right, rgba(99,102,241,0.16) ${barPct}%, transparent ${barPct}%)`,
-                      }}
-                      title={`${d.label}: ${d.count.toLocaleString()}回 × ${d.value.toLocaleString()} = ${d.points.toLocaleString()}点`}
-                    >
-                      <td className="px-4 py-2 text-left text-gray-900">{d.label}</td>
-                      <td className="px-4 py-2 text-right text-gray-900">
-                        {d.count.toLocaleString()}
-                      </td>
-                      <td className="px-4 py-2 text-right text-gray-500">
-                        {(d.rate * 100).toFixed(1)}%
-                      </td>
-                      <td className="px-4 py-2 text-right font-medium text-gray-900">
-                        {d.points.toLocaleString()}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-              <tfoot>
-                <tr className="border-t border-gray-200 font-bold">
-                  <td className="px-4 py-2 text-left text-gray-900">合計</td>
-                  <td className="px-4 py-2 text-right text-gray-900">
-                    {activeTotalCount.toLocaleString()}
-                  </td>
-                  <td className="px-4 py-2 text-right text-gray-500">100.0%</td>
-                  <td className="px-4 py-2 text-right text-gray-900">
-                    {totalPoints.toLocaleString()}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+          // 背景バーは<tr>にlinear-gradientを付けると、ブラウザのtable描画仕様上
+          // セル(td)ごとに区切られて4分割されて見えてしまう。行全体に途切れず
+          // 伸びるバーにするため、テーブルではなくCSS Gridで行を組む
+          // （全行で同じgrid-template-columnsを使うことで見た目上の列位置は揃う）。
+          <div className="overflow-hidden rounded-lg border border-gray-200 bg-white text-sm [font-variant-numeric:tabular-nums]">
+            <div className="grid grid-cols-[minmax(0,1fr)_6rem_5.5rem_8rem] bg-gray-50 text-gray-500">
+              <div className="px-4 py-2 text-left font-medium">額面</div>
+              <div className="px-4 py-2 text-right font-medium">購入回数</div>
+              <div className="px-4 py-2 text-right font-medium">割合</div>
+              <div className="px-4 py-2 text-right font-medium">トータル</div>
+            </div>
+            <div className="divide-y divide-gray-100">
+              {activeTableData.map((d) => {
+                const barPct = (d.points / maxPoints) * 100;
+                return (
+                  <div
+                    key={d.denominationId}
+                    className="grid grid-cols-[minmax(0,1fr)_6rem_5.5rem_8rem] transition-[filter] hover:brightness-95"
+                    style={{
+                      background: `linear-gradient(to right, rgba(99,102,241,0.16) ${barPct}%, transparent ${barPct}%)`,
+                    }}
+                    title={`${d.label}: ${d.count.toLocaleString()}回 × ${d.value.toLocaleString()} = ${d.points.toLocaleString()}点`}
+                  >
+                    <div className="px-4 py-2 text-left text-gray-900">{d.label}</div>
+                    <div className="px-4 py-2 text-right text-gray-900">
+                      {d.count.toLocaleString()}
+                    </div>
+                    <div className="px-4 py-2 text-right text-gray-500">
+                      {(d.rate * 100).toFixed(1)}%
+                    </div>
+                    <div className="px-4 py-2 text-right font-medium text-gray-900">
+                      {d.points.toLocaleString()}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="grid grid-cols-[minmax(0,1fr)_6rem_5.5rem_8rem] border-t border-gray-200 font-bold">
+              <div className="px-4 py-2 text-left text-gray-900">合計</div>
+              <div className="px-4 py-2 text-right text-gray-900">
+                {activeTotalCount.toLocaleString()}
+              </div>
+              <div className="px-4 py-2 text-right text-gray-500">100.0%</div>
+              <div className="px-4 py-2 text-right text-gray-900">
+                {totalPoints.toLocaleString()}
+              </div>
+            </div>
           </div>
         );
       })()}
