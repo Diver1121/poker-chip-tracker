@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { CATEGORY_INFO, quantityUnitLabel } from "@/lib/transactionCategory";
+import { CATEGORY_INFO, gameLabel, quantityUnitLabel } from "@/lib/transactionCategory";
 import {
   businessDateKey,
   businessMonthKey,
@@ -261,6 +261,11 @@ export function TransactionsSearch({
                     >
                       {CATEGORY_INFO[tx.category].label}
                     </span>
+                    {gameLabel(tx.game) && (
+                      <span className="ml-1 text-xs text-gray-400">
+                        （{gameLabel(tx.game)}）
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-2 text-gray-900">{denominationLabel ?? "-"}</td>
                   <td className="px-4 py-2 text-gray-900">

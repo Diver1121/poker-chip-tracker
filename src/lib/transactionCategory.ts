@@ -49,6 +49,11 @@ export const CATEGORY_INFO: Record<
     sign: 0,
     badgeClassName: "bg-teal-100 text-teal-800",
   },
+  reward: {
+    label: "ゴール報酬",
+    sign: 1,
+    badgeClassName: "bg-yellow-100 text-yellow-800",
+  },
 };
 
 export function categoryLabel(category: TransactionCategory) {
@@ -63,6 +68,14 @@ export function isTransactionCategory(
   value: string,
 ): value is TransactionCategory {
   return Object.prototype.hasOwnProperty.call(CATEGORY_INFO, value);
+}
+
+// table_out/table_inのgame区分の表示名。取引履歴でポーカー/ブラックジャックの
+// どちらの卓の入力だったかを残すために使う（それ以外のcategoryは常にnull）。
+export function gameLabel(game: "poker" | "blackjack" | null): string | null {
+  if (game === "poker") return "ポーカー";
+  if (game === "blackjack") return "ブラックジャック";
+  return null;
 }
 
 // purchase/tournament は額面ごとの枚数を扱うため額面選択が必須。

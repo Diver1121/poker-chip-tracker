@@ -7,13 +7,11 @@ import { computeRingGameNetByCustomer } from "@/lib/balances";
 import {
   businessDateKey,
   businessWeekKey,
-  businessYearKey,
   daysInMonth,
   daysInWeek,
   shiftDayKey,
   shiftMonthKey,
   shiftWeekKey,
-  shiftYearKey,
 } from "@/lib/businessDay";
 import { formatSigned, signColorClass } from "@/lib/statsFormat";
 import type { ChipTransaction, Customer } from "@/lib/types";
@@ -33,15 +31,21 @@ function formatBB(net: number): string {
   return bb > 0 ? `+${formatted}BB` : `${formatted}BB`;
 }
 
-type ViewMode = "day" | "week" | "month" | "year" | "total";
+type ViewMode = "day" | "week" | "month" | "custom" | "total";
 
 const VIEW_MODE_LABELS: Record<ViewMode, string> = {
   day: "日",
   week: "週",
   month: "月",
-  year: "年",
+  custom: "期間指定",
   total: "トータル",
 };
+
+// "YYYY-MM-DD" -> "YYYY/M/D"（期間指定の表示・共有プロンプト用）
+function formatDateLabel(key: string): string {
+  const [y, m, d] = key.split("-").map(Number);
+  return `${y}/${m}/${d}`;
+}
 
 function medalLabel(rank: number): string {
   if (rank === 1) return "🥇";
@@ -92,7 +96,12 @@ export function RingGameRankingSection({
   const [dayKey, setDayKey] = useState(todayKey);
   const [weekKey, setWeekKey] = useState(businessWeekKey(now));
   const [monthKey, setMonthKey] = useState(currentMonthKey);
-  const [yearKey, setYearKey] = useState(businessYearKey(now));
+  // 期間指定は日付入力欄(Input)とフィルタに使う確定値(Applied)を分けて、
+  // 「適用」を押すまでは表を再計算しない。
+  const [customStartInput, setCustomStartInput] = useState(todayKey);
+  const [customEndInput, setCustomEndInput] = useState(todayKey);
+  const [customStart, setCustomStart] = useState(todayKey);
+  const [customEnd, setCustomEnd] = useState(todayKey);
   const [shareStatus, setShareStatus] = useState<null | "copied" | "unsupported">(null);
 
   let targetTransactions: ChipTransaction[];
@@ -110,10 +119,11 @@ export function RingGameRankingSection({
     targetTransactions = transactions.filter((tx) =>
       monthDays.has(businessDateKey(tx.created_at)),
     );
-  } else if (viewMode === "year") {
-    targetTransactions = transactions.filter(
-      (tx) => businessYearKey(tx.created_at) === yearKey,
-    );
+  } else if (viewMode === "custom") {
+    targetTransactions = transactions.filter((tx) => {
+      const d = businessDateKey(tx.created_at);
+      return d >= customStart && d <= customEnd;
+    });
   } else {
     targetTransactions = transactions;
   }
@@ -147,10 +157,10 @@ export function RingGameRankingSection({
   const monthLabel = `${monthYearPart}年${Number(monthNumPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
 
-  const yearLabel = `${yearKey}年`;
-  const canGoNextYear = shiftYearKey(yearKey, 1) <= businessYearKey(now);
+  const customRangeLabel = `${formatDateLabel(customStart)}〜${formatDateLabel(customEnd)}`;
+  const customRangeInvalid = customStartInput > customEndInput;
 
-  // 日/週/月/年のどれを見ていても、その期間のプラス収支の客だけを対象に
+  // 日/週/月/期間指定のどれを見ていても、その期間のプラス収支の客だけを対象に
   // インスタ投稿用の画像生成プロンプトをスマホの共有機能に渡せるようにする
   // （LINE・メモ・AIアプリなど好きな送り先を選んでもらう）。トータルは期間として
   // 曖昧なため対象外。
@@ -161,8 +171,8 @@ export function RingGameRankingSection({
         ? weekLabel
         : viewMode === "month"
           ? monthLabel
-          : viewMode === "year"
-            ? yearLabel
+          : viewMode === "custom"
+            ? customRangeLabel
             : "";
   const positiveRanking = ranking.filter((r) => r.net > 0);
 
@@ -273,24 +283,37 @@ export function RingGameRankingSection({
               </button>
             </div>
           )}
-          {viewMode === "year" && (
-            <div className="flex items-center gap-2">
+          {viewMode === "custom" && (
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                type="date"
+                value={customStartInput}
+                max={todayKey}
+                onChange={(e) => setCustomStartInput(e.target.value)}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:border-indigo-500 focus:outline-none"
+              />
+              <span className="text-gray-500">〜</span>
+              <input
+                type="date"
+                value={customEndInput}
+                max={todayKey}
+                onChange={(e) => setCustomEndInput(e.target.value)}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-900 focus:border-indigo-500 focus:outline-none"
+              />
               <button
                 type="button"
-                onClick={() => setYearKey((k) => shiftYearKey(k, -1))}
-                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
-              >
-                ← 前年
-              </button>
-              <span className="font-medium text-gray-900">{yearLabel}</span>
-              <button
-                type="button"
-                onClick={() => setYearKey((k) => shiftYearKey(k, 1))}
-                disabled={!canGoNextYear}
+                onClick={() => {
+                  setCustomStart(customStartInput);
+                  setCustomEnd(customEndInput);
+                }}
+                disabled={customRangeInvalid}
                 className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                翌年 →
+                適用
               </button>
+              {customRangeInvalid && (
+                <span className="text-xs text-red-600">開始日は終了日より前にしてください</span>
+              )}
             </div>
           )}
           {viewMode !== "total" && (

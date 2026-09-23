@@ -42,15 +42,6 @@ export function shiftDayKey(dayKey: string, delta: number): string {
   return `${y}-${m}-${dd}`;
 }
 
-// businessDateKeyの年部分（"YYYY"）。ランキングの年切り替えに使う。
-export function businessYearKey(input: string | Date): string {
-  return businessDateKey(input).slice(0, 4);
-}
-
-// "YYYY"をdelta年ぶんずらす（delta=-1で前年、+1で翌年）。
-export function shiftYearKey(yearKey: string, delta: number): string {
-  return String(Number(yearKey) + delta);
-}
 
 // 金曜始まり（水曜締め）の週の金曜日を businessDateKey（"YYYY-MM-DD"）で返す。
 // リングゲームランキングの週切り替えに使う。
