@@ -52,26 +52,27 @@ export function shiftYearKey(yearKey: string, delta: number): string {
   return String(Number(yearKey) + delta);
 }
 
-// 月曜始まりの週の月曜日を businessDateKey（"YYYY-MM-DD"）で返す。ランキングの週切り替えに使う。
+// 金曜始まり（水曜締め）の週の金曜日を businessDateKey（"YYYY-MM-DD"）で返す。
+// リングゲームランキングの週切り替えに使う。
 export function businessWeekKey(input: string | Date): string {
   const dateKey = businessDateKey(input);
   const [year, month, day] = dateKey.split("-").map(Number);
   const date = new Date(Date.UTC(year, month - 1, day));
-  const weekday = date.getUTCDay(); // 0=日, 1=月, ..., 6=土
-  const diffToMonday = weekday === 0 ? 6 : weekday - 1;
-  date.setUTCDate(date.getUTCDate() - diffToMonday);
+  const weekday = date.getUTCDay(); // 0=日, 1=月, ..., 5=金, 6=土
+  const diffToFriday = (weekday - 5 + 7) % 7;
+  date.setUTCDate(date.getUTCDate() - diffToFriday);
   const y = date.getUTCFullYear();
   const m = String(date.getUTCMonth() + 1).padStart(2, "0");
   const d = String(date.getUTCDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
 
-// 週の月曜日（businessWeekKeyの戻り値）をdelta週ぶんずらす。
+// 週の金曜日（businessWeekKeyの戻り値）をdelta週ぶんずらす。
 export function shiftWeekKey(weekKey: string, delta: number): string {
   return shiftDayKey(weekKey, delta * 7);
 }
 
-// 週の月曜日（"YYYY-MM-DD"）から、その週の7日分の日付を列挙する。
+// 週の金曜日（"YYYY-MM-DD"）から、その週の7日分（金〜木）の日付を列挙する。
 export function daysInWeek(weekKey: string): string[] {
   return Array.from({ length: 7 }, (_, i) => shiftDayKey(weekKey, i));
 }
