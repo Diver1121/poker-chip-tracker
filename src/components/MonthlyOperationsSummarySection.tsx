@@ -22,6 +22,7 @@ type DayRow = {
   weekday: string;
   visitCount: number;
   rakeWithTournament: number;
+  pokerRake: number;
   operatingMinutes: number | null;
   rakePerHour: number | null;
 };
@@ -76,6 +77,7 @@ export function MonthlyOperationsSummarySection({
     const [rYear, rMonth, rDay] = date.split("-").map(Number);
     const weekday = WEEKDAY_LABELS[new Date(Date.UTC(rYear, rMonth - 1, rDay)).getUTCDay()];
     const rakeWithTournament = finalized ? (daily?.rakeWithTournament ?? 0) : 0;
+    const pokerRake = finalized ? (daily?.pokerRake ?? 0) : 0;
     const operatingMinutes = finalized ? (dailyPokerOperatingMinutesByDate.get(date) ?? null) : null;
     return {
       date,
@@ -83,6 +85,7 @@ export function MonthlyOperationsSummarySection({
       weekday,
       visitCount: dailyVisitCountByDate.get(date) ?? 0,
       rakeWithTournament,
+      pokerRake,
       operatingMinutes,
       rakePerHour:
         operatingMinutes && operatingMinutes > 0
@@ -93,6 +96,7 @@ export function MonthlyOperationsSummarySection({
 
   const totalVisitCount = rows.reduce((sum, d) => sum + d.visitCount, 0);
   const totalRake = rows.reduce((sum, d) => sum + d.rakeWithTournament, 0);
+  const totalPokerRake = rows.reduce((sum, d) => sum + d.pokerRake, 0);
   const avgOperatingMinutes = average(
     rows.map((d) => d.operatingMinutes).filter((m): m is number => m !== null),
   );
@@ -148,6 +152,7 @@ export function MonthlyOperationsSummarySection({
   const monthlyVisitCount = new Map<string, number>();
   const monthlyActiveDayCount = new Map<string, number>();
   const monthlyRake = new Map<string, number>();
+  const monthlyPokerRake = new Map<string, number>();
   const monthlyPurchaseValue = new Map<string, number>();
   const monthlyOperatingMinutesList = new Map<string, number[]>();
   for (const date of activeDates) {
@@ -162,6 +167,10 @@ export function MonthlyOperationsSummarySection({
       monthlyRake.set(
         mKey,
         (monthlyRake.get(mKey) ?? 0) + (dailyRakeByDate.get(date)?.rakeWithTournament ?? 0),
+      );
+      monthlyPokerRake.set(
+        mKey,
+        (monthlyPokerRake.get(mKey) ?? 0) + (dailyRakeByDate.get(date)?.pokerRake ?? 0),
       );
       monthlyPurchaseValue.set(
         mKey,
@@ -216,6 +225,10 @@ export function MonthlyOperationsSummarySection({
   const rakeBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
     label: monthLabelOf(k),
     value: formatSigned(monthlyRake.get(k) ?? 0),
+  }));
+  const pokerRakeBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
+    label: monthLabelOf(k),
+    value: formatSigned(monthlyPokerRake.get(k) ?? 0),
   }));
   const newVisitRateBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
     const total = monthlyVisitCount.get(k) ?? 0;
@@ -371,6 +384,12 @@ export function MonthlyOperationsSummarySection({
           label={viewMode === "month" ? "新規客数（今月登録）" : "客数（累計登録）"}
           value={`${newCustomerCount.toLocaleString()}人`}
           breakdown={monthlyBreakdown(newCustomerBreakdown)}
+        />
+        <ExpandableStatCard
+          label={`ポーカーのレーキ（${viewMode === "month" ? "月合計" : "全期間合計"}）`}
+          value={<span className={signColorClass(totalPokerRake)}>{formatSigned(totalPokerRake)}</span>}
+          caption="リングゲーム（ポーカー）のみ。ランキング全員の収支合計と符号が逆で一致"
+          breakdown={monthlyBreakdown(pokerRakeBreakdown)}
         />
       </div>
 
