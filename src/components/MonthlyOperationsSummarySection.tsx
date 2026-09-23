@@ -409,6 +409,7 @@ export function MonthlyOperationsSummarySection({
                     <th className="px-4 py-2 text-left font-medium">日付</th>
                     <th className="px-4 py-2 text-right font-medium">来店数</th>
                     <th className="px-4 py-2 text-right font-medium">店全体</th>
+                    <th className="px-4 py-2 text-right font-medium">ポーカー</th>
                     <th className="px-4 py-2 text-right font-medium">ポーカー稼働時間</th>
                     <th className="px-4 py-2 text-right font-medium">1時間あたりレーキ</th>
                   </tr>
@@ -438,6 +439,9 @@ export function MonthlyOperationsSummarySection({
                         >
                           {formatSigned(d.rakeWithTournament)}
                         </td>
+                        <td className={`px-4 py-2 text-right ${signColorClass(d.pokerRake)}`}>
+                          {formatSigned(d.pokerRake)}
+                        </td>
                         <td className="px-4 py-2 text-right text-gray-900">
                           {d.operatingMinutes === null ? "-" : formatMinutes(d.operatingMinutes)}
                         </td>
@@ -460,6 +464,9 @@ export function MonthlyOperationsSummarySection({
                     </td>
                     <td className={`px-4 py-2 text-right ${signColorClass(totalRake)}`}>
                       {formatSigned(totalRake)}
+                    </td>
+                    <td className={`px-4 py-2 text-right ${signColorClass(totalPokerRake)}`}>
+                      {formatSigned(totalPokerRake)}
                     </td>
                     <td className="px-4 py-2 text-right text-gray-900">
                       {avgOperatingMinutes === null
