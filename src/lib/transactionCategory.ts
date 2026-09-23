@@ -49,11 +49,6 @@ export const CATEGORY_INFO: Record<
     sign: 0,
     badgeClassName: "bg-teal-100 text-teal-800",
   },
-  reward: {
-    label: "ゴール報酬",
-    sign: 1,
-    badgeClassName: "bg-yellow-100 text-yellow-800",
-  },
 };
 
 export function categoryLabel(category: TransactionCategory) {
