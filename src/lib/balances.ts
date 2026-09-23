@@ -154,8 +154,10 @@ export function computeRingGameNetByCustomer(
 }
 
 // 日付（JST）ごとのバイイン/アウト/トーナメント使用/レーキ。レーキグラフに使う。
-// pokerRake/blackjackRakeはそれぞれのゲームのバイイン-アウトのみ（rake = 両者の合計と一致）。
-// game未設定（機能追加前の過去データ）のバイイン/アウトはポーカー扱いにする。
+// pokerRake/blackjackRakeはそれぞれgameが明示的にタグ付けされた取引だけを集計する
+// （computeRingGameNetByCustomerと同じ考え方）。game未設定（ゲーム区分導入前の過去データ）
+// はどちらにも含めない。rake（合計）はgameを問わず全バイイン/アウトから出すので、
+// pokerRake+blackjackRakeがrakeと一致するとは限らない。
 // rakeWithTournamentはそれにトーナメント使用分を加えたもの。
 // トーナメント使用は額面の枚数で記録されているため、denominationsで点数に換算して合算する
 // （訂正用のマイナス入力もそのまま加算されるので相殺される）。
@@ -206,7 +208,7 @@ export function computeDailyRakeTotals(
       if (tx.category === "table_out") current.buyInTotal += tx.quantity;
       else current.outTotal += tx.quantity;
       if (tx.game === "blackjack") current.blackjackRake += delta;
-      else current.pokerRake += delta;
+      else if (tx.game === "poker") current.pokerRake += delta;
     } else if (tx.category === "tournament") {
       current.tournamentTotal += tx.quantity * (valueByDenomination.get(tx.denomination_id ?? "") ?? 0);
     } else {
