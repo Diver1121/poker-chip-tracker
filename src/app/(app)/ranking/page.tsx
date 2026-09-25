@@ -23,13 +23,13 @@ export default async function RankingPage() {
         currentMonthKey={currentMonthKey}
       />
 
-      <TournamentRankingSection
+      <SeriesTournamentPointsSection
         tournamentEntries={tournamentEntries}
         customers={customers}
         currentMonthKey={currentMonthKey}
       />
 
-      <SeriesTournamentPointsSection
+      <TournamentRankingSection
         tournamentEntries={tournamentEntries}
         customers={customers}
         currentMonthKey={currentMonthKey}

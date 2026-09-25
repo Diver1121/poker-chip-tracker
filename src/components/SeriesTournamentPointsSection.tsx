@@ -3,7 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { LinkPendingDot } from "@/components/LinkPendingDot";
-import { businessDateKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
+import {
+  businessDateKey,
+  businessWeekKey,
+  daysInMonth,
+  daysInWeek,
+  shiftDayKey,
+  shiftMonthKey,
+  shiftWeekKey,
+} from "@/lib/businessDay";
 import type { Customer, TournamentEntry } from "@/lib/types";
 
 const TOP_N = 10;
@@ -28,7 +36,14 @@ function seriesPointsForRank(rank: number, entryCount: number): number {
 // 分けたのは、この開始日を境に区切って集計するため）。
 const SERIES_START_DATE = "2026-09-25";
 
-type ViewMode = "month" | "total";
+type ViewMode = "day" | "week" | "month" | "total";
+
+const VIEW_MODE_LABELS: Record<ViewMode, string> = {
+  day: "日",
+  week: "週",
+  month: "月",
+  total: "トータル",
+};
 
 function medalLabel(rank: number): string {
   if (rank === 1) return "🥇";
@@ -73,7 +88,12 @@ export function SeriesTournamentPointsSection({
   customers: Customer[];
   currentMonthKey: string;
 }) {
+  const now = new Date();
+  const todayKey = businessDateKey(now);
+
   const [viewMode, setViewMode] = useState<ViewMode>("total");
+  const [dayKey, setDayKey] = useState(todayKey);
+  const [weekKey, setWeekKey] = useState(businessWeekKey(now));
   const [monthKey, setMonthKey] = useState(currentMonthKey);
   const [shareStatus, setShareStatus] = useState<null | "copied" | "unsupported">(null);
 
@@ -83,11 +103,18 @@ export function SeriesTournamentPointsSection({
   );
 
   // 「トータル」はシリーズ開始日から今日までの全エントリーを指す。
-  const monthDays = new Set(daysInMonth(monthKey));
-  const targetEntries =
-    viewMode === "month"
-      ? seriesEntries.filter((e) => monthDays.has(businessDateKey(e.created_at)))
-      : seriesEntries;
+  let targetEntries: TournamentEntry[];
+  if (viewMode === "day") {
+    targetEntries = seriesEntries.filter((e) => businessDateKey(e.created_at) === dayKey);
+  } else if (viewMode === "week") {
+    const weekDays = new Set(daysInWeek(weekKey));
+    targetEntries = seriesEntries.filter((e) => weekDays.has(businessDateKey(e.created_at)));
+  } else if (viewMode === "month") {
+    const monthDays = new Set(daysInMonth(monthKey));
+    targetEntries = seriesEntries.filter((e) => monthDays.has(businessDateKey(e.created_at)));
+  } else {
+    targetEntries = seriesEntries;
+  }
 
   const nameById = new Map(customers.map((c) => [c.id, c.name]));
 
@@ -128,6 +155,16 @@ export function SeriesTournamentPointsSection({
     }));
   const ranking = fullRanking.slice(0, TOP_N);
 
+  const [dayYear, dayMonth, dayDay] = dayKey.split("-").map(Number);
+  const dayLabel = `${dayYear}年${dayMonth}月${dayDay}日`;
+  const canGoNextDay = shiftDayKey(dayKey, 1) <= todayKey;
+
+  const weekEndKey = shiftDayKey(weekKey, 6);
+  const [, weekStartMonth, weekStartDay] = weekKey.split("-").map(Number);
+  const [, weekEndMonth, weekEndDay] = weekEndKey.split("-").map(Number);
+  const weekLabel = `${weekStartMonth}/${weekStartDay}〜${weekEndMonth}/${weekEndDay}`;
+  const canGoNextWeek = shiftWeekKey(weekKey, 1) <= businessWeekKey(now);
+
   const [yearPart, numPart] = monthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
@@ -136,7 +173,14 @@ export function SeriesTournamentPointsSection({
 
   // 「トータル」もシリーズ開始日〜今日までの明確な区間なので、他2つのランキングとは違い
   // 投稿ボタンの対象から除外しない。
-  const periodLabel = viewMode === "month" ? monthLabel : `${seriesStartLabel}〜現在`;
+  const periodLabel =
+    viewMode === "day"
+      ? dayLabel
+      : viewMode === "week"
+        ? weekLabel
+        : viewMode === "month"
+          ? monthLabel
+          : `${seriesStartLabel}〜現在`;
 
   async function handleShareRanking() {
     const text = buildInstagramPrompt(periodLabel, fullRanking);
@@ -171,29 +215,61 @@ export function SeriesTournamentPointsSection({
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
           <div className="flex gap-1 rounded-md border border-gray-300 p-0.5">
-            <button
-              type="button"
-              onClick={() => setViewMode("month")}
-              className={`rounded px-2 py-1 font-medium ${
-                viewMode === "month"
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              月
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode("total")}
-              className={`rounded px-2 py-1 font-medium ${
-                viewMode === "total"
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              トータル
-            </button>
+            {(Object.keys(VIEW_MODE_LABELS) as ViewMode[]).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setViewMode(mode)}
+                className={`rounded px-2 py-1 font-medium ${
+                  viewMode === mode
+                    ? "bg-indigo-600 text-white"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+              >
+                {VIEW_MODE_LABELS[mode]}
+              </button>
+            ))}
           </div>
+          {viewMode === "day" && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setDayKey((k) => shiftDayKey(k, -1))}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+              >
+                ← 前日
+              </button>
+              <span className="font-medium text-gray-900">{dayLabel}</span>
+              <button
+                type="button"
+                onClick={() => setDayKey((k) => shiftDayKey(k, 1))}
+                disabled={!canGoNextDay}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                翌日 →
+              </button>
+            </div>
+          )}
+          {viewMode === "week" && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setWeekKey((k) => shiftWeekKey(k, -1))}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+              >
+                ← 前週
+              </button>
+              <span className="font-medium text-gray-900">{weekLabel}</span>
+              <button
+                type="button"
+                onClick={() => setWeekKey((k) => shiftWeekKey(k, 1))}
+                disabled={!canGoNextWeek}
+                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                翌週 →
+              </button>
+            </div>
+          )}
           {viewMode === "month" && (
             <div className="flex items-center gap-2">
               <button
