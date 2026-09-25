@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { formatPercentSigned, percentColorClass } from "@/lib/statsFormat";
 
 export type StatBreakdownRow = { label: string; value: string };
 
@@ -9,11 +10,16 @@ export function ExpandableStatCard({
   value,
   caption,
   breakdown,
+  changePercent,
+  changeNote,
 }: {
   label: string;
   value: ReactNode;
   caption?: string;
   breakdown?: StatBreakdownRow[];
+  // 前月比（%）。nullは「先月データなし等で算出不可」、undefinedは「この項目では表示しない」。
+  changePercent?: number | null;
+  changeNote?: string;
 }) {
   const [open, setOpen] = useState(false);
   const hasBreakdown = Boolean(breakdown && breakdown.length > 0);
@@ -42,6 +48,18 @@ export function ExpandableStatCard({
         {hasBreakdown && "（タップで月別）"}
       </p>
       <p className="text-lg font-bold text-gray-900">{value}</p>
+      {changePercent !== undefined && (
+        <p className="text-xs">
+          {changePercent === null ? (
+            <span className="text-gray-400">前月データなし</span>
+          ) : (
+            <span className={`font-semibold ${percentColorClass(changePercent)}`}>
+              {formatPercentSigned(changePercent)}
+              <span className="ml-1 font-normal text-gray-400">{changeNote ?? "前月比"}</span>
+            </span>
+          )}
+        </p>
+      )}
       {caption && <p className="text-xs text-gray-400">{caption}</p>}
       {open && breakdown && (
         <div className="mt-2 max-h-40 space-y-0.5 overflow-y-auto border-t border-gray-100 pt-2 text-left text-xs text-gray-500">

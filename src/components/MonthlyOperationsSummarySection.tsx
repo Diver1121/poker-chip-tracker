@@ -8,7 +8,15 @@ import {
   computeDailyVisitCounts,
 } from "@/lib/balances";
 import { businessDateKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
-import { average, formatMinutes, formatSigned, monthLabelOf, signColorClass } from "@/lib/statsFormat";
+import {
+  average,
+  formatMinutes,
+  formatSigned,
+  monthLabelOf,
+  percentChange,
+  signColorClass,
+  sumThroughDay,
+} from "@/lib/statsFormat";
 import type { ChipTransaction, Customer, Denomination, Visit } from "@/lib/types";
 import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
 
@@ -273,6 +281,72 @@ export function MonthlyOperationsSummarySection({
       ? customers.filter((c) => businessDateKey(c.created_at).slice(0, 7) === monthKey).length
       : customers.length;
 
+  // 前月比: 進行中の今月を先月の丸1ヶ月とそのまま比べると、月の前半ほど不当に
+  // 「減っている」ように見えるため、先月も同じ日数目までに絞ってフェアに比べる
+  // （今月以外の完了済み月を見ているときは先月も丸ごと比べて問題ない）。
+  const prevMonthKey = shiftMonthKey(monthKey, -1);
+  const todayOfMonth = Number(todayKey.slice(8, 10));
+  const prevMonthCapDay = monthKey === currentMonthKey ? todayOfMonth : daysInMonth(prevMonthKey).length;
+  const dailyRakeTotalByDate = new Map(
+    [...dailyRakeByDate.entries()].map(([date, d]) => [date, d.rakeWithTournament]),
+  );
+  const dailyPokerRakeTotalByDate = new Map(
+    [...dailyRakeByDate.entries()].map(([date, d]) => [date, d.pokerRake]),
+  );
+  const prevVisitCount = sumThroughDay(dailyVisitCountByDate, prevMonthKey, prevMonthCapDay);
+  const prevRakeTotal = sumThroughDay(dailyRakeTotalByDate, prevMonthKey, prevMonthCapDay);
+  const prevPokerRakeTotal = sumThroughDay(dailyPokerRakeTotalByDate, prevMonthKey, prevMonthCapDay);
+  const prevUniqueVisitorCount = new Set(
+    visits
+      .filter((v) => {
+        const d = businessDateKey(v.checked_in_at);
+        return d.startsWith(prevMonthKey) && Number(d.slice(8, 10)) <= prevMonthCapDay;
+      })
+      .map((v) => v.customer_id),
+  ).size;
+  const prevNewCustomerCount = customers.filter((c) => {
+    const d = businessDateKey(c.created_at);
+    return d.startsWith(prevMonthKey) && Number(d.slice(8, 10)) <= prevMonthCapDay;
+  }).length;
+
+  // 1日平均・客単価・稼働時間は元々「1日あたり」に正規化された値なので、
+  // 日数を揃えなくても先月丸ごとの平均とそのまま比べてよい。
+  const prevMonthVisitCountFull = monthlyVisitCount.get(prevMonthKey) ?? 0;
+  const prevAvgVisitsPerActiveDay =
+    (monthlyActiveDayCount.get(prevMonthKey) ?? 0) > 0
+      ? prevMonthVisitCountFull / (monthlyActiveDayCount.get(prevMonthKey) ?? 0)
+      : null;
+  const prevAvgSpendPerVisit =
+    prevMonthVisitCountFull > 0
+      ? (monthlyPurchaseValue.get(prevMonthKey) ?? 0) / prevMonthVisitCountFull
+      : null;
+  const prevAvgOperatingMinutes = average(monthlyOperatingMinutesList.get(prevMonthKey) ?? []);
+
+  // 月表示のときだけ意味のある比較なので、トータル表示ではバッジ自体を出さない
+  // （undefinedを渡すとExpandableStatCard側で非表示になる）。
+  const monthOnly = <T,>(v: T): T | undefined => (viewMode === "month" ? v : undefined);
+
+  const visitCountChangePercent = monthOnly(percentChange(totalVisitCount, prevVisitCount));
+  const uniqueVisitorChangePercent = monthOnly(percentChange(uniqueVisitorCount, prevUniqueVisitorCount));
+  const avgVisitsPerActiveDayChangePercent = monthOnly(
+    avgVisitsPerActiveDay !== null && prevAvgVisitsPerActiveDay !== null
+      ? percentChange(avgVisitsPerActiveDay, prevAvgVisitsPerActiveDay)
+      : null,
+  );
+  const rakeChangePercent = monthOnly(percentChange(totalRake, prevRakeTotal));
+  const avgSpendChangePercent = monthOnly(
+    avgSpendPerVisit !== null && prevAvgSpendPerVisit !== null
+      ? percentChange(avgSpendPerVisit, prevAvgSpendPerVisit)
+      : null,
+  );
+  const avgOperatingMinutesChangePercent = monthOnly(
+    avgOperatingMinutes !== null && prevAvgOperatingMinutes !== null
+      ? percentChange(avgOperatingMinutes, prevAvgOperatingMinutes)
+      : null,
+  );
+  const newCustomerChangePercent = monthOnly(percentChange(newCustomerCount, prevNewCustomerCount));
+  const pokerRakeChangePercent = monthOnly(percentChange(totalPokerRake, prevPokerRakeTotal));
+
   return (
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -334,22 +408,26 @@ export function MonthlyOperationsSummarySection({
           value={`${totalVisitCount.toLocaleString()}人`}
           caption="同じ客の再来店も1回ずつ数える"
           breakdown={monthlyBreakdown(visitCountBreakdown)}
+          changePercent={visitCountChangePercent}
         />
         <ExpandableStatCard
           label="来店客数（人数）"
           value={`${uniqueVisitorCount.toLocaleString()}人`}
           caption="同じ客の再来店はまとめて1人"
           breakdown={monthlyBreakdown(uniqueVisitorBreakdown)}
+          changePercent={uniqueVisitorChangePercent}
         />
         <ExpandableStatCard
           label="1日平均来店数"
           value={avgVisitsPerActiveDay === null ? "-" : `${avgVisitsPerActiveDay.toFixed(1)}人`}
           breakdown={monthlyBreakdown(avgVisitsPerDayBreakdown)}
+          changePercent={avgVisitsPerActiveDayChangePercent}
         />
         <ExpandableStatCard
           label={`レーキ（${viewMode === "month" ? "月合計" : "全期間合計"}・店全体）`}
           value={<span className={signColorClass(totalRake)}>{formatSigned(totalRake)}</span>}
           breakdown={monthlyBreakdown(rakeBreakdown)}
+          changePercent={rakeChangePercent}
         />
         <ExpandableStatCard
           label="リピート率（2回以上来店）"
@@ -374,22 +452,26 @@ export function MonthlyOperationsSummarySection({
               : `${Math.round(avgSpendPerVisit).toLocaleString()}購入`
           }
           breakdown={monthlyBreakdown(avgSpendBreakdown)}
+          changePercent={avgSpendChangePercent}
         />
         <ExpandableStatCard
           label="ポーカー稼働時間（平均）"
           value={avgOperatingMinutes === null ? "-" : formatMinutes(Math.round(avgOperatingMinutes))}
           breakdown={monthlyBreakdown(avgOperatingMinutesBreakdown)}
+          changePercent={avgOperatingMinutesChangePercent}
         />
         <ExpandableStatCard
           label={viewMode === "month" ? "新規客数（今月登録）" : "客数（累計登録）"}
           value={`${newCustomerCount.toLocaleString()}人`}
           breakdown={monthlyBreakdown(newCustomerBreakdown)}
+          changePercent={newCustomerChangePercent}
         />
         <ExpandableStatCard
           label={`ポーカーのレーキ（${viewMode === "month" ? "月合計" : "全期間合計"}）`}
           value={<span className={signColorClass(totalPokerRake)}>{formatSigned(totalPokerRake)}</span>}
           caption="リングゲーム（ポーカー）のみ。ランキング全員の収支合計と符号が逆で一致"
           breakdown={monthlyBreakdown(pokerRakeBreakdown)}
+          changePercent={pokerRakeChangePercent}
         />
       </div>
 

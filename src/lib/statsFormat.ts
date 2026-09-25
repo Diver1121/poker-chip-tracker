@@ -37,6 +37,13 @@ export function formatPercentSigned(percent: number): string {
   return rounded > 0 ? `+${rounded.toFixed(1)}%` : `${rounded.toFixed(1)}%`;
 }
 
+// 前月比などの増減率の色分け専用（signColorClassとは別に、プラス＝緑・マイナス＝赤で表示したい場所で使う）。
+export function percentColorClass(percent: number): string {
+  if (percent > 0) return "text-green-600";
+  if (percent < 0) return "text-red-600";
+  return "text-gray-400";
+}
+
 // 日別合計マップ（date -> value, dateは"YYYY-MM-DD"）から、指定した月の1日目〜maxDay日目
 // までの合計だけを取り出す。進行中の今月と先月をフェアに比べるために使う
 // （先月の月末までの合計とそのまま比べると、月の前半ほど不当に「減っている」ように見えるため）。
