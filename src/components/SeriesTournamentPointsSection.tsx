@@ -37,6 +37,33 @@ function medalLabel(rank: number): string {
   return `${rank}位`;
 }
 
+// インスタのストーリー画像を作ってもらうためのAI向けプロンプト文。
+// リング/トーナメントの投稿ボタンとは違い、上位3名だけに絞らずポイント獲得者
+// 全員を載せる（1〜3位は金銀銅で強調、4位以降はノーマル表記で少し小さく）。
+function buildInstagramPrompt(
+  periodLabel: string,
+  fullRanking: { rank: number; name: string; points: number }[],
+): string {
+  const lines = fullRanking.map((r) => `${r.rank}位 ${r.name} ${r.points}pt`).join("\n");
+  return [
+    `OCEAN大分店 OPS（Ocean Poker Series）ポイントランキング（${periodLabel}）のインスタストーリー画像を作ってください。`,
+    "",
+    "【デザイン】",
+    "・サイズ 1080×1920（インスタのストーリー用の縦長）",
+    "・背景は黒地に青・紫・ピンクのネオングロー、ホログラムのような光沢感のあるデザイン",
+    "・見出しに「OCEAN大分店」「OPS point ranking」",
+    "・1位は名前をゴールド、2位はシルバー、3位はブロンズの特別な配色で目立たせる",
+    "・4位以降は同じリストの中でノーマルな配色にし、文字サイズは1〜3位より少し小さくする",
+    "・ポイント獲得者は人数を絞らず全員掲載する",
+    "・各順位とも名前とポイント数を表記する",
+    "",
+    "【この期間のポイントランキング（全員）】",
+    lines,
+    "",
+    "このデータを上のデザインに当てはめて画像を作ってください。",
+  ].join("\n");
+}
+
 export function SeriesTournamentPointsSection({
   tournamentEntries,
   customers,
@@ -48,6 +75,7 @@ export function SeriesTournamentPointsSection({
 }) {
   const [viewMode, setViewMode] = useState<ViewMode>("total");
   const [monthKey, setMonthKey] = useState(currentMonthKey);
+  const [shareStatus, setShareStatus] = useState<null | "copied" | "unsupported">(null);
 
   // シリーズ開始日より前のエントリーはそもそも対象外。
   const seriesEntries = tournamentEntries.filter(
@@ -86,10 +114,11 @@ export function SeriesTournamentPointsSection({
     pointsByCustomer.set(e.customer_id, current);
   }
 
-  const ranking = [...pointsByCustomer.entries()]
+  // ポイント獲得者全員（人数を絞らない）。表示用テーブルはこのうち上位TOP_N件のみ、
+  // 投稿ボタンのプロンプトはこの全員を使う。
+  const fullRanking = [...pointsByCustomer.entries()]
     .map(([customerId, { points, cashCount }]) => ({ customerId, points, cashCount }))
     .sort((a, b) => b.points - a.points)
-    .slice(0, TOP_N)
     .map((r, i) => ({
       rank: i + 1,
       customerId: r.customerId,
@@ -97,12 +126,36 @@ export function SeriesTournamentPointsSection({
       points: r.points,
       cashCount: r.cashCount,
     }));
+  const ranking = fullRanking.slice(0, TOP_N);
 
   const [yearPart, numPart] = monthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
   const [seriesStartYear, seriesStartMonth, seriesStartDay] = SERIES_START_DATE.split("-").map(Number);
   const seriesStartLabel = `${seriesStartYear}年${seriesStartMonth}月${seriesStartDay}日`;
+
+  // 「トータル」もシリーズ開始日〜今日までの明確な区間なので、他2つのランキングとは違い
+  // 投稿ボタンの対象から除外しない。
+  const periodLabel = viewMode === "month" ? monthLabel : `${seriesStartLabel}〜現在`;
+
+  async function handleShareRanking() {
+    const text = buildInstagramPrompt(periodLabel, fullRanking);
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({ title: "OCEAN OPSポイントランキング", text });
+      } catch {
+        // 共有をキャンセルした場合は何もしない
+      }
+      return;
+    }
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      await navigator.clipboard.writeText(text);
+      setShareStatus("copied");
+      setTimeout(() => setShareStatus(null), 3000);
+      return;
+    }
+    setShareStatus("unsupported");
+  }
 
   return (
     <section>
@@ -161,6 +214,29 @@ export function SeriesTournamentPointsSection({
               </button>
             </div>
           )}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleShareRanking}
+              disabled={fullRanking.length === 0}
+              title={
+                fullRanking.length === 0
+                  ? "この期間はポイント獲得者がいません"
+                  : "ポイントランキングをスマホの共有機能で送る"
+              }
+              className="rounded-md bg-indigo-600 px-2 py-1 font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              📱 投稿ボタン
+            </button>
+            {shareStatus === "copied" && (
+              <span className="text-xs text-gray-500">コピーしました</span>
+            )}
+            {shareStatus === "unsupported" && (
+              <span className="text-xs text-red-600">
+                この端末では共有・コピーに対応していません
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
