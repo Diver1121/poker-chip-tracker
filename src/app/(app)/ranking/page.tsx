@@ -1,6 +1,7 @@
 import { getAllTransactions, getCustomers, getTournamentEntries } from "@/lib/data";
 import { businessMonthKey } from "@/lib/businessDay";
 import { RingGameRankingSection } from "@/components/RingGameRankingSection";
+import { SeriesTournamentPointsSection } from "@/components/SeriesTournamentPointsSection";
 import { TournamentRankingSection } from "@/components/TournamentRankingSection";
 
 export default async function RankingPage() {
@@ -23,6 +24,12 @@ export default async function RankingPage() {
       />
 
       <TournamentRankingSection
+        tournamentEntries={tournamentEntries}
+        customers={customers}
+        currentMonthKey={currentMonthKey}
+      />
+
+      <SeriesTournamentPointsSection
         tournamentEntries={tournamentEntries}
         customers={customers}
         currentMonthKey={currentMonthKey}
