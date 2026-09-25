@@ -23,6 +23,11 @@ function seriesPointsForRank(rank: number, entryCount: number): number {
   return rank <= spots ? spots - rank + 1 : 0;
 }
 
+// シリーズの開始日。この日より前のトーナメントエントリーは、シリーズ開始前の
+// 通常営業分なので集計対象に含めない（トーナメント成績ランキングとあえて表を
+// 分けたのは、この開始日を境に区切って集計するため）。
+const SERIES_START_DATE = "2026-09-25";
+
 type ViewMode = "month" | "total";
 
 function medalLabel(rank: number): string {
@@ -44,20 +49,24 @@ export function SeriesTournamentPointsSection({
   const [viewMode, setViewMode] = useState<ViewMode>("total");
   const [monthKey, setMonthKey] = useState(currentMonthKey);
 
-  // 「トータル」は今日までではなく、トーナメント機能を使い始めてから記録された全エントリーを指す
-  // （tournament_entriesテーブルはこの機能の追加以降にしかデータが存在しない）。
+  // シリーズ開始日より前のエントリーはそもそも対象外。
+  const seriesEntries = tournamentEntries.filter(
+    (e) => businessDateKey(e.created_at) >= SERIES_START_DATE,
+  );
+
+  // 「トータル」はシリーズ開始日から今日までの全エントリーを指す。
   const monthDays = new Set(daysInMonth(monthKey));
   const targetEntries =
     viewMode === "month"
-      ? tournamentEntries.filter((e) => monthDays.has(businessDateKey(e.created_at)))
-      : tournamentEntries;
+      ? seriesEntries.filter((e) => monthDays.has(businessDateKey(e.created_at)))
+      : seriesEntries;
 
   const nameById = new Map(customers.map((c) => [c.id, c.name]));
 
   // トーナメント（tournament_id）ごとの実際のエントリー数。月で絞り込んでいても、
   // 支払い枠の判定はそのトーナメント全体の参加人数で行う（月をまたいでいても変わらない）。
   const entryCountByTournament = new Map<string, number>();
-  for (const e of tournamentEntries) {
+  for (const e of seriesEntries) {
     if (!e.tournament_id) continue;
     entryCountByTournament.set(
       e.tournament_id,
@@ -92,6 +101,8 @@ export function SeriesTournamentPointsSection({
   const [yearPart, numPart] = monthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
+  const [seriesStartYear, seriesStartMonth, seriesStartDay] = SERIES_START_DATE.split("-").map(Number);
+  const seriesStartLabel = `${seriesStartYear}年${seriesStartMonth}月${seriesStartDay}日`;
 
   return (
     <section>
@@ -99,9 +110,10 @@ export function SeriesTournamentPointsSection({
         <div>
           <h2 className="text-lg font-bold text-gray-900">シリーズトーナメントポイント</h2>
           <p className="mt-0.5 text-xs text-gray-500">
-            店のシリーズイベント用のポイント。エントリー数が多いほどポイント対象の順位が広がる
-            （7エントリーごとに対象枠+1）。27エントリーまでは1位3pt・2位2pt・3位1pt、
-            28エントリーで1位4pt〜4位1ptに切り替わり、以降35・42…エントリーごとにさらに広がる。
+            {seriesStartLabel}開始のシリーズイベント用のポイント（それより前のトーナメントは
+            対象外）。エントリー数が多いほどポイント対象の順位が広がる（7エントリーごとに対象枠+1）。
+            27エントリーまでは1位3pt・2位2pt・3位1pt、28エントリーで1位4pt〜4位1ptに切り替わり、
+            以降35・42…エントリーごとにさらに広がる。
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
