@@ -296,6 +296,17 @@ export function MonthlyOperationsSummarySection({
   const prevVisitCount = sumThroughDay(dailyVisitCountByDate, prevMonthKey, prevMonthCapDay);
   const prevRakeTotal = sumThroughDay(dailyRakeTotalByDate, prevMonthKey, prevMonthCapDay);
   const prevPokerRakeTotal = sumThroughDay(dailyPokerRakeTotalByDate, prevMonthKey, prevMonthCapDay);
+  // ポーカー/ブラックジャックの区分（game）はある日から後付けで導入されたため、
+  // 先月の比較期間がその導入日より前から始まっている場合、「先月分」の中身が
+  // ほぼ未タグ付け（=ポーカーのレーキに一切カウントされない）になり、比較の
+  // 分母が極端に小さくなって前月比が実態とかけ離れた数字になってしまう。
+  // 導入日以降の月だけを対象に前月比を出す。
+  const firstGameTaggedDate = transactions
+    .filter((tx) => (tx.category === "table_out" || tx.category === "table_in") && tx.game !== null)
+    .map((tx) => businessDateKey(tx.created_at))
+    .sort()[0];
+  const pokerRakeComparisonReliable =
+    firstGameTaggedDate !== undefined && `${prevMonthKey}-01` >= firstGameTaggedDate;
   const prevUniqueVisitorCount = new Set(
     visits
       .filter((v) => {
@@ -345,7 +356,9 @@ export function MonthlyOperationsSummarySection({
       : null,
   );
   const newCustomerChangePercent = monthOnly(percentChange(newCustomerCount, prevNewCustomerCount));
-  const pokerRakeChangePercent = monthOnly(percentChange(totalPokerRake, prevPokerRakeTotal));
+  const pokerRakeChangePercent = monthOnly(
+    pokerRakeComparisonReliable ? percentChange(totalPokerRake, prevPokerRakeTotal) : null,
+  );
 
   return (
     <section>
