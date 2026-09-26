@@ -102,11 +102,16 @@ export async function getDenomination(id: string): Promise<Denomination | null> 
 }
 
 export async function getAllTransactions(): Promise<ChipTransaction[]> {
+  // created_atだけでは同時刻（手入力の後追い記録等）の行が複数あるとページ境界の並び順が
+  // 安定せず、range()による分割取得で同じ行が重複したり丸ごと抜け落ちたりする
+  // （例: created_atが同一の行がpage境界をまたぐと、片方のpageには出るが後続のpageには
+  // 出ない/両方に出る、が実際に発生した）。id（unique）を第二キーにして順序を安定させる。
   return fetchAllRows<ChipTransaction>((from, to) =>
     getSupabaseClient()
       .from("chip_transactions")
       .select("*")
       .order("created_at", { ascending: false })
+      .order("id", { ascending: true })
       .range(from, to),
   );
 }
@@ -117,6 +122,7 @@ export async function getAllVisits(): Promise<Visit[]> {
       .from("visits")
       .select("*")
       .order("checked_in_at", { ascending: true })
+      .order("id", { ascending: true })
       .range(from, to),
   );
 }
@@ -127,6 +133,7 @@ export async function getTournamentEntries(): Promise<TournamentEntry[]> {
       .from("tournament_entries")
       .select("*")
       .order("created_at", { ascending: true })
+      .order("id", { ascending: true })
       .range(from, to),
   );
 }
@@ -149,6 +156,7 @@ export async function getTransactionsForCustomer(
       .select("*")
       .eq("customer_id", customerId)
       .order("created_at", { ascending: false })
+      .order("id", { ascending: true })
       .range(from, to),
   );
 }
@@ -162,6 +170,7 @@ export async function getTournamentEntriesForCustomer(
       .select("*")
       .eq("customer_id", customerId)
       .order("created_at", { ascending: false })
+      .order("id", { ascending: true })
       .range(from, to),
   );
 }
