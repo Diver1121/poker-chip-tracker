@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import {
-  getAllTransactions,
   getCheckedInCustomers,
   getCustomers,
   getDenominations,
   getTournamentEntries,
   getTournaments,
+  getTransactionsForCustomers,
 } from "@/lib/data";
 import { computePointTotals } from "@/lib/balances";
 import { businessDateKey, shiftDayKey } from "@/lib/businessDay";
@@ -65,7 +65,6 @@ export default async function TournamentPage({
     tournaments,
     checkedInCustomers,
     allCustomers,
-    transactions,
   ] = await Promise.all([
     searchParams,
     getTournamentEntries(),
@@ -73,10 +72,7 @@ export default async function TournamentPage({
     getTournaments(),
     getCheckedInCustomers(),
     getCustomers(),
-    getAllTransactions(),
   ]);
-  // 保有チップ数表示用。来店中ボードと同じ計算式（全額面を点数換算した保有合計）。
-  const pointTotals = computePointTotals(transactions, denominations);
 
   // 「種類」は額面設定の「トーナメントで使う」項目をそのまま流用する
   // （アドオン専用の項目は種類の選択肢から除き、アドオンの種類選択に出す）
@@ -110,6 +106,21 @@ export default async function TournamentPage({
   const dayEntries = selectedSession
     ? entries.filter((entry) => entry.tournament_id === selectedSession.id)
     : [];
+
+  // 保有チップ数表示用。来店ボードと同じ計算式（全額面を点数換算した保有合計）だが、
+  // 対象はこの回にエントリーしている客だけでよいので、店全体の全取引
+  // （chip_transactions全件、日々増え続ける）は取得しない
+  // （以前はgetAllTransactions()で毎回全件取得しており、保存→再取得のたびに
+  // 数秒待たされる原因になっていた）。
+  const entryCustomerIds = [
+    ...new Set(
+      dayEntries
+        .map((entry) => entry.customer_id)
+        .filter((id): id is string => Boolean(id)),
+    ),
+  ];
+  const transactions = await getTransactionsForCustomers(entryCustomerIds);
+  const pointTotals = computePointTotals(transactions, denominations);
 
   // 保有チップ表示のリアルタイム再計算用。1回分のチップ/アドオンの点数価値。
   const chipValue = selectedSession?.denomination_id

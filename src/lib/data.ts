@@ -161,6 +161,26 @@ export async function getTransactionsForCustomer(
   );
 }
 
+// 複数客ぶんの取引だけをまとめて取得する。トーナメントページの保有チップ表示は
+// その回にエントリーしている客だけ分かればよいので、店全体の全取引
+// （chip_transactions全件、日々増え続ける）を毎回取得する必要はない
+// （それが原因で保存のたびに数秒待たされていた。エントリー保存→ページ再取得の
+// 都度、店全体の取引全件を読み直していたのが遅さの主因だった）。
+export async function getTransactionsForCustomers(
+  customerIds: string[],
+): Promise<ChipTransaction[]> {
+  if (customerIds.length === 0) return [];
+  return fetchAllRows<ChipTransaction>((from, to) =>
+    getSupabaseClient()
+      .from("chip_transactions")
+      .select("*")
+      .in("customer_id", customerIds)
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: true })
+      .range(from, to),
+  );
+}
+
 export async function getTournamentEntriesForCustomer(
   customerId: string,
 ): Promise<TournamentEntry[]> {
