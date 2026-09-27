@@ -218,3 +218,13 @@ alter table chip_transactions add constraint chip_transactions_game_check check 
   or
   (category not in ('table_out', 'table_in') and game is null)
 );
+
+-- ミステリーバウンティ（トーナメント中に他プレイヤーを飛ばすとくじ引きでポイントが
+-- もらえる特殊ルール）用。この額面が選ばれた回だけ、トーナメントの各エントリー行に
+-- バウンティ獲得ポイントの入力欄を出す（額面設定画面のチェックボックスで指定する）。
+alter table denominations add column if not exists is_mystery_bounty boolean not null default false;
+
+-- ミステリーバウンティで獲得したポイント（最終順位に関係なく加算される）。
+-- シリーズトーナメントポイントの集計で、順位ベースのポイントに単純加算する
+-- （順位が入っていない=入賞していない行でもバウンティ分だけは加点対象になる）。
+alter table tournament_entries add column if not exists bounty_points integer not null default 0;

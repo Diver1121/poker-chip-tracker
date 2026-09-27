@@ -13,6 +13,7 @@ export async function createDenomination(formData: FormData) {
   const usableForPurchase = formData.get("usableForPurchase") === "1";
   const usableForTournament = formData.get("usableForTournament") === "1";
   const usableForAddon = formData.get("usableForAddon") === "1";
+  const isMysteryBounty = formData.get("isMysteryBounty") === "1";
   const aliases = parseAliasesInput(String(formData.get("aliases") ?? ""));
   if (!label || !Number.isFinite(value)) {
     throw new Error("入力内容が正しくありません。");
@@ -34,6 +35,7 @@ export async function createDenomination(formData: FormData) {
     usable_for_purchase: usableForPurchase,
     usable_for_tournament: usableForTournament,
     usable_for_addon: usableForAddon,
+    is_mystery_bounty: isMysteryBounty,
     aliases,
   });
   if (error) throw error;
@@ -51,6 +53,7 @@ export async function updateDenomination(formData: FormData) {
   const usableForPurchase = formData.get("usableForPurchase") === "1";
   const usableForTournament = formData.get("usableForTournament") === "1";
   const usableForAddon = formData.get("usableForAddon") === "1";
+  const isMysteryBounty = formData.get("isMysteryBounty") === "1";
   const aliases = parseAliasesInput(String(formData.get("aliases") ?? ""));
   if (!id || !label || !Number.isFinite(value)) {
     throw new Error("入力内容が正しくありません。");
@@ -64,6 +67,7 @@ export async function updateDenomination(formData: FormData) {
       usable_for_purchase: usableForPurchase,
       usable_for_tournament: usableForTournament,
       usable_for_addon: usableForAddon,
+      is_mystery_bounty: isMysteryBounty,
       aliases,
     })
     .eq("id", id);

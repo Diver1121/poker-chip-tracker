@@ -9,6 +9,8 @@ export type Denomination = {
   usable_for_addon: boolean;
   // チャット入力（例:「ダイバー トーナメントターボ」）でこの額面を選ぶための別名キーワード
   aliases: string[];
+  // trueの額面を選んだ回だけ、トーナメントのエントリー行にバウンティ獲得ポイント欄を出す
+  is_mystery_bounty: boolean;
 };
 
 export type Customer = {
@@ -97,6 +99,9 @@ export type TournamentEntry = {
   rank: number | null;
   prize_amount: number;
   prize_transaction_id: string | null;
+  // ミステリーバウンティで獲得したポイント。順位に関係なく加算される
+  // （シリーズトーナメントポイントの計算で順位ベースの点数に単純加算する）
+  bounty_points: number;
   created_at: string;
 };
 

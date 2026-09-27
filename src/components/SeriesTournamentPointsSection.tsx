@@ -131,9 +131,13 @@ export function SeriesTournamentPointsSection({
 
   const pointsByCustomer = new Map<string, { points: number; cashCount: number }>();
   for (const e of targetEntries) {
-    if (!e.customer_id || e.rank === null || !e.tournament_id) continue;
+    if (!e.customer_id || !e.tournament_id) continue;
+    // 順位ベースの得点（未入賞=順位未入力の行は0）。
+    // ミステリーバウンティの獲得ポイントは、他プレイヤーを飛ばした時点でもらえるくじ引き式の
+    // ボーナスで最終順位とは無関係のため、入賞していない行（rankがnull）でも加点対象にする。
     const entryCount = entryCountByTournament.get(e.tournament_id) ?? 0;
-    const points = seriesPointsForRank(e.rank, entryCount);
+    const rankPoints = e.rank !== null ? seriesPointsForRank(e.rank, entryCount) : 0;
+    const points = rankPoints + e.bounty_points;
     if (points <= 0) continue;
     const current = pointsByCustomer.get(e.customer_id) ?? { points: 0, cashCount: 0 };
     current.points += points;
@@ -210,7 +214,8 @@ export function SeriesTournamentPointsSection({
             {seriesStartLabel}開始のシリーズイベント用のポイント（それより前のトーナメントは
             対象外）。エントリー数が多いほどポイント対象の順位が広がる（7エントリーごとに対象枠+1）。
             27エントリーまでは1位3pt・2位2pt・3位1pt、28エントリーで1位4pt〜4位1ptに切り替わり、
-            以降35・42…エントリーごとにさらに広がる。
+            以降35・42…エントリーごとにさらに広がる。ミステリーバウンティの回で獲得したポイントは
+            最終順位に関係なく加算される。
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -326,7 +331,7 @@ export function SeriesTournamentPointsSection({
                 <th className="px-4 py-2 text-left font-medium"></th>
                 <th className="px-4 py-2 text-left font-medium">名前</th>
                 <th className="px-4 py-2 text-right font-medium">ポイント</th>
-                <th className="px-4 py-2 text-right font-medium">入賞回数</th>
+                <th className="px-4 py-2 text-right font-medium">獲得回数</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">

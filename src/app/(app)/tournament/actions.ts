@@ -201,6 +201,8 @@ async function saveEntryRow(
   const addonCashAmount = toInt(formData.get(`addonCashAmount-${rowIndex}`));
   const addonCount = toInt(formData.get(`addonCount-${rowIndex}`));
   const prizeAmount = toInt(formData.get(`prizeAmount-${rowIndex}`));
+  // ミステリーバウンティの回以外はこの欄自体がフォームに存在しないため常に0になる
+  const bountyPoints = toInt(formData.get(`bountyPoints-${rowIndex}`));
   // エントリー欄は手入力せず、現金・チップ回数・チケットの合計をサーバー側で自動計算する
   // （チップは点数換算前の回数そのものを足す。例: 現金2 + チップ回数1 + チケット0 = 3）
   const entryFee = cashAmount + chipCount + ticketAmount;
@@ -277,6 +279,7 @@ async function saveEntryRow(
     rank: toNullableInt(formData.get(`rank-${rowIndex}`)),
     prize_amount: prizeAmount,
     prize_transaction_id: prizeTransactionId,
+    bounty_points: bountyPoints,
   };
 
   if (id) {

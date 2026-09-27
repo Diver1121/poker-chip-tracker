@@ -37,6 +37,11 @@ const MIN_ROWS = 40;
 const GRID_COLS =
   "grid-cols-[2rem_minmax(6rem,1fr)_5rem_5rem_5rem_5rem_5rem_3.75rem_5rem_3.5rem_3.5rem]";
 
+// ミステリーバウンティの回だけ、獲得の右にバウンティ獲得ポイント欄を挟んだ12列にする
+// （順位に関係なく他プレイヤーを飛ばして獲得したポイントを別立てで入力するため）。
+const GRID_COLS_WITH_BOUNTY =
+  "grid-cols-[2rem_minmax(6rem,1fr)_5rem_5rem_5rem_5rem_5rem_3.75rem_5rem_5rem_3.5rem_3.5rem]";
+
 const inputClassName =
   "w-full rounded-md border border-gray-300 px-2 py-2 text-base text-gray-900 focus:border-indigo-500 focus:outline-none";
 
@@ -114,6 +119,13 @@ export default async function TournamentPage({
     ? (denominationValueById.get(selectedSession.addon_denomination_id) ?? 0)
     : 0;
 
+  // この回の種類が額面設定で「ミステリーバウンティ」に指定されている場合だけ、
+  // 各エントリー行にバウンティ獲得ポイントの入力欄を追加する。
+  const isMysteryBounty =
+    denominations.find((d) => d.id === selectedSession?.denomination_id)?.is_mystery_bounty ??
+    false;
+  const gridColsClass = isMysteryBounty ? GRID_COLS_WITH_BOUNTY : GRID_COLS;
+
   // プライズ計算ボタンの結果表示。日付・回を変えたら計算結果は持ち越さない
   // （date/sessionパラメータと一緒に発行されるURLのprizeCountだけを見る）。
   const prizeCount =
@@ -147,6 +159,7 @@ export default async function TournamentPage({
       addon: acc.addon + entry.addon_amount,
       addonCount: acc.addonCount + entry.addon_count,
       prize: acc.prize + entry.prize_amount,
+      bounty: acc.bounty + entry.bounty_points,
     }),
     {
       entryFee: 0,
@@ -157,6 +170,7 @@ export default async function TournamentPage({
       addon: 0,
       addonCount: 0,
       prize: 0,
+      bounty: 0,
     },
   );
 
@@ -349,7 +363,7 @@ export default async function TournamentPage({
           </div>
 
           <section className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
-            <div className={`grid ${GRID_COLS} min-w-[800px] items-center gap-x-1.5 gap-y-2 p-4`}>
+            <div className={`grid ${gridColsClass} min-w-[800px] items-center gap-x-1.5 gap-y-2 p-4`}>
               <div />
               <div className="text-xs font-medium text-gray-500">NAME</div>
               <div className="text-xs font-medium text-gray-500">エントリー</div>
@@ -359,6 +373,9 @@ export default async function TournamentPage({
               <div className="text-xs font-medium text-gray-500">アドオン(チップ)</div>
               <div className="text-xs font-medium text-gray-500">順位</div>
               <div className="text-xs font-medium text-gray-500">獲得</div>
+              {isMysteryBounty && (
+                <div className="text-xs font-medium text-gray-500">バウンティ</div>
+              )}
               <div className="text-right text-xs font-medium text-gray-500">保有チップ</div>
               <div />
 
@@ -379,6 +396,11 @@ export default async function TournamentPage({
               </div>
               <div />
               <div className="text-xs font-bold text-gray-900">{totals.prize.toLocaleString()}</div>
+              {isMysteryBounty && (
+                <div className="text-xs font-bold text-gray-900">
+                  {totals.bounty.toLocaleString()}
+                </div>
+              )}
               <div />
               <div />
 
@@ -438,6 +460,14 @@ export default async function TournamentPage({
                       prizeAmounts={prizeAmounts}
                       className={inputClassName}
                     />
+                    {isMysteryBounty && (
+                      <NumberStepperInput
+                        name={`bountyPoints-${i}`}
+                        defaultValue={entry?.bounty_points ?? ""}
+                        placeholder="0"
+                        className={inputClassName}
+                      />
+                    )}
                     {baseBalance !== null ? (
                       <div className="text-right">
                         <TournamentChipBalance
