@@ -83,6 +83,25 @@ export async function updateCustomerName(formData: FormData) {
   revalidatePath(`/customers/${customerId}`);
 }
 
+// 備考欄。名前だけでは同姓同名や似た名前で本人確認ができない場合があるため、
+// 「男性〜と一緒に来店経験あり」のような見分けるための情報を残せるようにする。
+export async function updateCustomerNote(formData: FormData) {
+  await requireAuth();
+
+  const customerId = String(formData.get("customerId") ?? "");
+  if (!customerId) return;
+  const note = String(formData.get("note") ?? "").trim();
+
+  const { error } = await getSupabaseClient()
+    .from("customers")
+    .update({ note: note || null })
+    .eq("id", customerId);
+  if (error) throw error;
+
+  revalidatePath("/customers");
+  revalidatePath(`/customers/${customerId}`);
+}
+
 // 客本体を削除する（取引はcustomers削除のcascadeで一緒に消える）
 async function deleteCustomerAndRelatedData(customerId: string) {
   const supabase = getSupabaseClient();

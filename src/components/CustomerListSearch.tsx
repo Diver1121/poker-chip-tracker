@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { LinkPendingDot } from "@/components/LinkPendingDot";
+import { SubmitButton } from "@/components/SubmitButton";
 import { normalizeForMatch } from "@/lib/textMatch";
+import { updateCustomerNote } from "@/app/(app)/customers/actions";
 
 type SortMode = "name" | "holding";
 
@@ -125,9 +127,28 @@ export function CustomerListSearch({
                   </p>
                 </div>
                 {expanded && (
-                  <div className="border-t border-gray-100 bg-gray-50 px-4 py-2 text-sm text-gray-600">
-                    {c.note || "備考なし"}
-                  </div>
+                  <form
+                    action={updateCustomerNote}
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex flex-col gap-2 border-t border-gray-100 bg-gray-50 px-4 py-3 sm:flex-row sm:items-end"
+                  >
+                    <input type="hidden" name="customerId" value={c.id} />
+                    <div className="flex-1">
+                      <label className="mb-1 block text-xs font-medium text-gray-500">
+                        備考（例: 男性〜と一緒に来店経験あり）
+                      </label>
+                      <textarea
+                        name="note"
+                        defaultValue={c.note ?? ""}
+                        rows={2}
+                        placeholder="本人確認の手がかりになる情報をメモしておけます"
+                        className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none"
+                      />
+                    </div>
+                    <SubmitButton className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50">
+                      保存
+                    </SubmitButton>
+                  </form>
                 )}
               </div>
             );
