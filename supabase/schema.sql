@@ -228,3 +228,19 @@ alter table denominations add column if not exists is_mystery_bounty boolean not
 -- シリーズトーナメントポイントの集計で、順位ベースのポイントに単純加算する
 -- （順位が入っていない=入賞していない行でもバウンティ分だけは加点対象になる）。
 alter table tournament_entries add column if not exists bounty_points integer not null default 0;
+
+-- 営業終了処理・トーナメント結果入力・ランキング投稿など、スタッフが毎回忘れずに
+-- やるべき定型作業の「押し忘れ」をナビ上の！で知らせるための記録。
+-- ここではランキングページの投稿ボタン（SNS共有）を押した記録だけを残す
+-- （来店中ボードの営業終了・トーナメントの順位入力は既存のカラムから判定できるため、
+-- 新しい記録は不要）。
+create table if not exists ranking_share_log (
+  id uuid primary key default gen_random_uuid(),
+  ranking_type text not null check (ranking_type in ('tournament', 'series')),
+  -- 営業日キー("YYYY-MM-DD")。この日の投稿ボタンが1回でも押されたことを表す。
+  business_date text not null,
+  shared_at timestamptz not null default now()
+);
+
+create index if not exists ranking_share_log_lookup_idx
+  on ranking_share_log(ranking_type, business_date);

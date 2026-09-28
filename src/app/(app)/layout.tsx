@@ -2,25 +2,33 @@ import { logout } from "@/app/login/actions";
 import { AppNav } from "@/components/AppNav";
 import { APP_NAME } from "@/lib/appName";
 import { SubmitButton } from "@/components/SubmitButton";
+import { getOperationalAlerts } from "@/lib/operationalAlerts";
 
 // DBの最新状態を毎リクエスト反映するため、ビルド時の静的化を無効にする
 export const dynamic = "force-dynamic";
 
-const NAV_ITEMS = [
-  { href: "/board", label: "来店中ボード" },
-  { href: "/transactions", label: "取引履歴" },
-  { href: "/tournament", label: "トーナメント" },
-  { href: "/customers", label: "客一覧" },
-  { href: "/stats", label: "データ" },
-  { href: "/ranking", label: "ランキング" },
-  { href: "/settings/denominations", label: "額面設定" },
-];
-
-export default function AppLayout({
+export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // 営業終了・トーナメント結果入力・ランキング投稿の押し忘れをナビの！バッジで知らせる
+  // （各ページの詳しい注意書きはgetOperationalAlerts()を使う各ページ側で表示する）。
+  const alerts = await getOperationalAlerts();
+  const navItems = [
+    { href: "/board", label: "来店中ボード", alert: alerts.boardClosePendingDayKey !== null },
+    { href: "/transactions", label: "取引履歴" },
+    {
+      href: "/tournament",
+      label: "トーナメント",
+      alert: alerts.pendingTournamentSessions.length > 0,
+    },
+    { href: "/customers", label: "客一覧" },
+    { href: "/stats", label: "データ" },
+    { href: "/ranking", label: "ランキング", alert: alerts.pendingRankingShareDays.length > 0 },
+    { href: "/settings/denominations", label: "額面設定" },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header
@@ -42,7 +50,7 @@ export default function AppLayout({
               </SubmitButton>
             </form>
           </div>
-          <AppNav items={NAV_ITEMS} />
+          <AppNav items={navItems} />
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-6">{children}</main>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { LinkPendingDot } from "@/components/LinkPendingDot";
 
-type NavItem = { href: string; label: string };
+type NavItem = { href: string; label: string; alert?: boolean };
 
 const STORAGE_KEY = "chip-tracker-nav-order";
 
@@ -40,6 +40,18 @@ export function AppNav({ items }: { items: NavItem[] }) {
     // itemsはビルド時に固定の定数配列なので初回だけでよい
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // alert（押し忘れ！バッジ）はナビゲーションのたびにサーバー側で再計算された最新値が
+  // itemsプロップとして渡ってくる。orderは並び替え保持のためのローカルstateなので、
+  // 並び順はそのままにalertの値だけ都度反映する。
+  useEffect(() => {
+    setOrder((current) =>
+      current.map((item) => {
+        const fresh = items.find((i) => i.href === item.href);
+        return fresh && fresh.alert !== item.alert ? { ...item, alert: fresh.alert } : item;
+      }),
+    );
+  }, [items]);
 
   function handlePointerDown(e: React.PointerEvent<HTMLAnchorElement>, href: string) {
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -104,6 +116,14 @@ export function AppNav({ items }: { items: NavItem[] }) {
           }`}
         >
           {item.label}
+          {item.alert && (
+            <span
+              title="未対応の作業があります"
+              className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white"
+            >
+              !
+            </span>
+          )}
           <LinkPendingDot />
         </Link>
       ))}

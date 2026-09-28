@@ -13,6 +13,7 @@ import {
   shiftWeekKey,
 } from "@/lib/businessDay";
 import type { Customer, TournamentEntry } from "@/lib/types";
+import { recordRankingShare } from "@/app/(app)/ranking/actions";
 
 const TOP_N = 10;
 
@@ -191,6 +192,8 @@ export function TournamentRankingSection({
             : "";
 
   async function handleShareRanking() {
+    // 押し忘れチェック用の記録。共有自体の成否には影響させない（失敗しても投稿操作は続行する）。
+    recordRankingShare("tournament").catch(() => {});
     const text = buildInstagramPrompt(periodLabel, ranking.slice(0, SHARE_TOP_N));
     if (typeof navigator !== "undefined" && navigator.share) {
       try {

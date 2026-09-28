@@ -13,6 +13,8 @@ import {
   shiftWeekKey,
 } from "@/lib/businessDay";
 import type { Customer, TournamentEntry } from "@/lib/types";
+import { SERIES_START_DATE } from "@/lib/seriesConfig";
+import { recordRankingShare } from "@/app/(app)/ranking/actions";
 
 const TOP_N = 10;
 
@@ -30,11 +32,6 @@ function seriesPointsForRank(rank: number, entryCount: number): number {
   const spots = paidSpotsForEntryCount(entryCount);
   return rank <= spots ? spots - rank + 1 : 0;
 }
-
-// シリーズの開始日。この日より前のトーナメントエントリーは、シリーズ開始前の
-// 通常営業分なので集計対象に含めない（トーナメント成績ランキングとあえて表を
-// 分けたのは、この開始日を境に区切って集計するため）。
-const SERIES_START_DATE = "2026-09-25";
 
 type ViewMode = "day" | "week" | "month" | "total";
 
@@ -187,6 +184,8 @@ export function SeriesTournamentPointsSection({
           : `${seriesStartLabel}〜現在`;
 
   async function handleShareRanking() {
+    // 押し忘れチェック用の記録。共有自体の成否には影響させない（失敗しても投稿操作は続行する）。
+    recordRankingShare("series").catch(() => {});
     const text = buildInstagramPrompt(periodLabel, fullRanking);
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
