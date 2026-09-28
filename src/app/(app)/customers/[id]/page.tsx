@@ -29,6 +29,7 @@ import {
   deleteTransaction,
   updateTransactionDate,
 } from "@/app/(app)/transactions/actions";
+import { updateCustomerNote } from "@/app/(app)/customers/actions";
 
 export default async function CustomerDetailPage({
   params,
@@ -115,9 +116,6 @@ export default async function CustomerDetailPage({
         <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-xl font-bold text-gray-900">{customer.name}</h1>
-            {customer.note && (
-              <p className="text-sm text-gray-500">{customer.note}</p>
-            )}
           </div>
           <div className="flex items-center gap-3">
             <EditCustomerNameButton customerId={customer.id} currentName={customer.name} />
@@ -129,6 +127,27 @@ export default async function CustomerDetailPage({
             同じ名前の客が既に登録されています。
           </p>
         )}
+        <form
+          action={updateCustomerNote}
+          className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end"
+        >
+          <input type="hidden" name="customerId" value={customer.id} />
+          <div className="flex-1">
+            <label className="mb-1 block text-xs font-medium text-gray-500">
+              備考（例: 男性〜と一緒に来店経験あり）
+            </label>
+            <textarea
+              name="note"
+              defaultValue={customer.note ?? ""}
+              rows={2}
+              placeholder="本人確認の手がかりになる情報をメモしておけます"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none"
+            />
+          </div>
+          <SubmitButton className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50">
+            保存
+          </SubmitButton>
+        </form>
         <Link
           href="/board"
           className="mt-3 inline-block rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
