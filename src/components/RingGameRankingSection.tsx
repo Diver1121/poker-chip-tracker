@@ -16,9 +16,11 @@ import {
 import { formatSigned, signColorClass } from "@/lib/statsFormat";
 import type { ChipTransaction, Customer } from "@/lib/types";
 
-// インスタ投稿用プロンプトに載せる人数。TOP10として1〜3位（金銀銅）＋4〜10位を掲載する
-// （アプリ内の表自体は全員表示のまま）。
-const SHARE_TOP_N = 10;
+// インスタ投稿用プロンプトに載せる人数。月は「月間TOP10」として1〜3位（金銀銅）＋4〜10位、
+// それ以外（日/週/期間指定）は従来どおり上位3名だけに絞る
+// （アプリ内の表自体はどちらも全員表示のまま）。
+const SHARE_TOP_N_MONTH = 10;
+const SHARE_TOP_N_OTHER = 3;
 
 // リングゲームの収支をポーカーらしくBBで表示するための換算レート。
 // 2/5（2sb/5bb）のテーブルを想定し、1BB=5点として扱う
@@ -54,9 +56,34 @@ function medalLabel(rank: number): string {
   return `${rank}位`;
 }
 
-// インスタのストーリー画像を作ってもらうためのAI向けプロンプト文。
+// インスタのストーリー画像を作ってもらうためのAI向けプロンプト文（日/週/期間指定用、従来の上位3名版）。
 // スマホの共有機能で好きなAIアプリ・チャットに渡せるよう、テキスト1本にまとめている。
-function buildInstagramPrompt(
+function buildInstagramPromptTop3(
+  periodLabel: string,
+  positiveRanking: { rank: number; name: string; net: number }[],
+): string {
+  const lines = positiveRanking
+    .map((r) => `${r.rank}位 ${r.name} ${formatBB(r.net)}`)
+    .join("\n");
+  return [
+    `OCEAN大分店 リングゲーム収支ランキング（${periodLabel}）のインスタストーリー画像を作ってください。`,
+    "",
+    "【デザイン】",
+    "・サイズ 1080×1920（インスタのストーリー用の縦長）",
+    "・背景は黒と紫を基調にしたネオン風グラデーション",
+    "・見出しに「OCEAN大分店」「RING GAME 上位3名」",
+    "・上位3名（1位ゴールド、2位シルバー、3位ブロンズ）を特別感のある大きめのカードで表示",
+    "・文字は背景に対して見やすい配色（ネオングリーン）にする",
+    "",
+    "【この期間の収支ランキング（プラスの客のみ）】",
+    lines,
+    "",
+    "このデータを上のデザインに当てはめて画像を作ってください。",
+  ].join("\n");
+}
+
+// 月のTOP10版プロンプト。(OCEAN)(RING GAME)(RANKING)(TOP10)のワードを見出しに含める。
+function buildInstagramPromptTop10(
   periodLabel: string,
   positiveRanking: { rank: number; name: string; net: number }[],
 ): string {
@@ -178,7 +205,10 @@ export function RingGameRankingSection({
   const positiveRanking = ranking.filter((r) => r.net > 0);
 
   async function handleShareRanking() {
-    const text = buildInstagramPrompt(periodLabel, positiveRanking.slice(0, SHARE_TOP_N));
+    const text =
+      viewMode === "month"
+        ? buildInstagramPromptTop10(periodLabel, positiveRanking.slice(0, SHARE_TOP_N_MONTH))
+        : buildInstagramPromptTop3(periodLabel, positiveRanking.slice(0, SHARE_TOP_N_OTHER));
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share({ title: "OCEAN リングゲームランキング", text });
