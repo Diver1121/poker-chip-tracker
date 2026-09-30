@@ -16,6 +16,7 @@ import {
 } from "@/lib/transactionCategory";
 import { businessDateKey, formatJstMonthDay, toJstDatetimeLocal } from "@/lib/businessDay";
 import { getOperationalAlerts } from "@/lib/operationalAlerts";
+import { DismissibleAlert } from "@/components/DismissibleAlert";
 
 // トーナメント使用・プライズ獲得は「トーナメント」ページの記録保存から
 // 自動でchip_transactionsが作られるようになったため、ボードの手入力ボタンからは外す。
@@ -130,9 +131,12 @@ export default async function BoardPage({
   return (
     <div className="space-y-8">
       {alerts.boardClosePendingDayKey && (
-        <div className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <DismissibleAlert
+          storageKey={`board-close:${alerts.boardClosePendingDayKey}`}
+          className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
+        >
           ⚠️ {formatJstMonthDay(alerts.boardClosePendingDayKey)}の「営業終了・まとめて退店」が実行されていません。上の「営業終了・まとめて退店」を押してください。
-        </div>
+        </DismissibleAlert>
       )}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-4">

@@ -11,6 +11,7 @@ import {
 import { computePointTotals } from "@/lib/balances";
 import { businessDateKey, formatJstMonthDay, shiftDayKey } from "@/lib/businessDay";
 import { getOperationalAlerts } from "@/lib/operationalAlerts";
+import { DismissibleAlert } from "@/components/DismissibleAlert";
 import { SubmitButton } from "@/components/SubmitButton";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { LinkPendingDot } from "@/components/LinkPendingDot";
@@ -201,7 +202,12 @@ export default async function TournamentPage({
   return (
     <div className="space-y-6">
       {alerts.pendingTournamentSessions.length > 0 && (
-        <div className="space-y-1 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <DismissibleAlert
+          storageKey={`tournament-pending:${alerts.pendingTournamentSessions
+            .map((p) => `${p.id}:${p.missingRank ? 1 : 0}:${p.missingBounty ? 1 : 0}`)
+            .join(",")}`}
+          className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
+        >
           {alerts.pendingTournamentSessions.map((pending) => (
             <div key={pending.id}>
               ⚠️{" "}
@@ -216,7 +222,7 @@ export default async function TournamentPage({
               {pending.missingBounty && "のバウンティが入力されていません。"}
             </div>
           ))}
-        </div>
+        </DismissibleAlert>
       )}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>

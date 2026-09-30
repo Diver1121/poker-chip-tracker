@@ -1,6 +1,7 @@
 import { getAllTransactions, getCustomers, getTournamentEntries } from "@/lib/data";
 import { businessMonthKey, formatJstMonthDay } from "@/lib/businessDay";
 import { getOperationalAlerts } from "@/lib/operationalAlerts";
+import { DismissibleAlert } from "@/components/DismissibleAlert";
 import { RingGameRankingSection } from "@/components/RingGameRankingSection";
 import { SeriesTournamentPointsSection } from "@/components/SeriesTournamentPointsSection";
 import { TournamentRankingSection } from "@/components/TournamentRankingSection";
@@ -20,7 +21,15 @@ export default async function RankingPage() {
       <h1 className="text-lg font-bold text-gray-900">ランキング</h1>
 
       {alerts.pendingRankingShareDays.length > 0 && (
-        <div className="space-y-1 rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <DismissibleAlert
+          storageKey={`ranking-share:${alerts.pendingRankingShareDays
+            .map(
+              (p) =>
+                `${p.dayKey}:${p.missingTournamentShare ? 1 : 0}:${p.missingSeriesShare ? 1 : 0}`,
+            )
+            .join(",")}`}
+          className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
+        >
           {alerts.pendingRankingShareDays.map((pending) => (
             <div key={pending.dayKey}>
               ⚠️ {formatJstMonthDay(pending.dayKey)}の
@@ -30,7 +39,7 @@ export default async function RankingPage() {
               の投稿ボタンがまだ押されていません。
             </div>
           ))}
-        </div>
+        </DismissibleAlert>
       )}
 
       <RingGameRankingSection
