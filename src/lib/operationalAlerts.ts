@@ -28,6 +28,21 @@ export type OperationalAlerts = {
   pendingRankingShareDays: PendingRankingShareDay[];
 };
 
+// 各注意項目の「✖で閉じた/閉じていない」を判定するための一意キー。
+// 各ページのバナー（DismissibleAlertList）とナビの！バッジ（AppNav）の両方が
+// 同じキーを使うことで、バナーを閉じればナビの！も一緒に消えるようにする。
+export function boardCloseAlertKey(dayKey: string): string {
+  return `board-close:${dayKey}`;
+}
+
+export function tournamentPendingAlertKey(pending: PendingTournamentSession): string {
+  return `tournament-pending:${pending.id}:${pending.missingRank ? 1 : 0}:${pending.missingBounty ? 1 : 0}`;
+}
+
+export function rankingShareAlertKey(pending: PendingRankingShareDay): string {
+  return `ranking-share:${pending.dayKey}:${pending.missingTournamentShare ? 1 : 0}:${pending.missingSeriesShare ? 1 : 0}`;
+}
+
 // レイアウトのナビバッジと各ページのバナーが同じ内容を必要とするため、
 // 1リクエスト内で何度呼ばれても実際のDB問い合わせは1回だけにする。
 export const getOperationalAlerts = cache(async (): Promise<OperationalAlerts> => {

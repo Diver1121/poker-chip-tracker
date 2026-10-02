@@ -3,17 +3,34 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { LinkPendingDot } from "@/components/LinkPendingDot";
+import { ALERT_DISMISSED_EVENT } from "@/components/DismissibleAlert";
 
-type NavItem = { href: string; label: string; alert?: boolean };
+type NavItem = { href: string; label: string; alertKeys?: string[] };
 
 const STORAGE_KEY = "chip-tracker-nav-order";
+
+function readDismissedSet(keys: string[]): Set<string> {
+  const dismissed = new Set<string>();
+  try {
+    for (const key of keys) {
+      if (localStorage.getItem(`dismissedAlert:${key}`) === "1") {
+        dismissed.add(key);
+      }
+    }
+  } catch {
+    // localStorageが使えない環境では何も閉じていない扱いにする
+  }
+  return dismissed;
+}
 
 export function AppNav({ items }: { items: NavItem[] }) {
   const [order, setOrder] = useState<NavItem[]>(items);
   const [draggingHref, setDraggingHref] = useState<string | null>(null);
+  const [dismissedKeys, setDismissedKeys] = useState<Set<string>>(new Set());
   const orderRef = useRef(order);
   const draggedRef = useRef(false);
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
+  const allAlertKeysSignature = items.flatMap((item) => item.alertKeys ?? []).join(",");
 
   useEffect(() => {
     orderRef.current = order;
@@ -41,17 +58,34 @@ export function AppNav({ items }: { items: NavItem[] }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // alert（押し忘れ！バッジ）はナビゲーションのたびにサーバー側で再計算された最新値が
-  // itemsプロップとして渡ってくる。orderは並び替え保持のためのローカルstateなので、
-  // 並び順はそのままにalertの値だけ都度反映する。
+  // alertKeys（押し忘れ！バッジの元データ）はナビゲーションのたびにサーバー側で再計算された
+  // 最新値がitemsプロップとして渡ってくる。orderは並び替え保持のためのローカルstateなので、
+  // 並び順はそのままにalertKeysの値だけ都度反映する。
   useEffect(() => {
     setOrder((current) =>
       current.map((item) => {
         const fresh = items.find((i) => i.href === item.href);
-        return fresh && fresh.alert !== item.alert ? { ...item, alert: fresh.alert } : item;
+        return fresh && fresh.alertKeys !== item.alertKeys
+          ? { ...item, alertKeys: fresh.alertKeys }
+          : item;
       }),
     );
   }, [items]);
+
+  // 各ページの注意バナーで✖を押して閉じた項目は、ナビの！バッジからも消す
+  // （バナーは閉じたのにナビだけ！が残ると紛らわしいため）。同じタブ内での
+  // 即時反映にはカスタムイベント、他タブからの変更の反映にはstorageイベントを使う。
+  useEffect(() => {
+    const allAlertKeys = allAlertKeysSignature ? allAlertKeysSignature.split(",") : [];
+    const update = () => setDismissedKeys(readDismissedSet(allAlertKeys));
+    update();
+    window.addEventListener(ALERT_DISMISSED_EVENT, update);
+    window.addEventListener("storage", update);
+    return () => {
+      window.removeEventListener(ALERT_DISMISSED_EVENT, update);
+      window.removeEventListener("storage", update);
+    };
+  }, [allAlertKeysSignature]);
 
   function handlePointerDown(e: React.PointerEvent<HTMLAnchorElement>, href: string) {
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -96,37 +130,40 @@ export function AppNav({ items }: { items: NavItem[] }) {
 
   return (
     <nav className="mt-3 flex flex-wrap gap-2">
-      {order.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          data-nav-href={item.href}
-          onPointerDown={(e) => handlePointerDown(e, item.href)}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-          onClick={(e) => {
-            if (draggedRef.current) {
-              e.preventDefault();
-              draggedRef.current = false;
-            }
-          }}
-          className={`touch-none cursor-grab rounded-md px-3 py-1.5 text-sm font-medium text-purple-100 select-none hover:bg-white/15 hover:text-white active:cursor-grabbing ${
-            draggingHref === item.href ? "bg-white/20 text-white" : ""
-          }`}
-        >
-          {item.label}
-          {item.alert && (
-            <span
-              title="未対応の作業があります"
-              className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white"
-            >
-              !
-            </span>
-          )}
-          <LinkPendingDot />
-        </Link>
-      ))}
+      {order.map((item) => {
+        const hasAlert = (item.alertKeys ?? []).some((key) => !dismissedKeys.has(key));
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            data-nav-href={item.href}
+            onPointerDown={(e) => handlePointerDown(e, item.href)}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+            onClick={(e) => {
+              if (draggedRef.current) {
+                e.preventDefault();
+                draggedRef.current = false;
+              }
+            }}
+            className={`touch-none cursor-grab rounded-md px-3 py-1.5 text-sm font-medium text-purple-100 select-none hover:bg-white/15 hover:text-white active:cursor-grabbing ${
+              draggingHref === item.href ? "bg-white/20 text-white" : ""
+            }`}
+          >
+            {item.label}
+            {hasAlert && (
+              <span
+                title="未対応の作業があります"
+                className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white"
+              >
+                !
+              </span>
+            )}
+            <LinkPendingDot />
+          </Link>
+        );
+      })}
     </nav>
   );
 }

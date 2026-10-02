@@ -1,6 +1,6 @@
 import { getAllTransactions, getCustomers, getTournamentEntries } from "@/lib/data";
 import { businessMonthKey, formatJstMonthDay } from "@/lib/businessDay";
-import { getOperationalAlerts } from "@/lib/operationalAlerts";
+import { getOperationalAlerts, rankingShareAlertKey } from "@/lib/operationalAlerts";
 import { DismissibleAlertList } from "@/components/DismissibleAlert";
 import { RingGameRankingSection } from "@/components/RingGameRankingSection";
 import { SeriesTournamentPointsSection } from "@/components/SeriesTournamentPointsSection";
@@ -24,7 +24,7 @@ export default async function RankingPage() {
         <DismissibleAlertList
           className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
           items={alerts.pendingRankingShareDays.map((pending) => ({
-            key: `ranking-share:${pending.dayKey}:${pending.missingTournamentShare ? 1 : 0}:${pending.missingSeriesShare ? 1 : 0}`,
+            key: rankingShareAlertKey(pending),
             content: (
               <>
                 ⚠️ {formatJstMonthDay(pending.dayKey)}の

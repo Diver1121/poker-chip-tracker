@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+// ナビの！バッジ（AppNav）にも同じ注意項目を閉じたことを伝えるためのイベント名。
+export const ALERT_DISMISSED_EVENT = "chip-tracker-alert-dismissed";
+
 // 注意書きの各項目に✖ボタンを付け、押すとこの端末ではその項目だけ閉じられるようにする。
 // keyには項目の中身（対象の日付やIDなど）を含めておくことで、同じ内容が続く間は
 // 閉じたままになり、内容が変わったら（新しい未実施項目が出てきたら）改めて表示される。
@@ -61,6 +64,7 @@ export function DismissibleAlertList({
                 } catch {
                   // 保存できなくても今回の表示だけは閉じる
                 }
+                window.dispatchEvent(new Event(ALERT_DISMISSED_EVENT));
               }}
               aria-label="この注意を閉じる"
               className="shrink-0 text-red-500 hover:text-red-800"

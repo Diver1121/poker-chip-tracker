@@ -15,7 +15,7 @@ import {
   denominationsForCategory,
 } from "@/lib/transactionCategory";
 import { businessDateKey, formatJstMonthDay, toJstDatetimeLocal } from "@/lib/businessDay";
-import { getOperationalAlerts } from "@/lib/operationalAlerts";
+import { boardCloseAlertKey, getOperationalAlerts } from "@/lib/operationalAlerts";
 import { DismissibleAlertList } from "@/components/DismissibleAlert";
 
 // トーナメント使用・プライズ獲得は「トーナメント」ページの記録保存から
@@ -135,7 +135,7 @@ export default async function BoardPage({
           className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
           items={[
             {
-              key: `board-close:${alerts.boardClosePendingDayKey}`,
+              key: boardCloseAlertKey(alerts.boardClosePendingDayKey),
               content: (
                 <>
                   ⚠️ {formatJstMonthDay(alerts.boardClosePendingDayKey)}の「営業終了・まとめて退店」が実行されていません。上の「営業終了・まとめて退店」を押してください。

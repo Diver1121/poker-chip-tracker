@@ -10,7 +10,7 @@ import {
 } from "@/lib/data";
 import { computePointTotals } from "@/lib/balances";
 import { businessDateKey, formatJstMonthDay, shiftDayKey } from "@/lib/businessDay";
-import { getOperationalAlerts } from "@/lib/operationalAlerts";
+import { getOperationalAlerts, tournamentPendingAlertKey } from "@/lib/operationalAlerts";
 import { DismissibleAlertList } from "@/components/DismissibleAlert";
 import { SubmitButton } from "@/components/SubmitButton";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
@@ -205,7 +205,7 @@ export default async function TournamentPage({
         <DismissibleAlertList
           className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
           items={alerts.pendingTournamentSessions.map((pending) => ({
-            key: `tournament-pending:${pending.id}:${pending.missingRank ? 1 : 0}:${pending.missingBounty ? 1 : 0}`,
+            key: tournamentPendingAlertKey(pending),
             content: (
               <>
                 ⚠️{" "}

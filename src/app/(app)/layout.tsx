@@ -2,7 +2,12 @@ import { logout } from "@/app/login/actions";
 import { AppNav } from "@/components/AppNav";
 import { APP_NAME } from "@/lib/appName";
 import { SubmitButton } from "@/components/SubmitButton";
-import { getOperationalAlerts } from "@/lib/operationalAlerts";
+import {
+  boardCloseAlertKey,
+  getOperationalAlerts,
+  rankingShareAlertKey,
+  tournamentPendingAlertKey,
+} from "@/lib/operationalAlerts";
 
 // DBの最新状態を毎リクエスト反映するため、ビルド時の静的化を無効にする
 export const dynamic = "force-dynamic";
@@ -14,18 +19,28 @@ export default async function AppLayout({
 }) {
   // 営業終了・トーナメント結果入力・ランキング投稿の押し忘れをナビの！バッジで知らせる
   // （各ページの詳しい注意書きはgetOperationalAlerts()を使う各ページ側で表示する）。
+  // キーは各ページの注意バナー（DismissibleAlertList）と共通のものを使い、
+  // バナーを✖で閉じたらナビの！も一緒に消えるようにする。
   const alerts = await getOperationalAlerts();
   const navItems = [
-    { href: "/board", label: "来店中ボード", alert: alerts.boardClosePendingDayKey !== null },
+    {
+      href: "/board",
+      label: "来店中ボード",
+      alertKeys: alerts.boardClosePendingDayKey ? [boardCloseAlertKey(alerts.boardClosePendingDayKey)] : [],
+    },
     { href: "/transactions", label: "取引履歴" },
     {
       href: "/tournament",
       label: "トーナメント",
-      alert: alerts.pendingTournamentSessions.length > 0,
+      alertKeys: alerts.pendingTournamentSessions.map(tournamentPendingAlertKey),
     },
     { href: "/customers", label: "客一覧" },
     { href: "/stats", label: "データ" },
-    { href: "/ranking", label: "ランキング", alert: alerts.pendingRankingShareDays.length > 0 },
+    {
+      href: "/ranking",
+      label: "ランキング",
+      alertKeys: alerts.pendingRankingShareDays.map(rankingShareAlertKey),
+    },
     { href: "/settings/denominations", label: "額面設定" },
   ];
 
