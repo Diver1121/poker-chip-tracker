@@ -11,7 +11,7 @@ import {
 import { computePointTotals } from "@/lib/balances";
 import { businessDateKey, formatJstMonthDay, shiftDayKey } from "@/lib/businessDay";
 import { getOperationalAlerts } from "@/lib/operationalAlerts";
-import { DismissibleAlert } from "@/components/DismissibleAlert";
+import { DismissibleAlertList } from "@/components/DismissibleAlert";
 import { SubmitButton } from "@/components/SubmitButton";
 import { ConfirmSubmitButton } from "@/components/ConfirmSubmitButton";
 import { LinkPendingDot } from "@/components/LinkPendingDot";
@@ -202,27 +202,26 @@ export default async function TournamentPage({
   return (
     <div className="space-y-6">
       {alerts.pendingTournamentSessions.length > 0 && (
-        <DismissibleAlert
-          storageKey={`tournament-pending:${alerts.pendingTournamentSessions
-            .map((p) => `${p.id}:${p.missingRank ? 1 : 0}:${p.missingBounty ? 1 : 0}`)
-            .join(",")}`}
+        <DismissibleAlertList
           className="rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800"
-        >
-          {alerts.pendingTournamentSessions.map((pending) => (
-            <div key={pending.id}>
-              ⚠️{" "}
-              <Link
-                href={`/tournament?date=${pending.dayKey}&session=${pending.id}`}
-                className="underline hover:text-red-900"
-              >
-                {formatJstMonthDay(pending.dayKey)}の「{pending.label}」
-              </Link>
-              {pending.missingRank && "の順位が入力されていません。"}
-              {pending.missingRank && pending.missingBounty && " "}
-              {pending.missingBounty && "のバウンティが入力されていません。"}
-            </div>
-          ))}
-        </DismissibleAlert>
+          items={alerts.pendingTournamentSessions.map((pending) => ({
+            key: `tournament-pending:${pending.id}:${pending.missingRank ? 1 : 0}:${pending.missingBounty ? 1 : 0}`,
+            content: (
+              <>
+                ⚠️{" "}
+                <Link
+                  href={`/tournament?date=${pending.dayKey}&session=${pending.id}`}
+                  className="underline hover:text-red-900"
+                >
+                  {formatJstMonthDay(pending.dayKey)}の「{pending.label}」
+                </Link>
+                {pending.missingRank && "の順位が入力されていません。"}
+                {pending.missingRank && pending.missingBounty && " "}
+                {pending.missingBounty && "のバウンティが入力されていません。"}
+              </>
+            ),
+          }))}
+        />
       )}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
