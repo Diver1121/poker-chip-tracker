@@ -19,9 +19,13 @@ import { recordRankingShare } from "@/app/(app)/ranking/actions";
 const TOP_N = 10;
 
 // シリーズ用の店イベントでは、エントリー数が多いほどポイント対象の順位も広げる。
-// 7エントリーごとに対象枠が1つ増える仕組み: 27エントリーまでは3枠(1位3pt・2位2pt・3位1pt)、
-// 28エントリーで4枠(1位4pt〜4位1pt)に切り替わり、以降35・42…と7刻みでさらに1枠ずつ増える。
+// ここでの「エントリー数」は参加人数ではなく、再エントリーも含めた延べ回数
+// （tournament_entries.entry_fee = chip_count+cash_amount+ticket_amountの合計）。
+// 7エントリー未満の回はポイント対象外（0枠）。7エントリー以上は3枠(1位3pt・2位2pt・3位1pt)
+// からスタートし、21エントリーまでは3枠のまま、28エントリーで4枠(1位4pt〜4位1pt)に切り替わり、
+// 以降35・42…と7刻みでさらに1枠ずつ増える。
 function paidSpotsForEntryCount(entryCount: number): number {
+  if (entryCount < 7) return 0;
   return 3 + Math.max(0, Math.floor((entryCount - 21) / 7));
 }
 
@@ -115,14 +119,15 @@ export function SeriesTournamentPointsSection({
 
   const nameById = new Map(customers.map((c) => [c.id, c.name]));
 
-  // トーナメント（tournament_id）ごとの実際のエントリー数。月で絞り込んでいても、
-  // 支払い枠の判定はそのトーナメント全体の参加人数で行う（月をまたいでいても変わらない）。
+  // トーナメント（tournament_id）ごとの実際のエントリー数（再エントリー含む延べ回数）。
+  // 月で絞り込んでいても、支払い枠の判定はそのトーナメント全体のエントリー数で行う
+  // （月をまたいでいても変わらない）。行数（参加人数）ではなくentry_feeの合計を使う。
   const entryCountByTournament = new Map<string, number>();
   for (const e of seriesEntries) {
     if (!e.tournament_id) continue;
     entryCountByTournament.set(
       e.tournament_id,
-      (entryCountByTournament.get(e.tournament_id) ?? 0) + 1,
+      (entryCountByTournament.get(e.tournament_id) ?? 0) + e.entry_fee,
     );
   }
 
@@ -211,10 +216,10 @@ export function SeriesTournamentPointsSection({
           <h2 className="text-lg font-bold text-gray-900">シリーズトーナメントポイント</h2>
           <p className="mt-0.5 text-xs text-gray-500">
             {seriesStartLabel}開始のシリーズイベント用のポイント（それより前のトーナメントは
-            対象外）。エントリー数が多いほどポイント対象の順位が広がる（7エントリーごとに対象枠+1）。
-            27エントリーまでは1位3pt・2位2pt・3位1pt、28エントリーで1位4pt〜4位1ptに切り替わり、
-            以降35・42…エントリーごとにさらに広がる。ミステリーバウンティの回で獲得したポイントは
-            最終順位に関係なく加算される。
+            対象外）。エントリー数（再エントリー含む延べ回数）が7未満の回はポイント対象外。
+            7エントリー以上は1位3pt・2位2pt・3位1ptからスタートし、28エントリーで1位4pt〜4位1pt
+            に切り替わり、以降35・42…エントリーごとにさらに広がる。ミステリーバウンティの回で
+            獲得したポイントは最終順位に関係なく加算される。
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 text-sm">
