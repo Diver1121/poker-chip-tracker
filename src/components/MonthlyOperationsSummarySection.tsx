@@ -19,6 +19,8 @@ import {
 } from "@/lib/statsFormat";
 import type { ChipTransaction, Customer, Denomination, Visit } from "@/lib/types";
 import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
+import { MonthlyBarChart } from "@/components/MonthlyBarChart";
+import { MonthlySignedBarChart } from "@/components/MonthlySignedBarChart";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -272,6 +274,52 @@ export function MonthlyOperationsSummarySection({
     value: rate === null ? "-" : `${Math.round(rate * 100)}%（${count}人）`,
   }));
 
+  // グラフは古い月→新しい月の順で左から右に並べたいので、リスト用（新しい順）とは
+  // 別に昇順の並びを用意する。月が1つしかない場合はリストと同様グラフも出さない。
+  const monthlyKeysAsc = [...monthlyKeys].reverse();
+  const hasMultipleMonths = monthlyKeys.length > 1;
+  const visitCountChartData = monthlyKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyVisitCount.get(k) ?? 0,
+  }));
+  const uniqueVisitorChartData = monthlyKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyVisitorSet.get(k)?.size ?? 0,
+  }));
+  const avgVisitsPerDayChartData = monthlyKeysAsc.map((k) => {
+    const total = monthlyVisitCount.get(k) ?? 0;
+    const activeDays = monthlyActiveDayCount.get(k) ?? 0;
+    return { monthKey: k, value: activeDays > 0 ? total / activeDays : 0 };
+  });
+  const rakeChartData = monthlyKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyRake.get(k) ?? 0,
+  }));
+  const pokerRakeChartData = monthlyKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyPokerRake.get(k) ?? 0,
+  }));
+  const newVisitCountChartData = monthlyKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyNewVisitCount.get(k) ?? 0,
+  }));
+  const avgSpendChartData = monthlyKeysAsc.map((k) => {
+    const visitCountInMonth = monthlyVisitCount.get(k) ?? 0;
+    const purchaseValueInMonth = monthlyPurchaseValue.get(k) ?? 0;
+    return {
+      monthKey: k,
+      value: visitCountInMonth > 0 ? purchaseValueInMonth / visitCountInMonth : 0,
+    };
+  });
+  const avgOperatingMinutesChartData = monthlyKeysAsc.map((k) => ({
+    monthKey: k,
+    value: average(monthlyOperatingMinutesList.get(k) ?? []) ?? 0,
+  }));
+  const newCustomerChartData = monthlyKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyNewCustomerCount.get(k) ?? 0,
+  }));
+
   const [yearPart, numPart] = monthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
@@ -421,6 +469,11 @@ export function MonthlyOperationsSummarySection({
           value={`${totalVisitCount.toLocaleString()}人`}
           caption="同じ客の再来店も1回ずつ数える"
           breakdown={monthlyBreakdown(visitCountBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlyBarChart data={visitCountChartData} unit="人" label="来店数" />
+            )
+          }
           changePercent={visitCountChangePercent}
         />
         <ExpandableStatCard
@@ -428,18 +481,33 @@ export function MonthlyOperationsSummarySection({
           value={`${uniqueVisitorCount.toLocaleString()}人`}
           caption="同じ客の再来店はまとめて1人"
           breakdown={monthlyBreakdown(uniqueVisitorBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlyBarChart data={uniqueVisitorChartData} unit="人" label="来店客数" />
+            )
+          }
           changePercent={uniqueVisitorChangePercent}
         />
         <ExpandableStatCard
           label="1日平均来店数"
           value={avgVisitsPerActiveDay === null ? "-" : `${avgVisitsPerActiveDay.toFixed(1)}人`}
           breakdown={monthlyBreakdown(avgVisitsPerDayBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlyBarChart data={avgVisitsPerDayChartData} unit="人" label="1日平均来店数" />
+            )
+          }
           changePercent={avgVisitsPerActiveDayChangePercent}
         />
         <ExpandableStatCard
           label={`レーキ（${viewMode === "month" ? "月合計" : "全期間合計"}・店全体）`}
           value={<span className={signColorClass(totalRake)}>{formatSigned(totalRake)}</span>}
           breakdown={monthlyBreakdown(rakeBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlySignedBarChart data={rakeChartData} unit="点" label="レーキ" />
+            )
+          }
           changePercent={rakeChangePercent}
         />
         <ExpandableStatCard
@@ -456,6 +524,11 @@ export function MonthlyOperationsSummarySection({
           }
           caption={`${newVisitCount.toLocaleString()}件 / ${existingVisitCount.toLocaleString()}件`}
           breakdown={monthlyBreakdown(newVisitRateBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlyBarChart data={newVisitCountChartData} unit="件" label="新規来店件数" />
+            )
+          }
         />
         <ExpandableStatCard
           label="客単価（購入/来店）"
@@ -465,18 +538,33 @@ export function MonthlyOperationsSummarySection({
               : `${Math.round(avgSpendPerVisit).toLocaleString()}購入`
           }
           breakdown={monthlyBreakdown(avgSpendBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlyBarChart data={avgSpendChartData} unit="購入" label="客単価" />
+            )
+          }
           changePercent={avgSpendChangePercent}
         />
         <ExpandableStatCard
           label="ポーカー稼働時間（平均）"
           value={avgOperatingMinutes === null ? "-" : formatMinutes(Math.round(avgOperatingMinutes))}
           breakdown={monthlyBreakdown(avgOperatingMinutesBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlyBarChart data={avgOperatingMinutesChartData} unit="分" label="稼働時間（平均）" />
+            )
+          }
           changePercent={avgOperatingMinutesChangePercent}
         />
         <ExpandableStatCard
           label={viewMode === "month" ? "新規客数（今月登録）" : "客数（累計登録）"}
           value={`${newCustomerCount.toLocaleString()}人`}
           breakdown={monthlyBreakdown(newCustomerBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlyBarChart data={newCustomerChartData} unit="人" label="新規客数" />
+            )
+          }
           changePercent={newCustomerChangePercent}
         />
         <ExpandableStatCard
@@ -484,6 +572,11 @@ export function MonthlyOperationsSummarySection({
           value={<span className={signColorClass(totalPokerRake)}>{formatSigned(totalPokerRake)}</span>}
           caption="リングゲーム（ポーカー）のみ。ランキング全員の収支合計と符号が逆で一致"
           breakdown={monthlyBreakdown(pokerRakeBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlySignedBarChart data={pokerRakeChartData} unit="点" label="ポーカーのレーキ" />
+            )
+          }
           changePercent={pokerRakeChangePercent}
         />
       </div>

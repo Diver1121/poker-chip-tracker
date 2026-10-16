@@ -10,6 +10,7 @@ export function ExpandableStatCard({
   value,
   caption,
   breakdown,
+  chart,
   changePercent,
   changeNote,
 }: {
@@ -17,6 +18,8 @@ export function ExpandableStatCard({
   value: ReactNode;
   caption?: string;
   breakdown?: StatBreakdownRow[];
+  // 月別の値を見比べられる棒グラフ（任意）。指定時は内訳リストの上に表示する。
+  chart?: ReactNode;
   // 前月比（%）。nullは「先月データなし等で算出不可」、undefinedは「この項目では表示しない」。
   changePercent?: number | null;
   changeNote?: string;
@@ -62,13 +65,16 @@ export function ExpandableStatCard({
       )}
       {caption && <p className="text-xs text-gray-400">{caption}</p>}
       {open && breakdown && (
-        <div className="mt-2 max-h-40 space-y-0.5 overflow-y-auto border-t border-gray-100 pt-2 text-left text-xs text-gray-500">
-          {breakdown.map((row) => (
-            <p key={row.label} className="flex justify-between gap-2">
-              <span>{row.label}</span>
-              <span className="text-gray-700">{row.value}</span>
-            </p>
-          ))}
+        <div className="mt-2 border-t border-gray-100 pt-2 text-left">
+          {chart && <div className="mb-2">{chart}</div>}
+          <div className="max-h-40 space-y-0.5 overflow-y-auto text-xs text-gray-500">
+            {breakdown.map((row) => (
+              <p key={row.label} className="flex justify-between gap-2">
+                <span>{row.label}</span>
+                <span className="text-gray-700">{row.value}</span>
+              </p>
+            ))}
+          </div>
         </div>
       )}
     </div>
