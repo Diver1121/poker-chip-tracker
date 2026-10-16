@@ -13,7 +13,6 @@ import { MonthlyOperationsSummarySection } from "@/components/MonthlyOperationsS
 import { PurchaseBreakdownSection } from "@/components/PurchaseBreakdownSection";
 import { RevenueTrendSection } from "@/components/RevenueTrendSection";
 import { ShopCurrentTotalCard } from "@/components/ShopCurrentTotalCard";
-import { ShopTotalTrendSection } from "@/components/ShopTotalTrendSection";
 import { StatsTabSwitcher } from "@/components/StatsTabSwitcher";
 import { TournamentSummarySection } from "@/components/TournamentSummarySection";
 import { WeekdayBreakdownSection } from "@/components/WeekdayBreakdownSection";
@@ -57,7 +56,6 @@ export default async function StatsPage() {
                   businessStartTotal={businessStartTotal}
                   dailyTotals={dailyTotals}
                 />
-                <ShopTotalTrendSection dailyTotals={dailyTotals} currentMonthKey={currentMonthKey} />
                 <MonthlyOperationsSummarySection
                   transactions={transactions}
                   visits={visits}
@@ -71,6 +69,7 @@ export default async function StatsPage() {
                   visits={visits}
                   denominations={denominations}
                   lastClosedAt={shopSettings.lastClosedAt}
+                  currentMonthKey={currentMonthKey}
                 />
               </>
             ),

@@ -24,6 +24,18 @@ import { MonthlySignedBarChart } from "@/components/MonthlySignedBarChart";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
+// 2026-07-12 21:53〜21:54(UTC)に、旧システムからの客データ移行で471人分の客が
+// 来店なしで連続登録された（1件あたり1秒未満の間隔で471件連続という、通常の
+// 来店時登録ではあり得ないパターン）。「新規客数」の集計からはこのバッチを除外する
+// （実際に新しく来店して登録した客ではなく、移行作業によるノイズのため）。
+// 客数の累計登録数（トータル表示の「客数（累計登録）」）には引き続き含める。
+const BULK_IMPORT_START_MS = new Date("2026-07-12T21:53:00Z").getTime();
+const BULK_IMPORT_END_MS = new Date("2026-07-12T21:55:00Z").getTime();
+function isBulkImportedCustomer(createdAt: string): boolean {
+  const t = new Date(createdAt).getTime();
+  return t >= BULK_IMPORT_START_MS && t <= BULK_IMPORT_END_MS;
+}
+
 type ViewMode = "month" | "total";
 
 type DayRow = {
@@ -208,8 +220,11 @@ export function MonthlyOperationsSummarySection({
     }
   }
 
+  // 「新規客数」からは、旧システムからの客データ移行で一括登録された分を除く
+  // （実際に来店して新しく登録した客ではなく、移行作業のノイズのため）。
+  const organicCustomers = customers.filter((c) => !isBulkImportedCustomer(c.created_at));
   const monthlyNewCustomerCount = new Map<string, number>();
-  for (const c of customers) {
+  for (const c of organicCustomers) {
     const mKey = businessDateKey(c.created_at).slice(0, 7);
     monthlyNewCustomerCount.set(mKey, (monthlyNewCustomerCount.get(mKey) ?? 0) + 1);
   }
@@ -324,9 +339,11 @@ export function MonthlyOperationsSummarySection({
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
 
+  // トータル表示時は「客数（累計登録）」として移行分も含む全客数を見せるが、
+  // 月表示時の「新規客数」は移行バッチを除いたorganicCustomersで数える。
   const newCustomerCount =
     viewMode === "month"
-      ? customers.filter((c) => businessDateKey(c.created_at).slice(0, 7) === monthKey).length
+      ? organicCustomers.filter((c) => businessDateKey(c.created_at).slice(0, 7) === monthKey).length
       : customers.length;
 
   // 前月比: 進行中の今月を先月の丸1ヶ月とそのまま比べると、月の前半ほど不当に
@@ -363,7 +380,7 @@ export function MonthlyOperationsSummarySection({
       })
       .map((v) => v.customer_id),
   ).size;
-  const prevNewCustomerCount = customers.filter((c) => {
+  const prevNewCustomerCount = organicCustomers.filter((c) => {
     const d = businessDateKey(c.created_at);
     return d.startsWith(prevMonthKey) && Number(d.slice(8, 10)) <= prevMonthCapDay;
   }).length;
@@ -559,6 +576,11 @@ export function MonthlyOperationsSummarySection({
         <ExpandableStatCard
           label={viewMode === "month" ? "新規客数（今月登録）" : "客数（累計登録）"}
           value={`${newCustomerCount.toLocaleString()}人`}
+          caption={
+            viewMode === "month"
+              ? "2026/7/12の移行一括登録（471人）は含みません"
+              : undefined
+          }
           breakdown={monthlyBreakdown(newCustomerBreakdown)}
           chart={
             hasMultipleMonths && (

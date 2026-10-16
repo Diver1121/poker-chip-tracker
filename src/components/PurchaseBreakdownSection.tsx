@@ -9,6 +9,8 @@ import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
 import { monthLabelOf } from "@/lib/statsFormat";
 import type { ChipTransaction, Denomination } from "@/lib/types";
 import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
+import { MonthlyBarChart } from "@/components/MonthlyBarChart";
+import { CategoryBarChart } from "@/components/CategoryBarChart";
 
 export function PurchaseBreakdownSection({
   transactions,
@@ -91,6 +93,18 @@ export function PurchaseBreakdownSection({
         })
       : undefined;
 
+  // グラフは古い月→新しい月の順で左から右に並べる（カードの内訳リストは新しい順）。
+  const monthlyKeysAsc = [...monthlyKeys].reverse();
+  const purchaseTotalChartData = monthlyKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyPurchaseTotal.get(k) ?? 0,
+  }));
+  const purchaseAvgChartData = monthlyKeysAsc.map((k) => {
+    const total = monthlyPurchaseTotal.get(k) ?? 0;
+    const days = monthlyActiveDayCount.get(k) ?? 0;
+    return { monthKey: k, value: days > 0 ? total / days : 0 };
+  });
+
   const monthEntries = [...dailyPurchaseValueByDate.entries()].filter(
     ([date]) => date.slice(0, 7) === monthKey,
   );
@@ -158,6 +172,11 @@ export function PurchaseBreakdownSection({
           label="全期間の購入数"
           value={`${totalPurchaseValueAllTime.toLocaleString()}購入`}
           breakdown={purchaseTotalBreakdown}
+          chart={
+            monthlyKeys.length > 1 && (
+              <MonthlyBarChart data={purchaseTotalChartData} unit="購入" label="購入数" />
+            )
+          }
         />
         <ExpandableStatCard
           label="全期間の1日平均"
@@ -167,6 +186,11 @@ export function PurchaseBreakdownSection({
               : `${Math.round(dailyAvgPurchaseValueAllTime).toLocaleString()}購入`
           }
           breakdown={purchaseAvgBreakdown}
+          chart={
+            monthlyKeys.length > 1 && (
+              <MonthlyBarChart data={purchaseAvgChartData} unit="購入" label="1日平均" />
+            )
+          }
         />
         <div className="rounded-md border border-gray-200 bg-white p-3">
           <p className="text-xs text-gray-500">{monthLabel}の購入数</p>
@@ -229,10 +253,22 @@ export function PurchaseBreakdownSection({
         const maxPoints = Math.max(1, ...activeTableData.map((d) => d.points));
         const totalPoints = activeTableData.reduce((sum, d) => sum + d.points, 0);
         return (
-          // 背景バーは<tr>にlinear-gradientを付けると、ブラウザのtable描画仕様上
-          // セル(td)ごとに区切られて4分割されて見えてしまう。行全体に途切れず
-          // 伸びるバーにするため、テーブルではなくCSS Gridで行を組む
-          // （全行で同じgrid-template-columnsを使うことで見た目上の列位置は揃う）。
+          <>
+          <div className="mb-3 rounded-lg border border-gray-200 bg-white p-4">
+            <CategoryBarChart
+              data={activeTableData.map((d) => ({
+                key: d.denominationId,
+                label: d.label,
+                value: d.points,
+              }))}
+              unit="点"
+              label="トータル"
+            />
+          </div>
+          {/* 背景バーは<tr>にlinear-gradientを付けると、ブラウザのtable描画仕様上
+          セル(td)ごとに区切られて4分割されて見えてしまう。行全体に途切れず
+          伸びるバーにするため、テーブルではなくCSS Gridで行を組む
+          （全行で同じgrid-template-columnsを使うことで見た目上の列位置は揃う）。 */}
           <div className="overflow-hidden rounded-lg border border-gray-200 bg-white text-sm [font-variant-numeric:tabular-nums]">
             <div className="grid grid-cols-[minmax(0,1fr)_6rem_5.5rem_8rem] bg-gray-50 text-gray-500">
               <div className="px-4 py-2 text-left font-medium">額面</div>
@@ -277,6 +313,7 @@ export function PurchaseBreakdownSection({
               </div>
             </div>
           </div>
+          </>
         );
       })()}
     </section>
