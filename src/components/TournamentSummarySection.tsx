@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { businessDateKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
-import { average } from "@/lib/statsFormat";
+import { average, monthLabelOf } from "@/lib/statsFormat";
 import type { Tournament, TournamentEntry, Visit } from "@/lib/types";
+import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
+import { MonthlyBarChart } from "@/components/MonthlyBarChart";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -161,6 +163,77 @@ export function TournamentSummarySection({
     prize: sessionSummaries.reduce((sum, s) => sum + s.totals.prize, 0),
   };
 
+  // 月ごとの比較グラフ用。選択中の月/トータル表示とは別に、記録がある全月を
+  // 横断して集計する（全期間の回を1回だけ走査し、月ごとにまとめる）。
+  const monthlySummariesByKey = new Map<string, TournamentSessionSummary[]>();
+  for (const t of tournaments) {
+    const sessionDayKey = businessDateKey(t.created_at);
+    const mKey = sessionDayKey.slice(0, 7);
+    const sessionDayVisitCustomerIds = new Set(
+      visits
+        .filter((v) => businessDateKey(v.checked_in_at) === sessionDayKey)
+        .map((v) => v.customer_id),
+    );
+    const summary = summarizeTournamentSession(
+      entriesByTournamentId.get(t.id) ?? [],
+      sessionDayVisitCustomerIds,
+    );
+    const list = monthlySummariesByKey.get(mKey) ?? [];
+    list.push(summary);
+    monthlySummariesByKey.set(mKey, list);
+  }
+  const monthlyTournamentKeysAsc = [...monthlySummariesByKey.keys()].sort();
+  const hasMultipleMonths = monthlyTournamentKeysAsc.length > 1;
+  const monthlyTournamentKeysDesc = [...monthlyTournamentKeysAsc].reverse();
+
+  function monthlyRatePercent(mKey: string, pick: (s: TournamentSessionSummary) => number | null) {
+    const list = monthlySummariesByKey.get(mKey) ?? [];
+    const avg = average(list.map(pick).filter((r): r is number => r !== null));
+    return avg === null ? 0 : Math.round(avg * 100);
+  }
+
+  const participationRateChartData = monthlyTournamentKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyRatePercent(k, (s) => s.participationRate),
+  }));
+  const addonRateChartData = monthlyTournamentKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyRatePercent(k, (s) => s.addonRate),
+  }));
+  const cashRateChartData = monthlyTournamentKeysAsc.map((k) => ({
+    monthKey: k,
+    value: monthlyRatePercent(k, (s) => s.cashRate),
+  }));
+  const entryCountChartData = monthlyTournamentKeysAsc.map((k) => ({
+    monthKey: k,
+    value: (monthlySummariesByKey.get(k) ?? []).reduce((sum, s) => sum + s.entryCount, 0),
+  }));
+  const prizeChartData = monthlyTournamentKeysAsc.map((k) => ({
+    monthKey: k,
+    value: (monthlySummariesByKey.get(k) ?? []).reduce((sum, s) => sum + s.totals.prize, 0),
+  }));
+
+  const participationRateBreakdown: StatBreakdownRow[] = monthlyTournamentKeysDesc.map((k) => ({
+    label: monthLabelOf(k),
+    value: `${monthlyRatePercent(k, (s) => s.participationRate)}%`,
+  }));
+  const addonRateBreakdown: StatBreakdownRow[] = monthlyTournamentKeysDesc.map((k) => ({
+    label: monthLabelOf(k),
+    value: `${monthlyRatePercent(k, (s) => s.addonRate)}%`,
+  }));
+  const cashRateBreakdown: StatBreakdownRow[] = monthlyTournamentKeysDesc.map((k) => ({
+    label: monthLabelOf(k),
+    value: `${monthlyRatePercent(k, (s) => s.cashRate)}%`,
+  }));
+  const entryCountBreakdown: StatBreakdownRow[] = monthlyTournamentKeysDesc.map((k) => ({
+    label: monthLabelOf(k),
+    value: `${((monthlySummariesByKey.get(k) ?? []).reduce((sum, s) => sum + s.entryCount, 0)).toLocaleString()}人`,
+  }));
+  const prizeBreakdown: StatBreakdownRow[] = monthlyTournamentKeysDesc.map((k) => ({
+    label: monthLabelOf(k),
+    value: `${((monthlySummariesByKey.get(k) ?? []).reduce((sum, s) => sum + s.totals.prize, 0)).toLocaleString()}`,
+  }));
+
   return (
     <section>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -273,27 +346,59 @@ export function TournamentSummarySection({
           <p className="mt-2 text-sm text-gray-500">記録がありません。</p>
         ) : (
           <>
-            <div className="mt-2 grid grid-cols-3 gap-3 text-center">
-              <div className="rounded-md bg-gray-50 p-3">
-                <p className="text-xs text-gray-500">平均参加率</p>
-                <p className="text-lg font-bold text-gray-900">
-                  {avgParticipationRate === null
-                    ? "-"
-                    : `${Math.round(avgParticipationRate * 100)}%`}
-                </p>
-              </div>
-              <div className="rounded-md bg-gray-50 p-3">
-                <p className="text-xs text-gray-500">平均アドオン率</p>
-                <p className="text-lg font-bold text-gray-900">
-                  {avgAddonRate === null ? "-" : `${Math.round(avgAddonRate * 100)}%`}
-                </p>
-              </div>
-              <div className="rounded-md bg-gray-50 p-3">
-                <p className="text-xs text-gray-500">平均現金エントリー率</p>
-                <p className="text-lg font-bold text-gray-900">
-                  {avgCashRate === null ? "-" : `${Math.round(avgCashRate * 100)}%`}
-                </p>
-              </div>
+            <div className="mt-2 grid grid-cols-2 gap-3 text-center sm:grid-cols-3">
+              <ExpandableStatCard
+                label="平均参加率"
+                value={
+                  avgParticipationRate === null ? "-" : `${Math.round(avgParticipationRate * 100)}%`
+                }
+                breakdown={hasMultipleMonths ? participationRateBreakdown : undefined}
+                chart={
+                  hasMultipleMonths && (
+                    <MonthlyBarChart data={participationRateChartData} unit="%" label="参加率" />
+                  )
+                }
+              />
+              <ExpandableStatCard
+                label="平均アドオン率"
+                value={avgAddonRate === null ? "-" : `${Math.round(avgAddonRate * 100)}%`}
+                breakdown={hasMultipleMonths ? addonRateBreakdown : undefined}
+                chart={
+                  hasMultipleMonths && (
+                    <MonthlyBarChart data={addonRateChartData} unit="%" label="アドオン率" />
+                  )
+                }
+              />
+              <ExpandableStatCard
+                label="平均現金エントリー率"
+                value={avgCashRate === null ? "-" : `${Math.round(avgCashRate * 100)}%`}
+                breakdown={hasMultipleMonths ? cashRateBreakdown : undefined}
+                chart={
+                  hasMultipleMonths && (
+                    <MonthlyBarChart data={cashRateChartData} unit="%" label="現金エントリー率" />
+                  )
+                }
+              />
+              <ExpandableStatCard
+                label="エントリー数（合計・月別）"
+                value={`${totalEntryCount.toLocaleString()}人`}
+                breakdown={hasMultipleMonths ? entryCountBreakdown : undefined}
+                chart={
+                  hasMultipleMonths && (
+                    <MonthlyBarChart data={entryCountChartData} unit="人" label="エントリー数" />
+                  )
+                }
+              />
+              <ExpandableStatCard
+                label="獲得（合計・月別）"
+                value={sumTotals.prize.toLocaleString()}
+                breakdown={hasMultipleMonths ? prizeBreakdown : undefined}
+                chart={
+                  hasMultipleMonths && (
+                    <MonthlyBarChart data={prizeChartData} unit="点" label="獲得" />
+                  )
+                }
+              />
             </div>
 
             <div className="mt-4 overflow-x-auto">
