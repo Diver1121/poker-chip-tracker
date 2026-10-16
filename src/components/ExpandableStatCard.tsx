@@ -64,9 +64,18 @@ export function ExpandableStatCard({
         </p>
       )}
       {caption && <p className="text-xs text-gray-400">{caption}</p>}
+      {chart && (
+        <div
+          className="mt-2 border-t border-gray-100 pt-2"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {chart}
+        </div>
+      )}
       {open && breakdown && (
-        <div className="mt-2 border-t border-gray-100 pt-2 text-left">
-          {chart && <div className="mb-2">{chart}</div>}
+        <div
+          className={`text-left ${chart ? "mt-2" : "mt-2 border-t border-gray-100 pt-2"}`}
+        >
           <div className="max-h-40 space-y-0.5 overflow-y-auto text-xs text-gray-500">
             {breakdown.map((row) => (
               <p key={row.label} className="flex justify-between gap-2">
