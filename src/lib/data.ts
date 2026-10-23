@@ -1,4 +1,5 @@
 import { getSupabaseClient } from "@/lib/supabase";
+import { businessDateKey } from "@/lib/businessDay";
 import type {
   ChipTransaction,
   Customer,
@@ -114,6 +115,26 @@ export async function getAllTransactions(): Promise<ChipTransaction[]> {
       .order("id", { ascending: true })
       .range(from, to),
   );
+}
+
+// 当営業日（JST5時区切り）の取引だけを取得する。来店中ボードの「本日のバイイン/
+// アウト/レーキ」はチェックイン中かどうかに関わらず店全体の当日分が必要だが、
+// データが増え続けるchip_transactions全件を毎回取得するのは重いため、日付で絞り込む。
+// SQL側は安全マージンとして前後1日分を広めに取り、正確な判定はbusinessDateKeyで
+// JS側で行う（営業日は5時区切りなのでUTCの日付とは1日ずれ得るため）。
+export async function getTransactionsForBusinessDay(dayKey: string): Promise<ChipTransaction[]> {
+  const dayStartMs = new Date(`${dayKey}T00:00:00Z`).getTime();
+  const rows = await fetchAllRows<ChipTransaction>((from, to) =>
+    getSupabaseClient()
+      .from("chip_transactions")
+      .select("*")
+      .gte("created_at", new Date(dayStartMs - 24 * 60 * 60 * 1000).toISOString())
+      .lt("created_at", new Date(dayStartMs + 2 * 24 * 60 * 60 * 1000).toISOString())
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: true })
+      .range(from, to),
+  );
+  return rows.filter((tx) => businessDateKey(tx.created_at) === dayKey);
 }
 
 export async function getAllVisits(): Promise<Visit[]> {

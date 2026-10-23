@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { LinkPendingDot } from "@/components/LinkPendingDot";
-import { getCheckedInCustomers, getCustomers, getDenominations, getShopSettings } from "@/lib/data";
-import { getAllTransactions } from "@/lib/data";
+import {
+  getCheckedInCustomers,
+  getCustomers,
+  getDenominations,
+  getShopSettings,
+  getTransactionsForBusinessDay,
+  getTransactionsForCustomers,
+} from "@/lib/data";
 import {
   computeBalances,
   computeCategoryQuantityTotals,
@@ -48,16 +54,27 @@ export default async function BoardPage({
 }: {
   searchParams: Promise<{ sort?: string }>;
 }) {
-  const [{ sort }, checkedInCustomers, allCustomers, denominations, transactions, shopSettings, alerts] =
+  const [{ sort }, checkedInCustomers, allCustomers, denominations, shopSettings, alerts] =
     await Promise.all([
       searchParams,
       getCheckedInCustomers(),
       getCustomers(),
       getDenominations(),
-      getAllTransactions(),
       getShopSettings(),
       getOperationalAlerts(),
     ]);
+
+  const todayKey = businessDateKey(new Date());
+
+  // 保有点数・額面バッジはチェックイン中の客だけ分かればよいので、その客たちの
+  // 全取引だけを取る（店全体の全取引を毎回取得すると、データが増えるほど重くなるため）。
+  // 本日の店全体のバイイン/アウト/レーキはチェックイン中かどうかに関わらず必要なので
+  // 別途、当日分だけを日付で絞り込んで取る。
+  const checkedInCustomerIds = checkedInCustomers.map((c) => c.id);
+  const [transactions, todaysTransactions] = await Promise.all([
+    getTransactionsForCustomers(checkedInCustomerIds),
+    getTransactionsForBusinessDay(todayKey),
+  ]);
 
   const sortMode = sort === "name" ? "name" : sort === "recent" ? "recent" : "visit";
 
@@ -88,8 +105,6 @@ export default async function BoardPage({
     );
   });
 
-  const todayKey = businessDateKey(new Date());
-
   // 保有合計（点数）は客詳細ページと同じく、全期間の取引から計算した
   // 「今持っている本当の点数」を表示する。
   const pointTotals = computePointTotals(transactions, denominations);
@@ -106,10 +121,8 @@ export default async function BoardPage({
   }
 
   // バイイン/アウト/レーキ、および客ごとのバイイン/アウト表示は前営業日以前を含めず、
-  // 当営業日（朝5時区切り）分だけを集計する（営業終了ボタンで区切られる想定）
-  const todaysTransactions = transactions.filter(
-    (tx) => businessDateKey(tx.created_at) === todayKey,
-  );
+  // 当営業日（朝5時区切り）分だけを集計する（営業終了ボタンで区切られる想定）。
+  // todaysTransactionsは取得時点ですでに当日分だけに絞り込み済み。
   const categoryTotals = computeCategoryQuantityTotals(todaysTransactions);
   const { buyInTotal: shopBuyInTotal, outTotal: shopOutTotal, rake } =
     computeShopTableTotals(todaysTransactions);
