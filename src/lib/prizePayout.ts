@@ -1,3 +1,14 @@
+import type { Denomination } from "@/lib/types";
+
+// プライズ総額の計算式（単価）のデフォルト値。TURBOの種類だけ既定値が異なる
+// （通常300、TURBOは200）。額面のラベルまたは別名に「turbo」「ターボ」が
+// 含まれるかで判定する。スタッフが毎回の入力欄で上書きできるので、あくまで初期値。
+export function isTurboDenomination(denomination: Denomination | undefined): boolean {
+  if (!denomination) return false;
+  const keywords = [denomination.label, ...denomination.aliases].map((k) => k.toLowerCase());
+  return keywords.some((k) => k.includes("turbo") || k.includes("ターボ"));
+}
+
 // トーナメントのプライズ配分。対象人数ごとに「上位ほど多く、人数が増えるほど
 // 緩やかに減る」配分率(%)を調和数列(1/順位)ベースで算出し、合計が
 // ちょうど100%になるよう端数を上位から大きい順に配る（最大剰余法）。

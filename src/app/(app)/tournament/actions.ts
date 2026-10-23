@@ -5,19 +5,8 @@ import { redirect } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabase";
 import { requireAuth } from "@/lib/require-auth";
 import { insertChipTransaction } from "@/lib/transactions";
-import { getDenominations, getTournamentEntries, getTournaments } from "@/lib/data";
+import { getTournamentEntries, getTournaments } from "@/lib/data";
 import { businessDateKey } from "@/lib/businessDay";
-import type { Denomination } from "@/lib/types";
-
-// TURBOの種類だけプライズ総額の計算式が異なる（合計エントリー×200×0.4、
-// 通常は×300×0.4）。額面のラベルまたは別名に「turbo」「ターボ」が含まれるかで判定する。
-function isTurboDenomination(denomination: Denomination | undefined): boolean {
-  if (!denomination) return false;
-  const keywords = [denomination.label, ...denomination.aliases].map((k) =>
-    k.toLowerCase(),
-  );
-  return keywords.some((k) => k.includes("turbo") || k.includes("ターボ"));
-}
 
 function toInt(value: FormDataEntryValue | null): number {
   const n = Number(value);
@@ -293,10 +282,10 @@ async function saveEntryRow(
   }
 }
 
-// プライズ対象人数・総額を計算する。人数は合計エントリー数×15%を四捨五入。
-// 総額（チップ）は合計エントリー数×単価×0.4で、単価はこの回のトーナメント種類が
-// TURBOなら200、それ以外は300。結果はURLパラメータに載せて表示するだけで、
-// 保存や個別の配分は行わない。
+// プライズ対象人数・総額を計算する。人数は合計エントリー数×15%を四捨五入で固定。
+// 総額（チップ）は合計エントリー数×単価×割合(%)で、単価と割合は毎回の入力欄
+// （perEntryValue・percent）から受け取る（式自体は固定せず、回ごとに変えられる）。
+// 結果はURLパラメータに載せて表示するだけで、保存や個別の配分は行わない。
 export async function calculatePrizeCount(formData: FormData) {
   await requireAuth();
 
@@ -304,24 +293,22 @@ export async function calculatePrizeCount(formData: FormData) {
   const tournamentId = String(formData.get("tournamentId") ?? "");
   if (!tournamentId) return;
 
-  const [entries, denominations, tournaments] = await Promise.all([
-    getTournamentEntries(),
-    getDenominations(),
-    getTournaments(),
-  ]);
+  const entries = await getTournamentEntries();
   const totalEntries = entries
     .filter((entry) => entry.tournament_id === tournamentId)
     .reduce((sum, entry) => sum + entry.entry_fee, 0);
 
-  const tournament = tournaments.find((t) => t.id === tournamentId);
-  const sessionDenomination = denominations.find((d) => d.id === tournament?.denomination_id);
-  const perEntryValue = isTurboDenomination(sessionDenomination) ? 200 : 300;
+  const perEntryValue = toInt(formData.get("perEntryValue"));
+  const percent = toInt(formData.get("percent"));
 
   const prizeCount = totalEntries > 0 ? Math.round(totalEntries * 0.15) : 0;
-  const prizeTotal = Math.round(totalEntries * perEntryValue * 0.4);
+  const prizeTotal =
+    totalEntries > 0 && perEntryValue > 0 && percent > 0
+      ? Math.round(totalEntries * perEntryValue * (percent / 100))
+      : 0;
 
   redirect(
-    `/tournament?date=${dayKey}&session=${tournamentId}&prizeCount=${prizeCount}&prizeTotal=${prizeTotal}`,
+    `/tournament?date=${dayKey}&session=${tournamentId}&prizeCount=${prizeCount}&prizeTotal=${prizeTotal}&perEntryValue=${perEntryValue}&percent=${percent}`,
   );
 }
 

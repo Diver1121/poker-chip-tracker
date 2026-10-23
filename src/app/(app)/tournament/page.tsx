@@ -20,7 +20,7 @@ import { NumberStepperInput } from "@/components/NumberStepperInput";
 import { TournamentChipBalance } from "@/components/TournamentChipBalance";
 import { TournamentNameDatalistSync } from "@/components/TournamentNameDatalistSync";
 import { TournamentRankPrizeInputs } from "@/components/TournamentRankPrizeInputs";
-import { computePrizeAmounts } from "@/lib/prizePayout";
+import { computePrizeAmounts, isTurboDenomination } from "@/lib/prizePayout";
 import {
   calculatePrizeCount,
   createTournament,
@@ -58,10 +58,19 @@ export default async function TournamentPage({
     session?: string;
     prizeCount?: string;
     prizeTotal?: string;
+    perEntryValue?: string;
+    percent?: string;
   }>;
 }) {
   const [
-    { date, session, prizeCount: prizeCountParam, prizeTotal: prizeTotalParam },
+    {
+      date,
+      session,
+      prizeCount: prizeCountParam,
+      prizeTotal: prizeTotalParam,
+      perEntryValue: perEntryValueParam,
+      percent: percentParam,
+    },
     entries,
     denominations,
     tournaments,
@@ -141,20 +150,27 @@ export default async function TournamentPage({
     false;
   const gridColsClass = isMysteryBounty ? GRID_COLS_WITH_BOUNTY : GRID_COLS;
 
+  // プライズ総額の計算式（単価×割合）の入力欄の初期値。date/sessionが一致する
+  // 直前の「決定」結果があればその入力値を復元し、無ければ単価はこの回の種類が
+  // TURBOなら200・それ以外は300、割合は40%をデフォルトにする。
+  const sameSession = date === dayKey && session === selectedSession?.id;
+  const defaultPerEntryValue =
+    sameSession && perEntryValueParam && /^\d+$/.test(perEntryValueParam)
+      ? Number(perEntryValueParam)
+      : isTurboDenomination(denominations.find((d) => d.id === selectedSession?.denomination_id))
+        ? 200
+        : 300;
+  const defaultPrizePercent =
+    sameSession && percentParam && /^\d+$/.test(percentParam) ? Number(percentParam) : 40;
+
   // プライズ計算ボタンの結果表示。日付・回を変えたら計算結果は持ち越さない
   // （date/sessionパラメータと一緒に発行されるURLのprizeCountだけを見る）。
   const prizeCount =
-    date === dayKey &&
-    session === selectedSession?.id &&
-    prizeCountParam &&
-    /^\d+$/.test(prizeCountParam)
+    sameSession && prizeCountParam && /^\d+$/.test(prizeCountParam)
       ? Number(prizeCountParam)
       : null;
   const prizeTotal =
-    date === dayKey &&
-    session === selectedSession?.id &&
-    prizeTotalParam &&
-    /^\d+$/.test(prizeTotalParam)
+    sameSession && prizeTotalParam && /^\d+$/.test(prizeTotalParam)
       ? Number(prizeTotalParam)
       : null;
   const prizeAmounts =
@@ -359,6 +375,32 @@ export default async function TournamentPage({
             </div>
             <div className="text-right">
               <div className="flex items-start justify-end gap-3">
+                <div className="flex items-center gap-1.5 rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-xs text-gray-600">
+                  <span className="font-medium text-gray-500">総額の式</span>
+                  <input
+                    type="number"
+                    name="perEntryValue"
+                    defaultValue={defaultPerEntryValue}
+                    min={0}
+                    aria-label="単価"
+                    className="w-16 rounded border border-gray-300 px-1.5 py-1 text-right text-gray-900 focus:border-indigo-500 focus:outline-none"
+                  />
+                  <span>×</span>
+                  <input
+                    type="number"
+                    name="percent"
+                    defaultValue={defaultPrizePercent}
+                    min={0}
+                    max={100}
+                    aria-label="割合(%)"
+                    className="w-14 rounded border border-gray-300 px-1.5 py-1 text-right text-gray-900 focus:border-indigo-500 focus:outline-none"
+                  />
+                  <span>%</span>
+                  <span>×</span>
+                  <span className="font-medium whitespace-nowrap text-gray-900">
+                    {totals.entryFee}エントリー
+                  </span>
+                </div>
                 <SubmitButton className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
                   記録保存
                 </SubmitButton>
@@ -367,7 +409,7 @@ export default async function TournamentPage({
                   pendingText="計算中"
                   className="rounded-md border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-700 hover:bg-amber-100 disabled:opacity-50"
                 >
-                  プライズ計算
+                  決定
                 </SubmitButton>
                 <ConfirmSubmitButton
                   confirmMessage={`「${
