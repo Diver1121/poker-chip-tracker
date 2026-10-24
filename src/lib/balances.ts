@@ -1,6 +1,6 @@
 import type { ChipTransaction, Denomination, TransactionCategory, Visit } from "@/lib/types";
 import { categorySign } from "@/lib/transactionCategory";
-import { businessDateKey } from "@/lib/businessDay";
+import { businessDateKey, daysInMonth } from "@/lib/businessDay";
 
 // customerId -> denominationId -> 現在の保有枚数（purchase/tournamentのみが対象）
 export type BalanceMap = Map<string, Map<string, number>>;
@@ -417,6 +417,27 @@ export function computeMonthlyPurchaseValueTotals(
     totals.set(monthKey, (totals.get(monthKey) ?? 0) + value);
   }
   return totals;
+}
+
+// 月（"YYYY-MM"）ごとに、1日目から各日までの購入合計点数（累計）を日数分の配列で返す。
+// 「月次売上推移」で複数の月の折れ線を重ねてペースを比較するグラフに使う
+// （配列のindex 0が1日目）。進行中の月をまだ来ていない日まで0埋めで伸ばすと、
+// その先でペースが止まったように誤読されるため、進行中の月の絞り込みは呼び出し側
+// （今日が何日目かを知っている側）でslice(0, todayOfMonth)して行う。
+export function computeMonthlyCumulativePurchaseSeries(
+  dailyTotals: Map<string, number>,
+  monthKeys: string[],
+): Map<string, number[]> {
+  const result = new Map<string, number[]>();
+  for (const monthKey of monthKeys) {
+    let running = 0;
+    const series = daysInMonth(monthKey).map((dateKey) => {
+      running += dailyTotals.get(dateKey) ?? 0;
+      return running;
+    });
+    result.set(monthKey, series);
+  }
+  return result;
 }
 
 // customerId -> category -> 入力された点数の合計（符号なし、そのまま合算）。

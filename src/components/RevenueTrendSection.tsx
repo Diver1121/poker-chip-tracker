@@ -1,8 +1,12 @@
-import { computeDailyPurchaseValueTotals, computeMonthlyPurchaseValueTotals } from "@/lib/balances";
+import {
+  computeDailyPurchaseValueTotals,
+  computeMonthlyCumulativePurchaseSeries,
+  computeMonthlyPurchaseValueTotals,
+} from "@/lib/balances";
 import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
 import { percentChange, sumThroughDay } from "@/lib/statsFormat";
 import type { ChipTransaction, Denomination } from "@/lib/types";
-import { MonthlyLineChart } from "@/components/MonthlyLineChart";
+import { MonthlyPaceOverlayChart } from "@/components/MonthlyPaceOverlayChart";
 import { MonthlyTrendHeadline } from "@/components/MonthlyTrendHeadline";
 
 const TRAILING_MONTHS = 12;
@@ -29,10 +33,17 @@ export function RevenueTrendSection({
 
   const allMonthKeys = [...monthlyTotals.keys()].sort();
   const chartMonthKeys = allMonthKeys.slice(-TRAILING_MONTHS);
-  const chartData = chartMonthKeys.map((monthKey) => ({
-    monthKey,
-    value: monthlyTotals.get(monthKey) ?? 0,
-  }));
+
+  // 各月を1日目から重ねて表示するペース比較グラフ用データ。進行中の今月は
+  // まだ来ていない日まで0埋めで伸ばさないよう、今日の日数までに絞り込む。
+  const cumulativeByMonth = computeMonthlyCumulativePurchaseSeries(dailyTotals, chartMonthKeys);
+  const paceSeries = chartMonthKeys.map((monthKey) => {
+    const values = cumulativeByMonth.get(monthKey) ?? [];
+    return {
+      monthKey,
+      values: monthKey === currentMonthKey ? values.slice(0, todayOfMonth) : values,
+    };
+  });
 
   const [yearPart, numPart] = currentMonthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
@@ -40,7 +51,7 @@ export function RevenueTrendSection({
   return (
     <section>
       <h2 className="mb-4 text-lg font-bold text-gray-900">月次売上推移（購入点数）</h2>
-      {chartData.length === 0 ? (
+      {paceSeries.length === 0 ? (
         <p className="text-sm text-gray-500">まだ購入の記録がありません。</p>
       ) : (
         <div className="rounded-lg border border-gray-200 bg-white p-4">
@@ -53,7 +64,7 @@ export function RevenueTrendSection({
               changeNote={`前月同日比（${todayOfMonth}日まで）`}
             />
           </div>
-          <MonthlyLineChart data={chartData} label="売上" unit="購入" />
+          <MonthlyPaceOverlayChart series={paceSeries} unit="購入" />
         </div>
       )}
     </section>
