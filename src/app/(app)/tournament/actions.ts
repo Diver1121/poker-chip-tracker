@@ -7,15 +7,19 @@ import { requireAuth } from "@/lib/require-auth";
 import { insertChipTransaction } from "@/lib/transactions";
 import { getTournamentEntries, getTournaments } from "@/lib/data";
 import { businessDateKey } from "@/lib/businessDay";
+import { toHalfWidthDigits } from "@/lib/numberInput";
 
+// クライアント側のtype="text"+inputMode="numeric"への変更と対の防御。
+// 全角数字がそのまま届いた場合（JS無効時やブラウザ拡張等の想定外経路）でも
+// 半角に変換してから数値化し、黒子ごと0/nullになってしまわないようにする。
 function toInt(value: FormDataEntryValue | null): number {
-  const n = Number(value);
+  const n = Number(toHalfWidthDigits(String(value ?? "")));
   return Number.isFinite(n) ? Math.trunc(n) : 0;
 }
 
 function toNullableInt(value: FormDataEntryValue | null): number | null {
   if (value === null || value === "") return null;
-  const n = Number(value);
+  const n = Number(toHalfWidthDigits(String(value)));
   return Number.isFinite(n) ? Math.trunc(n) : null;
 }
 

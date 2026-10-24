@@ -1,11 +1,17 @@
 "use client";
 
 import { useRef } from "react";
+import { sanitizeDigitsInput } from "@/lib/numberInput";
 
 // スマホのtype="number"はブラウザ標準の△▽（スピンボタン）が出ないため、
 // PCと同じ感覚で使えるよう自前の△▽ボタンを入力欄の右端に重ねて表示する。
 // 常時表示だと表が窮屈な上にタップ領域が小さくて押しづらいため、入力欄に
 // フォーカスしている間だけ表示する（タップ→フォーカス→ボタン出現）。
+//
+// type="number"のままだとIME入力中に全角数字が混ざった瞬間、ブラウザが値を
+// 不正な入力として扱い中身を空文字にしてしまう（見た目に数字があっても送信時
+// には空になる）。type="text"+inputMode="numeric"にして、入力のたびに全角→半角
+// 変換と数字以外の除去を自前で行うことで、IME経由でも値を失わないようにする。
 export function NumberStepperInput({
   name,
   defaultValue,
@@ -33,13 +39,19 @@ export function NumberStepperInput({
     el.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const sanitized = sanitizeDigitsInput(e.target.value);
+    if (sanitized !== e.target.value) e.target.value = sanitized;
+  }
+
   return (
     <div className="group relative">
       <input
         ref={inputRef}
         name={name}
-        type="number"
-        step={step}
+        type="text"
+        inputMode="numeric"
+        onChange={handleChange}
         defaultValue={defaultValue}
         placeholder={placeholder}
         className={`number-stepper-input ${className ?? ""}`}

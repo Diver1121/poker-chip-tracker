@@ -1,12 +1,15 @@
 "use client";
 
 import { useRef } from "react";
+import { sanitizeDigitsInput } from "@/lib/numberInput";
 
 // 順位欄に数値を入力すると、プライズ計算済みの配分表(prizeAmounts、0番目が1位)から
 // 対応する獲得点数を獲得欄に「加算」する（上書きではない。獲得欄に既に手入力の
 // 数値があってもそれは消さない）。順位を入力し直した/消したときは、前回その順位分
 // として足した金額をいったん差し引いてから、新しい順位の分を足し直す
 // （そうしないと、入力ミスを直したときに古い加算分が獲得欄に残ってしまう）。
+// type="number"だとIME入力中に全角数字が混ざった瞬間に値が空文字になってしまうため、
+// type="text"+inputMode="numeric"にして全角→半角変換と数字以外の除去を自前で行う。
 export function TournamentRankPrizeInputs({
   rowIndex,
   defaultRank,
@@ -25,7 +28,10 @@ export function TournamentRankPrizeInputs({
   const lastContributionRef = useRef(0);
 
   function handleRankChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const rank = Number(e.target.value);
+    const sanitized = sanitizeDigitsInput(e.target.value);
+    if (sanitized !== e.target.value) e.target.value = sanitized;
+
+    const rank = Number(sanitized);
     const contribution =
       Number.isInteger(rank) && rank >= 1 && rank <= prizeAmounts.length
         ? prizeAmounts[rank - 1]
@@ -38,12 +44,17 @@ export function TournamentRankPrizeInputs({
     }
   }
 
+  function handlePrizeAmountChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const sanitized = sanitizeDigitsInput(e.target.value);
+    if (sanitized !== e.target.value) e.target.value = sanitized;
+  }
+
   return (
     <>
       <input
         name={`rank-${rowIndex}`}
-        type="number"
-        step={1}
+        type="text"
+        inputMode="numeric"
         defaultValue={defaultRank}
         placeholder="-"
         className={className}
@@ -52,11 +63,12 @@ export function TournamentRankPrizeInputs({
       <input
         ref={prizeInputRef}
         name={`prizeAmount-${rowIndex}`}
-        type="number"
-        step={1}
+        type="text"
+        inputMode="numeric"
         defaultValue={defaultPrizeAmount}
         placeholder="0"
         className={className}
+        onChange={handlePrizeAmountChange}
       />
     </>
   );
