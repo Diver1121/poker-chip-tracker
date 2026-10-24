@@ -9,7 +9,7 @@ import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
 import { monthLabelOf } from "@/lib/statsFormat";
 import type { ChipTransaction, Denomination } from "@/lib/types";
 import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
-import { MonthlyLineChart } from "@/components/MonthlyLineChart";
+import { MonthlyBarChart } from "@/components/MonthlyBarChart";
 import { CategoryBarChart } from "@/components/CategoryBarChart";
 
 export function PurchaseBreakdownSection({
@@ -174,7 +174,7 @@ export function PurchaseBreakdownSection({
           breakdown={purchaseTotalBreakdown}
           chart={
             monthlyKeys.length > 1 && (
-              <MonthlyLineChart data={purchaseTotalChartData} unit="購入" label="購入数" />
+              <MonthlyBarChart data={purchaseTotalChartData} unit="購入" label="購入数" />
             )
           }
         />
@@ -188,7 +188,7 @@ export function PurchaseBreakdownSection({
           breakdown={purchaseAvgBreakdown}
           chart={
             monthlyKeys.length > 1 && (
-              <MonthlyLineChart data={purchaseAvgChartData} unit="購入" label="1日平均" />
+              <MonthlyBarChart data={purchaseAvgChartData} unit="購入" label="1日平均" />
             )
           }
         />
