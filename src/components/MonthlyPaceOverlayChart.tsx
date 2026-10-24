@@ -35,12 +35,10 @@ export function MonthlyPaceOverlayChart({
   unit?: string;
 }) {
   const sorted = [...series].sort((a, b) => a.monthKey.localeCompare(b.monthKey));
-  const availableRangeOptions = RANGE_OPTIONS.filter((n) => n <= sorted.length);
-  const defaultRange =
-    availableRangeOptions.find((n) => n === 3) ??
-    availableRangeOptions[availableRangeOptions.length - 1] ??
-    sorted.length;
-  const [rangeMonths, setRangeMonths] = useState(defaultRange);
+  // ボタンは常に1/3/6/12ヶ月の4つを出す。実際のデータがそれより少ない月数しか
+  // 無い場合はslice(-rangeMonths)が持っている分だけを自然に返すので、
+  // データ量でボタン自体を出し分ける必要はない。
+  const [rangeMonths, setRangeMonths] = useState(3);
   const [activeDay, setActiveDay] = useState<number | null>(null);
 
   if (sorted.length === 0) {
@@ -72,7 +70,7 @@ export function MonthlyPaceOverlayChart({
     <div className="space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-1.5">
-          {availableRangeOptions.map((n) => (
+          {RANGE_OPTIONS.map((n) => (
             <button
               key={n}
               type="button"
