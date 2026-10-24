@@ -2,7 +2,7 @@ import { computeDailyPurchaseValueTotals, computeMonthlyPurchaseValueTotals } fr
 import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
 import { percentChange, sumThroughDay } from "@/lib/statsFormat";
 import type { ChipTransaction, Denomination } from "@/lib/types";
-import { MonthlyBarChart } from "@/components/MonthlyBarChart";
+import { MonthlyLineChart } from "@/components/MonthlyLineChart";
 import { MonthlyTrendHeadline } from "@/components/MonthlyTrendHeadline";
 
 const TRAILING_MONTHS = 12;
@@ -53,7 +53,7 @@ export function RevenueTrendSection({
               changeNote={`前月同日比（${todayOfMonth}日まで）`}
             />
           </div>
-          <MonthlyBarChart data={chartData} label="売上" unit="購入" />
+          <MonthlyLineChart data={chartData} label="売上" unit="購入" />
         </div>
       )}
     </section>

@@ -23,7 +23,7 @@ import { SubmitButton } from "@/components/SubmitButton";
 import { EditCustomerNameButton } from "@/components/EditCustomerNameButton";
 import { DeleteCustomerButton } from "@/components/DeleteCustomerButton";
 import { GameLineChart } from "@/components/GameLineChart";
-import { MonthlyBarChart } from "@/components/MonthlyBarChart";
+import { MonthlyLineChart } from "@/components/MonthlyLineChart";
 import { MonthlyTrendHeadline } from "@/components/MonthlyTrendHeadline";
 import {
   deleteTransaction,
@@ -218,7 +218,7 @@ export default async function CustomerDetailPage({
                 changeNote={`前月同日比（${todayOfMonth}日まで）`}
               />
             </div>
-            <MonthlyBarChart data={purchaseTrendData} label="購入" unit="購入" />
+            <MonthlyLineChart data={purchaseTrendData} label="購入" unit="購入" />
           </div>
         )}
       </section>
