@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { LinkPendingDot } from "@/components/LinkPendingDot";
-import { computeRingGameNetByCustomer } from "@/lib/balances";
+import { MultiLineChart, type MultiLineSeries } from "@/components/MultiLineChart";
+import { computeRingGameNetByCustomer, computeRingGameResultTimelinesByCustomer } from "@/lib/balances";
 import {
   businessDateKey,
   businessWeekKey,
@@ -15,6 +16,36 @@ import {
 } from "@/lib/businessDay";
 import { formatSigned, signColorClass } from "@/lib/statsFormat";
 import type { ChipTransaction, Customer } from "@/lib/types";
+
+// グラフ表示で重ねる上位勢の人数と、横軸の期間選択肢（ヶ月）。
+const CHART_TOP_N = 10;
+const CHART_RANGE_OPTIONS = [1, 3, 6, 12] as const;
+type ChartRangeMonths = (typeof CHART_RANGE_OPTIONS)[number];
+
+// 上位10名ぶんの色を固定10色から割り当てる。客IDのハッシュ値で希望の色を決め、
+// 既に使われていたら次の空き色へ回す（上位勢が期間切替で入れ替わっても、
+// 同じ客はできるだけ同じ色のままになるようにする＝順位ではなく客に色を付ける）。
+function hashToIndex(id: string, size: number): number {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) % size;
+  return ((hash % size) + size) % size;
+}
+function paletteColor(index: number): string {
+  const hue = (index * 36) % 360;
+  const isYellowish = hue >= 40 && hue <= 95;
+  return `hsl(${hue}, ${isYellowish ? 72 : 66}%, ${isYellowish ? 38 : 46}%)`;
+}
+function colorsForCustomers(orderedIds: string[]): Map<string, string> {
+  const colorByCustomer = new Map<string, string>();
+  const used = new Set<number>();
+  for (const id of orderedIds) {
+    let index = hashToIndex(id, 10);
+    while (used.has(index)) index = (index + 1) % 10;
+    used.add(index);
+    colorByCustomer.set(id, paletteColor(index));
+  }
+  return colorByCustomer;
+}
 
 // インスタ投稿用プロンプトに載せる人数。月は「月間TOP10」として1〜3位（金銀銅）＋4〜10位、
 // それ以外（日/週/期間指定）は従来どおり上位3名だけに絞る
@@ -131,6 +162,8 @@ export function RingGameRankingSection({
   const [customStart, setCustomStart] = useState(todayKey);
   const [customEnd, setCustomEnd] = useState(todayKey);
   const [shareStatus, setShareStatus] = useState<null | "copied" | "unsupported">(null);
+  const [showChart, setShowChart] = useState(false);
+  const [chartRangeMonths, setChartRangeMonths] = useState<ChartRangeMonths>(3);
 
   let targetTransactions: ChipTransaction[];
   if (viewMode === "day") {
@@ -170,6 +203,29 @@ export function RingGameRankingSection({
       name: nameById.get(customerId) ?? "(削除済みの客)",
       net,
     }));
+
+  // グラフ表示用: 選択した期間（直近Nヶ月）の取引だけに絞って日次収支累計を計算し、
+  // その期間の最終収支が多い順で上位10名だけを重ねて表示する。
+  const chartWindowStartKey = `${shiftMonthKey(currentMonthKey, -(chartRangeMonths - 1))}-01`;
+  const chartWindowTransactions = transactions.filter(
+    (tx) => businessDateKey(tx.created_at) >= chartWindowStartKey,
+  );
+  const timelinesByCustomer = computeRingGameResultTimelinesByCustomer(chartWindowTransactions);
+  const chartRanking = [...timelinesByCustomer.entries()]
+    .map(([customerId, data]) => ({
+      customerId,
+      data,
+      finalTotal: data.at(-1)?.total ?? 0,
+    }))
+    .sort((a, b) => b.finalTotal - a.finalTotal)
+    .slice(0, CHART_TOP_N);
+  const chartColorByCustomer = colorsForCustomers(chartRanking.map((r) => r.customerId));
+  const chartSeries: MultiLineSeries[] = chartRanking.map((r) => ({
+    key: r.customerId,
+    label: nameById.get(r.customerId) ?? "(削除済みの客)",
+    color: chartColorByCustomer.get(r.customerId) ?? "#4f46e5",
+    data: r.data.map((d) => ({ date: d.date, value: d.total })),
+  }));
 
   const [dayYear, dayMonth, dayDay] = dayKey.split("-").map(Number);
   const dayLabel = `${dayYear}年${dayMonth}月${dayDay}日`;
@@ -254,7 +310,18 @@ export function RingGameRankingSection({
               </button>
             ))}
           </div>
-          {viewMode === "day" && (
+          <button
+            type="button"
+            onClick={() => setShowChart((v) => !v)}
+            className={`rounded-md border px-2 py-1 font-medium ${
+              showChart
+                ? "border-indigo-600 bg-indigo-600 text-white"
+                : "border-gray-300 text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            📈 グラフ
+          </button>
+          {!showChart && viewMode === "day" && (
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -274,7 +341,7 @@ export function RingGameRankingSection({
               </button>
             </div>
           )}
-          {viewMode === "week" && (
+          {!showChart && viewMode === "week" && (
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -294,7 +361,7 @@ export function RingGameRankingSection({
               </button>
             </div>
           )}
-          {viewMode === "month" && (
+          {!showChart && viewMode === "month" && (
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -314,7 +381,7 @@ export function RingGameRankingSection({
               </button>
             </div>
           )}
-          {viewMode === "custom" && (
+          {!showChart && viewMode === "custom" && (
             <div className="flex flex-wrap items-center gap-2">
               <input
                 type="date"
@@ -347,7 +414,7 @@ export function RingGameRankingSection({
               )}
             </div>
           )}
-          {viewMode !== "total" && (
+          {!showChart && viewMode !== "total" && (
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -372,10 +439,39 @@ export function RingGameRankingSection({
               )}
             </div>
           )}
+          {showChart && (
+            <div className="flex flex-wrap items-center gap-1.5">
+              {CHART_RANGE_OPTIONS.map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => setChartRangeMonths(n)}
+                  className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                    chartRangeMonths === n
+                      ? "bg-indigo-600 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  直近{n}ヶ月
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {ranking.length === 0 ? (
+      {showChart ? (
+        chartSeries.length === 0 ? (
+          <p className="text-sm text-gray-500">この期間の記録がありません。</p>
+        ) : (
+          <div className="rounded-lg border border-gray-200 bg-white p-4">
+            <p className="mb-3 text-xs text-gray-500">
+              上位{Math.min(CHART_TOP_N, chartSeries.length)}名の収支累計（チップ数）を重ねて表示。線や凡例をタップすると1人だけ強調できます。
+            </p>
+            <MultiLineChart series={chartSeries} />
+          </div>
+        )
+      ) : ranking.length === 0 ? (
         <p className="text-sm text-gray-500">記録がありません。</p>
       ) : (
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">

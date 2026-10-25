@@ -135,6 +135,41 @@ export function computeShopTableTotals(transactions: ChipTransaction[]): {
   return { buyInTotal, outTotal, rake: buyInTotal - outTotal };
 }
 
+// customerId -> 日付（JST）ごとのリングゲーム（ポーカー）収支累計。
+// computeRingGameNetByCustomerの日次・複数客重ね表示版。リングゲーム収支ランキングの
+// 折れ線グラフ（上位勢を重ねてペースを比較する）に使う。
+export function computeRingGameResultTimelinesByCustomer(
+  transactions: ChipTransaction[],
+): Map<string, { date: string; total: number }[]> {
+  const byCustomer = new Map<string, ChipTransaction[]>();
+  for (const tx of transactions) {
+    if (tx.game !== "poker") continue;
+    if (tx.category !== "table_out" && tx.category !== "table_in") continue;
+    if (!byCustomer.has(tx.customer_id)) byCustomer.set(tx.customer_id, []);
+    byCustomer.get(tx.customer_id)!.push(tx);
+  }
+
+  const result = new Map<string, { date: string; total: number }[]>();
+  for (const [customerId, txs] of byCustomer) {
+    const sorted = [...txs].sort(
+      (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+    );
+    const totalByDate = new Map<string, number>();
+    let running = 0;
+    for (const tx of sorted) {
+      running += tx.category === "table_in" ? tx.quantity : -tx.quantity;
+      totalByDate.set(businessDateKey(tx.created_at), running);
+    }
+    result.set(
+      customerId,
+      [...totalByDate.entries()]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([date, total]) => ({ date, total })),
+    );
+  }
+  return result;
+}
+
 // 客ごとのリングゲーム（ポーカー）収支（アウト合計 − バイイン合計）。
 // ポーカー/ブラックジャックの入力欄が分かれる前の過去データはgameがnullで、
 // どちらのゲームか判別できないためランキングには含めない
