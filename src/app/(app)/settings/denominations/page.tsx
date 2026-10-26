@@ -85,7 +85,7 @@ export default async function DenominationsSettingsPage() {
           action={createDenomination}
           className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4"
         >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
             <div>
               <label htmlFor="label" className={fieldLabelClassName}>
                 表示名
@@ -108,6 +108,20 @@ export default async function DenominationsSettingsPage() {
                 type="number"
                 step={1}
                 required
+                className={fieldInputClassName}
+              />
+            </div>
+            <div>
+              <label htmlFor="priceYen" className={fieldLabelClassName}>
+                現金価格（円・任意）
+              </label>
+              <input
+                id="priceYen"
+                name="priceYen"
+                type="number"
+                step={1}
+                min={0}
+                placeholder="例: 2000"
                 className={fieldInputClassName}
               />
             </div>
@@ -170,7 +184,7 @@ export default async function DenominationsSettingsPage() {
                 </div>
                 <form action={updateDenomination} className="flex flex-1 flex-col gap-4">
                   <input type="hidden" name="id" value={d.id} />
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
                     <div>
                       <label className={fieldLabelClassName}>表示名</label>
                       <input
@@ -188,6 +202,18 @@ export default async function DenominationsSettingsPage() {
                         step={1}
                         defaultValue={d.value}
                         required
+                        className={fieldInputClassName}
+                      />
+                    </div>
+                    <div>
+                      <label className={fieldLabelClassName}>現金価格（円・任意）</label>
+                      <input
+                        name="priceYen"
+                        type="number"
+                        step={1}
+                        min={0}
+                        defaultValue={d.price_yen ?? ""}
+                        placeholder="例: 2000"
                         className={fieldInputClassName}
                       />
                     </div>

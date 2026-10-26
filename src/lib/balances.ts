@@ -1,4 +1,10 @@
-import type { ChipTransaction, Denomination, TransactionCategory, Visit } from "@/lib/types";
+import type {
+  ChipTransaction,
+  Denomination,
+  TournamentEntry,
+  TransactionCategory,
+  Visit,
+} from "@/lib/types";
 import { categorySign } from "@/lib/transactionCategory";
 import { businessDateKey, daysInMonth } from "@/lib/businessDay";
 
@@ -434,6 +440,76 @@ export function computeDailyPurchaseValueTotals(
     const value = tx.quantity * (valueByDenomination.get(tx.denomination_id) ?? 0);
     const date = businessDateKey(tx.created_at);
     totals.set(date, (totals.get(date) ?? 0) + value);
+  }
+  return totals;
+}
+
+// 日付（JST）ごとのトーナメント現金エントリー（本エントリー＋アドオン）のOCEAN（点数）換算合計。
+// 現金エントリーは保有チップを増減させない記録のみの値（cash_amountは回数）だが、
+// 店舗課題の客単価にはチップ購入と同じ「点数」の単位で合算したいため、
+// エントリー回数×その行で使われた額面の点数で換算する。
+export function computeDailyTournamentCashOceanTotals(
+  tournamentEntries: TournamentEntry[],
+  denominations: Denomination[],
+): Map<string, number> {
+  const valueByDenomination = new Map(denominations.map((d) => [d.id, d.value]));
+  const totals = new Map<string, number>();
+  for (const entry of tournamentEntries) {
+    const mainValue = entry.denomination_id
+      ? entry.cash_amount * (valueByDenomination.get(entry.denomination_id) ?? 0)
+      : 0;
+    const addonValue = entry.addon_denomination_id
+      ? entry.addon_cash_amount * (valueByDenomination.get(entry.addon_denomination_id) ?? 0)
+      : 0;
+    const total = mainValue + addonValue;
+    if (total === 0) continue;
+    const date = businessDateKey(entry.created_at);
+    totals.set(date, (totals.get(date) ?? 0) + total);
+  }
+  return totals;
+}
+
+// 日付（JST）ごとの購入の現金価格（円）合計。額面に現金価格（price_yen）が設定されて
+// いるものだけを対象にする（未設定の額面は円換算できないため除く）。
+// 店の現金の動き（リングゲーム現金 vs トーナメント現金）の比較グラフに使う。
+export function computeDailyPurchaseCashYenTotals(
+  transactions: ChipTransaction[],
+  denominations: Denomination[],
+): Map<string, number> {
+  const priceByDenomination = new Map(denominations.map((d) => [d.id, d.price_yen]));
+  const totals = new Map<string, number>();
+  for (const tx of transactions) {
+    if (tx.category !== "purchase" || !tx.denomination_id) continue;
+    const price = priceByDenomination.get(tx.denomination_id);
+    if (!price) continue;
+    const yen = tx.quantity * price;
+    const date = businessDateKey(tx.created_at);
+    totals.set(date, (totals.get(date) ?? 0) + yen);
+  }
+  return totals;
+}
+
+// 日付（JST）ごとのトーナメント現金エントリー（本エントリー＋アドオン）の円合計。
+// computeDailyTournamentCashOceanTotalsの円版（点数の代わりに現金価格price_yenを使う）。
+export function computeDailyTournamentCashYenTotals(
+  tournamentEntries: TournamentEntry[],
+  denominations: Denomination[],
+): Map<string, number> {
+  const priceByDenomination = new Map(denominations.map((d) => [d.id, d.price_yen]));
+  const totals = new Map<string, number>();
+  for (const entry of tournamentEntries) {
+    const mainPrice = entry.denomination_id
+      ? priceByDenomination.get(entry.denomination_id)
+      : null;
+    const addonPrice = entry.addon_denomination_id
+      ? priceByDenomination.get(entry.addon_denomination_id)
+      : null;
+    const mainYen = mainPrice ? entry.cash_amount * mainPrice : 0;
+    const addonYen = addonPrice ? entry.addon_cash_amount * addonPrice : 0;
+    const total = mainYen + addonYen;
+    if (total === 0) continue;
+    const date = businessDateKey(entry.created_at);
+    totals.set(date, (totals.get(date) ?? 0) + total);
   }
   return totals;
 }

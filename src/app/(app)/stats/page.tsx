@@ -9,6 +9,7 @@ import {
 } from "@/lib/data";
 import { computeDailyTotals } from "@/lib/balances";
 import { businessDateKey, businessMonthKey } from "@/lib/businessDay";
+import { CashFlowComparisonSection } from "@/components/CashFlowComparisonSection";
 import { MonthlyOperationsSummarySection } from "@/components/MonthlyOperationsSummarySection";
 import { PurchaseBreakdownSection } from "@/components/PurchaseBreakdownSection";
 import { RevenueTrendSection } from "@/components/RevenueTrendSection";
@@ -68,6 +69,7 @@ export default async function StatsPage() {
                   transactions={transactions}
                   visits={visits}
                   denominations={denominations}
+                  tournamentEntries={tournamentEntries}
                   lastClosedAt={shopSettings.lastClosedAt}
                   currentMonthKey={currentMonthKey}
                 />
@@ -86,6 +88,12 @@ export default async function StatsPage() {
                 />
                 <PurchaseBreakdownSection
                   transactions={transactions}
+                  denominations={denominations}
+                  currentMonthKey={currentMonthKey}
+                />
+                <CashFlowComparisonSection
+                  transactions={transactions}
+                  tournamentEntries={tournamentEntries}
                   denominations={denominations}
                   currentMonthKey={currentMonthKey}
                 />

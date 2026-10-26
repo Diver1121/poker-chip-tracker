@@ -11,6 +11,8 @@ export type Denomination = {
   aliases: string[];
   // trueの額面を選んだ回だけ、トーナメントのエントリー行にバウンティ獲得ポイント欄を出す
   is_mystery_bounty: boolean;
+  // 額面1枚（1回分）あたりの現金価格（円）。未設定の額面はnull（店の現金の動きの集計から除く）。
+  price_yen: number | null;
 };
 
 export type Customer = {

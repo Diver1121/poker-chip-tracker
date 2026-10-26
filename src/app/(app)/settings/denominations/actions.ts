@@ -5,6 +5,13 @@ import { getSupabaseClient } from "@/lib/supabase";
 import { requireAuth } from "@/lib/require-auth";
 import { parseAliasesInput } from "@/lib/denominationAliases";
 
+// 現金価格（円）は未設定を許す（null=円換算の対象から除く）任意項目。
+function parsePriceYen(value: FormDataEntryValue | null): number | null {
+  if (value === null || value === "") return null;
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.trunc(n) : null;
+}
+
 export async function createDenomination(formData: FormData) {
   await requireAuth();
 
@@ -15,6 +22,7 @@ export async function createDenomination(formData: FormData) {
   const usableForAddon = formData.get("usableForAddon") === "1";
   const isMysteryBounty = formData.get("isMysteryBounty") === "1";
   const aliases = parseAliasesInput(String(formData.get("aliases") ?? ""));
+  const priceYen = parsePriceYen(formData.get("priceYen"));
   if (!label || !Number.isFinite(value)) {
     throw new Error("入力内容が正しくありません。");
   }
@@ -37,6 +45,7 @@ export async function createDenomination(formData: FormData) {
     usable_for_addon: usableForAddon,
     is_mystery_bounty: isMysteryBounty,
     aliases,
+    price_yen: priceYen,
   });
   if (error) throw error;
 
@@ -55,6 +64,7 @@ export async function updateDenomination(formData: FormData) {
   const usableForAddon = formData.get("usableForAddon") === "1";
   const isMysteryBounty = formData.get("isMysteryBounty") === "1";
   const aliases = parseAliasesInput(String(formData.get("aliases") ?? ""));
+  const priceYen = parsePriceYen(formData.get("priceYen"));
   if (!id || !label || !Number.isFinite(value)) {
     throw new Error("入力内容が正しくありません。");
   }
@@ -69,6 +79,7 @@ export async function updateDenomination(formData: FormData) {
       usable_for_addon: usableForAddon,
       is_mystery_bounty: isMysteryBounty,
       aliases,
+      price_yen: priceYen,
     })
     .eq("id", id);
   if (error) throw error;

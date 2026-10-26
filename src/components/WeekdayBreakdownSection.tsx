@@ -4,11 +4,12 @@ import { useState } from "react";
 import {
   computeDailyPurchaseValueTotals,
   computeDailyRakeTotals,
+  computeDailyTournamentCashOceanTotals,
   computeDailyVisitCounts,
 } from "@/lib/balances";
 import { businessDateKey, daysInMonth, shiftDayKey, shiftMonthKey } from "@/lib/businessDay";
 import { formatSigned, signColorClass } from "@/lib/statsFormat";
-import type { ChipTransaction, Denomination, Visit } from "@/lib/types";
+import type { ChipTransaction, Denomination, TournamentEntry, Visit } from "@/lib/types";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -18,12 +19,14 @@ export function WeekdayBreakdownSection({
   transactions,
   visits,
   denominations,
+  tournamentEntries,
   lastClosedAt,
   currentMonthKey,
 }: {
   transactions: ChipTransaction[];
   visits: Visit[];
   denominations: Denomination[];
+  tournamentEntries: TournamentEntry[];
   lastClosedAt: string | null;
   currentMonthKey: string;
 }) {
@@ -42,12 +45,25 @@ export function WeekdayBreakdownSection({
     computeDailyVisitCounts(visits).map((d) => [d.date, d.count]),
   );
   const dailyPurchaseValueByDate = computeDailyPurchaseValueTotals(transactions, denominations);
+  const dailyTournamentCashOceanByDate = computeDailyTournamentCashOceanTotals(
+    tournamentEntries,
+    denominations,
+  );
+  // 客単価は「チップ購入」だけでなく「トーナメントの現金エントリー」も同じOCEAN（点数）の
+  // 単位に換算して合算する（店舗課題で知りたいのはトーナメント＋チップ購入の合計のため）。
+  const dailyOceanByDate = new Map<string, number>();
+  for (const [date, value] of dailyPurchaseValueByDate) {
+    dailyOceanByDate.set(date, (dailyOceanByDate.get(date) ?? 0) + value);
+  }
+  for (const [date, value] of dailyTournamentCashOceanByDate) {
+    dailyOceanByDate.set(date, (dailyOceanByDate.get(date) ?? 0) + value);
+  }
 
   const recordedDates = [
     ...new Set([
       ...dailyRakeByDate.keys(),
       ...dailyVisitCountByDate.keys(),
-      ...dailyPurchaseValueByDate.keys(),
+      ...dailyOceanByDate.keys(),
     ]),
   ].sort();
 
@@ -76,12 +92,12 @@ export function WeekdayBreakdownSection({
         })()
       : daysInMonth(monthKey).filter((d) => d >= firstDateKey && d <= lastCompletedDayKey);
 
-  type WeekdayAgg = { dayCount: number; visitCount: number; rake: number; purchaseValue: number };
+  type WeekdayAgg = { dayCount: number; visitCount: number; rake: number; oceanValue: number };
   const weekdayAgg: WeekdayAgg[] = Array.from({ length: 7 }, () => ({
     dayCount: 0,
     visitCount: 0,
     rake: 0,
-    purchaseValue: 0,
+    oceanValue: 0,
   }));
 
   // 記録の有無に関わらず対象期間の全日を数えることで「来店がほぼない曜日」も平均に反映させる。
@@ -92,14 +108,14 @@ export function WeekdayBreakdownSection({
     agg.dayCount += 1;
     agg.visitCount += dailyVisitCountByDate.get(dateKey) ?? 0;
     agg.rake += dailyRakeByDate.get(dateKey)?.rakeWithTournament ?? 0;
-    agg.purchaseValue += dailyPurchaseValueByDate.get(dateKey) ?? 0;
+    agg.oceanValue += dailyOceanByDate.get(dateKey) ?? 0;
   }
 
   const rows = WEEKDAY_LABELS.map((label, weekday) => {
     const agg = weekdayAgg[weekday];
     const avgVisitCount = agg.dayCount > 0 ? agg.visitCount / agg.dayCount : null;
     const avgRake = agg.dayCount > 0 ? agg.rake / agg.dayCount : null;
-    const avgSpendPerVisit = agg.visitCount > 0 ? agg.purchaseValue / agg.visitCount : null;
+    const avgSpendPerVisit = agg.visitCount > 0 ? agg.oceanValue / agg.visitCount : null;
     return { weekday, label, dayCount: agg.dayCount, avgVisitCount, avgRake, avgSpendPerVisit };
   });
 
@@ -109,16 +125,16 @@ export function WeekdayBreakdownSection({
       dayCount: sum.dayCount + agg.dayCount,
       visitCount: sum.visitCount + agg.visitCount,
       rake: sum.rake + agg.rake,
-      purchaseValue: sum.purchaseValue + agg.purchaseValue,
+      oceanValue: sum.oceanValue + agg.oceanValue,
     }),
-    { dayCount: 0, visitCount: 0, rake: 0, purchaseValue: 0 },
+    { dayCount: 0, visitCount: 0, rake: 0, oceanValue: 0 },
   );
   const overallRow = {
     dayCount: overallAgg.dayCount,
     avgVisitCount: overallAgg.dayCount > 0 ? overallAgg.visitCount / overallAgg.dayCount : null,
     avgRake: overallAgg.dayCount > 0 ? overallAgg.rake / overallAgg.dayCount : null,
     avgSpendPerVisit:
-      overallAgg.visitCount > 0 ? overallAgg.purchaseValue / overallAgg.visitCount : null,
+      overallAgg.visitCount > 0 ? overallAgg.oceanValue / overallAgg.visitCount : null,
   };
 
   return (
@@ -188,7 +204,7 @@ export function WeekdayBreakdownSection({
                 <th className="px-4 py-2 text-right font-medium">集計日数</th>
                 <th className="px-4 py-2 text-right font-medium">平均来店客数</th>
                 <th className="px-4 py-2 text-right font-medium">平均レーキ</th>
-                <th className="px-4 py-2 text-right font-medium">客単価（購入/来店）</th>
+                <th className="px-4 py-2 text-right font-medium">客単価（OCEAN/来店）</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -219,7 +235,7 @@ export function WeekdayBreakdownSection({
                   <td className="px-4 py-2 text-right text-gray-900">
                     {r.avgSpendPerVisit === null
                       ? "-"
-                      : `${Math.round(r.avgSpendPerVisit).toLocaleString()}購入`}
+                      : `${Math.round(r.avgSpendPerVisit).toLocaleString()}OCEAN`}
                   </td>
                 </tr>
               ))}
@@ -243,7 +259,7 @@ export function WeekdayBreakdownSection({
                 <td className="px-4 py-2 text-right text-gray-900">
                   {overallRow.avgSpendPerVisit === null
                     ? "-"
-                    : `${Math.round(overallRow.avgSpendPerVisit).toLocaleString()}購入`}
+                    : `${Math.round(overallRow.avgSpendPerVisit).toLocaleString()}OCEAN`}
                 </td>
               </tr>
             </tfoot>

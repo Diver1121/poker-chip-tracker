@@ -244,3 +244,9 @@ create table if not exists ranking_share_log (
 
 create index if not exists ranking_share_log_lookup_idx
   on ranking_share_log(ranking_type, business_date);
+
+-- 額面1枚（1回分）あたりの現金価格（円）。購入はチップの点数、トーナメントの現金
+-- エントリーは回数しか記録しておらず、円の情報がどこにも無かったため追加する。
+-- 店の現金の動き（リングゲーム購入 vs トーナメント現金エントリー）を比較するグラフに使う。
+-- 未設定（null）の額面は円換算の対象から除く。
+alter table denominations add column if not exists price_yen integer;
