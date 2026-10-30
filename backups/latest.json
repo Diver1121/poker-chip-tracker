@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T20:18:34.921Z",
+  "generatedAt": "2026-10-30T20:18:34.992Z",
   "customers": [
     {
       "id": "5cba8874-f2c0-47ff-a8d7-dea462f33906",
@@ -583,6 +583,13 @@
       "checked_in_at": null
     },
     {
+      "id": "ecbbbd7a-08c0-4324-a322-10f64216e40e",
+      "name": "ユウタ②",
+      "note": "ノリ連れ",
+      "created_at": "2026-10-30T14:26:34.525825+00:00",
+      "checked_in_at": "2026-10-30T15:58:29.503+00:00"
+    },
+    {
       "id": "4c502354-aec0-4136-8cdf-f2d3253d2517",
       "name": "ケント",
       "note": "セナ連れ",
@@ -912,13 +919,6 @@
       "checked_in_at": null
     },
     {
-      "id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
-      "name": "コウダイ②",
-      "note": "ミライ",
-      "created_at": "2026-09-07T10:28:49.598145+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "5be62054-de68-4ab2-a4e1-3069bb6ec1a6",
       "name": "ナガタ",
       "note": "福岡出張",
@@ -966,6 +966,13 @@
       "note": "リリ彼氏",
       "created_at": "2026-10-12T13:23:47.377308+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "name": "コウダイ②",
+      "note": "ミライ",
+      "created_at": "2026-09-07T10:28:49.598145+00:00",
+      "checked_in_at": "2026-10-30T10:21:20.026+00:00"
     },
     {
       "id": "dda17682-4b2b-44d3-8a24-cda2b043b436",
@@ -1490,7 +1497,7 @@
       "name": "リク",
       "note": "イワタ ミータン連れ",
       "created_at": "2026-07-12T21:54:19.634882+00:00",
-      "checked_in_at": null
+      "checked_in_at": "2026-10-30T12:33:40.73+00:00"
     },
     {
       "id": "ae255c47-958a-4d58-8d68-e71a3331f6c6",
@@ -1948,13 +1955,6 @@
       "checked_in_at": null
     },
     {
-      "id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
-      "name": "シュウペイ",
-      "note": "ハヤト友人",
-      "created_at": "2026-07-12T21:53:46.820734+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "a8306e9d-b9fb-4479-af25-b078b4b018c7",
       "name": "ユウ",
       "note": "兵庫出身大分在住 女性2/14に初来店初LIVE",
@@ -2004,13 +2004,6 @@
       "checked_in_at": null
     },
     {
-      "id": "5bed2ef6-d25c-4101-8b38-32e6da9b3945",
-      "name": "リョウ",
-      "note": "ゆめ 弟 けいさん従業員",
-      "created_at": "2026-07-12T21:54:20.393512+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "3a4b850f-cc17-436d-ac15-39807dcb1e8f",
       "name": "ビー",
       "note": "エー ビー シー 3人組",
@@ -2032,13 +2025,6 @@
       "checked_in_at": null
     },
     {
-      "id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
-      "name": "セブ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:52.207798+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "b59633c8-61cb-418e-a9bf-52daca44a253",
       "name": "モト",
       "note": "トリック勢 おじ",
@@ -2050,13 +2036,6 @@
       "name": "ユウダイ",
       "note": "光タイプ",
       "created_at": "2026-07-12T21:54:18.075344+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "65688e31-6098-4457-982f-a4c13fb5c093",
-      "name": "マーボー",
-      "note": "リュウノスケ連れ",
-      "created_at": "2026-08-15T11:33:33.814774+00:00",
       "checked_in_at": null
     },
     {
@@ -2074,11 +2053,39 @@
       "checked_in_at": null
     },
     {
+      "id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "name": "セブ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:52.207798+00:00",
+      "checked_in_at": "2026-10-30T10:21:11.731+00:00"
+    },
+    {
       "id": "485aa1c9-f4d3-4905-8fa4-c7378d6ad7ee",
       "name": "ヒロ④",
       "note": null,
       "created_at": "2026-10-10T15:13:14.706215+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "65688e31-6098-4457-982f-a4c13fb5c093",
+      "name": "マーボー",
+      "note": "リュウノスケ連れ",
+      "created_at": "2026-08-15T11:33:33.814774+00:00",
+      "checked_in_at": "2026-10-30T12:09:56.084+00:00"
+    },
+    {
+      "id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "name": "シュウペイ",
+      "note": "ハヤト友人",
+      "created_at": "2026-07-12T21:53:46.820734+00:00",
+      "checked_in_at": "2026-10-30T12:49:42.476+00:00"
+    },
+    {
+      "id": "5bed2ef6-d25c-4101-8b38-32e6da9b3945",
+      "name": "リョウ",
+      "note": "ゆめ 弟 けいさん従業員",
+      "created_at": "2026-07-12T21:54:20.393512+00:00",
+      "checked_in_at": "2026-10-30T13:20:20.852+00:00"
     },
     {
       "id": "fd13e441-37c3-4320-82d9-3a1ff7747985",
@@ -2246,13 +2253,6 @@
       "name": "ルカ",
       "note": null,
       "created_at": "2026-07-12T21:54:21.771529+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "e8246572-1d5f-4e8e-8b83-c6957fd59a0f",
-      "name": "ダイスケ",
-      "note": null,
-      "created_at": "2026-07-12T21:54:23.481237+00:00",
       "checked_in_at": null
     },
     {
@@ -2487,13 +2487,6 @@
       "checked_in_at": null
     },
     {
-      "id": "b935e580-866c-4091-bdad-88ea979143da",
-      "name": "ハヤト",
-      "note": "建築",
-      "created_at": "2026-07-12T21:54:06.10924+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "ecb565e7-6ecd-4722-ae6b-e49642bf245a",
       "name": "キム",
       "note": null,
@@ -2506,6 +2499,20 @@
       "note": null,
       "created_at": "2026-07-12T21:54:20.555429+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "e8246572-1d5f-4e8e-8b83-c6957fd59a0f",
+      "name": "ダイスケ",
+      "note": null,
+      "created_at": "2026-07-12T21:54:23.481237+00:00",
+      "checked_in_at": "2026-10-30T11:07:42.687+00:00"
+    },
+    {
+      "id": "b935e580-866c-4091-bdad-88ea979143da",
+      "name": "ハヤト",
+      "note": "建築",
+      "created_at": "2026-07-12T21:54:06.10924+00:00",
+      "checked_in_at": "2026-10-30T13:03:59.545+00:00"
     },
     {
       "id": "712cd2c3-e28e-467d-8fdc-ba6a9facf926",
@@ -2676,13 +2683,6 @@
       "checked_in_at": null
     },
     {
-      "id": "d9f8359d-a081-4453-978c-c67d7294314d",
-      "name": "トワ",
-      "note": null,
-      "created_at": "2026-07-12T21:54:02.047034+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "b916e04c-9e7a-4e3c-812c-61538b8d6f34",
       "name": "スライム",
       "note": null,
@@ -2729,13 +2729,6 @@
       "name": "リョウスケ",
       "note": "キッズ",
       "created_at": "2026-07-12T21:54:20.748051+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
-      "name": "ゴックン",
-      "note": "トワダンナ",
-      "created_at": "2026-07-12T21:53:41.977222+00:00",
       "checked_in_at": null
     },
     {
@@ -2865,6 +2858,13 @@
       "checked_in_at": null
     },
     {
+      "id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "name": "ゴックン",
+      "note": "トワダンナ",
+      "created_at": "2026-07-12T21:53:41.977222+00:00",
+      "checked_in_at": "2026-10-30T10:21:40.792+00:00"
+    },
+    {
       "id": "5f272464-75d2-42c4-9f09-9b2b79e0c649",
       "name": "ケイ",
       "note": "ケイさん 兄貴",
@@ -2905,6 +2905,13 @@
       "note": "小柄 200cでバイイン多",
       "created_at": "2026-07-12T21:54:16.148405+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "name": "トワ",
+      "note": null,
+      "created_at": "2026-07-12T21:54:02.047034+00:00",
+      "checked_in_at": "2026-10-30T12:43:48.866+00:00"
     },
     {
       "id": "fc9e6268-1b9d-449a-ab45-1deac576a8e0",
@@ -3117,6 +3124,13 @@
       "checked_in_at": null
     },
     {
+      "id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
+      "name": "レオ",
+      "note": null,
+      "created_at": "2026-10-11T10:27:53.835427+00:00",
+      "checked_in_at": "2026-10-30T10:59:10.473+00:00"
+    },
+    {
       "id": "4a26012a-eb12-4948-af0f-2bcc81d8926f",
       "name": "ジツ",
       "note": "ヒカ ジツ 2人組",
@@ -3143,6 +3157,13 @@
       "note": "ゆうくん整体師",
       "created_at": "2026-07-12T21:54:12.874583+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "name": "ファッキー",
+      "note": "タカヒトお連れ様",
+      "created_at": "2026-07-12T21:54:19.157048+00:00",
+      "checked_in_at": "2026-10-30T12:30:15.911+00:00"
     },
     {
       "id": "62473eb0-cd5e-45d3-a50e-50381a7b0ef5",
@@ -3229,13 +3250,6 @@
       "checked_in_at": null
     },
     {
-      "id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
-      "name": "ヒゲ",
-      "note": "大分最古参ポーカープレイヤー",
-      "created_at": "2026-07-12T21:54:07.572436+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "abe5d4f7-c577-44b5-ba5c-b87dbf87b0ce",
       "name": "ナギ",
       "note": null,
@@ -3306,13 +3320,6 @@
       "checked_in_at": null
     },
     {
-      "id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
-      "name": "ファッキー",
-      "note": "タカヒトお連れ様",
-      "created_at": "2026-07-12T21:54:19.157048+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "0fdea51b-8710-494b-9dce-40368edda312",
       "name": "ナメイヌ",
       "note": null,
@@ -3369,18 +3376,18 @@
       "checked_in_at": null
     },
     {
-      "id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
-      "name": "レオ",
-      "note": null,
-      "created_at": "2026-10-11T10:27:53.835427+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "38884842-f56f-4e36-be93-0190702385a6",
       "name": "カズ",
       "note": null,
       "created_at": "2026-07-12T21:54:24.955166+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "name": "ヒゲ",
+      "note": "大分最古参ポーカープレイヤー",
+      "created_at": "2026-07-12T21:54:07.572436+00:00",
+      "checked_in_at": "2026-10-30T10:38:22.611+00:00"
     },
     {
       "id": "447a1c9c-f24f-4692-8c26-535283966b2b",
@@ -3423,6 +3430,13 @@
       "note": "ソラさん ラブホSKYグループ社長",
       "created_at": "2026-07-12T21:53:50.327686+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
+      "name": "ダブリュー",
+      "note": "Jカド ケンケン",
+      "created_at": "2026-07-12T21:53:57.620688+00:00",
+      "checked_in_at": "2026-10-30T12:34:04.909+00:00"
     },
     {
       "id": "47b81eb9-5a03-4c5a-8f9e-793c22f8d47a",
@@ -4069,13 +4083,6 @@
       "checked_in_at": null
     },
     {
-      "id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
-      "name": "ダブリュー",
-      "note": "Jカド ケンケン",
-      "created_at": "2026-07-12T21:53:57.620688+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "d649c081-eb51-4831-8f1b-4832a403ebfd",
       "name": "ユカ",
       "note": "イケ知り合い",
@@ -4468,13 +4475,6 @@
       "checked_in_at": null
     },
     {
-      "id": "a1a5ac1a-1af2-4987-9833-5d68eaf30c90",
-      "name": "セイジ",
-      "note": "ADC",
-      "created_at": "2026-07-12T21:53:51.629899+00:00",
-      "checked_in_at": null
-    },
-    {
       "id": "34f112a5-bc35-46d3-9249-9cc07318c62f",
       "name": "タカヒロ",
       "note": "大銀 リョウ友人",
@@ -4508,6 +4508,13 @@
       "note": "タイチャン連れ　大人数",
       "created_at": "2026-10-28T12:52:04.0091+00:00",
       "checked_in_at": null
+    },
+    {
+      "id": "a1a5ac1a-1af2-4987-9833-5d68eaf30c90",
+      "name": "セイジ",
+      "note": "ADC",
+      "created_at": "2026-07-12T21:53:51.629899+00:00",
+      "checked_in_at": "2026-10-30T13:19:55.047+00:00"
     },
     {
       "id": "72ac830a-0623-4d8a-af95-05ac5a180b76",
@@ -4853,6 +4860,13 @@
       "checked_in_at": null
     },
     {
+      "id": "417bac48-2842-433a-ae1a-f424124f3d1f",
+      "name": "ツカヤマ",
+      "note": null,
+      "created_at": "2026-10-30T13:24:09.242909+00:00",
+      "checked_in_at": "2026-10-30T13:24:29.001+00:00"
+    },
+    {
       "id": "7f0326a1-434d-44a0-a893-5fd73781d0ed",
       "name": "ヨコサワ",
       "note": "初心者 チン、ニコラス連れ",
@@ -4871,13 +4885,6 @@
       "name": "ナカノ",
       "note": null,
       "created_at": "2026-09-21T13:31:03.527414+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
-      "name": "カツキ",
-      "note": null,
-      "created_at": "2026-07-12T21:53:36.676846+00:00",
       "checked_in_at": null
     },
     {
@@ -4920,7 +4927,28 @@
       "name": "クローバー",
       "note": "タクミ連れ",
       "created_at": "2026-07-12T21:53:40.155434+00:00",
-      "checked_in_at": null
+      "checked_in_at": "2026-10-30T10:21:30.214+00:00"
+    },
+    {
+      "id": "6c70403b-0081-4825-8b27-07c014abe08f",
+      "name": "キクチ",
+      "note": "ハヤト知り合い",
+      "created_at": "2026-09-20T10:24:05.582446+00:00",
+      "checked_in_at": "2026-10-30T12:10:07.728+00:00"
+    },
+    {
+      "id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "name": "カツキ",
+      "note": null,
+      "created_at": "2026-07-12T21:53:36.676846+00:00",
+      "checked_in_at": "2026-10-30T12:31:06.867+00:00"
+    },
+    {
+      "id": "a8876c57-ad56-4763-a4a5-7575e988a285",
+      "name": "ノリ",
+      "note": "ユウタ連れ",
+      "created_at": "2026-10-30T14:23:36.392712+00:00",
+      "checked_in_at": "2026-10-30T15:56:06.093+00:00"
     },
     {
       "id": "76f55e81-28e7-421d-acfe-f30faecf55e0",
@@ -5039,13 +5067,6 @@
       "name": "タマサブ",
       "note": null,
       "created_at": "2026-07-17T13:26:31.287685+00:00",
-      "checked_in_at": null
-    },
-    {
-      "id": "6c70403b-0081-4825-8b27-07c014abe08f",
-      "name": "キクチ",
-      "note": "ハヤト知り合い",
-      "created_at": "2026-09-20T10:24:05.582446+00:00",
       "checked_in_at": null
     }
   ],
@@ -61150,15 +61171,6 @@
       "game": "poker"
     },
     {
-      "id": "6a7a85a5-3c8e-4658-86f6-a31fa6b77440",
-      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
-      "denomination_id": null,
-      "category": "table_out",
-      "quantity": 500,
-      "created_at": "2026-10-28T10:49:05.644+00:00",
-      "game": "poker"
-    },
-    {
       "id": "bd28c3c1-5109-4eaf-80c4-d1e392d2c77c",
       "customer_id": "73c113dc-57dd-4c17-b64a-77275ce98590",
       "denomination_id": null,
@@ -61861,6 +61873,24 @@
       "game": "poker"
     },
     {
+      "id": "1b18a35d-694f-4a1b-8495-5d20f7a7be66",
+      "customer_id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1236,
+      "created_at": "2026-10-30T12:56:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "4f5736bd-c5ec-44bf-8e43-67e20d2839c4",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 6000,
+      "created_at": "2026-10-30T12:56:00+00:00",
+      "game": "poker"
+    },
+    {
       "id": "ea657ebd-45fb-404b-8bac-a7b9ae9e6896",
       "customer_id": "73c113dc-57dd-4c17-b64a-77275ce98590",
       "denomination_id": null,
@@ -62005,6 +62035,24 @@
       "game": "poker"
     },
     {
+      "id": "c9d7e964-4ae4-47b5-b4d6-25b88e00daad",
+      "customer_id": "65688e31-6098-4457-982f-a4c13fb5c093",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1295,
+      "created_at": "2026-10-30T12:56:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "d006ed4c-30d8-4e0b-be01-4356d46e079f",
+      "customer_id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1265,
+      "created_at": "2026-10-30T12:56:00+00:00",
+      "game": "poker"
+    },
+    {
       "id": "87fd99f6-1481-4479-ae59-d15ab43f5f34",
       "customer_id": "b6c709a3-5cbb-4479-9b4c-1e8a44f8cc83",
       "denomination_id": null,
@@ -62012,6 +62060,24 @@
       "quantity": 1000,
       "created_at": "2026-10-28T14:31:00+00:00",
       "game": "blackjack"
+    },
+    {
+      "id": "238947e9-3ca3-461d-b75f-0d3e95f82fa7",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1700,
+      "created_at": "2026-10-30T12:56:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "d619644a-95c8-454d-9c90-1990dee41897",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 854,
+      "created_at": "2026-10-30T12:56:00+00:00",
+      "game": "poker"
     },
     {
       "id": "3ad4db75-a20b-49d1-ad9c-3e9524328cc3",
@@ -62030,6 +62096,24 @@
       "quantity": 100,
       "created_at": "2026-10-28T15:53:00+00:00",
       "game": "blackjack"
+    },
+    {
+      "id": "9129fc5a-3f09-4b75-ab63-b40c82b80247",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 570,
+      "created_at": "2026-10-30T12:56:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "a187333f-7eec-4c77-8270-30fbab005fb0",
+      "customer_id": "6c70403b-0081-4825-8b27-07c014abe08f",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 165,
+      "created_at": "2026-10-30T13:00:00+00:00",
+      "game": "poker"
     },
     {
       "id": "0cf9005b-d7ae-4084-a6d7-16eac1406831",
@@ -62129,6 +62213,735 @@
       "quantity": 588,
       "created_at": "2026-10-28T16:06:00+00:00",
       "game": "poker"
+    },
+    {
+      "id": "054ecda4-0149-4007-ac65-0821ca65b7d7",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T10:38:22.611+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "25881bd1-8155-47d5-8cc8-856a35ab4854",
+      "customer_id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 351,
+      "created_at": "2026-10-30T10:21:20.026+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "5e931cab-595b-40e2-b078-a86a1b134884",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 351,
+      "created_at": "2026-10-30T10:21:30.214+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "a31aaac8-a85f-41d8-a34a-c006b3b413e1",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 300,
+      "created_at": "2026-10-30T10:47:00+00:00",
+      "game": "blackjack"
+    },
+    {
+      "id": "247673fd-8ebb-4f5c-afc5-d98b25997619",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T10:21:40.792+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "0702d19d-1d60-429b-b3d9-101d53743b93",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-10-30T10:21:11.731+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "e904d577-0248-4a4a-be06-b851fbcb430c",
+      "customer_id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
+      "denomination_id": "96a31a62-dfa6-4dda-8a21-44bf330da4d6",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-10-30T10:59:10.473+00:00",
+      "game": null
+    },
+    {
+      "id": "a520febc-e45a-4095-8da3-fe64bedeeb80",
+      "customer_id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1500,
+      "created_at": "2026-10-30T10:59:10.473+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "2941f970-b255-45e0-87af-127d382f0dac",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T10:39:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "3b0aef75-d094-4710-9806-6df7b1efbd8f",
+      "customer_id": "e8246572-1d5f-4e8e-8b83-c6957fd59a0f",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-10-30T11:07:42.687+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "91e7199b-600e-48ad-9037-5c352ac5c623",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T11:04:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "25cf81e6-7224-4d6f-a352-a994f8ce2862",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 410,
+      "created_at": "2026-10-30T12:03:00+00:00",
+      "game": "blackjack"
+    },
+    {
+      "id": "d94cd6ec-6884-42c0-809e-cd57cd4e04d5",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-10-30T12:03:00+00:00",
+      "game": "blackjack"
+    },
+    {
+      "id": "379fa68a-a595-4d03-81b1-dc673b3ef840",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T12:04:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "36558aae-ab3b-41d2-8d35-cedc7c29e750",
+      "customer_id": "6c70403b-0081-4825-8b27-07c014abe08f",
+      "denomination_id": "6bdbdc0b-f103-47dd-bf9a-29b7386052ae",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-10-30T12:10:07.728+00:00",
+      "game": null
+    },
+    {
+      "id": "701fc3eb-350a-4b9b-8ba8-861b25e467cf",
+      "customer_id": "6c70403b-0081-4825-8b27-07c014abe08f",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-10-30T12:10:07.728+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "a57435a0-8c21-46ef-8230-24f61a73b304",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1500,
+      "created_at": "2026-10-30T12:31:06.867+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "23290ee4-f0f7-4548-bb53-53b69cad1859",
+      "customer_id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 50,
+      "created_at": "2026-10-30T12:30:15.911+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "0740a4e0-17a0-42ce-97b5-ed1a1382598d",
+      "customer_id": "4db912ad-22c3-4b90-a11e-c6a296aef96d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2750,
+      "created_at": "2026-10-30T12:33:40.73+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "ba46e23d-d3de-42bf-8985-7671fd14b792",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 130,
+      "created_at": "2026-10-30T12:43:48.866+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "93f895b4-9e62-44ef-b989-2419b64e587a",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 430,
+      "created_at": "2026-10-30T12:43:48.866+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "15ebb0aa-2fa8-4d55-9f09-041e6e75a77d",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 715,
+      "created_at": "2026-10-30T12:56:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "ba40c6f9-e26c-4465-ad69-f485ada2fe41",
+      "customer_id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:08:01.950974+00:00",
+      "game": null
+    },
+    {
+      "id": "3da4e6e7-4a36-4c72-b5f1-c479b2319f25",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 100,
+      "created_at": "2026-10-30T13:06:00+00:00",
+      "game": "blackjack"
+    },
+    {
+      "id": "2965c59c-ba8b-4b1b-ae4c-ae6d4497e8a3",
+      "customer_id": "65688e31-6098-4457-982f-a4c13fb5c093",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:08:02.72301+00:00",
+      "game": null
+    },
+    {
+      "id": "cf6e8df5-bd57-4aef-848c-f94f2e95ddf9",
+      "customer_id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:08:01.873135+00:00",
+      "game": null
+    },
+    {
+      "id": "c9bd9fdd-c469-484b-9394-1c9a3652b044",
+      "customer_id": "4db912ad-22c3-4b90-a11e-c6a296aef96d",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:08:02.663597+00:00",
+      "game": null
+    },
+    {
+      "id": "ddb1174a-ab8f-4645-bbc9-ffdcfea4f14f",
+      "customer_id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:06:06.496116+00:00",
+      "game": null
+    },
+    {
+      "id": "11836069-7e14-49a0-b433-0df8bdc1d0ec",
+      "customer_id": "6c70403b-0081-4825-8b27-07c014abe08f",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:03:40.849434+00:00",
+      "game": null
+    },
+    {
+      "id": "7f8f7158-b18c-4c68-8e34-c2d53d842fc8",
+      "customer_id": "6c70403b-0081-4825-8b27-07c014abe08f",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 2,
+      "created_at": "2026-10-30T13:03:40.873487+00:00",
+      "game": null
+    },
+    {
+      "id": "fd60742a-ce7b-40a8-b59a-be223b048bc9",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 3,
+      "created_at": "2026-10-30T13:02:59.029343+00:00",
+      "game": null
+    },
+    {
+      "id": "000d1a91-71e3-4122-be7e-9077f7f08b5a",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:08:58.950584+00:00",
+      "game": null
+    },
+    {
+      "id": "21d76b61-993d-48e4-b7c5-3ddd35be859e",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:05:03.772152+00:00",
+      "game": null
+    },
+    {
+      "id": "203db356-708c-48ed-8214-946fff999e80",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:08:02.32731+00:00",
+      "game": null
+    },
+    {
+      "id": "04bce29c-df6a-47b2-a80d-a7aef58558da",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": "22d88b39-cfab-478d-a5cf-81644d189c60",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:06:35.123623+00:00",
+      "game": null
+    },
+    {
+      "id": "b96983e9-7c89-4e02-a7e9-632f93ad4225",
+      "customer_id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:05:36.287849+00:00",
+      "game": null
+    },
+    {
+      "id": "9a512273-d605-4e22-9ac8-4795d981f165",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:08:02.426788+00:00",
+      "game": null
+    },
+    {
+      "id": "d2393f01-45b0-43b4-8aff-4c7c9c6b06d6",
+      "customer_id": "a1a5ac1a-1af2-4987-9833-5d68eaf30c90",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-10-30T13:20:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "9773203a-240c-424d-a4aa-13446d8540ba",
+      "customer_id": "5bed2ef6-d25c-4101-8b38-32e6da9b3945",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-10-30T13:20:20.852+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "02a1847f-59b1-417d-a63b-bad5c694dec1",
+      "customer_id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 908,
+      "created_at": "2026-10-30T13:24:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "f869d41f-8bec-4690-9265-d9d8c0f35b5a",
+      "customer_id": "417bac48-2842-433a-ae1a-f424124f3d1f",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:26:00+00:00",
+      "game": null
+    },
+    {
+      "id": "3e5e85a6-93ef-4e8a-af24-0007044d3965",
+      "customer_id": "417bac48-2842-433a-ae1a-f424124f3d1f",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T13:26:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "ed6416b4-0459-4e5d-8ace-85640d92c11b",
+      "customer_id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 836,
+      "created_at": "2026-10-30T13:55:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "6604f7cd-e66d-4d1e-a5e8-459ab9f3e5b5",
+      "customer_id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:55:00+00:00",
+      "game": null
+    },
+    {
+      "id": "87b6de77-84c8-4b23-b318-fe7245cf0da9",
+      "customer_id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T13:55:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "33d4dfb0-fbab-4a25-aa1d-18157dd61c1c",
+      "customer_id": "4db912ad-22c3-4b90-a11e-c6a296aef96d",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1100,
+      "created_at": "2026-10-30T14:05:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "c604b2a2-f040-42c1-a29d-db746481ddc4",
+      "customer_id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-10-30T14:11:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "cd1c0f89-50c6-45a7-b617-4d4e128f7b5c",
+      "customer_id": "65688e31-6098-4457-982f-a4c13fb5c093",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-10-30T14:13:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "65397947-aebe-4ba4-a05c-f1ab6396c0ec",
+      "customer_id": "65688e31-6098-4457-982f-a4c13fb5c093",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-10-30T14:14:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "72742aee-c146-4261-8195-cadfacebd7de",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 3000,
+      "created_at": "2026-10-30T14:27:00+00:00",
+      "game": "blackjack"
+    },
+    {
+      "id": "d9afb66e-90ca-431e-8938-b363b9331ede",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 3500,
+      "created_at": "2026-10-30T14:27:00+00:00",
+      "game": "blackjack"
+    },
+    {
+      "id": "a8a79dc8-714d-42dc-8eb3-6de2c4a87dc0",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 700,
+      "created_at": "2026-10-30T14:28:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "26c0a3fc-6312-4fb4-8ded-d8b3fe760d63",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1150,
+      "created_at": "2026-10-30T14:28:00+00:00",
+      "game": "blackjack"
+    },
+    {
+      "id": "478b614f-d9ca-4360-9a43-bda2ced979e8",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-10-30T14:28:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "35bceb92-fd80-42ac-a7eb-dd7d8b726a96",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 500,
+      "created_at": "2026-10-30T14:29:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "917c48bd-b49a-474e-9493-0d8aea7a6b29",
+      "customer_id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 640,
+      "created_at": "2026-10-30T14:14:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "7cabb396-fc03-4c55-a55e-236ab799d89c",
+      "customer_id": "4db912ad-22c3-4b90-a11e-c6a296aef96d",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 867,
+      "created_at": "2026-10-30T14:14:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "9aecac58-e4f0-4708-add7-2e529cf0d0cf",
+      "customer_id": "a1a5ac1a-1af2-4987-9833-5d68eaf30c90",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1936,
+      "created_at": "2026-10-30T14:14:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "26e92fdd-0600-4d5d-8538-29c8f37f01c5",
+      "customer_id": "5bed2ef6-d25c-4101-8b38-32e6da9b3945",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 955,
+      "created_at": "2026-10-30T14:14:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "6364c166-4c89-4e1d-980a-a594e483f5ac",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 1000,
+      "created_at": "2026-10-30T15:18:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "b253cef4-95c5-4c6f-beda-2070e5643348",
+      "customer_id": "a8876c57-ad56-4763-a4a5-7575e988a285",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-10-30T15:56:06.093+00:00",
+      "game": null
+    },
+    {
+      "id": "4ee8e049-1810-4588-bb53-d7a038ee1827",
+      "customer_id": "ecbbbd7a-08c0-4324-a322-10f64216e40e",
+      "denomination_id": "3355c74f-51ed-4392-ac82-34bc36a33ebf",
+      "category": "purchase",
+      "quantity": 1,
+      "created_at": "2026-10-30T15:58:29.503+00:00",
+      "game": null
+    },
+    {
+      "id": "7ff720e3-cfda-4870-9ac8-42dc42b2a764",
+      "customer_id": "a8876c57-ad56-4763-a4a5-7575e988a285",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T15:56:06.093+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "15f51692-3d96-4d74-a9c4-8d8c888bb9d3",
+      "customer_id": "ecbbbd7a-08c0-4324-a322-10f64216e40e",
+      "denomination_id": null,
+      "category": "table_out",
+      "quantity": 300,
+      "created_at": "2026-10-30T15:58:29.503+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "3020b42a-8b2f-412f-b6cc-f5ea05e3ea11",
+      "customer_id": "ecbbbd7a-08c0-4324-a322-10f64216e40e",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 500,
+      "created_at": "2026-10-30T15:58:29.503+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "e9338e6c-4d05-4b2e-a22f-d734877e41cf",
+      "customer_id": "a8876c57-ad56-4763-a4a5-7575e988a285",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 500,
+      "created_at": "2026-10-30T15:56:06.093+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "c47f5334-5298-4ff8-8dbe-927f4ea976e5",
+      "customer_id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1858,
+      "created_at": "2026-10-30T16:03:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "4c9abb6d-4108-4dcd-87e6-13a43796df13",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 1104,
+      "created_at": "2026-10-30T16:04:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "ed762de2-f2c1-4643-bc98-64734cb4c880",
+      "customer_id": "65688e31-6098-4457-982f-a4c13fb5c093",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 2207,
+      "created_at": "2026-10-30T16:04:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "935f39c2-63fe-44cb-9333-c302560e3931",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 500,
+      "created_at": "2026-10-30T16:04:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "6c4c0c77-2428-4da2-ab86-2f00e2b82da4",
+      "customer_id": "417bac48-2842-433a-ae1a-f424124f3d1f",
+      "denomination_id": null,
+      "category": "table_in",
+      "quantity": 500,
+      "created_at": "2026-10-30T16:18:00+00:00",
+      "game": "poker"
+    },
+    {
+      "id": "276f2361-50a4-4088-a7b1-27936987f4ba",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "denomination_id": null,
+      "category": "prize",
+      "quantity": 480,
+      "created_at": "2026-10-30T16:38:40.923652+00:00",
+      "game": null
+    },
+    {
+      "id": "9b17b2d9-4854-452d-997f-4035ae080580",
+      "customer_id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:33:23.255809+00:00",
+      "game": null
+    },
+    {
+      "id": "1efcc645-7aca-438f-be2b-2ce2b38be2fb",
+      "customer_id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:33:55.178973+00:00",
+      "game": null
+    },
+    {
+      "id": "970b09ff-38e8-41b9-8272-e1532f5a0aa6",
+      "customer_id": "b935e580-866c-4091-bdad-88ea979143da",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:09:12.882091+00:00",
+      "game": null
+    },
+    {
+      "id": "cba8fbe5-ca9c-4af8-9e7f-1e067f8ac78e",
+      "customer_id": "b935e580-866c-4091-bdad-88ea979143da",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 3,
+      "created_at": "2026-10-30T13:09:13.25136+00:00",
+      "game": null
+    },
+    {
+      "id": "40bacb87-258f-448f-8085-4e64bcff7d33",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "denomination_id": null,
+      "category": "cash_entry",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:10:45.00383+00:00",
+      "game": null
+    },
+    {
+      "id": "eec4f0f3-5684-451a-b20e-aa9086f01d42",
+      "customer_id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "denomination_id": "24d9d29d-5f8f-42b1-b060-13e6057ed33b",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:06:07.683546+00:00",
+      "game": null
+    },
+    {
+      "id": "a4594788-8235-4503-8e0f-58ee1a746cbf",
+      "customer_id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
+      "denomination_id": null,
+      "category": "prize",
+      "quantity": 1500,
+      "created_at": "2026-10-30T16:38:41.666446+00:00",
+      "game": null
+    },
+    {
+      "id": "591142ed-8ede-46c9-b00e-71410d71d435",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "denomination_id": "22d88b39-cfab-478d-a5cf-81644d189c60",
+      "category": "tournament",
+      "quantity": 1,
+      "created_at": "2026-10-30T13:10:55.383674+00:00",
+      "game": null
+    },
+    {
+      "id": "d5f5934f-0be1-4af3-ae99-90a2e291ff8c",
+      "customer_id": "6c70403b-0081-4825-8b27-07c014abe08f",
+      "denomination_id": null,
+      "category": "prize",
+      "quantity": 720,
+      "created_at": "2026-10-30T16:38:41.734533+00:00",
+      "game": null
     }
   ],
   "visits": [
@@ -70876,6 +71689,111 @@
       "id": "57b1b8c3-8be6-4cc3-86cb-93b6854f4708",
       "customer_id": "e3371ccb-2b02-459f-9d6c-a784f55c4ac4",
       "checked_in_at": "2026-10-28T13:39:02.279+00:00"
+    },
+    {
+      "id": "821bac7c-2dda-4eea-9b67-77d45c652bd7",
+      "customer_id": "23e9de68-2ad0-4320-a2b6-7115eb8497f1",
+      "checked_in_at": "2026-10-30T10:21:11.731+00:00"
+    },
+    {
+      "id": "b8bdcc61-bf6f-45a0-8be3-0563caa11edf",
+      "customer_id": "21cee8ec-df25-4163-ac4c-f9f01c3f4566",
+      "checked_in_at": "2026-10-30T10:21:20.026+00:00"
+    },
+    {
+      "id": "4ac76ea0-ab1d-4de5-8c57-0b691d6d6f76",
+      "customer_id": "3054a344-a041-4de7-afa9-3743d176d4de",
+      "checked_in_at": "2026-10-30T10:21:30.214+00:00"
+    },
+    {
+      "id": "aeef9382-943b-4f7d-aa5e-aa988ed01a4b",
+      "customer_id": "9a0d467f-1aab-49b3-8dbe-d1311403272e",
+      "checked_in_at": "2026-10-30T10:21:40.792+00:00"
+    },
+    {
+      "id": "e410166f-6951-448d-a827-dc6e02e0e46b",
+      "customer_id": "9abe3abb-67a9-477c-ade7-a9e39db818ea",
+      "checked_in_at": "2026-10-30T10:38:22.611+00:00"
+    },
+    {
+      "id": "f65b9c03-180d-4922-accd-4a3e2cd66775",
+      "customer_id": "fae4a025-d30d-4a80-86e1-be5ab4f64f9b",
+      "checked_in_at": "2026-10-30T10:59:10.473+00:00"
+    },
+    {
+      "id": "a5f93cd7-7a8b-41bb-b0c2-26e6961e9dd4",
+      "customer_id": "e8246572-1d5f-4e8e-8b83-c6957fd59a0f",
+      "checked_in_at": "2026-10-30T11:07:42.687+00:00"
+    },
+    {
+      "id": "81ca7ace-be23-4378-a3cc-852c7d21e73b",
+      "customer_id": "65688e31-6098-4457-982f-a4c13fb5c093",
+      "checked_in_at": "2026-10-30T12:09:56.084+00:00"
+    },
+    {
+      "id": "fa14b3b2-22ee-4ed1-9be1-e875d0c22e5b",
+      "customer_id": "6c70403b-0081-4825-8b27-07c014abe08f",
+      "checked_in_at": "2026-10-30T12:10:07.728+00:00"
+    },
+    {
+      "id": "b91b1d05-252a-4889-a740-c6ea7da0f756",
+      "customer_id": "0fbc8019-a0de-4cec-99a9-d84ccf0e75cb",
+      "checked_in_at": "2026-10-30T12:30:15.911+00:00"
+    },
+    {
+      "id": "c0a25583-03a2-4446-b17c-68194d70117c",
+      "customer_id": "b31fd67b-16d9-4d2f-bc50-7e6692c95f9e",
+      "checked_in_at": "2026-10-30T12:31:06.867+00:00"
+    },
+    {
+      "id": "d6268f97-c7bd-4a19-81e3-7005e3138b09",
+      "customer_id": "4db912ad-22c3-4b90-a11e-c6a296aef96d",
+      "checked_in_at": "2026-10-30T12:33:40.73+00:00"
+    },
+    {
+      "id": "e8da558f-8c2d-4b51-a194-887a4ce51d12",
+      "customer_id": "988439eb-c165-4b7d-ac2c-8f91c1f41381",
+      "checked_in_at": "2026-10-30T12:34:04.909+00:00"
+    },
+    {
+      "id": "00983c29-ca35-4262-8484-0ca29fb3bb17",
+      "customer_id": "d9f8359d-a081-4453-978c-c67d7294314d",
+      "checked_in_at": "2026-10-30T12:43:48.866+00:00"
+    },
+    {
+      "id": "e40fd143-ab1b-4d20-8ed9-f148db978bd7",
+      "customer_id": "cb2cfed6-cdd9-4a6f-b800-feaa9b4f16e7",
+      "checked_in_at": "2026-10-30T12:49:42.476+00:00"
+    },
+    {
+      "id": "cf072758-c191-454f-8d43-ab8f64949767",
+      "customer_id": "b935e580-866c-4091-bdad-88ea979143da",
+      "checked_in_at": "2026-10-30T13:03:59.545+00:00"
+    },
+    {
+      "id": "e68cab4b-a91c-4b29-b4e1-c3041c4d7eb1",
+      "customer_id": "a1a5ac1a-1af2-4987-9833-5d68eaf30c90",
+      "checked_in_at": "2026-10-30T13:19:55.047+00:00"
+    },
+    {
+      "id": "c56a572f-8af8-439f-9cfc-826ea85d9fe1",
+      "customer_id": "5bed2ef6-d25c-4101-8b38-32e6da9b3945",
+      "checked_in_at": "2026-10-30T13:20:20.852+00:00"
+    },
+    {
+      "id": "984f083e-3cdc-4f46-9785-3e26b410f2c1",
+      "customer_id": "417bac48-2842-433a-ae1a-f424124f3d1f",
+      "checked_in_at": "2026-10-30T13:24:29.001+00:00"
+    },
+    {
+      "id": "e2047204-e63d-450a-bfb6-9214dd88fd83",
+      "customer_id": "a8876c57-ad56-4763-a4a5-7575e988a285",
+      "checked_in_at": "2026-10-30T15:56:06.093+00:00"
+    },
+    {
+      "id": "f558766d-10ff-4d81-afb8-ce15bde736b7",
+      "customer_id": "ecbbbd7a-08c0-4324-a322-10f64216e40e",
+      "checked_in_at": "2026-10-30T15:58:29.503+00:00"
     }
   ],
   "chat_messages": [
