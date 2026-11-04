@@ -78,11 +78,12 @@ export default async function StatsPage() {
           },
           {
             key: "revenue",
-            label: "売上・購入",
+            label: "チップ購入",
             content: (
               <>
                 <RevenueTrendSection
                   transactions={transactions}
+                  tournamentEntries={tournamentEntries}
                   denominations={denominations}
                   currentMonthKey={currentMonthKey}
                 />
