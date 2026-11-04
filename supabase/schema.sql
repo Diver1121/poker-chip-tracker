@@ -250,3 +250,14 @@ create index if not exists ranking_share_log_lookup_idx
 -- 店の現金の動き（リングゲーム購入 vs トーナメント現金エントリー）を比較するグラフに使う。
 -- 未設定（null）の額面は円換算の対象から除く。
 alter table denominations add column if not exists price_yen integer;
+
+-- tournament_entries.denomination_idは後から追加した列のため、それより前に保存された
+-- 古いエントリーはnullのままで、現金エントリーのOCEAN（点数）換算・円換算から漏れていた。
+-- 紐づく回（tournaments）のdenomination_idから分かる範囲だけ補完する
+-- （既に値が入っている行・tournament_id自体が無い行は変更しない。1回限りの実行でよい）。
+update tournament_entries te
+set denomination_id = t.denomination_id
+from tournaments t
+where te.tournament_id = t.id
+  and te.denomination_id is null
+  and t.denomination_id is not null;
