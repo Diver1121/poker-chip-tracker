@@ -14,13 +14,28 @@ const LABEL_AREA_HEIGHT = 20;
 const HEIGHT = PLOT_HEIGHT + LABEL_AREA_HEIGHT;
 const RANGE_OPTIONS = [1, 3, 6, 12];
 
-// 月(1-12)ごとに固定の色相を割り当てる。7月を基準(赤=0°)にして30°刻みで一周させる。
-// 黄〜黄緑帯(概ね40〜95°)は明るいと視認性が落ちるため彩度・明度を少し落とす。
+// 月(1-12)ごとに固定の色を割り当てる。単純な30°刻みのHSL回転だと隣り合う月の色が
+// 似通って見分けづらかったため、12色ともdataviz skillのvalidate_palette.jsで
+// 色覚多様性・通常視の両方での隣接ペア識別性（ΔE）を検証済みの組み合わせに固定している
+// （7月=赤を基準に、8〜2月は検証済みの8色を順番に、3〜6月はその暗めのバリエーションを使用）。
+const MONTH_COLORS: Record<number, string> = {
+  1: "#008300", // 緑
+  2: "#4a3aa7", // 紫
+  3: "#a83234", // 暗い赤
+  4: "#20599e", // 暗い青
+  5: "#a84a1f", // 暗いオレンジ
+  6: "#0e8a5c", // 暗い水色
+  7: "#e34948", // 赤
+  8: "#2a78d6", // 青
+  9: "#eb6834", // オレンジ
+  10: "#1baf7a", // 水色
+  11: "#eda100", // 黄
+  12: "#e87ba4", // マゼンタ
+};
+
 function monthColor(monthKey: string): string {
   const month = Number(monthKey.slice(5, 7));
-  const hue = (((month - 7) * 30) % 360 + 360) % 360;
-  const isYellowish = hue >= 40 && hue <= 95;
-  return `hsl(${hue}, ${isYellowish ? 72 : 68}%, ${isYellowish ? 38 : 46}%)`;
+  return MONTH_COLORS[month] ?? "#6b7280";
 }
 
 function monthShortLabel(monthKey: string): string {
@@ -170,6 +185,13 @@ export function MonthlyPaceOverlayChart({
                     strokeLinecap="round"
                     opacity={isCurrent ? 1 : 0.85}
                   />
+                  {isCurrent && (
+                    // 今月の線だと一目で分かるよう、先端に点滅するリング（レーダー状）を重ねる
+                    <circle cx={lastX} cy={yOf(s.values[lastIdx])} r={4} fill="none" stroke={color} strokeWidth={2}>
+                      <animate attributeName="r" values="4;11;4" dur="1.8s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.8;0;0.8" dur="1.8s" repeatCount="indefinite" />
+                    </circle>
+                  )}
                   <circle
                     cx={lastX}
                     cy={yOf(s.values[lastIdx])}
