@@ -441,7 +441,10 @@ export default async function TournamentPage({
             </div>
           </div>
 
-          <section className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
+          <section
+            data-no-swipe-nav
+            className="overflow-x-auto rounded-lg border border-gray-200 bg-white"
+          >
             <div className={`grid ${gridColsClass} min-w-[800px] items-center gap-x-1.5 gap-y-2 p-4`}>
               <div />
               <div className="text-xs font-medium text-gray-500">NAME</div>

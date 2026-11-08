@@ -401,7 +401,7 @@ export function TournamentSummarySection({
               />
             </div>
 
-            <div className="mt-4 overflow-x-auto">
+            <div data-no-swipe-nav className="mt-4 overflow-x-auto">
               <table className="w-full min-w-[640px] text-left text-sm">
                 <thead className="text-gray-500">
                   <tr>

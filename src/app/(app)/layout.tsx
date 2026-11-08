@@ -2,6 +2,7 @@ import { logout } from "@/app/login/actions";
 import { AppNav } from "@/components/AppNav";
 import { APP_NAME } from "@/lib/appName";
 import { SubmitButton } from "@/components/SubmitButton";
+import { SwipeNavigator } from "@/components/SwipeNavigator";
 import {
   boardCloseAlertKey,
   getOperationalAlerts,
@@ -25,24 +26,25 @@ export default async function AppLayout({
   const navItems = [
     {
       href: "/board",
-      label: "来店中ボード",
+      label: "来店中",
       alertKeys: alerts.boardClosePendingDayKey ? [boardCloseAlertKey(alerts.boardClosePendingDayKey)] : [],
     },
-    { href: "/transactions", label: "取引履歴" },
     {
       href: "/tournament",
-      label: "トーナメント",
+      label: "MTT",
       alertKeys: alerts.pendingTournamentSessions.map(tournamentPendingAlertKey),
     },
-    { href: "/customers", label: "客一覧" },
-    { href: "/stats", label: "データ" },
     {
       href: "/ranking",
       label: "ランキング",
       alertKeys: alerts.pendingRankingShareDays.map(rankingShareAlertKey),
     },
-    { href: "/settings/denominations", label: "額面設定" },
+    { href: "/customers", label: "リスト" },
+    { href: "/stats", label: "データ" },
+    { href: "/transactions", label: "履歴" },
+    { href: "/settings/denominations", label: "商品一覧" },
   ];
+  const navHrefs = navItems.map((item) => item.href);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -68,7 +70,9 @@ export default async function AppLayout({
           <AppNav items={navItems} />
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-4 py-6">{children}</main>
+      <main className="mx-auto max-w-5xl px-4 py-6">
+        <SwipeNavigator hrefs={navHrefs}>{children}</SwipeNavigator>
+      </main>
     </div>
   );
 }
