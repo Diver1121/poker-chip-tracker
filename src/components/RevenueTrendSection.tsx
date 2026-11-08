@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   computeDailyPurchaseValueTotals,
   computeDailyTournamentCashOceanTotals,
-  computeMonthlyCumulativePurchaseSeries,
+  computeMonthlyCumulativeSumSeries,
 } from "@/lib/balances";
 import { businessDateKey, shiftMonthKey } from "@/lib/businessDay";
 import { percentChange, sumThroughDay } from "@/lib/statsFormat";
@@ -71,7 +71,7 @@ export function RevenueTrendSection({
 
   // 各月を1日目から重ねて表示するペース比較グラフ用データ。進行中の今月は
   // まだ来ていない日まで0埋めで伸ばさないよう、今日の日数までに絞り込む。
-  const cumulativeByMonth = computeMonthlyCumulativePurchaseSeries(dailyTotals, chartMonthKeys);
+  const cumulativeByMonth = computeMonthlyCumulativeSumSeries(dailyTotals, chartMonthKeys);
   const paceSeries = chartMonthKeys.map((monthKey) => {
     const values = cumulativeByMonth.get(monthKey) ?? [];
     return {

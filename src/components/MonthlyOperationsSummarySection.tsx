@@ -5,23 +5,18 @@ import {
   computeDailyPokerOperatingMinutes,
   computeDailyPurchaseValueTotals,
   computeDailyRakeTotals,
+  computeDailyTournamentCashOceanTotals,
   computeDailyVisitCounts,
+  computeMonthlyCumulativeRatioSeries,
+  computeMonthlyCumulativeSumSeries,
+  computeMonthlyCumulativeUniqueVisitorSeries,
 } from "@/lib/balances";
 import { businessDateKey, daysInMonth, shiftMonthKey } from "@/lib/businessDay";
-import {
-  average,
-  formatMinutes,
-  formatSigned,
-  monthLabelOf,
-  percentChange,
-  signColorClass,
-  sumThroughDay,
-} from "@/lib/statsFormat";
-import type { ChipTransaction, Customer, Denomination, Visit } from "@/lib/types";
-import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
-import { MonthlyBarChart } from "@/components/MonthlyBarChart";
-import { MonthlySignedBarChart } from "@/components/MonthlySignedBarChart";
+import { average, formatMinutes, formatSigned, percentChange, signColorClass } from "@/lib/statsFormat";
+import type { ChipTransaction, Customer, Denomination, TournamentEntry, Visit } from "@/lib/types";
+import { MonthlyPaceOverlayChart } from "@/components/MonthlyPaceOverlayChart";
 import { MonthlyStackedBarChart } from "@/components/MonthlyStackedBarChart";
+import { MonthlyTrendHeadline } from "@/components/MonthlyTrendHeadline";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -29,7 +24,6 @@ const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 // 来店なしで連続登録された（1件あたり1秒未満の間隔で471件連続という、通常の
 // 来店時登録ではあり得ないパターン）。「新規客数」の集計からはこのバッチを除外する
 // （実際に新しく来店して登録した客ではなく、移行作業によるノイズのため）。
-// 客数の累計登録数（トータル表示の「客数（累計登録）」）には引き続き含める。
 const BULK_IMPORT_START_MS = new Date("2026-07-12T21:53:00Z").getTime();
 const BULK_IMPORT_END_MS = new Date("2026-07-12T21:55:00Z").getTime();
 function isBulkImportedCustomer(createdAt: string): boolean {
@@ -55,6 +49,47 @@ function repeatSegmentCounts(visitCountByCustomer: Map<string, number>): Record<
   return counts;
 }
 
+const NEW_EXISTING_SEGMENT_DEFS = [
+  { key: "new", label: "新規", color: "#a5b4fc" },
+  { key: "existing", label: "既存", color: "#4338ca" },
+];
+
+// 月初から各日までの累計系列から、「今日の時点での値」と「先月の同日時点との前月比」を取り出す。
+// 積み上げ合計（来店数・レーキ等）にも、月初からの通算平均（客単価等）にもそのまま使える。
+function paceHeadline(
+  seriesMap: Map<string, number[]>,
+  currentMonthKey: string,
+  prevMonthKey: string,
+  todayOfMonth: number,
+  round: (v: number) => number = Math.round,
+): { value: number; changePercent: number | null } {
+  const currentArr = seriesMap.get(currentMonthKey) ?? [];
+  const idx = Math.min(todayOfMonth, currentArr.length) - 1;
+  const rawValue = idx >= 0 ? currentArr[idx] : 0;
+  const prevArr = seriesMap.get(prevMonthKey) ?? [];
+  const changePercent =
+    todayOfMonth > 0 && prevArr.length >= todayOfMonth
+      ? percentChange(rawValue, prevArr[todayOfMonth - 1])
+      : null;
+  return { value: round(rawValue), changePercent };
+}
+
+const roundToOneDecimal = (v: number) => Math.round(v * 10) / 10;
+
+// 進行中の今月をまだ来ていない日まで0埋めで伸ばさないよう、今日の日数までに絞り込む
+// （MonthlyPaceOverlayChart用。月末まで来ている過去月はそのまま全日を渡す）。
+function toPaceSeries(
+  seriesMap: Map<string, number[]>,
+  monthKeys: string[],
+  currentMonthKey: string,
+  todayOfMonth: number,
+): { monthKey: string; values: number[] }[] {
+  return monthKeys.map((k) => {
+    const values = seriesMap.get(k) ?? [];
+    return { monthKey: k, values: k === currentMonthKey ? values.slice(0, todayOfMonth) : values };
+  });
+}
+
 type ViewMode = "month" | "total";
 
 type DayRow = {
@@ -73,6 +108,7 @@ export function MonthlyOperationsSummarySection({
   visits,
   denominations,
   customers,
+  tournamentEntries,
   lastClosedAt,
   currentMonthKey,
 }: {
@@ -80,11 +116,13 @@ export function MonthlyOperationsSummarySection({
   visits: Visit[];
   denominations: Denomination[];
   customers: Customer[];
+  tournamentEntries: TournamentEntry[];
   lastClosedAt: string | null;
   currentMonthKey: string;
 }) {
   const [viewMode, setViewMode] = useState<ViewMode>("total");
   const [monthKey, setMonthKey] = useState(currentMonthKey);
+  const [selectedMetricKey, setSelectedMetricKey] = useState("visitCount");
 
   const todayKey = businessDateKey(new Date());
   // 退店処理（営業終了・まとめて退店）が押されるまで、当日分はまだプレイ中で
@@ -99,6 +137,19 @@ export function MonthlyOperationsSummarySection({
   );
   const dailyPokerOperatingMinutesByDate = computeDailyPokerOperatingMinutes(transactions);
   const dailyPurchaseValueByDate = computeDailyPurchaseValueTotals(transactions, denominations);
+  const dailyTournamentCashOceanByDate = computeDailyTournamentCashOceanTotals(
+    tournamentEntries,
+    denominations,
+  );
+  // 客単価（OCEAN/来店）＝チップ購入点数＋トーナメント現金エントリー（OCEAN点数換算）の合計。
+  // どちらか一方だけだと、トーナメントの現金エントリーが多い月に客単価が不当に低く出る。
+  const dailyOceanByDate = new Map<string, number>();
+  for (const [date, value] of dailyPurchaseValueByDate) {
+    dailyOceanByDate.set(date, (dailyOceanByDate.get(date) ?? 0) + value);
+  }
+  for (const [date, value] of dailyTournamentCashOceanByDate) {
+    dailyOceanByDate.set(date, (dailyOceanByDate.get(date) ?? 0) + value);
+  }
 
   // トータル表示は「全期間の全日」ではなく、何かしら記録がある日だけを対象にする
   // （0件の日を無数に含めると表が意味を持たず重くなるだけのため）。
@@ -144,94 +195,32 @@ export function MonthlyOperationsSummarySection({
   const avgRakePerHour = average(
     rows.map((d) => d.rakePerHour).filter((r): r is number => r !== null),
   );
-  const visitActiveDayCount = rows.filter((d) => d.visitCount > 0).length;
-  const avgVisitsPerActiveDay =
-    visitActiveDayCount > 0 ? totalVisitCount / visitActiveDayCount : null;
 
-  // リピート率: この期間に来店した客（ユニーク）のうち、2回以上来店した客の割合。
-  const dateSet = new Set(dates);
-  const visitCountByCustomer = new Map<string, number>();
-  for (const v of visits) {
-    const date = businessDateKey(v.checked_in_at);
-    if (!dateSet.has(date)) continue;
-    visitCountByCustomer.set(v.customer_id, (visitCountByCustomer.get(v.customer_id) ?? 0) + 1);
-  }
-  const uniqueVisitorCount = visitCountByCustomer.size;
-  const repeatVisitorCount = [...visitCountByCustomer.values()].filter((n) => n >= 2).length;
-  const repeatRate = uniqueVisitorCount > 0 ? repeatVisitorCount / uniqueVisitorCount : null;
-
-  // 新規/既存の来店構成比: 客ごとの初来店日（全期間で最も古い来店日）を求め、
-  // この期間の来店（延べ数）のうち、それが初来店だったものの割合を「新規」とする。
+  // 客ごとの初来店日（全期間で最も古い来店日）。月別の新規/既存集計で使う。
   const firstVisitDateByCustomer = new Map<string, string>();
   for (const v of visits) {
     const date = businessDateKey(v.checked_in_at);
     const current = firstVisitDateByCustomer.get(v.customer_id);
     if (current === undefined || date < current) firstVisitDateByCustomer.set(v.customer_id, date);
   }
-  let newVisitCount = 0;
-  for (const v of visits) {
-    const date = businessDateKey(v.checked_in_at);
-    if (!dateSet.has(date)) continue;
-    if (firstVisitDateByCustomer.get(v.customer_id) === date) newVisitCount += 1;
-  }
-  const existingVisitCount = totalVisitCount - newVisitCount;
-  const newVisitRate = totalVisitCount > 0 ? newVisitCount / totalVisitCount : null;
 
-  const totalPurchaseValue = dates.reduce(
-    (sum, date) => sum + (dailyPurchaseValueByDate.get(date) ?? 0),
-    0,
-  );
-  const avgSpendPerVisit = totalVisitCount > 0 ? totalPurchaseValue / totalVisitCount : null;
-
-  // 各カードの「タップで月別」内訳は、選択中の月/トータルに関わらず、
-  // 記録がある全月を新しい順に並べて全期間の推移を見せる。
+  // 記録がある全月（新しい順）。グラフは古い→新しいの昇順で使う。
   const monthlyKeys = [...new Set(activeDates.map((d) => d.slice(0, 7)))].sort().reverse();
+  const monthlyKeysAsc = [...monthlyKeys].reverse();
+  const hasMultipleMonths = monthlyKeys.length > 1;
+
   const monthlyVisitCount = new Map<string, number>();
-  const monthlyActiveDayCount = new Map<string, number>();
-  const monthlyRake = new Map<string, number>();
-  const monthlyPokerRake = new Map<string, number>();
-  const monthlyPurchaseValue = new Map<string, number>();
-  const monthlyOperatingMinutesList = new Map<string, number[]>();
   for (const date of activeDates) {
     const mKey = date.slice(0, 7);
-    const finalized = date !== todayKey || todayClosed;
-    const visitCountOnDate = dailyVisitCountByDate.get(date) ?? 0;
-    monthlyVisitCount.set(mKey, (monthlyVisitCount.get(mKey) ?? 0) + visitCountOnDate);
-    if (visitCountOnDate > 0) {
-      monthlyActiveDayCount.set(mKey, (monthlyActiveDayCount.get(mKey) ?? 0) + 1);
-    }
-    if (finalized) {
-      monthlyRake.set(
-        mKey,
-        (monthlyRake.get(mKey) ?? 0) + (dailyRakeByDate.get(date)?.rakeWithTournament ?? 0),
-      );
-      monthlyPokerRake.set(
-        mKey,
-        (monthlyPokerRake.get(mKey) ?? 0) + (dailyRakeByDate.get(date)?.pokerRake ?? 0),
-      );
-      monthlyPurchaseValue.set(
-        mKey,
-        (monthlyPurchaseValue.get(mKey) ?? 0) + (dailyPurchaseValueByDate.get(date) ?? 0),
-      );
-      const om = dailyPokerOperatingMinutesByDate.get(date);
-      if (om !== undefined) {
-        const list = monthlyOperatingMinutesList.get(mKey) ?? [];
-        list.push(om);
-        monthlyOperatingMinutesList.set(mKey, list);
-      }
-    }
+    monthlyVisitCount.set(mKey, (monthlyVisitCount.get(mKey) ?? 0) + (dailyVisitCountByDate.get(date) ?? 0));
   }
 
-  const monthlyVisitorSet = new Map<string, Set<string>>();
   const monthlyNewVisitCount = new Map<string, number>();
-  // リピート率の月別内訳（セグメント別棒グラフ）用：月ごとの客ごとの来店回数
+  // リピート率の月別内訳（積み上げ棒グラフ）用：月ごとの客ごとの来店回数
   const monthlyVisitCountByCustomer = new Map<string, Map<string, number>>();
   for (const v of visits) {
     const date = businessDateKey(v.checked_in_at);
     const mKey = date.slice(0, 7);
-    const set = monthlyVisitorSet.get(mKey) ?? new Set<string>();
-    set.add(v.customer_id);
-    monthlyVisitorSet.set(mKey, set);
     if (firstVisitDateByCustomer.get(v.customer_id) === date) {
       monthlyNewVisitCount.set(mKey, (monthlyNewVisitCount.get(mKey) ?? 0) + 1);
     }
@@ -243,399 +232,304 @@ export function MonthlyOperationsSummarySection({
   // 「新規客数」からは、旧システムからの客データ移行で一括登録された分を除く
   // （実際に来店して新しく登録した客ではなく、移行作業のノイズのため）。
   const organicCustomers = customers.filter((c) => !isBulkImportedCustomer(c.created_at));
-  const monthlyNewCustomerCount = new Map<string, number>();
-  for (const c of organicCustomers) {
-    const mKey = businessDateKey(c.created_at).slice(0, 7);
-    monthlyNewCustomerCount.set(mKey, (monthlyNewCustomerCount.get(mKey) ?? 0) + 1);
-  }
 
-  // 月が1つしかない場合はタップしても同じ数字が出るだけなので、内訳自体を出さない。
-  const monthlyBreakdown = <T,>(rows: T[]): T[] | undefined =>
-    monthlyKeys.length > 1 ? rows : undefined;
-
-  const visitCountBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
-    label: monthLabelOf(k),
-    value: `${(monthlyVisitCount.get(k) ?? 0).toLocaleString()}人`,
-  }));
-  const uniqueVisitorBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
-    label: monthLabelOf(k),
-    value: `${(monthlyVisitorSet.get(k)?.size ?? 0).toLocaleString()}人`,
-  }));
-  const avgVisitsPerDayBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
-    const total = monthlyVisitCount.get(k) ?? 0;
-    const activeDays = monthlyActiveDayCount.get(k) ?? 0;
-    const avg = activeDays > 0 ? total / activeDays : null;
-    return { label: monthLabelOf(k), value: avg === null ? "-" : `${avg.toFixed(1)}人` };
-  });
-  const rakeBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
-    label: monthLabelOf(k),
-    value: formatSigned(monthlyRake.get(k) ?? 0),
-  }));
-  const pokerRakeBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
-    label: monthLabelOf(k),
-    value: formatSigned(monthlyPokerRake.get(k) ?? 0),
-  }));
-  const newVisitRateBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
-    const total = monthlyVisitCount.get(k) ?? 0;
-    const newCount = monthlyNewVisitCount.get(k) ?? 0;
-    const rate = total > 0 ? newCount / total : null;
-    return {
-      label: monthLabelOf(k),
-      value:
-        rate === null
-          ? "-"
-          : `新規${Math.round(rate * 100)}% / 既存${Math.round((1 - rate) * 100)}%`,
-    };
-  });
-  const avgSpendBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
-    const visitCountInMonth = monthlyVisitCount.get(k) ?? 0;
-    const purchaseValueInMonth = monthlyPurchaseValue.get(k) ?? 0;
-    const avg = visitCountInMonth > 0 ? purchaseValueInMonth / visitCountInMonth : null;
-    return {
-      label: monthLabelOf(k),
-      value: avg === null ? "-" : `${Math.round(avg).toLocaleString()}購入`,
-    };
-  });
-  const avgOperatingMinutesBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
-    const avg = average(monthlyOperatingMinutesList.get(k) ?? []);
-    return { label: monthLabelOf(k), value: avg === null ? "-" : formatMinutes(Math.round(avg)) };
-  });
-  const newCustomerBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => ({
-    label: monthLabelOf(k),
-    value: `${(monthlyNewCustomerCount.get(k) ?? 0).toLocaleString()}人`,
-  }));
-  const repeatRateBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
-    const customerCounts = monthlyVisitCountByCustomer.get(k) ?? new Map<string, number>();
-    const total = customerCounts.size;
-    if (total === 0) return { label: monthLabelOf(k), value: "-" };
-    const counts = repeatSegmentCounts(customerCounts);
-    const value = REPEAT_SEGMENT_DEFS.map(
-      (def) => `${def.label}${Math.round((counts[def.key] / total) * 100)}%`,
-    ).join(" / ");
-    return { label: monthLabelOf(k), value };
-  });
-
-  // グラフは古い月→新しい月の順で左から右に並べたいので、リスト用（新しい順）とは
-  // 別に昇順の並びを用意する。月が1つしかない場合はリストと同様グラフも出さない。
-  const monthlyKeysAsc = [...monthlyKeys].reverse();
-  const hasMultipleMonths = monthlyKeys.length > 1;
-  const visitCountChartData = monthlyKeysAsc.map((k) => ({
-    monthKey: k,
-    value: monthlyVisitCount.get(k) ?? 0,
-  }));
-  const uniqueVisitorChartData = monthlyKeysAsc.map((k) => ({
-    monthKey: k,
-    value: monthlyVisitorSet.get(k)?.size ?? 0,
-  }));
-  const avgVisitsPerDayChartData = monthlyKeysAsc.map((k) => {
-    const total = monthlyVisitCount.get(k) ?? 0;
-    const activeDays = monthlyActiveDayCount.get(k) ?? 0;
-    return { monthKey: k, value: activeDays > 0 ? total / activeDays : 0 };
-  });
-  const rakeChartData = monthlyKeysAsc.map((k) => ({
-    monthKey: k,
-    value: monthlyRake.get(k) ?? 0,
-  }));
-  const pokerRakeChartData = monthlyKeysAsc.map((k) => ({
-    monthKey: k,
-    value: monthlyPokerRake.get(k) ?? 0,
-  }));
-  const newVisitCountChartData = monthlyKeysAsc.map((k) => ({
-    monthKey: k,
-    value: monthlyNewVisitCount.get(k) ?? 0,
-  }));
   const repeatStackedData = monthlyKeysAsc.map((k) => {
     const customerCounts = monthlyVisitCountByCustomer.get(k) ?? new Map<string, number>();
     return { monthKey: k, total: customerCounts.size, counts: repeatSegmentCounts(customerCounts) };
   });
-  const avgSpendChartData = monthlyKeysAsc.map((k) => {
-    const visitCountInMonth = monthlyVisitCount.get(k) ?? 0;
-    const purchaseValueInMonth = monthlyPurchaseValue.get(k) ?? 0;
-    return {
-      monthKey: k,
-      value: visitCountInMonth > 0 ? purchaseValueInMonth / visitCountInMonth : 0,
-    };
+  const newExistingStackedData = monthlyKeysAsc.map((k) => {
+    const total = monthlyVisitCount.get(k) ?? 0;
+    const newCount = monthlyNewVisitCount.get(k) ?? 0;
+    return { monthKey: k, total, counts: { new: newCount, existing: Math.max(0, total - newCount) } };
   });
-  const avgOperatingMinutesChartData = monthlyKeysAsc.map((k) => ({
-    monthKey: k,
-    value: average(monthlyOperatingMinutesList.get(k) ?? []) ?? 0,
-  }));
-  const newCustomerChartData = monthlyKeysAsc.map((k) => ({
-    monthKey: k,
-    value: monthlyNewCustomerCount.get(k) ?? 0,
-  }));
 
   const [yearPart, numPart] = monthKey.split("-");
   const monthLabel = `${yearPart}年${Number(numPart)}月`;
   const canGoNextMonth = shiftMonthKey(monthKey, 1) <= currentMonthKey;
 
-  // トータル表示時は「客数（累計登録）」として移行分も含む全客数を見せるが、
-  // 月表示時の「新規客数」は移行バッチを除いたorganicCustomersで数える。
-  const newCustomerCount =
-    viewMode === "month"
-      ? organicCustomers.filter((c) => businessDateKey(c.created_at).slice(0, 7) === monthKey).length
-      : customers.length;
-
-  // 前月比: 進行中の今月を先月の丸1ヶ月とそのまま比べると、月の前半ほど不当に
-  // 「減っている」ように見えるため、先月も同じ日数目までに絞ってフェアに比べる
-  // （今月以外の完了済み月を見ているときは先月も丸ごと比べて問題ない）。
-  const prevMonthKey = shiftMonthKey(monthKey, -1);
   const todayOfMonth = Number(todayKey.slice(8, 10));
-  const prevMonthCapDay = monthKey === currentMonthKey ? todayOfMonth : daysInMonth(prevMonthKey).length;
+  // 指標グラフの見出し（今月の値・前月比）は、下の日別テーブルの月送りとは独立に、
+  // 常に「本当の今月」を基準にする（スクショのチップ購入グラフと同じ考え方）。
+  const fixedPrevMonthKey = shiftMonthKey(currentMonthKey, -1);
+
   const dailyRakeTotalByDate = new Map(
     [...dailyRakeByDate.entries()].map(([date, d]) => [date, d.rakeWithTournament]),
   );
   const dailyPokerRakeTotalByDate = new Map(
     [...dailyRakeByDate.entries()].map(([date, d]) => [date, d.pokerRake]),
   );
-  const prevVisitCount = sumThroughDay(dailyVisitCountByDate, prevMonthKey, prevMonthCapDay);
-  const prevRakeTotal = sumThroughDay(dailyRakeTotalByDate, prevMonthKey, prevMonthCapDay);
-  const prevPokerRakeTotal = sumThroughDay(dailyPokerRakeTotalByDate, prevMonthKey, prevMonthCapDay);
-  // ポーカー/ブラックジャックの区分（game）はある日から後付けで導入されたため、
-  // 先月の比較期間がその導入日より前から始まっている場合、「先月分」の中身が
-  // ほぼ未タグ付け（=ポーカーのレーキに一切カウントされない）になり、比較の
-  // 分母が極端に小さくなって前月比が実態とかけ離れた数字になってしまう。
-  // 導入日以降の月だけを対象に前月比を出す。
-  const firstGameTaggedDate = transactions
-    .filter((tx) => (tx.category === "table_out" || tx.category === "table_in") && tx.game !== null)
-    .map((tx) => businessDateKey(tx.created_at))
-    .sort()[0];
-  const pokerRakeComparisonReliable =
-    firstGameTaggedDate !== undefined && `${prevMonthKey}-01` >= firstGameTaggedDate;
-  const prevUniqueVisitorCount = new Set(
-    visits
-      .filter((v) => {
-        const d = businessDateKey(v.checked_in_at);
-        return d.startsWith(prevMonthKey) && Number(d.slice(8, 10)) <= prevMonthCapDay;
-      })
-      .map((v) => v.customer_id),
-  ).size;
-  const prevNewCustomerCount = organicCustomers.filter((c) => {
-    const d = businessDateKey(c.created_at);
-    return d.startsWith(prevMonthKey) && Number(d.slice(8, 10)) <= prevMonthCapDay;
-  }).length;
+  const dailyNewCustomerCountByDate = new Map<string, number>();
+  for (const c of organicCustomers) {
+    const date = businessDateKey(c.created_at);
+    dailyNewCustomerCountByDate.set(date, (dailyNewCustomerCountByDate.get(date) ?? 0) + 1);
+  }
+  const dailyActiveDayFlagByDate = new Map([...dailyVisitCountByDate.keys()].map((d) => [d, 1]));
+  const dailyOperatingMinutesFlagByDate = new Map(
+    [...dailyPokerOperatingMinutesByDate.keys()].map((d) => [d, 1]),
+  );
 
-  // 1日平均・客単価・稼働時間は元々「1日あたり」に正規化された値なので、
-  // 日数を揃えなくても先月丸ごとの平均とそのまま比べてよい。
-  const prevMonthVisitCountFull = monthlyVisitCount.get(prevMonthKey) ?? 0;
-  const prevAvgVisitsPerActiveDay =
-    (monthlyActiveDayCount.get(prevMonthKey) ?? 0) > 0
-      ? prevMonthVisitCountFull / (monthlyActiveDayCount.get(prevMonthKey) ?? 0)
+  // 指標ごとの「月初からの累計（または通算平均）」系列。ペース比較グラフと見出しの
+  // 両方で使う（見出しは今日時点の値、グラフは月ごとに色分けした折れ線）。
+  const visitCountSeries = computeMonthlyCumulativeSumSeries(dailyVisitCountByDate, monthlyKeysAsc);
+  const uniqueVisitorSeries = computeMonthlyCumulativeUniqueVisitorSeries(visits, monthlyKeysAsc);
+  const avgVisitsPerDaySeries = computeMonthlyCumulativeRatioSeries(
+    dailyVisitCountByDate,
+    dailyActiveDayFlagByDate,
+    monthlyKeysAsc,
+  );
+  const rakeSeries = computeMonthlyCumulativeSumSeries(dailyRakeTotalByDate, monthlyKeysAsc);
+  const pokerRakeSeries = computeMonthlyCumulativeSumSeries(dailyPokerRakeTotalByDate, monthlyKeysAsc);
+  const avgSpendSeries = computeMonthlyCumulativeRatioSeries(
+    dailyOceanByDate,
+    dailyVisitCountByDate,
+    monthlyKeysAsc,
+  );
+  const avgOperatingMinutesSeries = computeMonthlyCumulativeRatioSeries(
+    dailyPokerOperatingMinutesByDate,
+    dailyOperatingMinutesFlagByDate,
+    monthlyKeysAsc,
+  );
+  const newCustomerSeries = computeMonthlyCumulativeSumSeries(dailyNewCustomerCountByDate, monthlyKeysAsc);
+
+  // リピート率・新規/既存は「日ごとの累計」ではなく月単位の構成比なので、
+  // 今月・先月それぞれの月合計からそのまま前月比を出す。
+  const currentMonthVisitCountByCustomer =
+    monthlyVisitCountByCustomer.get(currentMonthKey) ?? new Map<string, number>();
+  const prevMonthVisitCountByCustomer =
+    monthlyVisitCountByCustomer.get(fixedPrevMonthKey) ?? new Map<string, number>();
+  const repeatRateOf = (map: Map<string, number>): number | null =>
+    map.size > 0 ? [...map.values()].filter((n) => n >= 2).length / map.size : null;
+  const currentMonthRepeatRate = repeatRateOf(currentMonthVisitCountByCustomer);
+  const prevMonthRepeatRate = repeatRateOf(prevMonthVisitCountByCustomer);
+  const repeatRateChangePercent =
+    currentMonthRepeatRate !== null && prevMonthRepeatRate !== null
+      ? percentChange(currentMonthRepeatRate, prevMonthRepeatRate)
       : null;
-  const prevAvgSpendPerVisit =
-    prevMonthVisitCountFull > 0
-      ? (monthlyPurchaseValue.get(prevMonthKey) ?? 0) / prevMonthVisitCountFull
+
+  const newRateOf = (monthKeyToUse: string): number | null => {
+    const total = monthlyVisitCount.get(monthKeyToUse) ?? 0;
+    const newCount = monthlyNewVisitCount.get(monthKeyToUse) ?? 0;
+    return total > 0 ? newCount / total : null;
+  };
+  const currentMonthNewRate = newRateOf(currentMonthKey);
+  const prevMonthNewRate = newRateOf(fixedPrevMonthKey);
+  const newRateChangePercent =
+    currentMonthNewRate !== null && prevMonthNewRate !== null
+      ? percentChange(currentMonthNewRate, prevMonthNewRate)
       : null;
-  const prevAvgOperatingMinutes = average(monthlyOperatingMinutesList.get(prevMonthKey) ?? []);
 
-  // 月表示のときだけ意味のある比較なので、トータル表示ではバッジ自体を出さない
-  // （undefinedを渡すとExpandableStatCard側で非表示になる）。
-  const monthOnly = <T,>(v: T): T | undefined => (viewMode === "month" ? v : undefined);
+  const metrics = [
+    {
+      key: "visitCount",
+      label: "来店数",
+      unit: "人",
+      ...paceHeadline(visitCountSeries, currentMonthKey, fixedPrevMonthKey, todayOfMonth),
+      render: () => (
+        <MonthlyPaceOverlayChart
+          series={toPaceSeries(visitCountSeries, monthlyKeysAsc, currentMonthKey, todayOfMonth)}
+          unit="人"
+        />
+      ),
+    },
+    {
+      key: "uniqueVisitor",
+      label: "来店客数",
+      unit: "人",
+      ...paceHeadline(uniqueVisitorSeries, currentMonthKey, fixedPrevMonthKey, todayOfMonth),
+      render: () => (
+        <MonthlyPaceOverlayChart
+          series={toPaceSeries(uniqueVisitorSeries, monthlyKeysAsc, currentMonthKey, todayOfMonth)}
+          unit="人"
+        />
+      ),
+    },
+    {
+      key: "avgVisitsPerDay",
+      label: "1日平均来店数",
+      unit: "人",
+      ...paceHeadline(avgVisitsPerDaySeries, currentMonthKey, fixedPrevMonthKey, todayOfMonth, roundToOneDecimal),
+      render: () => (
+        <MonthlyPaceOverlayChart
+          series={toPaceSeries(avgVisitsPerDaySeries, monthlyKeysAsc, currentMonthKey, todayOfMonth)}
+          unit="人"
+        />
+      ),
+    },
+    {
+      key: "rake",
+      label: "レーキ",
+      unit: "点",
+      ...paceHeadline(rakeSeries, currentMonthKey, fixedPrevMonthKey, todayOfMonth),
+      render: () => (
+        <MonthlyPaceOverlayChart
+          series={toPaceSeries(rakeSeries, monthlyKeysAsc, currentMonthKey, todayOfMonth)}
+          unit="点"
+        />
+      ),
+    },
+    {
+      key: "repeatRate",
+      label: "リピート率",
+      unit: "%",
+      value: currentMonthRepeatRate === null ? 0 : Math.round(currentMonthRepeatRate * 100),
+      changePercent: repeatRateChangePercent,
+      render: () => <MonthlyStackedBarChart data={repeatStackedData} segmentDefs={REPEAT_SEGMENT_DEFS} />,
+    },
+    {
+      key: "newExisting",
+      label: "新規/既存",
+      unit: "%（新規）",
+      value: currentMonthNewRate === null ? 0 : Math.round(currentMonthNewRate * 100),
+      changePercent: newRateChangePercent,
+      render: () => (
+        <MonthlyStackedBarChart data={newExistingStackedData} segmentDefs={NEW_EXISTING_SEGMENT_DEFS} />
+      ),
+    },
+    {
+      key: "avgSpend",
+      label: "客単価（OCEAN）",
+      unit: "OCEAN",
+      ...paceHeadline(avgSpendSeries, currentMonthKey, fixedPrevMonthKey, todayOfMonth),
+      render: () => (
+        <MonthlyPaceOverlayChart
+          series={toPaceSeries(avgSpendSeries, monthlyKeysAsc, currentMonthKey, todayOfMonth)}
+          unit="OCEAN"
+        />
+      ),
+    },
+    {
+      key: "avgOperatingMinutes",
+      label: "稼働時間（平均）",
+      unit: "分",
+      ...paceHeadline(avgOperatingMinutesSeries, currentMonthKey, fixedPrevMonthKey, todayOfMonth),
+      render: () => (
+        <MonthlyPaceOverlayChart
+          series={toPaceSeries(avgOperatingMinutesSeries, monthlyKeysAsc, currentMonthKey, todayOfMonth)}
+          unit="分"
+        />
+      ),
+    },
+    {
+      key: "newCustomer",
+      label: "新規客数",
+      unit: "人",
+      ...paceHeadline(newCustomerSeries, currentMonthKey, fixedPrevMonthKey, todayOfMonth),
+      render: () => (
+        <MonthlyPaceOverlayChart
+          series={toPaceSeries(newCustomerSeries, monthlyKeysAsc, currentMonthKey, todayOfMonth)}
+          unit="人"
+        />
+      ),
+    },
+    {
+      key: "pokerRake",
+      label: "ポーカーのレーキ",
+      unit: "点",
+      ...paceHeadline(pokerRakeSeries, currentMonthKey, fixedPrevMonthKey, todayOfMonth),
+      render: () => (
+        <MonthlyPaceOverlayChart
+          series={toPaceSeries(pokerRakeSeries, monthlyKeysAsc, currentMonthKey, todayOfMonth)}
+          unit="点"
+        />
+      ),
+    },
+  ];
 
-  const visitCountChangePercent = monthOnly(percentChange(totalVisitCount, prevVisitCount));
-  const uniqueVisitorChangePercent = monthOnly(percentChange(uniqueVisitorCount, prevUniqueVisitorCount));
-  const avgVisitsPerActiveDayChangePercent = monthOnly(
-    avgVisitsPerActiveDay !== null && prevAvgVisitsPerActiveDay !== null
-      ? percentChange(avgVisitsPerActiveDay, prevAvgVisitsPerActiveDay)
-      : null,
-  );
-  const rakeChangePercent = monthOnly(percentChange(totalRake, prevRakeTotal));
-  const avgSpendChangePercent = monthOnly(
-    avgSpendPerVisit !== null && prevAvgSpendPerVisit !== null
-      ? percentChange(avgSpendPerVisit, prevAvgSpendPerVisit)
-      : null,
-  );
-  const avgOperatingMinutesChangePercent = monthOnly(
-    avgOperatingMinutes !== null && prevAvgOperatingMinutes !== null
-      ? percentChange(avgOperatingMinutes, prevAvgOperatingMinutes)
-      : null,
-  );
-  const newCustomerChangePercent = monthOnly(percentChange(newCustomerCount, prevNewCustomerCount));
-  const pokerRakeChangePercent = monthOnly(
-    pokerRakeComparisonReliable ? percentChange(totalPokerRake, prevPokerRakeTotal) : null,
-  );
+  const selectedMetric = metrics.find((m) => m.key === selectedMetricKey) ?? metrics[0];
+  const [selYear, selNum] = currentMonthKey.split("-");
+  const selectedMonthLabel = `${selYear}年${Number(selNum)}月`;
 
   return (
     <section>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-lg font-bold text-gray-900">月次運営サマリー</h2>
-        <div className="flex flex-wrap items-center gap-2 text-sm">
-          <div className="flex gap-1 rounded-md border border-gray-300 p-0.5">
-            <button
-              type="button"
-              onClick={() => setViewMode("month")}
-              className={`rounded px-2 py-1 font-medium ${
-                viewMode === "month"
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              月
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode("total")}
-              className={`rounded px-2 py-1 font-medium ${
-                viewMode === "total"
-                  ? "bg-indigo-600 text-white"
-                  : "text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              トータル
-            </button>
-          </div>
-          {viewMode === "month" && (
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setMonthKey((k) => shiftMonthKey(k, -1))}
-                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
-              >
-                ← 前月
-              </button>
-              <span className="font-medium text-gray-900">{monthLabel}</span>
-              <button
-                type="button"
-                onClick={() => setMonthKey((k) => shiftMonthKey(k, 1))}
-                disabled={!canGoNextMonth}
-                className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                翌月 →
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+      <h2 className="mb-1 text-lg font-bold text-gray-900">月次運営サマリー</h2>
       <p className="mb-3 text-xs text-gray-500">
         本日分は「営業終了・まとめて退店」を押すまで反映されません。
       </p>
 
-      <div className="mb-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
-        <ExpandableStatCard
-          label={`来店数・延べ（${viewMode === "month" ? "月合計" : "全期間合計"}）`}
-          value={`${totalVisitCount.toLocaleString()}人`}
-          caption="同じ客の再来店も1回ずつ数える"
-          breakdown={monthlyBreakdown(visitCountBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlyBarChart data={visitCountChartData} unit="人" label="来店数" />
-            )
-          }
-          changePercent={visitCountChangePercent}
-        />
-        <ExpandableStatCard
-          label="来店客数（人数）"
-          value={`${uniqueVisitorCount.toLocaleString()}人`}
-          caption="同じ客の再来店はまとめて1人"
-          breakdown={monthlyBreakdown(uniqueVisitorBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlyBarChart data={uniqueVisitorChartData} unit="人" label="来店客数" />
-            )
-          }
-          changePercent={uniqueVisitorChangePercent}
-        />
-        <ExpandableStatCard
-          label="1日平均来店数"
-          value={avgVisitsPerActiveDay === null ? "-" : `${avgVisitsPerActiveDay.toFixed(1)}人`}
-          breakdown={monthlyBreakdown(avgVisitsPerDayBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlyBarChart data={avgVisitsPerDayChartData} unit="人" label="1日平均来店数" />
-            )
-          }
-          changePercent={avgVisitsPerActiveDayChangePercent}
-        />
-        <ExpandableStatCard
-          label={`レーキ（${viewMode === "month" ? "月合計" : "全期間合計"}・店全体）`}
-          value={<span className={signColorClass(totalRake)}>{formatSigned(totalRake)}</span>}
-          breakdown={monthlyBreakdown(rakeBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlySignedBarChart data={rakeChartData} unit="点" label="レーキ" />
-            )
-          }
-          changePercent={rakeChangePercent}
-        />
-        <ExpandableStatCard
-          label="リピート率（2回以上来店）"
-          value={repeatRate === null ? "-" : `${Math.round(repeatRate * 100)}%`}
-          breakdown={monthlyBreakdown(repeatRateBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlyStackedBarChart data={repeatStackedData} segmentDefs={REPEAT_SEGMENT_DEFS} />
-            )
-          }
-        />
-        <ExpandableStatCard
-          label="来店の内訳（新規/既存）"
-          value={
-            newVisitRate === null
-              ? "-"
-              : `新規${Math.round(newVisitRate * 100)}% / 既存${Math.round((1 - newVisitRate) * 100)}%`
-          }
-          caption={`${newVisitCount.toLocaleString()}件 / ${existingVisitCount.toLocaleString()}件`}
-          breakdown={monthlyBreakdown(newVisitRateBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlyBarChart data={newVisitCountChartData} unit="件" label="新規来店件数" />
-            )
-          }
-        />
-        <ExpandableStatCard
-          label="客単価（購入/来店）"
-          value={
-            avgSpendPerVisit === null
-              ? "-"
-              : `${Math.round(avgSpendPerVisit).toLocaleString()}購入`
-          }
-          breakdown={monthlyBreakdown(avgSpendBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlyBarChart data={avgSpendChartData} unit="購入" label="客単価" />
-            )
-          }
-          changePercent={avgSpendChangePercent}
-        />
-        <ExpandableStatCard
-          label="ポーカー稼働時間（平均）"
-          value={avgOperatingMinutes === null ? "-" : formatMinutes(Math.round(avgOperatingMinutes))}
-          breakdown={monthlyBreakdown(avgOperatingMinutesBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlyBarChart data={avgOperatingMinutesChartData} unit="分" label="稼働時間（平均）" />
-            )
-          }
-          changePercent={avgOperatingMinutesChangePercent}
-        />
-        <ExpandableStatCard
-          label={viewMode === "month" ? "新規客数（今月登録）" : "客数（累計登録）"}
-          value={`${newCustomerCount.toLocaleString()}人`}
-          caption={
-            viewMode === "month"
-              ? "2026/7/12の移行一括登録（471人）は含みません"
-              : undefined
-          }
-          breakdown={monthlyBreakdown(newCustomerBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlyBarChart data={newCustomerChartData} unit="人" label="新規客数" />
-            )
-          }
-          changePercent={newCustomerChangePercent}
-        />
-        <ExpandableStatCard
-          label={`ポーカーのレーキ（${viewMode === "month" ? "月合計" : "全期間合計"}）`}
-          value={<span className={signColorClass(totalPokerRake)}>{formatSigned(totalPokerRake)}</span>}
-          caption="リングゲーム（ポーカー）のみ。ランキング全員の収支合計と符号が逆で一致"
-          breakdown={monthlyBreakdown(pokerRakeBreakdown)}
-          chart={
-            hasMultipleMonths && (
-              <MonthlySignedBarChart data={pokerRakeChartData} unit="点" label="ポーカーのレーキ" />
-            )
-          }
-          changePercent={pokerRakeChangePercent}
-        />
+      <div className="mb-3 flex flex-wrap gap-1.5">
+        {metrics.map((m) => (
+          <button
+            key={m.key}
+            type="button"
+            onClick={() => setSelectedMetricKey(m.key)}
+            className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
+              selectedMetricKey === m.key
+                ? "bg-indigo-600 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            {m.label}
+          </button>
+        ))}
+      </div>
+
+      {hasMultipleMonths ? (
+        <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4">
+          <div className="mb-3">
+            <MonthlyTrendHeadline
+              monthLabel={`${selectedMonthLabel}の${selectedMetric.label}`}
+              value={selectedMetric.value}
+              unit={selectedMetric.unit}
+              changePercent={selectedMetric.changePercent}
+              changeNote={`前月同日比（${todayOfMonth}日まで）`}
+            />
+            {selectedMetricKey === "avgSpend" && (
+              <p className="mt-1 text-xs text-gray-500">
+                チップ購入点数＋トーナメント現金エントリー（OCEAN点数換算）÷来店数です。
+              </p>
+            )}
+          </div>
+          {selectedMetric.render()}
+        </div>
+      ) : (
+        <p className="mb-6 text-sm text-gray-500">記録が揃うとここに月別の推移グラフが表示されます。</p>
+      )}
+
+      <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
+        <div className="flex gap-1 rounded-md border border-gray-300 p-0.5">
+          <button
+            type="button"
+            onClick={() => setViewMode("month")}
+            className={`rounded px-2 py-1 font-medium ${
+              viewMode === "month"
+                ? "bg-indigo-600 text-white"
+                : "text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            月
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode("total")}
+            className={`rounded px-2 py-1 font-medium ${
+              viewMode === "total"
+                ? "bg-indigo-600 text-white"
+                : "text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            トータル
+          </button>
+        </div>
+        {viewMode === "month" && (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setMonthKey((k) => shiftMonthKey(k, -1))}
+              className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50"
+            >
+              ← 前月
+            </button>
+            <span className="font-medium text-gray-900">{monthLabel}</span>
+            <button
+              type="button"
+              onClick={() => setMonthKey((k) => shiftMonthKey(k, 1))}
+              disabled={!canGoNextMonth}
+              className="rounded-md border border-gray-300 px-2 py-1 text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              翌月 →
+            </button>
+          </div>
+        )}
       </div>
 
       {rows.length === 0 ? (

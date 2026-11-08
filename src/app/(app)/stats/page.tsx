@@ -62,6 +62,7 @@ export default async function StatsPage() {
                   visits={visits}
                   denominations={denominations}
                   customers={customers}
+                  tournamentEntries={tournamentEntries}
                   lastClosedAt={shopSettings.lastClosedAt}
                   currentMonthKey={currentMonthKey}
                 />

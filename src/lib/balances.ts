@@ -530,12 +530,13 @@ export function computeMonthlyPurchaseValueTotals(
   return totals;
 }
 
-// 月（"YYYY-MM"）ごとに、1日目から各日までの購入合計点数（累計）を日数分の配列で返す。
-// 「月次売上推移」で複数の月の折れ線を重ねてペースを比較するグラフに使う
-// （配列のindex 0が1日目）。進行中の月をまだ来ていない日まで0埋めで伸ばすと、
-// その先でペースが止まったように誤読されるため、進行中の月の絞り込みは呼び出し側
-// （今日が何日目かを知っている側）でslice(0, todayOfMonth)して行う。
-export function computeMonthlyCumulativePurchaseSeries(
+// 月（"YYYY-MM"）ごとに、1日目から各日までの合計（累計）を日数分の配列で返す汎用関数。
+// 「月次売上推移」のような、複数の月の折れ線を重ねてペースを比較するグラフに使う
+// （配列のindex 0が1日目、値はdailyTotalsの単位そのまま＝人数・点数など何でもよい）。
+// 進行中の月をまだ来ていない日まで0埋めで伸ばすと、その先でペースが止まったように
+// 誤読されるため、進行中の月の絞り込みは呼び出し側（今日が何日目かを知っている側）で
+// slice(0, todayOfMonth)して行う。
+export function computeMonthlyCumulativeSumSeries(
   dailyTotals: Map<string, number>,
   monthKeys: string[],
 ): Map<string, number[]> {
@@ -545,6 +546,56 @@ export function computeMonthlyCumulativePurchaseSeries(
     const series = daysInMonth(monthKey).map((dateKey) => {
       running += dailyTotals.get(dateKey) ?? 0;
       return running;
+    });
+    result.set(monthKey, series);
+  }
+  return result;
+}
+
+// 月ごとに、1日目から各日までの「来店したユニーク客数」の累計を日数分の配列で返す。
+// 単純な日次合計の積み上げでは重複客を二重に数えてしまうため、来店記録から直接
+// 日ごとの客集合を作り、月内で前日までの集合と合わせて集合サイズを出す。
+export function computeMonthlyCumulativeUniqueVisitorSeries(
+  visits: Visit[],
+  monthKeys: string[],
+): Map<string, number[]> {
+  const visitorsByDate = new Map<string, Set<string>>();
+  for (const v of visits) {
+    const date = businessDateKey(v.checked_in_at);
+    const set = visitorsByDate.get(date) ?? new Set<string>();
+    set.add(v.customer_id);
+    visitorsByDate.set(date, set);
+  }
+  const result = new Map<string, number[]>();
+  for (const monthKey of monthKeys) {
+    const seen = new Set<string>();
+    const series = daysInMonth(monthKey).map((dateKey) => {
+      const dateSet = visitorsByDate.get(dateKey);
+      if (dateSet) for (const id of dateSet) seen.add(id);
+      return seen.size;
+    });
+    result.set(monthKey, series);
+  }
+  return result;
+}
+
+// 月ごとに、1日目から各日までの「累計分子 ÷ 累計分母」（＝月初からの通算平均）を
+// 日数分の配列で返す。1日平均来店数・客単価・稼働時間平均など、「合計」ではなく
+// 「平均」を月内で推移として見たい指標に使う（分母がまだ0の日は前日までの値を
+// 引き継がず0を返す＝データがまだ無いことがそのまま分かるようにする）。
+export function computeMonthlyCumulativeRatioSeries(
+  dailyNumerator: Map<string, number>,
+  dailyDenominator: Map<string, number>,
+  monthKeys: string[],
+): Map<string, number[]> {
+  const result = new Map<string, number[]>();
+  for (const monthKey of monthKeys) {
+    let num = 0;
+    let den = 0;
+    const series = daysInMonth(monthKey).map((dateKey) => {
+      num += dailyNumerator.get(dateKey) ?? 0;
+      den += dailyDenominator.get(dateKey) ?? 0;
+      return den > 0 ? num / den : 0;
     });
     result.set(monthKey, series);
   }
