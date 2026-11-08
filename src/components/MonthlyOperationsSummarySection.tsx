@@ -21,6 +21,7 @@ import type { ChipTransaction, Customer, Denomination, Visit } from "@/lib/types
 import { ExpandableStatCard, type StatBreakdownRow } from "@/components/ExpandableStatCard";
 import { MonthlyBarChart } from "@/components/MonthlyBarChart";
 import { MonthlySignedBarChart } from "@/components/MonthlySignedBarChart";
+import { MonthlyStackedBarChart } from "@/components/MonthlyStackedBarChart";
 
 const WEEKDAY_LABELS = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -34,6 +35,24 @@ const BULK_IMPORT_END_MS = new Date("2026-07-12T21:55:00Z").getTime();
 function isBulkImportedCustomer(createdAt: string): boolean {
   const t = new Date(createdAt).getTime();
   return t >= BULK_IMPORT_START_MS && t <= BULK_IMPORT_END_MS;
+}
+
+// リピート率の内訳セグメント。「1回」（リピートなし）〜「10回以上」まで、濃淡（薄→濃）で
+// エンゲージメントの強さを表す1本の積み上げ棒として見せる（しきい値ごとに別々の棒を並べない）。
+const REPEAT_SEGMENT_DEFS: { key: string; label: string; min: number; max: number; color: string }[] = [
+  { key: "one", label: "1回", min: 1, max: 1, color: "#e0e7ff" },
+  { key: "two_four", label: "2〜4回", min: 2, max: 4, color: "#a5b4fc" },
+  { key: "five_nine", label: "5〜9回", min: 5, max: 9, color: "#6366f1" },
+  { key: "ten_plus", label: "10回以上", min: 10, max: Infinity, color: "#4338ca" },
+];
+
+function repeatSegmentCounts(visitCountByCustomer: Map<string, number>): Record<string, number> {
+  const values = [...visitCountByCustomer.values()];
+  const counts: Record<string, number> = {};
+  for (const def of REPEAT_SEGMENT_DEFS) {
+    counts[def.key] = values.filter((n) => n >= def.min && n <= def.max).length;
+  }
+  return counts;
 }
 
 type ViewMode = "month" | "total";
@@ -140,10 +159,6 @@ export function MonthlyOperationsSummarySection({
   const uniqueVisitorCount = visitCountByCustomer.size;
   const repeatVisitorCount = [...visitCountByCustomer.values()].filter((n) => n >= 2).length;
   const repeatRate = uniqueVisitorCount > 0 ? repeatVisitorCount / uniqueVisitorCount : null;
-  const repeatBreakdown = [2, 5, 10].map((min) => {
-    const count = [...visitCountByCustomer.values()].filter((n) => n >= min).length;
-    return { min, count, rate: uniqueVisitorCount > 0 ? count / uniqueVisitorCount : null };
-  });
 
   // 新規/既存の来店構成比: 客ごとの初来店日（全期間で最も古い来店日）を求め、
   // この期間の来店（延べ数）のうち、それが初来店だったものの割合を「新規」とする。
@@ -209,6 +224,8 @@ export function MonthlyOperationsSummarySection({
 
   const monthlyVisitorSet = new Map<string, Set<string>>();
   const monthlyNewVisitCount = new Map<string, number>();
+  // リピート率の月別内訳（セグメント別棒グラフ）用：月ごとの客ごとの来店回数
+  const monthlyVisitCountByCustomer = new Map<string, Map<string, number>>();
   for (const v of visits) {
     const date = businessDateKey(v.checked_in_at);
     const mKey = date.slice(0, 7);
@@ -218,6 +235,9 @@ export function MonthlyOperationsSummarySection({
     if (firstVisitDateByCustomer.get(v.customer_id) === date) {
       monthlyNewVisitCount.set(mKey, (monthlyNewVisitCount.get(mKey) ?? 0) + 1);
     }
+    const customerCounts = monthlyVisitCountByCustomer.get(mKey) ?? new Map<string, number>();
+    customerCounts.set(v.customer_id, (customerCounts.get(v.customer_id) ?? 0) + 1);
+    monthlyVisitCountByCustomer.set(mKey, customerCounts);
   }
 
   // 「新規客数」からは、旧システムからの客データ移行で一括登録された分を除く
@@ -284,10 +304,16 @@ export function MonthlyOperationsSummarySection({
     label: monthLabelOf(k),
     value: `${(monthlyNewCustomerCount.get(k) ?? 0).toLocaleString()}人`,
   }));
-  const repeatRateBreakdown: StatBreakdownRow[] = repeatBreakdown.map(({ min, count, rate }) => ({
-    label: `${min}回以上`,
-    value: rate === null ? "-" : `${Math.round(rate * 100)}%（${count}人）`,
-  }));
+  const repeatRateBreakdown: StatBreakdownRow[] = monthlyKeys.map((k) => {
+    const customerCounts = monthlyVisitCountByCustomer.get(k) ?? new Map<string, number>();
+    const total = customerCounts.size;
+    if (total === 0) return { label: monthLabelOf(k), value: "-" };
+    const counts = repeatSegmentCounts(customerCounts);
+    const value = REPEAT_SEGMENT_DEFS.map(
+      (def) => `${def.label}${Math.round((counts[def.key] / total) * 100)}%`,
+    ).join(" / ");
+    return { label: monthLabelOf(k), value };
+  });
 
   // グラフは古い月→新しい月の順で左から右に並べたいので、リスト用（新しい順）とは
   // 別に昇順の並びを用意する。月が1つしかない場合はリストと同様グラフも出さない。
@@ -318,6 +344,10 @@ export function MonthlyOperationsSummarySection({
     monthKey: k,
     value: monthlyNewVisitCount.get(k) ?? 0,
   }));
+  const repeatStackedData = monthlyKeysAsc.map((k) => {
+    const customerCounts = monthlyVisitCountByCustomer.get(k) ?? new Map<string, number>();
+    return { monthKey: k, total: customerCounts.size, counts: repeatSegmentCounts(customerCounts) };
+  });
   const avgSpendChartData = monthlyKeysAsc.map((k) => {
     const visitCountInMonth = monthlyVisitCount.get(k) ?? 0;
     const purchaseValueInMonth = monthlyPurchaseValue.get(k) ?? 0;
@@ -530,7 +560,12 @@ export function MonthlyOperationsSummarySection({
         <ExpandableStatCard
           label="リピート率（2回以上来店）"
           value={repeatRate === null ? "-" : `${Math.round(repeatRate * 100)}%`}
-          breakdown={repeatRateBreakdown}
+          breakdown={monthlyBreakdown(repeatRateBreakdown)}
+          chart={
+            hasMultipleMonths && (
+              <MonthlyStackedBarChart data={repeatStackedData} segmentDefs={REPEAT_SEGMENT_DEFS} />
+            )
+          }
         />
         <ExpandableStatCard
           label="来店の内訳（新規/既存）"
