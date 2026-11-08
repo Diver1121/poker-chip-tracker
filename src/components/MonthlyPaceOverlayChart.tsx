@@ -124,7 +124,7 @@ export function MonthlyPaceOverlayChart({
         <div className="relative flex-1">
           <svg
             viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-            className="h-44 w-full"
+            className="h-44 w-full overflow-visible"
             preserveAspectRatio="none"
             onClick={() => setActiveDay(null)}
           >
@@ -188,7 +188,7 @@ export function MonthlyPaceOverlayChart({
                   {isCurrent && (
                     // 今月の線だと一目で分かるよう、先端に点滅するリング（レーダー状）を重ねる
                     <circle cx={lastX} cy={yOf(s.values[lastIdx])} r={4} fill="none" stroke={color} strokeWidth={2}>
-                      <animate attributeName="r" values="4;11;4" dur="1.8s" repeatCount="indefinite" />
+                      <animate attributeName="r" values="4;9;4" dur="1.8s" repeatCount="indefinite" />
                       <animate attributeName="opacity" values="0.8;0;0.8" dur="1.8s" repeatCount="indefinite" />
                     </circle>
                   )}
